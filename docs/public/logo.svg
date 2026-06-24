@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Frank knowledge logo">
+  <rect width="64" height="64" rx="18" fill="#8a5a2b"/>
+  <path d="M18 17h28v6H25v9h18v6H25v16h-7V17Z" fill="#fbf7ef"/>
+  <path d="M43 44c-8 0-14-6-14-14h6c0 5 3 8 8 8v6Z" fill="#e4c08a"/>
+</svg>
