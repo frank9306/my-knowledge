@@ -1,9 +1,12 @@
 import { defineConfig } from 'vitepress'
 
+const base = '/my-knowledge/'
+
 export default defineConfig({
   title: 'Frank 的知识库',
   description: '技术笔记、自动化实践、AI Agent 学习与个人知识沉淀。',
   lang: 'zh-CN',
+  base,
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
@@ -51,7 +54,7 @@ export default defineConfig({
     }
   },
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg' }],
+    ['link', { rel: 'icon', href: `${base}logo.svg` }],
     ['meta', { name: 'theme-color', content: '#8a5a2b' }]
   ]
 })
