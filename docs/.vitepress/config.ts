@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitepress'
 
-const base = '/my-knowledge/'
+const base = '/'
 
 export default defineConfig({
   title: 'Frank 的知识库',
