@@ -21,8 +21,3 @@
 
 - [Buzzing](https://www.buzzing.cc/): 聚合多领域热门信息的资讯门户。
 - [多摸鱼热榜](https://duomoyu.com/hot-list): 整合多个平台热榜的摸鱼一站式入口。
-
-## 金融工具
-
-- [今日金价](https://www.ip138.com/gold/): 查询当日国内主要金店金价与金条报价。
-- [虚拟币价格](https://cn.investing.com/crypto/currencies): 加密货币行情与主流币种价格概览。
