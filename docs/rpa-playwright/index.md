@@ -12,7 +12,6 @@
 - [🛡️ rebrowser-playwright解决Etsy的Bot检测](/rpa-playwright/rebrowser-playwright-etsy-bot-detection)
 - [任务跑挂了你都不知道？用Telegram Bot通知你](/rpa-playwright/telegram-bot-task-notification)
 - [使用 Playwright 复制网页富文本内容](/rpa-playwright/playwright-copy-rich-text)
-- [使用 Playwright 复制网页富文本内容](/rpa-playwright/playwright-copy-rich-text-2)
 - [在 Playwright 页面中实现持久化、可折叠的日志输出面板](/rpa-playwright/playwright-page-log-panel)
 - [caniscrape：为现代网络环境设计的智能反爬分析与策略评估工具](/rpa-playwright/caniscrape-anti-bot-analysis)
 - [ChromeDriver 无法识别插件页面为窗口](/rpa-playwright/chromedriver-extension-window)
