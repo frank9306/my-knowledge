@@ -77,10 +77,10 @@ Caddyfile 配置示例：
 
 1.  在 Cloudflare 注册一个 Tunnel。
     
-    <figure class="image"><img style="aspect-ratio:1920/860;" src="在飞牛 NAS 上部署基于 Trilium 的个人博.png" width="1920" height="860"></figure>
+    ![在飞牛 NAS 上部署基于 Trilium 的个人博客实践 image 1](/images/imported/trilium-blog-on-feiniu-nas/image-01.png)
 2.  添加一个应用程序路由， 将子域名→ NAS上的Caddy配置端口：
 
-<figure class="image"><img style="aspect-ratio:1669/572;" src="1_在飞牛 NAS 上部署基于 Trilium 的个人博.png" width="1669" height="572"></figure>
+![在飞牛 NAS 上部署基于 Trilium 的个人博客实践 image 2](/images/imported/trilium-blog-on-feiniu-nas/image-02.png)
 
 此时，你的博客就可以通过自定义域名安全访问了。
 

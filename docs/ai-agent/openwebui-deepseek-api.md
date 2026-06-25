@@ -9,7 +9,7 @@ source: "old-blog/技术分享/🐳 OpenWebUI + Deepseek API 快速.md"
 
 本文不吹牛逼，不卖安利，纯干货。你会看到完整的部署命令、配置说明、注意事项，全程一把梭，不绕弯子，5 分钟搞定能用能改能扩展的 LLM 聊天系统。
 
-<figure class="image"><img style="aspect-ratio:1024/1024;" src="4_🐳 OpenWebUI + Deepseek AP.png" width="1024" height="1024"></figure>
+![🐳 OpenWebUI + Deepseek API 快速部署笔记 image 1](/images/imported/openwebui-deepseek-api/image-01.png)
 
 ## 1\. 起个 OpenWebUI 容器先
 
@@ -53,7 +53,7 @@ docker run -d \\
 
 注册个账号，然后：
 
-<figure class="image"><img style="aspect-ratio:1886/892;" src="🐳 OpenWebUI + Deepseek AP.png" width="1886" height="892"></figure>
+![🐳 OpenWebUI + Deepseek API 快速部署笔记 image 2](/images/imported/openwebui-deepseek-api/image-02.png)
 
 这是已经添加了模型的，刚一进来时没有模型可用的。
 
@@ -61,24 +61,24 @@ docker run -d \\
 
 进入  [https://openwebui.com/f/zgccrui/deepseek\_r1](https://openwebui.com/f/zgccrui/deepseek_r1) （如果没有注册先注册）
 
-<figure class="image"><img style="aspect-ratio:1325/721;" src="1_🐳 OpenWebUI + Deepseek AP.png" width="1325" height="721"></figure>
+![🐳 OpenWebUI + Deepseek API 快速部署笔记 image 3](/images/imported/openwebui-deepseek-api/image-03.png)
 
 获取
 
-<figure class="image"><img style="aspect-ratio:1203/645;" src="2_🐳 OpenWebUI + Deepseek AP.png" width="1203" height="645"></figure>
+![🐳 OpenWebUI + Deepseek API 快速部署笔记 image 4](/images/imported/openwebui-deepseek-api/image-04.png)
 
 输入要导入的链接
 
-<figure class="image"><img style="aspect-ratio:1619/884;" src="6_🐳 OpenWebUI + Deepseek AP.png" width="1619" height="884"></figure>
+![🐳 OpenWebUI + Deepseek API 快速部署笔记 image 5](/images/imported/openwebui-deepseek-api/image-05.png)
 
 点击保存
 
 ### 3.3 设置默认值
 
-<figure class="image"><img style="aspect-ratio:1644/426;" src="5_🐳 OpenWebUI + Deepseek AP.png" width="1644" height="426"></figure>
+![🐳 OpenWebUI + Deepseek API 快速部署笔记 image 6](/images/imported/openwebui-deepseek-api/image-06.png)
 
 点击设置并修改默认值。
 
-<figure class="image"><img style="aspect-ratio:1604/97;" src="3_🐳 OpenWebUI + Deepseek AP.png" width="1604" height="97"></figure>
+![🐳 OpenWebUI + Deepseek API 快速部署笔记 image 7](/images/imported/openwebui-deepseek-api/image-07.png)
 
 最后记得开启，否则还是看不到。

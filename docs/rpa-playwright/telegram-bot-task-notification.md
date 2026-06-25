@@ -95,7 +95,7 @@ def send_message(text: str):
 
 ### 示例效果
 
-<figure class="image"><img style="aspect-ratio:982/960;" src="任务跑挂了你都不知道？用Telegram Bot通知.png" width="982" height="960"></figure>
+![任务跑挂了你都不知道？用Telegram Bot通知你 image 1](/images/imported/telegram-bot-task-notification/image-01.png)
 
 * * *
 

@@ -155,7 +155,7 @@ while True:
 
 ## 🧪 示例效果
 
-<figure class="image"><img style="aspect-ratio:1957/1032;" src="基于 LangGraph 构建的聊天机器人_imag.png" width="1957" height="1032"></figure>
+![基于 LangGraph 构建的聊天机器人 image 1](/images/imported/langgraph-chatbot/image-01.png)
 
 是不是感觉到有点“聪明”？这就是 LangGraph 的 `MemorySaver` 起了作用！
 

@@ -85,7 +85,7 @@ async def test_playwright():
 
 截图：
 
-<figure class="image"><img style="aspect-ratio:2000/960;" src="1_⚔️三种方式挑战 Cloudflare 与 Bot .png" width="2000" height="960"></figure><figure class="image"><img style="aspect-ratio:2000/1008;" src="2_⚔️三种方式挑战 Cloudflare 与 Bot .png" width="2000" height="1008"></figure>
+![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 1](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-01.png)![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 2](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-02.png)
 
 * * *
 
@@ -111,7 +111,7 @@ async def test_rebrowser_playwright():
 
 ```
 
-<figure class="image"><img style="aspect-ratio:2000/1001;" src="7_⚔️三种方式挑战 Cloudflare 与 Bot .png" width="2000" height="1001"></figure><figure class="image"><img style="aspect-ratio:2000/1060;" src="6_⚔️三种方式挑战 Cloudflare 与 Bot .png" width="2000" height="1060"></figure>
+![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 3](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-03.png)![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 4](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-04.png)
 
 虽然browser-scan显示一切正常，但是 Clouflare却还是跳了人机，而且连接时同样不能手动跳过。
 
@@ -140,7 +140,7 @@ async def test_pydoll():
 
 🧩 **问题**：目前 `Pydoll` 虽然可以使用现有浏览器调试端口，但并**没有开放类似 Playwright 的** `**connect_over_cdp**` **接口**，对高级自定义场景略显不足，但github上已经发布了预告，期待这个功能。
 
-<figure class="image"><img style="aspect-ratio:1986/1496;" src="4_⚔️三种方式挑战 Cloudflare 与 Bot .png" width="1986" height="1496"></figure><figure class="image"><img style="aspect-ratio:1823/1419;" src="3_⚔️三种方式挑战 Cloudflare 与 Bot .png" width="1823" height="1419"></figure><figure class="image"><img style="aspect-ratio:1890/1455;" src="⚔️三种方式挑战 Cloudflare 与 Bot .png" width="1890" height="1455"></figure>
+![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 5](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-05.png)![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 6](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-06.png)![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 7](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-07.png)
 
 明显看到都过了，确实很棒！
 
@@ -168,7 +168,7 @@ async def test_pydoll():
 
 目前 `pydoll.browser.chrome.Chrome` 虽然底层调用了 Chrome DevTools，但它**没有暴露标准的** `**connect_over_cdp()**` **接口**，导致没法像 Playwright 一样接入本地调试 Chrome。但是也发布了预告会有新的功能发布。
 
-<figure class="image"><img style="aspect-ratio:1531/1355;" src="5_⚔️三种方式挑战 Cloudflare 与 Bot .png" width="1531" height="1355"></figure>
+![⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测 image 8](/images/imported/playwright-rebrowser-pydoll-bot-detection/image-08.png)
 
 * * *
 

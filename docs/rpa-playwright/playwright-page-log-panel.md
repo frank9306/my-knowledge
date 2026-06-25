@@ -225,7 +225,7 @@ class SyncUIConsoleLogger:
 
 使用示例：
 
-<figure class="image"><img style="aspect-ratio:1302/857;" src="在 Playwright 页面中实现持久化、可折叠的.gif" width="1302" height="857"></figure>
+![在 Playwright 页面中实现持久化、可折叠的日志输出面板 image 1](/images/imported/playwright-page-log-panel/image-01.gif)
 
 ## 🎯 小结
 

@@ -18,7 +18,7 @@ source: "old-blog/技术分享/🛡️ rebrowser-playwright解决Etsy.md"
 
 常规爬虫工具几乎全军覆没。
 
-<figure class="image"><img style="aspect-ratio:1799/1409;" src="🛡️ rebrowser-playwright解决.png" width="1799" height="1409"></figure>
+![🛡️ rebrowser-playwright解决Etsy的Bot检测 image 1](/images/imported/rebrowser-playwright-etsy-bot-detection/image-01.png)
 
 * * *
 

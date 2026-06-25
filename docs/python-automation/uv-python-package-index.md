@@ -73,7 +73,7 @@ url = "<https://company-internal-pypi.com/simple>"
 
 [Environment variables | uv](https://docs.astral.sh/uv/configuration/environment/#uv_custom_compile_command)
 
-<figure class="image"><img style="aspect-ratio:1706/373;" src="使用 uv 替换 Python 包源_image.png" width="1706" height="373"></figure>
+![使用 uv 替换 Python 包源 image 1](/images/imported/uv-python-package-index/image-01.png)
 
 需要可以自行配置。
 

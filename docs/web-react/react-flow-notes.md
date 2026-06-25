@@ -39,7 +39,7 @@ export default function App() {
 
 **就这样！你已经创建了你的第一个空流程 🎉**
 
-<figure class="image"><img style="aspect-ratio:877/226;" src="React Flow 学习笔记（一）_image.png" width="877" height="226"></figure>
+![React Flow 学习笔记（一） image 1](/images/imported/react-flow-notes/image-01.png)
 
 ## 2\. **添加节点**
 
@@ -76,7 +76,7 @@ const initialNodes = [
 
 ### 2.3 **带有节点的流程**
 
-<figure class="image"><img style="aspect-ratio:869/217;" src="2_React Flow 学习笔记（一）_image.png" width="869" height="217"></figure>
+![React Flow 学习笔记（一） image 2](/images/imported/react-flow-notes/image-02.png)
 
 ## 3. **添加边**
 
@@ -98,7 +98,7 @@ const initialEdges = [
 
 这条边连接了节点 id: 'n1' （源节点）和节点 id: 'n2' （目标节点）。
 
-<figure class="image"><img style="aspect-ratio:869/209;" src="1_React Flow 学习笔记（一）_image.png" width="869" height="209"></figure>
+![React Flow 学习笔记（一） image 3](/images/imported/react-flow-notes/image-03.png)
 
 ### 3.2 **标记边**
 
@@ -131,7 +131,7 @@ const initialEdges = [
 
 **你已经完成了一个包含节点和边的简单流程！🎉**
 
-<figure class="image"><img style="aspect-ratio:869/223;" src="3_React Flow 学习笔记（一）_image.png" width="869" height="223"></figure>
+![React Flow 学习笔记（一） image 4](/images/imported/react-flow-notes/image-04.png)
 
 ## 4.**完整代码示例**
 

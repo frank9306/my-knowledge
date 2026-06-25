@@ -235,23 +235,23 @@ if __name__ == "__main__":
 
 1.  打开链接
 
-<figure class="image"><img style="aspect-ratio:2000/463;" src="3_🚀 使用 browser-use + DeepSe.png" width="2000" height="463"></figure>
+![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 1](/images/imported/browser-use-deepseek-github-trending/image-01.png)
 
 1.  读取文件
 
-<figure class="image"><img style="aspect-ratio:2000/193;" src="1_🚀 使用 browser-use + DeepSe.png" width="2000" height="193"></figure>
+![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 2](/images/imported/browser-use-deepseek-github-trending/image-02.png)
 
 1.  获取排名信息
 
-<figure class="image"><img style="aspect-ratio:2000/679;" src="4_🚀 使用 browser-use + DeepSe.png" width="2000" height="679"></figure>
+![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 3](/images/imported/browser-use-deepseek-github-trending/image-03.png)
 
 1.  保存到文件
 
-<figure class="image"><img style="aspect-ratio:2000/221;" src="🚀 使用 browser-use + DeepSe.png" width="2000" height="221"></figure>
+![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 4](/images/imported/browser-use-deepseek-github-trending/image-04.png)
 
 1.  任务完成
 
-<figure class="image"><img style="aspect-ratio:2000/317;" src="2_🚀 使用 browser-use + DeepSe.png" width="2000" height="317"></figure>
+![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 5](/images/imported/browser-use-deepseek-github-trending/image-05.png)
 
 ### 结果文件
 

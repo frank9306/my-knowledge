@@ -11,7 +11,7 @@ source: "old-blog/技术分享/QuickNav：我的个人导航站浏览器扩展.m
 
 **项目地址**: [https://github.com/frank9306/quick-nav-extension](https://github.com/frank9306/quick-nav-extension)
 
-<figure class="image"><img style="aspect-ratio:2048/1088;" src="QuickNav：我的个人导航站浏览器扩展_ope.webp" width="2048" height="1088"></figure>
+![QuickNav：我的个人导航站浏览器扩展 image 1](/images/imported/quicknav-browser-extension/image-01.webp)
 
 ## 主要功能
 
