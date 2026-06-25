@@ -2,7 +2,7 @@
 
 用于沉淀 Python CLI、爬虫、文件处理、浏览器自动化和本地效率脚本。
 
-## 已迁移文章
+## 文章列表
 
 - [🕒 timeit：你可能忽视的 Python 性能测试利器](/python-automation/python-timeit)
 - [🚀 从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理](/python-automation/pipenv-to-uv)

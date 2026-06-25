@@ -2,7 +2,7 @@
 
 用于整理 AI Agent 学习路线、开发实践、面试准备和工具链复盘。
 
-## 已迁移文章
+## 文章列表
 
 - [🐳 OpenWebUI + Deepseek API 快速部署笔记](/ai-agent/openwebui-deepseek-api)
 - [🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](/ai-agent/browser-use-deepseek-github-trending)

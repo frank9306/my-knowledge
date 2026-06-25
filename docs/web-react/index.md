@@ -2,7 +2,7 @@
 
 用于整理 React、前端调试、Web 自动化辅助技巧和页面工程经验。
 
-## 已迁移文章
+## 文章列表
 
 - [🧩为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件](/web-react/quicknav-chrome-extension-entrypoints)
 - [🚫 为什么浏览器禁止访问某些端口？——以 6000 端口为例](/web-react/browser-blocked-ports-6000)

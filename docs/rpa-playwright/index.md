@@ -2,7 +2,7 @@
 
 用于记录业务自动化、Playwright、请求拦截、下载流程和稳定性处理。
 
-## 已迁移文章
+## 文章列表
 
 - [【实战】Playwright 大文件上传突破 50MB 限制，CDP 助你一臂之力！](/rpa-playwright/playwright-large-file-upload-cdp)
 - [⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测](/rpa-playwright/playwright-rebrowser-pydoll-bot-detection)
