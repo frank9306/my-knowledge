@@ -21,3 +21,9 @@
 
 - [Buzzing](https://www.buzzing.cc/): 聚合多领域热门信息的资讯门户。
 - [多摸鱼热榜](https://duomoyu.com/hot-list): 整合多个平台热榜的摸鱼一站式入口。
+
+## 代理服务
+
+- [FlowerCloud](https://api-flowercloud.com/aff.php?aff=22108): 代理机场服务，提供稳定的跨境网络节点。
+- [次元.vip](https://次元.vip/auth/register?code=mE1o): 代理机场服务，支持多协议多节点。
+- [Web3AA](https://web3aa.com/f/A25qRdl2): 面向 Web3 场景的代理机场服务。
