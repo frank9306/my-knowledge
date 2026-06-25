@@ -5,8 +5,9 @@
   "type": "module",
   "packageManager": "pnpm@10.14.0",
   "scripts": {
+    "readme:sync": "node scripts/sync-readme.mjs",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
+    "docs:build": "pnpm run readme:sync && vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
