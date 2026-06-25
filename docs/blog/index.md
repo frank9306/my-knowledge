@@ -6,7 +6,6 @@
 
 - [“单一职责”是为谁服务的？——SRP 原则的人本视角解读](/blog/srp-human-centered)
 - [公平队列：别让大客户拖垮你的系统](/blog/fair-queue)
-- [军队文职数学1知识点总结](/blog/military-civilian-math-notes)
 - [使用 browser-use 进行数据爬取并保存到文件](/blog/browser-use-scraping-to-file)
 - [一顿操作猛如虎，Web3 加速器我多花了五刀：一次 TRC20 支付的血泪实录](/blog/web3-trc20-payment-mistake)
 - [用 Git Bisect 精准狙击 Bug：调试到天亮不如用对工具](/blog/git-bisect-debugging)

@@ -2,6 +2,27 @@ import { defineConfig } from 'vitepress'
 
 const base = '/'
 
+function tokenizeSearchText(text: string) {
+  const tokens = text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+
+  for (const match of text.matchAll(/[\p{Script=Han}]+/gu)) {
+    const value = match[0]
+
+    for (const char of value) {
+      tokens.push(char)
+    }
+
+    for (let index = 0; index < value.length - 1; index += 1) {
+      tokens.push(value.slice(index, index + 2))
+    }
+  }
+
+  return tokens
+}
+
 export default defineConfig({
   title: 'Frank 的知识库',
   description: '技术笔记、自动化实践、AI Agent 学习与个人知识沉淀。',
@@ -50,7 +71,19 @@ export default defineConfig({
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/frank9306' }],
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        miniSearch: {
+          options: {
+            tokenize: tokenizeSearchText,
+            processTerm: (term) => term.toLowerCase()
+          },
+          searchOptions: {
+            prefix: true,
+            fuzzy: 0.2
+          }
+        }
+      }
     },
     footer: {
       message: 'Built with VitePress and GitHub Pages.',
