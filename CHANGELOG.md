@@ -4,6 +4,7 @@ All notable published changes to this knowledge site are recorded here.
 
 ## 2026-06-25
 
+- Added 6 curated learning and discovery sites to the resources page.
 - Created the VitePress knowledge site and GitHub Pages deployment workflow.
 - Switched project commands and CI from npm to pnpm.
 - Configured the custom domain `knowledge.webfrank.top`.

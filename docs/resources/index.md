@@ -15,12 +15,21 @@
 
 ## AI 与提示词
 
+- [Hello Agents](https://hello-agents.datawhale.cc/#/): Datawhale 出品的 AI Agent 入门教程，覆盖基础概念、经典范式和实践案例。
+- [Easy-Vibe](https://datawhalechina.github.io/easy-vibe/zh-cn/): Datawhale 的 AI 编程指南，从零基础入门到部署、AI 知识库和 Agent 团队协作。
 - [Kimi 提示词专家](https://www.kimi.com/kimiplus/conpg00t7lagbbsfqkq0): Kimi 官方提供的提示词参考与模板集合。
 
 ## 信息流
 
 - [Buzzing](https://www.buzzing.cc/): 聚合多领域热门信息的资讯门户。
+- [GitHub Daily Rank](https://github.com/OpenGithubs/github-daily-rank): 每天更新 GitHub 开源项目飙升榜 Top 10，适合发现近期热门项目。
 - [多摸鱼热榜](https://duomoyu.com/hot-list): 整合多个平台热榜的摸鱼一站式入口。
+- [科技爱好者周刊](https://github.com/ruanyf/weekly): 阮一峰维护的科技内容周刊，每周五发布，长期跟踪技术、工具和趋势。
+
+## 学习资料
+
+- [Ebook Treasure Chest](https://jbiaojerry.github.io/ebook-treasure-chest/): 支持搜索的电子书资源索引，覆盖中文 EPUB、MOBI、AZW3 等格式。
+- [小林面试笔记](https://xiaolinnote.com/): 图解 Agent、RAG、LLM 和 Claude Code 的大模型面试题与学习笔记。
 
 ## 代理服务
 

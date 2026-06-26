@@ -19,6 +19,7 @@
 - GitHub Pages deployment is defined in `.github/workflows/deploy.yml` and runs on pushes to `main`.
 - The workflow uses Node 20, pnpm 10, `pnpm install --frozen-lockfile`, `pnpm docs:build`, then publishes `docs/.vitepress/dist`.
 - For any change that will be pushed and published, update `CHANGELOG.md` in the same commit with a concise user-facing note.
+- When the user says to publish a new version, run `pnpm docs:build`, inspect the git diff, and create a git commit for the intended changes without waiting for another prompt.
 
 ## README Sync
 
