@@ -67,3 +67,4 @@
 - [用 Git Bisect 精准狙击 Bug：调试到天亮不如用对工具](/blog/git-bisect-debugging)
 - [在飞牛 NAS 上部署基于 Trilium 的个人博客实践](/blog/trilium-blog-on-feiniu-nas)
 - [Caddy Web 服务器完全指南：现代化 Web 服务的最佳选择](/blog/caddy-web-server-guide)
+- [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](/blog/design-md-visual-system-spec)

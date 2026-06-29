@@ -15,7 +15,7 @@
 
 ## 专题文章
 
-本站共收录 50 篇专题文章。
+本站共收录 51 篇专题文章。
 
 ### AI Agent
 
@@ -75,6 +75,7 @@
 ### 博客文章
 
 - [“单一职责”是为谁服务的？——SRP 原则的人本视角解读](https://knowledge.webfrank.top/blog/srp-human-centered/)
+- [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](https://knowledge.webfrank.top/blog/design-md-visual-system-spec/)
 - [公平队列：别让大客户拖垮你的系统](https://knowledge.webfrank.top/blog/fair-queue/)
 - [使用 browser-use 进行数据爬取并保存到文件](https://knowledge.webfrank.top/blog/browser-use-scraping-to-file/)
 - [一顿操作猛如虎，Web3 加速器我多花了五刀：一次 TRC20 支付的血泪实录](https://knowledge.webfrank.top/blog/web3-trc20-payment-mistake/)

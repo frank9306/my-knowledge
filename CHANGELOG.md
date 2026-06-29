@@ -21,3 +21,4 @@ All notable published changes to this knowledge site are recorded here.
 - Added the DESIGN.md open-source project entry to the resources page with a short description.
 - Added the codebase-memory-mcp and VidBee open-source project entries to the resources page with short descriptions.
 - Added a `DESIGN.md` at the repository root describing the VitePress site's visual system in the [DESIGN.md spec](https://github.com/google-labs-code/design.md) format (YAML tokens + Markdown rationale); installed `@google/design.md` as a devDependency, added a `pnpm design:lint` script, and bound it to `pnpm docs:build` so production builds fail on a non-conforming `DESIGN.md` (currently 0 errors / 0 warnings).
+- Published a new blog post "给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent" under `docs/blog/`, walking through how the `DESIGN.md` spec was applied to this VitePress site (token mapping from `custom.css`, lint pitfalls, CI integration).
