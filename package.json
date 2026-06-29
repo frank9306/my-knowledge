@@ -6,11 +6,13 @@
   "packageManager": "pnpm@10.14.0",
   "scripts": {
     "readme:sync": "node scripts/sync-readme.mjs",
+    "design:lint": "designmd lint DESIGN.md",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "pnpm run readme:sync && vitepress build docs",
+    "docs:build": "pnpm run readme:sync && pnpm run design:lint && vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
+    "@google/design.md": "^0.3.0",
     "vitepress": "^1.6.4"
   }
 }

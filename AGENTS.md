@@ -10,8 +10,9 @@
 
 - Install dependencies with `pnpm install`.
 - Run the local dev server with `pnpm docs:dev`.
-- Verify production output with `pnpm docs:build` (this also runs `pnpm readme:sync` first).
+- Verify production output with `pnpm docs:build` (this also runs `pnpm readme:sync` and `pnpm design:lint` first).
 - Refresh the site-wide navigation in `README.md` with `pnpm readme:sync`.
+- Validate the `DESIGN.md` visual system spec with `pnpm design:lint` (also runs as part of `pnpm docs:build`).
 - Preview a built site with `pnpm docs:preview` after building.
 
 ## Deployment

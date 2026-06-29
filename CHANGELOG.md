@@ -20,3 +20,4 @@ All notable published changes to this knowledge site are recorded here.
 - Switched the local git committer to GitHub user `frank9306`.
 - Added the DESIGN.md open-source project entry to the resources page with a short description.
 - Added the codebase-memory-mcp and VidBee open-source project entries to the resources page with short descriptions.
+- Added a `DESIGN.md` at the repository root describing the VitePress site's visual system in the [DESIGN.md spec](https://github.com/google-labs-code/design.md) format (YAML tokens + Markdown rationale); installed `@google/design.md` as a devDependency, added a `pnpm design:lint` script, and bound it to `pnpm docs:build` so production builds fail on a non-conforming `DESIGN.md` (currently 0 errors / 0 warnings).
