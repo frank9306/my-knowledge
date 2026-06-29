@@ -1,5 +1,6 @@
 ---
 title: "DeerFlow：ByteDance 开源的多智能体深度研究框架"
+date: 2026-06-25
 source: "old-blog/心情随笔/DeerFlow：ByteDance 开源的多智能体深度研究.md"
 ---
 

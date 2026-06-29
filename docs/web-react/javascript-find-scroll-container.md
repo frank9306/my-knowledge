@@ -1,5 +1,6 @@
 ---
 title: "用 JavaScript 快速定位页面滚动容器"
+date: 2026-06-25
 source: "old-blog/心情随笔/用 JavaScript 快速定位页面滚动容器.md"
 ---
 

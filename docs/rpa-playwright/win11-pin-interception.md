@@ -1,5 +1,6 @@
 ---
 title: "Win11 PIN 码自动化输入教程：基于 Interception 驱动级模拟"
+date: 2026-06-25
 source: "old-blog/Win11 PIN 码自动化输入教程：基于 Intercep.md"
 ---
 

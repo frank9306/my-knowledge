@@ -1,5 +1,6 @@
 ---
 title: "Textual:  Python 终端UI"
+date: 2026-06-25
 source: "old-blog/心情随笔/Textual  Python 终端UI.md"
 ---
 

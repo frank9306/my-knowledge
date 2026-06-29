@@ -1,5 +1,6 @@
 ---
 title: "QUIC 正在取代 TCP：HTTP/3 的新引擎揭秘"
+date: 2026-06-25
 source: "old-blog/心情随笔/QUIC 正在取代 TCP：HTTP3 的新引擎揭秘.md"
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "🕒 timeit：你可能忽视的 Python 性能测试利器"
+date: 2026-06-25
 source: "old-blog/技术分享/🕒 timeit：你可能忽视的 Python 性能测试利器.md"
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "caniscrape：为现代网络环境设计的智能反爬分析与策略评估工具"
+date: 2026-06-25
 source: "old-blog/技术分享/caniscrape：为现代网络环境设计的智能反爬分析与策略.md"
 ---
 

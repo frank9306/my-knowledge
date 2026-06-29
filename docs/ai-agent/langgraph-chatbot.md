@@ -1,5 +1,6 @@
 ---
 title: "基于 LangGraph 构建的聊天机器人"
+date: 2026-06-25
 source: "old-blog/技术分享/基于 LangGraph 构建的聊天机器人.md"
 ---
 

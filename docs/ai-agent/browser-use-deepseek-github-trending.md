@@ -1,5 +1,6 @@
 ---
 title: "🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器"
+date: 2026-06-25
 source: "old-blog/技术分享/🚀 使用 browser-use + DeepSeek 构.md"
 ---
 

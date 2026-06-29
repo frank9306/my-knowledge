@@ -1,5 +1,6 @@
 ---
 title: "快速上手 Litestar：高性能 Python Web 框架实战"
+date: 2026-06-25
 source: "old-blog/技术分享/快速上手 Litestar：高性能 Python Web 框.md"
 ---
 

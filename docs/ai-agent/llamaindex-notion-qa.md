@@ -1,5 +1,6 @@
 ---
 title: "深入理解 LlamaIndex：基于 Notion 文档的智能问答系统实战"
+date: 2026-06-25
 source: "old-blog/技术分享/深入理解 LlamaIndex：基于 Notion 文档的智.md"
 ---
 

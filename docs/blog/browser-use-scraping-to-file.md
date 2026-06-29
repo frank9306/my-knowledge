@@ -1,5 +1,6 @@
 ---
 title: "使用 browser-use 进行数据爬取并保存到文件"
+date: 2026-06-25
 source: "old-blog/技术分享/使用 browser-use 进行数据爬取并保存到文件.md"
 ---
 

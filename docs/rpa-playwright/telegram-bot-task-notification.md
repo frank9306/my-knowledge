@@ -1,5 +1,6 @@
 ---
 title: "任务跑挂了你都不知道？用Telegram Bot通知你"
+date: 2026-06-25
 source: "old-blog/技术分享/任务跑挂了你都不知道？用Telegram Bot通知你.md"
 ---
 

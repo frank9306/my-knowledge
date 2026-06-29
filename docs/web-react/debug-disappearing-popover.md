@@ -1,5 +1,6 @@
 ---
 title: "使用 setTimeout(() => { debugger }, 5000) 抓取页面中消失的浮层元素"
+date: 2026-06-25
 source: "old-blog/技术分享/使用 setTimeout(() = { debugger .md"
 ---
 

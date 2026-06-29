@@ -40,7 +40,9 @@ async function readArticleMeta(file) {
     text.match(/^title:\s*"(.+)"\s*$/m)?.[1] ||
     text.match(/^#\s+(.+)$/m)?.[1] ||
     path.basename(file, '.md');
-  return title.trim();
+  const dateRaw = text.match(/^date:\s*(.+)$/m)?.[1]?.trim();
+  const date = dateRaw ? new Date(dateRaw) : null;
+  return { title: title.trim(), date: date && !Number.isNaN(date.getTime()) ? date : null };
 }
 
 async function main() {
@@ -54,15 +56,20 @@ async function main() {
       continue;
     }
     const mdFiles = files.filter(
-      (file) => file.endsWith('.md') && !file.endsWith('index.md') && file !== path.join(sectionDir, 'index.md'),
+      (file) => file.endsWith('.md') && path.basename(file) !== 'index.md',
     );
     const items = [];
     for (const file of mdFiles) {
       const slug = path.basename(file, '.md');
-      const title = await readArticleMeta(file);
-      items.push({ title, link: `https://knowledge.webfrank.top/${dir}/${slug}/` });
+      const { title, date } = await readArticleMeta(file);
+      items.push({ title, date, link: `https://knowledge.webfrank.top/${dir}/${slug}/` });
     }
-    items.sort((a, b) => a.title.localeCompare(b.title, 'zh-CN'));
+    items.sort((a, b) => {
+      if (a.date && b.date) return b.date - a.date;
+      if (a.date) return -1;
+      if (b.date) return 1;
+      return a.title.localeCompare(b.title, 'zh-CN');
+    });
     groups.push({ label, items });
   }
 

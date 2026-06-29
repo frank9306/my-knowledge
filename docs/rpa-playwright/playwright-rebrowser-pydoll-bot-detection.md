@@ -1,5 +1,6 @@
 ---
 title: "⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测"
+date: 2026-06-25
 source: "old-blog/技术分享/⚔️三种方式挑战 Cloudflare 与 Bot 检测：P.md"
 ---
 

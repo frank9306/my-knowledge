@@ -1,5 +1,6 @@
 ---
 title: "Caddy Web 服务器完全指南：现代化 Web 服务的最佳选择"
+date: 2026-06-25
 source: "old-blog/技术分享/Caddy Web 服务器完全指南：现代化 Web 服务的最.md"
 ---
 

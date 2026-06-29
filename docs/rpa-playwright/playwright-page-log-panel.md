@@ -1,5 +1,6 @@
 ---
 title: "在 Playwright 页面中实现持久化、可折叠的日志输出面板"
+date: 2026-06-25
 source: "old-blog/技术分享/在 Playwright 页面中实现持久化、可折叠的日志输出.md"
 ---
 

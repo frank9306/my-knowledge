@@ -1,5 +1,6 @@
 ---
 title: "Python 运行单文件：uv + PEP 723 真正实现即写即跑！"
+date: 2026-06-25
 source: "old-blog/技术分享/Python 运行单文件：uv + PEP 723 真正实现.md"
 ---
 

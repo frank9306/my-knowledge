@@ -1,5 +1,6 @@
 ---
 title: "🐳 OpenWebUI + Deepseek API 快速部署笔记"
+date: 2026-06-25
 source: "old-blog/技术分享/🐳 OpenWebUI + Deepseek API 快速.md"
 ---
 

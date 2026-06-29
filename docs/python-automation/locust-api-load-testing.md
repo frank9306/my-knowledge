@@ -1,5 +1,6 @@
 ---
 title: "用 Locust 做 API 压测：一篇能让你下次不用再查文档的教程"
+date: 2026-06-25
 source: "old-blog/技术分享/用 Locust 做 API 压测：一篇能让你下次不用再查文.md"
 ---
 

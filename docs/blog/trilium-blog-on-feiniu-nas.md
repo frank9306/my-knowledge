@@ -1,5 +1,6 @@
 ---
 title: "在飞牛 NAS 上部署基于 Trilium 的个人博客实践"
+date: 2026-06-25
 source: "old-blog/技术分享/在飞牛 NAS 上部署基于 Trilium 的个人博客实践.md"
 ---
 

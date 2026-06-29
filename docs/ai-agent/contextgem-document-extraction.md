@@ -1,5 +1,6 @@
 ---
 title: "ContextGem：自动化文档分析与信息提取的利器"
+date: 2026-06-25
 source: "old-blog/心情随笔/ContextGem：自动化文档分析与信息提取的利器.md"
 ---
 

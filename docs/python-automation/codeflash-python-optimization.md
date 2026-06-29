@@ -1,5 +1,6 @@
 ---
 title: "🚀 用 AI 自动优化你的 Python 项目？Codeflash 真能帮你提速又不出锅！"
+date: 2026-06-25
 source: "old-blog/心情随笔/🚀 用 AI 自动优化你的 Python 项目？Codef.md"
 ---
 

@@ -1,5 +1,6 @@
 ---
 title: "🚀 SHEIN 订单下载踩坑记：UI拦不住我，我用 Playwright 拦截请求改时间！"
+date: 2026-06-25
 source: "old-blog/技术分享/🚀 SHEIN 订单下载踩坑记：UI拦不住我，我用 Pla.md"
 ---
 

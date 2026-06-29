@@ -1,5 +1,6 @@
 ---
 title: "智能体经典范式-ReAct"
+date: 2026-06-25
 source: "old-blog/技术分享/智能体经典范式-ReAct.md"
 ---
 

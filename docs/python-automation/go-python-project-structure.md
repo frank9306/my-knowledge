@@ -1,5 +1,6 @@
 ---
 title: "重拾秩序：Go 与 Python 项目的标准结构实践指南"
+date: 2026-06-25
 source: "old-blog/技术分享/重拾秩序：Go 与 Python 项目的标准结构实践指南.md"
 ---
 

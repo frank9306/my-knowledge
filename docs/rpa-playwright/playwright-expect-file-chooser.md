@@ -1,5 +1,6 @@
 ---
 title: "Playwright 中 expect_file_chooser() 不起作用？"
+date: 2026-06-25
 source: "old-blog/技术分享/Playwright 中 expect_file_choos.md"
 ---
 

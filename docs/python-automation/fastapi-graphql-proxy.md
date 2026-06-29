@@ -1,5 +1,6 @@
 ---
 title: "使用 FastAPI 实现 GraphQL 代理：优雅地隐藏后端复杂性"
+date: 2026-06-25
 source: "old-blog/技术分享/使用 FastAPI 实现 GraphQL 代理：优雅地隐藏.md"
 ---
 

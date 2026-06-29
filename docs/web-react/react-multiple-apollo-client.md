@@ -1,5 +1,6 @@
 ---
 title: "多Apollo Client在React中的实战踩坑记录"
+date: 2026-06-25
 source: "old-blog/技术分享/多Apollo Client在React中的实战踩坑记录.md"
 ---
 

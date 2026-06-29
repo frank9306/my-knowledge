@@ -1,5 +1,6 @@
 ---
 title: "🛡️ rebrowser-playwright解决Etsy的Bot检测"
+date: 2026-06-25
 source: "old-blog/技术分享/🛡️ rebrowser-playwright解决Etsy.md"
 ---
 

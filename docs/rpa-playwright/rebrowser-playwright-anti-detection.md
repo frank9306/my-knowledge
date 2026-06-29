@@ -1,5 +1,6 @@
 ---
 title: "🚨Python爬虫被识别？一招用 rebrowser_playwright 轻松过检测"
+date: 2026-06-25
 source: "old-blog/心情随笔/🚨Python爬虫被识别？一招用 rebrowser_pl.md"
 ---
 

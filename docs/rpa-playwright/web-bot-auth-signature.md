@@ -1,5 +1,6 @@
 ---
 title: "Web Bot Auth：基于加密签名的机器人身份验证技术深度解析"
+date: 2026-06-25
 source: "old-blog/技术分享/Web Bot Auth：基于加密签名的机器人身份验证技术深.md"
 ---
 

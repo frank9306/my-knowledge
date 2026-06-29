@@ -1,5 +1,6 @@
 ---
 title: "使用 uv 替换 Python 包源"
+date: 2026-06-25
 source: "old-blog/心情随笔/使用 uv 替换 Python 包源.md"
 ---
 

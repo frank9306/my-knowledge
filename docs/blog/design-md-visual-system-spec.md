@@ -1,5 +1,6 @@
 ---
 title: "给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent"
+date: 2026-06-29
 ---
 
 # 给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent

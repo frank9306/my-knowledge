@@ -1,5 +1,6 @@
 ---
 title: "利用 sys.excepthook 捕获未处理异常并记录日志"
+date: 2026-06-25
 source: "old-blog/技术分享/利用 sys.excepthook 捕获未处理异常并记录日志.md"
 ---
 

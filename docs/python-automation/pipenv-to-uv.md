@@ -1,5 +1,6 @@
 ---
 title: "🚀 从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理"
+date: 2026-06-25
 source: "old-blog/心情随笔/🚀 从 Pipenv 切换到 uv：一键上手现代 Pyth.md"
 ---
 

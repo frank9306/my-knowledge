@@ -1,5 +1,6 @@
 ---
 title: "🚀 Typer + Typerdrive 开发 CLI 工具全攻略"
+date: 2026-06-25
 source: "old-blog/心情随笔/🚀 Typer + Typerdrive 开发 CLI 工.md"
 ---
 

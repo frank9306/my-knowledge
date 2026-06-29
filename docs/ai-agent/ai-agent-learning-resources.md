@@ -1,5 +1,6 @@
 ---
 title: "AI Agent 学习资源整理"
+date: 2026-06-25
 source: "old-blog/技术分享/AI Agent 学习资源整理.md"
 ---
 

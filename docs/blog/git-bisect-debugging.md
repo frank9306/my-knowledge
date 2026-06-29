@@ -1,5 +1,6 @@
 ---
 title: "用 Git Bisect 精准狙击 Bug：调试到天亮不如用对工具"
+date: 2026-06-25
 source: "old-blog/心情随笔/用 Git Bisect 精准狙击 Bug：调试到天亮不如用.md"
 ---
 

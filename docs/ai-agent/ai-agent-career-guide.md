@@ -1,5 +1,6 @@
 ---
 title: "AI Agent 开发转行指南：从面试痛点看学习路径"
+date: 2026-06-25
 source: "old-blog/技术分享/AI Agent 开发转行指南：从面试痛点看学习路径.md"
 ---
 

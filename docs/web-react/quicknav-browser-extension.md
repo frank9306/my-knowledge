@@ -1,5 +1,6 @@
 ---
 title: "QuickNav：我的个人导航站浏览器扩展"
+date: 2026-06-25
 source: "old-blog/技术分享/QuickNav：我的个人导航站浏览器扩展.md"
 ---
 

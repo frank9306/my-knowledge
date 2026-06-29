@@ -1,5 +1,6 @@
 ---
 title: "ChromeDriver 无法识别插件页面为窗口"
+date: 2026-06-25
 source: "old-blog/心情随笔/ChromeDriver 无法识别插件页面为窗口.md"
 ---
 
