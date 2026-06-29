@@ -8,6 +8,9 @@
 - [ponytail](https://github.com/DietrichGebert/ponytail): 让 AI Agent 像资深工程师一样“先看再写”，显著减少冗余代码与 token 消耗。
 - [headroom](https://github.com/headroomlabs-ai/headroom): 在 LLM 之前压缩工具输出、日志、RAG 片段，token 用量减少 60–95%，可作库、代理或 MCP 服务运行。
 - [OpenMontage](https://github.com/calesthio/OpenMontage): 首个开源 Agentic 视频生产系统，12 条流水线、52 个工具，让 AI 编程助手变成完整视频制作工作室。
+- [DESIGN.md](https://github.com/google-labs-code/design.md): Google Labs 推出的视觉设计系统声明格式（YAML token + Markdown 说明），给编程 Agent 一份持久可读的设计源；自带 lint / diff / 导出 Tailwind 与 W3C DTCG 的 CLI。
+- [codebase-memory-mcp](https://github.com/DeusData/codebase-memory-mcp): 高性能代码智能 MCP 服务，把代码库索引成本地持久知识图谱（毫秒级索引，亚毫秒查询），支持结构搜索、调用链追踪、架构概览与影响分析，单文件静态二进制、零依赖。
+- [VidBee](https://github.com/nexmoe/VidBee): 基于 yt-dlp 的开源视频下载器，支持 1000+ 站点；提供 Electron 桌面端、可自托管的 Web/API（Fastify + oRPC + TanStack Start），并内置 RSS 自动下载。
 
 ## 网络与代理工具
 

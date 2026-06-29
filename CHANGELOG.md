@@ -18,3 +18,5 @@ All notable published changes to this knowledge site are recorded here.
 - Added 3 personal projects (learning-project-coach-skill, quick-nav-extension, text-fragment-copier) to the about page with short descriptions.
 - Replaced the deployment-style `README.md` with an auto-generated content navigation driven by `scripts/sync-readme.mjs` and `pnpm readme:sync`.
 - Switched the local git committer to GitHub user `frank9306`.
+- Added the DESIGN.md open-source project entry to the resources page with a short description.
+- Added the codebase-memory-mcp and VidBee open-source project entries to the resources page with short descriptions.
