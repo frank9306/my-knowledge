@@ -4,6 +4,7 @@ All notable published changes to this knowledge site are recorded here.
 
 ## 2026-06-29
 
+- Added homepage sections for recommended reading, latest articles, and hands-on projects so new visitors have clearer starting points.
 - Sorted articles in the auto-generated README by `date` (newest first) within each topic, with title-pinyin as a tie-breaker. Added a `date:` field to the frontmatter of every article; new posts get the real publication date, while older imported articles are seeded with their initial git commit date.
 - Fixed `scripts/sync-readme.mjs` incorrectly dropping `docs/python-automation/uv-python-package-index.md` from the generated README because the file name ends in `index.md`; the filter now uses `path.basename(file) === 'index.md'`.
 

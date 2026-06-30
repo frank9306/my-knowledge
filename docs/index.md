@@ -30,3 +30,32 @@ features:
     details: 归档前端开发、React、流程图和页面调试相关笔记。
     link: /web-react/
 ---
+
+## 推荐阅读
+
+第一次来可以先从这些文章开始：
+
+- [AI Agent 开发转行指南：从面试痛点看学习路径](/ai-agent/ai-agent-career-guide)
+- [智能体经典范式-ReAct](/ai-agent/react-agent-pattern)
+- [用 Locust 做 API 压测：一篇能让你下次不用再查文档的教程](/python-automation/locust-api-load-testing)
+- [⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测](/rpa-playwright/playwright-rebrowser-pydoll-bot-detection)
+- [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](/blog/design-md-visual-system-spec)
+
+## 最新文章
+
+最近更新的内容：
+
+- [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](/blog/design-md-visual-system-spec)
+- [AI Agent 开发转行指南：从面试痛点看学习路径](/ai-agent/ai-agent-career-guide)
+- [使用 uv 替换 Python 包源](/python-automation/uv-python-package-index)
+- [QuickNav：我的个人导航站浏览器扩展](/web-react/quicknav-browser-extension)
+
+## 实战项目
+
+这些文章更偏真实项目、工具链和踩坑复盘：
+
+- [QuickNav：我的个人导航站浏览器扩展](/web-react/quicknav-browser-extension)
+- [🧩为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件](/web-react/quicknav-chrome-extension-entrypoints)
+- [🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](/ai-agent/browser-use-deepseek-github-trending)
+- [深入理解 LlamaIndex：基于 Notion 文档的智能问答系统实战](/ai-agent/llamaindex-notion-qa)
+- [在 Playwright 页面中实现持久化、可折叠的日志输出面板](/rpa-playwright/playwright-page-log-panel)
