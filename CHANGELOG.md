@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2026-07-03
+
+- Added the personal project `codex-switch-helper` to the about page as the first entry. It is a Tauri-based Windows desktop helper for switching Codex App profiles (account login / API key), managing user-level `CODEX_HOME` and `OPENAI_API_KEY`, and launching Codex via `shell:AppsFolder`.
+
 ## 2026-06-29
 
 - Added homepage sections for recommended reading, latest articles, and hands-on projects so new visitors have clearer starting points.
