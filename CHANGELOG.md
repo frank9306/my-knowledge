@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 0.1.1 - 2026-07-09
+
+- Added a persistent site-style switcher between the default Warm Bronze reading theme and a Codex Helper-inspired interface theme, including light/dark palettes and pre-render preference restoration.
+
 ## 2026-07-03
 
 - Added the personal project `codex-switch-helper` to the about page as the first entry. It is a Tauri-based Windows desktop helper for switching Codex App profiles (account login / API key), managing user-level `CODEX_HOME` and `OPENAI_API_KEY`, and launching Codex via `shell:AppsFolder`.

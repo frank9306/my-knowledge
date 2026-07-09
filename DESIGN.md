@@ -1,7 +1,7 @@
 ---
 version: "alpha"
 name: Warm Bronze Library
-description: 暖色木质 + 霞鹜文楷的 VitePress 知识站点视觉系统，给编程 Agent 一份持久可读的设计源。
+description: 支持暖铜书卷与 Codex 工具两套风格的 VitePress 知识站点视觉系统，给编程 Agent 一份持久可读的设计源。
 colors:
   primary: "#8a5a2b"
   bg: "#fbf7ef"
@@ -61,13 +61,24 @@ components:
 
 ## Overview
 
-Warm Bronze Library 是 Frank 知识库（VitePress 站点）的视觉系统。整体调性是"暖色木质 + 霞鹜文楷"：以深棕和奶白为主色，搭配可读性高的中文衬线字体，让长文阅读接近纸质书卷的体验。
+Warm Bronze Library 是 Frank 知识库（VitePress 站点）的默认视觉系统。整体调性是"暖色木质 + 霞鹜文楷"：以深棕和奶白为主色，搭配可读性高的中文衬线字体，让长文阅读接近纸质书卷的体验。
+
+站点还支持一套 `Codex Helper` 风格，来自 `E:\private-store\myproject\codex-switch-helper\AGENTS.md` 中描述的 Windows Tauri 桌面工具语境。它不改变内容结构，只把视觉材料切换成更接近桌面配置工具的冷静、清晰、低装饰界面：蓝色品牌强调、系统 sans 字体、更轻的卡片边界和更高的信息扫描效率。
 
 站点主要面向"中文技术笔记、自动化实践、AI Agent 学习与个人知识沉淀"，所以视觉风格优先考虑：
 
 - **可读性**：正文 1rem、行高 1.7、衬线字体，避免视觉疲劳。
 - **层次感**：用淡边框和暖色背景区分卡片和章节分隔线，而不是用阴影。
 - **可亲近**：颜色来自"书脊、铜扣、米纸"的意象，避免冷色调和过度鲜艳的强调色。
+
+## Style Modes
+
+站点通过 `html[data-site-style]` 支持多风格：
+
+- **`warm-bronze`**：默认风格，保留暖铜书卷视觉语言，适合长文阅读和知识沉淀。
+- **`codex-helper`**：新增风格，提炼 Codex Profile 管理工具的桌面应用感，适合偏工具化、配置化的阅读氛围。
+
+切换控件位于 VitePress 顶部导航右侧。用户选择会缓存到 `localStorage` 的 `my-knowledge-site-style`，并由 `docs/.vitepress/config.ts` 中的 head 初始化脚本在页面渲染前恢复，避免刷新时样式闪烁。
 
 ## Colors
 
@@ -93,11 +104,22 @@ Dark 模式自动通过 `.dark` class 切换，对应 token 关系不变：
 
 `primary` 与 `hero-name` 在 dark 模式下保持不变。
 
+### Codex Helper 色彩
+
+`codex-helper` 风格使用蓝色作为工具型主色：
+
+- **品牌色**：`#2563eb`，对应 VitePress 的 `--vp-c-brand-1`，用于链接、按钮和切换后的 theme-color。
+- **浅色背景**：`#f8fafc` / `#eef2f7` / `#ffffff`，模拟桌面工具的清洁工作区。
+- **浅色文本**：`#111827` / `#526173`，保证文档扫描时有明确层级。
+- **Dark 背景**：`#0b1220` / `#111827` / `#172033`，保留工具感但避免纯黑。
+- **Dark 文本**：`#e5edf8` / `#a8b4c7`，比默认暖色 dark 更冷静。
+
 ## Typography
 
 字体栈有两套：
 
 - **基础字体（serif）**：`"LXGW WenKai Screen"` → `"Noto Serif SC"` → `"Source Han Serif SC"` → `"Microsoft YaHei"` → `serif`。在常见系统上以霞鹜文楷或思源宋体优先，提供接近"印刷书"的阅读质感。
+- **Codex Helper 基础字体（sans）**：`"Inter"` → `"Segoe UI"` → `"Microsoft YaHei"` → `sans-serif`。用于切换后的工具风格，优先保证界面控件和导航文本的清晰度。
 - **等宽字体**：`"JetBrains Mono"` → `SFMono-Regular` → `Consolas` → `monospace`，用于代码块和行内 `code`。
 
 字号体系：
@@ -163,11 +185,19 @@ Dark 模式自动通过 `.dark` class 切换，对应 token 关系不变：
 
 - 文本色 `hero-name`，搭配 `letter-spacing: -0.03em`（按 typography.h1 约定）。
 
+`style-switcher`：顶部导航中的风格切换按钮。
+
+- 使用 32px 高度、8px 圆角和一个短 toggle 轨道，避免像营销按钮。
+- 标签显示当前风格：`书卷` 或 `Codex`。移动端隐藏文字，只保留 toggle 形态。
+- 点击后写入 `localStorage` 并更新 `html[data-site-style]`，不改变 VitePress 的 light / dark 机制。
+
 ## Do's and Don'ts
 
 - ✅ **DO**：正文里使用 `text-1` 而不是纯黑；用 token 引用（`{colors.primary}`）而不是硬编码 hex。
 - ✅ **DO**：新增的卡片复用 `card` 组件的 token，保持视觉一致。
+- ✅ **DO**：新增风格只覆写 CSS 变量和少量组件状态，避免复制整套布局。
 - ✅ **DO**：dark 模式保持 token 名一致，只在 `.dark` 作用域里覆盖颜色值。
 - ❌ **DON'T**：不要在正文里硬编码品牌色 hex（`#8a5a2b` 等）；统一通过 `colors.primary` 引用。
 - ❌ **DON'T**：不要为卡片加阴影（`box-shadow`）来制造层次；本站用边框 + 背景差。
 - ❌ **DON'T**：不要使用 `border-radius` 大于 `lg` (12px) 的圆角；本站保持书卷/印刷调性。
+- ❌ **DON'T**：不要把风格切换和 VitePress 内置 dark mode 混在同一个状态里；两者是正交设置。
