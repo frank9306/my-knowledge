@@ -49,7 +49,14 @@ export default defineConfig({
       { text: '专题', link: '/topics/' },
       { text: '文章', link: '/blog/' },
       { text: '资源', link: '/resources/' },
-      { text: '关于', link: '/about' }
+      {
+        text: '关于',
+        items: [
+          { text: '关于我', link: '/about' },
+          { text: 'AGENTS.md', link: '/agents' },
+          { text: 'Agent Skills', link: '/skills' }
+        ]
+      }
     ],
     sidebar: {
       '/topics/': [

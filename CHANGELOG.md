@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 0.1.2 - 2026-07-09
+
+- Published the global `AGENTS.md` collaboration rules and a curated catalog of public Agent Skills with their purposes, source repositories, and installation commands.
+
 ## 0.1.1 - 2026-07-09
 
 - Added a persistent site-style switcher between the default Warm Bronze reading theme and a Codex Helper-inspired interface theme, including light/dark palettes and pre-render preference restoration.
