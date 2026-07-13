@@ -34,5 +34,7 @@
 ## Content Guidance
 
 - Add long-form posts under `docs/blog/` with readable English slugs.
+- When adding a new article, add it to the top of the "最新文章" section in `docs/index.md` by default.
+- Before adding a new article to the "推荐阅读" section in `docs/index.md`, always ask the user whether it should be included.
 - Keep old blog migration content organized by topic instead of copying old random short URLs.
 - Update this file when adding real lint, test, format, or deploy commands; do not document commands that are not present in `package.json` or CI.

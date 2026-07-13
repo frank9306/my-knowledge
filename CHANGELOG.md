@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 0.1.4 - 2026-07-13
+
+- Added the Codex Switch Helper guide to the homepage's latest and recommended reading sections.
+- Documented that new articles must be added to the homepage's latest articles by default and require user confirmation before being added to recommended reading.
+
 ## 0.1.3 - 2026-07-13
 
 - Published and indexed a practical introduction to Codex Switch Helper, covering Windows Profile switching, shared and sandbox environments, authentication behavior, proxy settings, update delivery, and current security boundaries.

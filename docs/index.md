@@ -35,6 +35,7 @@ features:
 
 第一次来可以先从这些文章开始：
 
+- [Codex Switch Helper：在 Windows 上切换多套 Codex Profile](/blog/codex-switch-helper-windows-profiles)
 - [AI Agent 开发转行指南：从面试痛点看学习路径](/ai-agent/ai-agent-career-guide)
 - [智能体经典范式-ReAct](/ai-agent/react-agent-pattern)
 - [用 Locust 做 API 压测：一篇能让你下次不用再查文档的教程](/python-automation/locust-api-load-testing)
@@ -45,6 +46,7 @@ features:
 
 最近更新的内容：
 
+- [Codex Switch Helper：在 Windows 上切换多套 Codex Profile](/blog/codex-switch-helper-windows-profiles)
 - [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](/blog/design-md-visual-system-spec)
 - [AI Agent 开发转行指南：从面试痛点看学习路径](/ai-agent/ai-agent-career-guide)
 - [使用 uv 替换 Python 包源](/python-automation/uv-python-package-index)
