@@ -7,7 +7,7 @@ description: 我用于约束 AI 编程助手的全局协作规则。
 
 这是我在 OpenCode 中使用的全局 `AGENTS.md`。它不是某个项目的技术规范，而是一份长期协作约定，用来减少 AI 编程过程中常见的误解、过度设计和未经验证的修改。
 
-最后同步：2026-07-10
+最后同步：2026-07-13
 
 ## Identity And Addressing
 
@@ -114,6 +114,18 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Do not modify files unrelated to the task.
 - If you notice unrelated dead code, mention it - don't delete it.
 - If requirements are unclear, ask one short question instead of asking many questions at once.
+
+## Read Git History Before Unfamiliar Code
+
+When entering an unfamiliar repository or performing a broad review, use Git history to build a quick risk map before reading code deeply:
+
+- Identify frequently changed files and directories (code churn), excluding generated files, lockfiles, vendored code, and other noise where practical.
+- Inspect contributor concentration and recent ownership to understand maintenance context and bus-factor risk.
+- Search commit history for bug fixes, reverts, hotfixes, rollbacks, and emergencies to locate recurring trouble spots.
+- Check commit activity over time to understand whether the project is actively evolving, stabilizing, or becoming dormant.
+- Prioritize files where multiple signals overlap, then inspect their code, tests, blame, and relevant commits first.
+- Treat Git statistics as hypotheses and navigation aids, not proof of poor quality. Account for squash merges, inconsistent commit messages, bulk migrations, generated changes, and repository conventions before drawing conclusions.
+- Use the findings to decide what to read first and what concrete questions to ask; keep this reconnaissance brief unless the task explicitly calls for a deeper audit.
 
 ## Planning And Execution
 

@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 0.1.6 - 2026-07-13
+
+- Added an “优秀的资源” page for curated external reading, starting with a guide to using Git history before reading unfamiliar code.
+- Synchronized the public `AGENTS.md` page with the current global collaboration rules.
+
 ## 0.1.5 - 2026-07-13
 
 - Removed decorative emoji and generic promotional phrasing across imported articles while preserving meaningful technical examples and historical source metadata.

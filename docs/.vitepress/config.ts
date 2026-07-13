@@ -48,6 +48,7 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: '专题', link: '/topics/' },
       { text: '文章', link: '/blog/' },
+      { text: '优秀的资源', link: '/reading/' },
       { text: '资源', link: '/resources/' },
       {
         text: '关于',
@@ -81,6 +82,12 @@ export default defineConfig({
         {
           text: '资源',
           items: [{ text: '资源导航', link: '/resources/' }]
+        }
+      ],
+      '/reading/': [
+        {
+          text: '优秀的资源',
+          items: [{ text: '文章索引', link: '/reading/' }]
         }
       ]
     },

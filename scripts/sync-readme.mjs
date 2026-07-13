@@ -18,6 +18,7 @@ const pageOrder = [
   ['/', '首页'],
   ['/topics/', '专题总览'],
   ['/blog/', '文章索引'],
+  ['/reading/', '优秀的资源'],
   ['/resources/', '资源导航'],
   ['/friends', '友链'],
   ['/about', '关于'],
