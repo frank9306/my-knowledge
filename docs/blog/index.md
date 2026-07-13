@@ -60,6 +60,7 @@
 
 ## 博客文章
 
+- [Codex Switch Helper：在 Windows 上切换多套 Codex Profile](/blog/codex-switch-helper-windows-profiles)
 - [“单一职责”是为谁服务的？——SRP 原则的人本视角解读](/blog/srp-human-centered)
 - [公平队列：别让大客户拖垮你的系统](/blog/fair-queue)
 - [使用 browser-use 进行数据爬取并保存到文件](/blog/browser-use-scraping-to-file)
