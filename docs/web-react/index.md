@@ -4,8 +4,8 @@
 
 ## 文章列表
 
-- [🧩为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件](/web-react/quicknav-chrome-extension-entrypoints)
-- [🚫 为什么浏览器禁止访问某些端口？——以 6000 端口为例](/web-react/browser-blocked-ports-6000)
+- [为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件](/web-react/quicknav-chrome-extension-entrypoints)
+- [为什么浏览器禁止访问某些端口？——以 6000 端口为例](/web-react/browser-blocked-ports-6000)
 - [多Apollo Client在React中的实战踩坑记录](/web-react/react-multiple-apollo-client)
 - [深入分析 React CVE-2025-55182 漏洞：原型链污染导致的远程代码执行](/web-react/react-cve-2025-55182)
 - [使用 setTimeout(() => { debugger }, 5000) 抓取页面中消失的浮层元素](/web-react/debug-disappearing-popover)

@@ -1,6 +1,6 @@
 {
   "name": "my-knowledge",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.14.0",
@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@google/design.md": "^0.3.0",
+    "lxgw-wenkai-screen-webfont": "1.7.0",
     "vitepress": "^1.6.4"
   }
 }

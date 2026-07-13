@@ -102,7 +102,7 @@ Dark 模式自动通过 `.dark` class 切换，对应 token 关系不变：
 - `text-1` → `#f5eadb`
 - `text-2` → `#d2bfa8`
 
-`primary` 与 `hero-name` 在 dark 模式下保持不变。
+Dark 模式使用现有暖铜亮色阶提高对比度：`primary` 与 `hero-name` 均切换为 `#c78642`，交互态可使用 `#d6a661`。
 
 ### Codex Helper 色彩
 
@@ -113,12 +113,14 @@ Dark 模式自动通过 `.dark` class 切换，对应 token 关系不变：
 - **浅色文本**：`#111827` / `#526173`，保证文档扫描时有明确层级。
 - **Dark 背景**：`#0b1220` / `#111827` / `#172033`，保留工具感但避免纯黑。
 - **Dark 文本**：`#e5edf8` / `#a8b4c7`，比默认暖色 dark 更冷静。
+- **Dark 品牌色**：`#60a5fa`，hover 使用 `#38bdf8`，确保深色背景上的链接和 hero 标题保持足够对比度。
+- **Hero 图像背景**：保持透明，不使用蓝色渐变或大范围模糊光晕，让工具风格维持低装饰、易扫描的界面特征。
 
 ## Typography
 
 字体栈有两套：
 
-- **基础字体（serif）**：`"LXGW WenKai Screen"` → `"Noto Serif SC"` → `"Source Han Serif SC"` → `"Microsoft YaHei"` → `serif`。在常见系统上以霞鹜文楷或思源宋体优先，提供接近"印刷书"的阅读质感。
+- **基础字体（serif）**：`"LXGW WenKai Screen"` → `"Noto Serif SC"` → `"Source Han Serif SC"` → `"Microsoft YaHei"` → `serif`。霞鹜文楷屏幕版通过 `lxgw-wenkai-screen-webfont` 随站点构建，确保访客无需预装字体；其余字体作为加载失败时的 fallback。
 - **Codex Helper 基础字体（sans）**：`"Inter"` → `"Segoe UI"` → `"Microsoft YaHei"` → `sans-serif`。用于切换后的工具风格，优先保证界面控件和导航文本的清晰度。
 - **等宽字体**：`"JetBrains Mono"` → `SFMono-Regular` → `Consolas` → `monospace`，用于代码块和行内 `code`。
 
@@ -187,8 +189,9 @@ Dark 模式自动通过 `.dark` class 切换，对应 token 关系不变：
 
 `style-switcher`：顶部导航中的风格切换按钮。
 
-- 使用 32px 高度、8px 圆角和一个短 toggle 轨道，避免像营销按钮。
+- 桌面端使用 32px 高度、8px 圆角和一个短 toggle 轨道；移动端触控区域扩大到 40 × 40px。
 - 标签显示当前风格：`书卷` 或 `Codex`。移动端隐藏文字，只保留 toggle 形态。
+- `aria-label` 描述即将切换到的风格，`aria-pressed` 表示当前是否处于 Codex Helper 模式。
 - 点击后写入 `localStorage` 并更新 `html[data-site-style]`，不改变 VitePress 的 light / dark 机制。
 
 ## Do's and Don'ts

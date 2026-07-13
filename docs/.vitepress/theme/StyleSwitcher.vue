@@ -33,6 +33,7 @@ onMounted(() => {
     class="site-style-switcher"
     type="button"
     :aria-pressed="activeStyle === codexStyle"
+    :aria-label="activeStyle === codexStyle ? '切换到暖铜书卷风格' : '切换到 Codex 工具风格'"
     :title="activeStyle === codexStyle ? '切换到暖铜书卷风格' : '切换到 Codex 工具风格'"
     @click="toggleStyle"
   >

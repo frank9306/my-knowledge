@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 0.1.5 - 2026-07-13
+
+- Removed decorative emoji and generic promotional phrasing across imported articles while preserving meaningful technical examples and historical source metadata.
+- Improved dark-mode contrast for both site styles, simplified the Codex Helper hero treatment, bundled LXGW WenKai Screen locally, and improved the style switcher's accessible label and mobile touch target.
+
 ## 0.1.4 - 2026-07-13
 
 - Added the Codex Switch Helper guide to the homepage's latest and recommended reading sections.

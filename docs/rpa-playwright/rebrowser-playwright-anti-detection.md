@@ -1,10 +1,10 @@
 ---
-title: "🚨Python爬虫被识别？一招用 rebrowser_playwright 轻松过检测"
+title: "Python爬虫被识别？一招用 rebrowser_playwright 轻松过检测"
 date: 2026-06-25
 source: "old-blog/心情随笔/🚨Python爬虫被识别？一招用 rebrowser_pl.md"
 ---
 
-# 🚨Python爬虫被识别？一招用 rebrowser_playwright 轻松过检测
+# Python爬虫被识别？一招用 rebrowser_playwright 轻松过检测
 
 当你用 Playwright 做爬虫或自动化时，网站一眼看出你是机器人有多容易？这时候，你需要的是一个真正能装成“人类浏览器”的工具——`rebrowser_playwright`！
 
@@ -139,7 +139,7 @@ browser = p.chromium.launch(proxy={"server": "<http://127.0.0.1:7890>"})
 
 * * *
 
-## 🚫 无缝切换方案：已有 Playwright 代码也可用
+## 无缝切换方案：已有 Playwright 代码也可用
 
 你已经写了大量的 `playwright` 代码，不想改 import？用下面这 3 行程序，一键切换：
 
@@ -158,7 +158,7 @@ from playwright.sync_api import sync_playwright
 
 ```
 
-使用这种猴子补丁（Monkey Patch）🐒方式。保持原有代码不变，就是用了 rebrowser，太方便了！
+这种 Monkey Patch 会让后续 `playwright` 导入指向 `rebrowser_playwright`，因此原有业务代码无需逐处修改。
 
 > 推荐放在入口文件最上方，确保后续代码正确被替换
 

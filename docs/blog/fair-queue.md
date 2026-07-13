@@ -8,7 +8,7 @@ source: "old-blog/技术分享/公平队列：别让大客户拖垮你的系统.
 
 在多租户系统里，你可能会遇到这样一个尴尬局面：最大的客户提交了海量任务，结果整个系统被拖慢，其他客户的任务迟迟得不到处理。看似生意兴隆，实际上却把大家的体验都搞砸了。这就是典型的 **noisy neighbor problem（吵闹邻居问题）**。
 
-👉 原文参考：[Your Biggest Customer Might Be Your Biggest Bottleneck](https://densumesh.dev/blog/fair-queue/)
+原文参考：[Your Biggest Customer Might Be Your Biggest Bottleneck](https://densumesh.dev/blog/fair-queue/)
 
 ## 问题的根源
 

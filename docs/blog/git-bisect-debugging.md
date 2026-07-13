@@ -10,7 +10,7 @@ source: "old-blog/心情随笔/用 Git Bisect 精准狙击 Bug：调试到天亮
 
 * * *
 
-## 🧠 背景：调试到天亮？不如二分查找
+## 背景：调试到天亮？不如二分查找
 
 那位作者遇到的场景和我太熟悉了：
 
@@ -22,7 +22,7 @@ source: "old-blog/心情随笔/用 Git Bisect 精准狙击 Bug：调试到天亮
 
 * * *
 
-## 🚀 Git Bisect 是个啥？
+## Git Bisect 是个啥？
 
 一句话：**用二分法在提交历史中定位引入 Bug 的提交**。
 
@@ -37,11 +37,11 @@ source: "old-blog/心情随笔/用 Git Bisect 精准狙击 Bug：调试到天亮
 
 * * *
 
-## 🔨 实战演练：以文件存在与否为例
+## 实战演练：以文件存在与否为例
 
 以下是我用来测试的一个案例：
 
-### 🧪 场景
+### 场景
 
 假设有个项目，某次提交不小心多加了个 `test.ini` 文件，这个文件一旦存在，程序就会出错。
 
@@ -124,7 +124,7 @@ Git 会自动切换 commit、执行脚本，并告诉你：
 
 * * *
 
-## ✍️ 总结：工具在手，天亮不用愁
+## 总结：工具在手，天亮不用愁
 
 学了这么多年 Git，却总是忘了 `git bisect`。直到今天看了那篇博客才恍然大悟：这玩意是调 bug 的神兵利器，特别是在这些场景下：
 
@@ -136,7 +136,7 @@ Git 会自动切换 commit、执行脚本，并告诉你：
 
 * * *
 
-## 🔚 附：参考链接
+## 附：参考链接
 
 *   原文博客：[Debugging Till Dawn](https://www.mikebuss.com/posts/debugging-till-dawn)
 *   官方文档：[git bisect – Manual](https://git-scm.com/docs/git-bisect)

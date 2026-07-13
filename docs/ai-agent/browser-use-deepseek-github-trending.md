@@ -1,10 +1,10 @@
 ---
-title: "🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器"
+title: "使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器"
 date: 2026-06-25
 source: "old-blog/技术分享/🚀 使用 browser-use + DeepSeek 构.md"
 ---
 
-# 🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器
+# 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器
 
 在 AI Agent 场景中，如何让大模型**主动控制浏览器、调用本地函数、结合文件输入输出**？这篇文章将介绍我基于 [`browser-use`](https://github.com/openbmb/browser-use) 和 DeepSeek-LLM 构建的一个 Demo，用于：
 
@@ -17,14 +17,14 @@ source: "old-blog/技术分享/🚀 使用 browser-use + DeepSeek 构.md"
 
 本示例旨在证明 `browser-use` 在输入和输出端 `MCP`场景的处理能力，并无实际业务考量。
 
-## 🧱 技术栈
+## 技术栈
 
 *   `browser-use`: 浏览器自动化控制框架
 *   `langchain_deepseek`: DeepSeek-LLM 接入包
 *   `Python asyncio`: 异步执行
 *   `dotenv`: 环境变量加载
 
-## 📦 项目结构简述
+## 项目结构简述
 
 ```
 
@@ -36,7 +36,7 @@ source: "old-blog/技术分享/🚀 使用 browser-use + DeepSeek 构.md"
 
 ```
 
-## 📄 源码详解
+## 源码详解
 
 ### 1\. 引入核心模块并加载环境变量
 
@@ -142,7 +142,7 @@ if __name__ == "__main__":
 
 * * *
 
-## 📄 示例输入
+## 示例输入
 
 `source.txt`：
 
@@ -230,29 +230,29 @@ if __name__ == "__main__":
 
 * * *
 
-## 📝 运行结果示意
+## 运行结果示意
 
 ### 运行截图(action)：
 
 1.  打开链接
 
-![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 1](/images/imported/browser-use-deepseek-github-trending/image-01.png)
+![使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 1](/images/imported/browser-use-deepseek-github-trending/image-01.png)
 
 1.  读取文件
 
-![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 2](/images/imported/browser-use-deepseek-github-trending/image-02.png)
+![使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 2](/images/imported/browser-use-deepseek-github-trending/image-02.png)
 
 1.  获取排名信息
 
-![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 3](/images/imported/browser-use-deepseek-github-trending/image-03.png)
+![使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 3](/images/imported/browser-use-deepseek-github-trending/image-03.png)
 
 1.  保存到文件
 
-![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 4](/images/imported/browser-use-deepseek-github-trending/image-04.png)
+![使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 4](/images/imported/browser-use-deepseek-github-trending/image-04.png)
 
 1.  任务完成
 
-![🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 5](/images/imported/browser-use-deepseek-github-trending/image-05.png)
+![使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器 image 5](/images/imported/browser-use-deepseek-github-trending/image-05.png)
 
 ### 结果文件
 
@@ -265,7 +265,7 @@ if __name__ == "__main__":
 
 * * *
 
-## 🔍 模型是怎么知道该调用哪个动作的？
+## 模型是怎么知道该调用哪个动作的？
 
 它靠 `browser-use` 的 `Controller` 注册的动作来反射函数签名，使用 `inspect` 模块自动获取函数参数，比如：
 
@@ -278,7 +278,7 @@ def read_rank_from_file(file_path: str) -> str
 
 * * *
 
-## 💡 可扩展方向
+## 可扩展方向
 
 你可以很轻松地扩展其他能力，比如：
 
@@ -289,6 +289,6 @@ def read_rank_from_file(file_path: str) -> str
 
 * * *
 
-## 🧠 总结
+## 总结
 
 通过 `browser-use + DeepSeek`，我们实现了一个完全自动的「任务代理 + 浏览器控制 + 本地函数调用 + 文件处理」闭环。整个流程无需硬编码逻辑，全靠 Prompt + 注册函数，是真正的低代码/自然语言驱动 Agent 实践。

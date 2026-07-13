@@ -1,10 +1,10 @@
 ---
-title: "🚀 从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理"
+title: "从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理"
 date: 2026-06-25
 source: "old-blog/心情随笔/🚀 从 Pipenv 切换到 uv：一键上手现代 Pyth.md"
 ---
 
-# 🚀 从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理
+# 从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理
 
 你有没有被 `Pipenv` 折磨过？
 
@@ -16,7 +16,7 @@ source: "old-blog/心情随笔/🚀 从 Pipenv 切换到 uv：一键上手现代
 
 * * *
 
-### 🔧 1. 安装 uv
+### 1. 安装 uv
 
 先上命令
 
@@ -35,7 +35,7 @@ uv --version
 
 * * *
 
-### 🧹 2. 从 Pipenv 导出 requirements.txt
+### 2. 从 Pipenv 导出 requirements.txt
 
 这一步**非常关键**，是把原来用 `Pipenv` 安装的依赖全部导出来：
 
@@ -46,11 +46,11 @@ pipenv requirements > requirements.txt
 
 这会从你的 `Pipfile.lock` 里解析出准确依赖，写入 `requirements.txt`。
 
-⚠️ 注意：不要用 `pip freeze`，那是导当前虚拟环境中所有依赖的，可能不准确。
+注意：不要用 `pip freeze`，它会导出当前虚拟环境中的所有依赖，结果可能不准确。
 
 * * *
 
-### 🧽 3. 清理旧的 Pipenv 文件
+### 3. 清理旧的 Pipenv 文件
 
 如果你已经准备好完全拥抱 `uv`，建议顺手把旧文件干掉，免得混淆：
 
@@ -63,7 +63,7 @@ rm -f Pipfile Pipfile.lock
 
 * * *
 
-### 📦 4. 用 uv 添加依赖
+### 4. 用 uv 添加依赖
 
 这一步是灵魂！
 
@@ -81,7 +81,7 @@ uv 会：
 
 * * *
 
-### 🧪 5. 验证虚拟环境
+### 5. 验证虚拟环境
 
 确认 uv 正确生成虚拟环境：
 
@@ -106,7 +106,7 @@ source .venv/bin/activate     # Linux/macOS
 
 * * *
 
-### 📎 6. 项目结构一览
+### 6. 项目结构一览
 
 ```
 csharp

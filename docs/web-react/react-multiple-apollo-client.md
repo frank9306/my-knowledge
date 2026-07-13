@@ -12,7 +12,7 @@ source: "old-blog/技术分享/多Apollo Client在React中的实战踩坑记录.
 
 * * *
 
-## 💡 需求背景
+## 需求背景
 
 假设我需要同时访问两个 GraphQL API：
 

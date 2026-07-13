@@ -4,8 +4,8 @@
 
 ## 文章列表
 
-- [🐳 OpenWebUI + Deepseek API 快速部署笔记](/ai-agent/openwebui-deepseek-api)
-- [🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](/ai-agent/browser-use-deepseek-github-trending)
+- [OpenWebUI + Deepseek API 快速部署笔记](/ai-agent/openwebui-deepseek-api)
+- [使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](/ai-agent/browser-use-deepseek-github-trending)
 - [基于 LangGraph 构建的聊天机器人](/ai-agent/langgraph-chatbot)
 - [深入理解 LlamaIndex：基于 Notion 文档的智能问答系统实战](/ai-agent/llamaindex-notion-qa)
 - [智能体经典范式-ReAct](/ai-agent/react-agent-pattern)

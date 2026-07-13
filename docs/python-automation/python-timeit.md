@@ -1,10 +1,10 @@
 ---
-title: "🕒 timeit：你可能忽视的 Python 性能测试利器"
+title: "timeit：你可能忽视的 Python 性能测试利器"
 date: 2026-06-25
 source: "old-blog/技术分享/🕒 timeit：你可能忽视的 Python 性能测试利器.md"
 ---
 
-# 🕒 timeit：你可能忽视的 Python 性能测试利器
+# timeit：你可能忽视的 Python 性能测试利器
 
 在日常开发中，我们时常会面临性能瓶颈或对多个实现方案之间的执行效率感到好奇。这时候，你可能会选择简单地在函数前后加个 `time.time()` 计算一下耗时。但如果你真的在意“准确”，那么你需要的，是标准库里那个不太起眼却异常强大的模块——`timeit`。
 
@@ -12,7 +12,7 @@ source: "old-blog/技术分享/🕒 timeit：你可能忽视的 Python 性能测
 
 * * *
 
-## 📦 为什么不是 `time.time()`？
+## 为什么不是 `time.time()`？
 
 很多人写性能测试都是这么干的：
 
@@ -34,7 +34,7 @@ print(f"耗时：{time.time() - start} 秒")
 *   易受后台任务/GC干扰
 *   多次执行不稳定
 
-### 🧠 `timeit` 解决了这些问题：
+### `timeit` 解决了这些问题：
 
 *   使用高精度的 `perf_counter()`（纳秒级）
 *   自动禁用垃圾回收（更稳定）
@@ -42,7 +42,7 @@ print(f"耗时：{time.time() - start} 秒")
 
 * * *
 
-## 🛠️ 基本用法
+## 基本用法
 
 最基础的使用方式：
 
@@ -77,7 +77,7 @@ timeit.timeit(lambda: my_func(42), number=100)
 
 * * *
 
-## ⚡ 实际案例：文件读取方式对比
+## 实际案例：文件读取方式对比
 
 ```
 
@@ -99,7 +99,7 @@ print("readlines:", timeit.timeit(read_with_readlines, number=100))
 
 * * *
 
-## 🧪 更复杂的用法：使用命令行
+## 更复杂的用法：使用命令行
 
 如果你只是快速测试一句代码，不想写脚本，可以直接用命令行：
 
@@ -122,9 +122,9 @@ python -m timeit '"-".join(str(n) for n in range(100))'
 
 * * *
 
-## 🧱 高阶技巧
+## 高阶技巧
 
-### ✅ 忽略首次运行的“冷启动”时间：
+### 忽略首次运行的“冷启动”时间：
 
 `timeit` 默认会多次运行，你可以自己控制 `repeat` 和 `setup` 参数：
 
@@ -143,7 +143,7 @@ print(timeit.timeit(stmt=code, number=1000))
 
 ```
 
-### ✅ 初始化变量：
+### 初始化变量：
 
 ```
 
@@ -154,7 +154,7 @@ timeit.timeit('f(x)', setup='from math import sqrt as f; x = 9', number=1000)
 
 * * *
 
-## ❌ 常见误区
+## 常见误区
 
 | 错误做法 | 原因  |
 | --- | --- |
@@ -164,7 +164,7 @@ timeit.timeit('f(x)', setup='from math import sqrt as f; x = 9', number=1000)
 
 * * *
 
-## 📌 总结
+## 总结
 
 模块 `timeit` 是你在 Python 中进行高精度、可靠性能测试的得力工具。无论是比较不同函数实现，还是调试代码瓶颈，`timeit` 都应成为你的首选武器。
 

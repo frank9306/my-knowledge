@@ -10,13 +10,13 @@ source: "old-blog/技术分享/【实战】Playwright 大文件上传突破 50MB
 
 这是什么原因？
 
-## ❗为什么会限制 50MB？
+## 为什么会限制 50MB？
 
 因为 `set_files()` 本质上是通过 WebSocket 将文件 base64 编码后传输到浏览器端，这个过程中 Playwright 内部有一个 WebSocket payload size 的 hard limit，大文件直接就被拒掉。
 
 * * *
 
-## ✅ 最佳解决方案：使用 CDP 指令直通浏览器！
+## 最佳解决方案：使用 CDP 指令直通浏览器！
 
 我们可以通过 Chrome DevTools Protocol（CDP）绕过 WebSocket 通道，**直接在浏览器上下文中设置文件选择器的文件内容**，从而实现大文件上传。下面是基于 Python 的完整实现：
 
@@ -60,7 +60,7 @@ def upload_file_by_cdp(self, selector, file_path):
 
 * * *
 
-## 🧪 使用示例
+## 使用示例
 
 ```
 
@@ -79,7 +79,7 @@ with sync_playwright() as p:
 
 * * *
 
-## 🔍 适用场景
+## 适用场景
 
 | 场景  | 推荐方式 |
 | --- | --- |
@@ -88,7 +88,7 @@ with sync_playwright() as p:
 
 * * *
 
-## 🧠 补充说明
+## 补充说明
 
 *   该方法要求文件输入元素是真实存在的 `<input type="file">`，不能是伪造上传按钮；
 *   CDP 操作 Chrome 内核原始 DOM，比模拟操作更低层，**适用于所有 Chromium 内核浏览器**；
@@ -96,7 +96,7 @@ with sync_playwright() as p:
 
 * * *
 
-## 📚 延伸阅读
+## 延伸阅读
 
 *   官方 Issue: [Playwright#34192](https://github.com/microsoft/playwright/issues/34192)
 *   CDP API 文档: [https://chromedevtools.dev](https://chromedevtools.dev)

@@ -1,12 +1,12 @@
 ---
-title: "💡 利用 Accept-Language 绕过限制：一次 Yelp 接口异常变慢的排查过程"
+title: "利用 Accept-Language 绕过限制：一次 Yelp 接口异常变慢的排查过程"
 date: 2026-06-25
 source: "old-blog/心情随笔/💡 利用 Accept-Language 绕过限制：一次 .md"
 ---
 
-# 💡 利用 Accept-Language 绕过限制：一次 Yelp 接口异常变慢的排查过程
+# 利用 Accept-Language 绕过限制：一次 Yelp 接口异常变慢的排查过程
 
-## 🐾 背景：Yelp API 突然变得“拉胯”
+## 背景：Yelp API 突然变得“拉胯”
 
 最近我在调试集成 Yelp 的一个服务端搜索接口时，突然发现响应时间变得异常地慢。
 
@@ -19,7 +19,7 @@ source: "old-blog/心情随笔/💡 利用 Accept-Language 绕过限制：一次
 
 * * *
 
-## 🔍 排查日志：可能被识别了机器人？
+## 排查日志：可能被识别了机器人？
 
 抓了部分异常请求日志，发现只有极少数仍能正常返回，其他都被 Yelp 拦下来了。
 
@@ -29,7 +29,7 @@ source: "old-blog/心情随笔/💡 利用 Accept-Language 绕过限制：一次
 
 * * *
 
-## 🧪 试验：添加 `Accept-Language` 后请求恢复正常
+## 试验：添加 `Accept-Language` 后请求恢复正常
 
 最神奇的一步来了：
 
@@ -45,13 +45,13 @@ Accept-Language: en-US,en;q=0.9
 
 我又尝试其他值，比如 `ja`（日语）、`fr`（法语），发现大部分都能顺利通过，关键点是：
 
-👉 **请求头中必须带有** `**Accept-Language**`。
+请求头中必须带有 `Accept-Language`。
 
 于是可以基本推测：Yelp 的部分接口，可能会以“是否带语言头”作为机器人检测依据之一。
 
 * * *
 
-## 🧠 再深挖：Yelp 实际上并不尊重语言偏好？
+## 再深挖：Yelp 实际上并不尊重语言偏好？
 
 这让我开始怀疑：Yelp 到底有没有使用这个头来做语言展示？
 
@@ -63,11 +63,11 @@ Accept-Language: en-US,en;q=0.9
 
 换句话说，**Yelp 根本不根据** `**Accept-Language**` **自动切换语言**，而是通过域名强制区分。
 
-那么问题来了：它为啥还要在接口里检测这个头？🤔
+问题是：既然 Yelp 不按这个字段切换语言，为什么接口仍然要求该请求头？
 
 * * *
 
-## 🧪 控制组：Google 是真正用 `Accept-Language` 的典范
+## 控制组：Google 是真正用 `Accept-Language` 的典范
 
 为了验证这个头部是否真的被其他大厂使用，我用相同方式访问了 Google：
 
@@ -79,13 +79,13 @@ Accept-Language: en-US,en;q=0.9
 
 所以：
 
-✅ Google 真用
+Google 会使用该字段切换语言。
 
-❌ Yelp 看起来只是在检测，但不尊重语言偏好
+Yelp 会检测该字段，但测试中没有按其内容切换语言。
 
 * * *
 
-## ✅ 总结：`Accept-Language` 在反爬中的“迷之作用”
+## 总结：`Accept-Language` 在反爬中的“迷之作用”
 
 这个案例告诉我们一个很重要的教训：
 
@@ -95,7 +95,7 @@ Accept-Language: en-US,en;q=0.9
 | 添加 `Accept-Language` | 请求立马恢复正常 |
 | 实际语言切换行为 | Yelp 不尊重 Accept-Language，Google 尊重 |
 
-### 🎯 经验总结：
+### 经验总结：
 
 *   模拟浏览器请求时，不要忽略语言头；
 *   某些反爬规则可能不是用来展示内容的，而是判断“你是不是人”；
@@ -103,7 +103,7 @@ Accept-Language: en-US,en;q=0.9
 
 * * *
 
-## 💬 尾巴
+## 尾巴
 
 如果你也在做 API 集成或爬虫相关的事情，不妨试试加一行：
 

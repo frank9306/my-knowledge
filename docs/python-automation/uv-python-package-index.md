@@ -10,13 +10,13 @@ source: "old-blog/心情随笔/使用 uv 替换 Python 包源.md"
 
 每次新建项目之后发现安装包时，报错 `Timeout` ,然后再去替换源，总记不住它的格式，所以盘点下它的几种修改方式，备忘。
 
-## 💡 为啥要替换源？
+## 为啥要替换源？
 
 *   **提速**：默认的 `https://pypi.org/simple` 对国内访问速度堪忧，能快谁不想快？
 *   **测试私有包**：在 CI/CD 或测试环境中，我们可能需要指向 `https://test.pypi.org/simple` 或私有源。
 *   **内网部署**：很多公司使用 Nexus、Artifactory 或 devpi 托管自己的 PyPI 镜像。
 
-## 🧪 方法一：临时替换（命令行）
+## 方法一：临时替换（命令行）
 
 这是最简单直接的方式，适用于临时性场景：
 
@@ -34,7 +34,7 @@ uv add requests --index-url <https://pypi.tuna.tsinghua.edu.cn/simple>
 
 * * *
 
-## 📦 方法二：项目环境替换（推荐方式）
+## 方法二：项目环境替换（推荐方式）
 
 要实现**自动使用某个索引地址**，推荐在项目的 `pyproject.toml` 文件中配置。
 
@@ -68,7 +68,7 @@ url = "<https://company-internal-pypi.com/simple>"
 
 * * *
 
-## 🧼 方法三：环境变量配置
+## 方法三：环境变量配置
 
 官方提供了环境变量的方式配置
 
@@ -80,6 +80,6 @@ url = "<https://company-internal-pypi.com/simple>"
 
 * * *
 
-## 🚀 总结
+## 总结
 
 `uv` 让 Python 包管理更快更稳更现代，而设置源也比 `pip` 时代更优雅。只需动动 `pyproject.toml`，就能优雅替换源地址，个人还是喜欢这种方式。

@@ -115,9 +115,9 @@ print(html_structure)
 
 | **方法** | **适用场景** | **是否保留格式** |
 | --- | --- | --- |
-| `**execCommand('copy')**` | 复制富文本（如带格式的网页内容） | ✅   |
-| `**textContent**` | 仅需纯文本 | ❌   |
-| `**innerHTML**` | 获取完整 HTML 结构 | ✅   |
+| `**execCommand('copy')**` | 复制富文本（如带格式的网页内容） | 保留 |
+| `**textContent**` | 仅需纯文本 | 不保留 |
+| `**innerHTML**` | 获取完整 HTML 结构 | 保留 |
 
 * * *
 
@@ -153,4 +153,4 @@ range.selectNode(document.querySelector("#contentToCopy"));
 
 适用于爬虫、自动化测试、数据采集等场景，提高效率并减少手动操作。
 
-🚀 **现在你可以轻松实现网页富文本的自动化复制了！**
+使用 `execCommand('copy')` 可以保留网页富文本格式；只需要纯文本时，使用 Clipboard API 更合适。

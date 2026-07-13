@@ -1,6 +1,7 @@
 import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 import StyleSwitcher from './StyleSwitcher.vue'
+import 'lxgw-wenkai-screen-webfont/lxgwwenkaiscreen.css'
 import './custom.css'
 
 export default {

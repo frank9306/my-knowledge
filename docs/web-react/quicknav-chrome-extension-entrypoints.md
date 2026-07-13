@@ -1,12 +1,12 @@
 ---
-title: "🧩为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件"
+title: "为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件"
 date: 2026-06-25
 source: "old-blog/技术分享/🧩为了解决「链接别人从哪看起」的问题，我写了个 Chrom.md"
 ---
 
-# 🧩为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件
+# 为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件
 
-### 👀 背景：你发的链接别人根本不知道你想让他看哪段
+### 背景：你发的链接别人根本不知道你想让他看哪段
 
 有时候我们会把一篇网页链接发给别人，比如：
 
@@ -25,7 +25,7 @@ source: "old-blog/技术分享/🧩为了解决「链接别人从哪看起」的
 
 * * *
 
-### 🔥 解决方案：用浏览器原生的 `#:~:text=` 高亮链接
+### 解决方案：用浏览器原生的 `#:~:text=` 高亮链接
 
 其实 Chromium 浏览器（Chrome、Edge 等）内置了一个非常好用但被忽略的功能：**Text Fragments**。
 
@@ -43,29 +43,29 @@ source: "old-blog/技术分享/🧩为了解决「链接别人从哪看起」的
 
 点击这个链接，页面会直接滚动并高亮这段：“Tesla was the fourth of five children”
 
-⚠️ 但要手动构造这种链接很麻烦，而且 URL 编码不直观、容易出错。
+但手动构造这种链接比较麻烦，而且 URL 编码不直观、容易出错。
 
 * * *
 
-### 🛠️ 所以我干脆写了一个插件：**Text Fragment Copier**
+### 所以我干脆写了一个插件：**Text Fragment Copier**
 
 GitHub 地址：
 
-👉 [https://github.com/frank9306/text-fragment-copier](https://github.com/frank9306/text-fragment-copier)
+[https://github.com/frank9306/text-fragment-copier](https://github.com/frank9306/text-fragment-copier)
 
 它干的事情很简单：
 
-> 🔹 你在网页中选中一段文字
+> 你在网页中选中一段文字
 > 
-> 🔹 右键点击“复制带文本定位的链接”
+> 右键点击“复制带文本定位的链接”
 > 
-> 🔹 插件会自动复制一个带有 `#:~:text=` 的完整链接到剪贴板
+> 插件会自动复制一个带有 `#:~:text=` 的完整链接到剪贴板
 > 
-> 🔹 你可以直接粘贴发给别人，对方打开就能自动跳转 + 高亮你选的内容！
+> 你可以直接粘贴发给别人，对方打开就能自动跳转 + 高亮你选的内容！
 
 * * *
 
-### 💡 使用方式（1分钟上手）
+### 使用方式（1分钟上手）
 
 1.  克隆这个项目
     
@@ -75,11 +75,11 @@ GitHub 地址：
     ```
 2.  打开 Chrome → 输入 `chrome://extensions`
 3.  开启右上角「开发者模式」→ 点击「加载已解压的扩展程序」→ 选择该目录
-4.  安装完成！现在你在任意网页选中文字、右键即可复制带定位的链接 🎯
+4.  安装完成后，在任意网页选中文字并打开右键菜单，即可复制带定位的链接
 
 * * *
 
-### 📸 实际演示
+### 实际演示
 
 比如我选中了维基百科上的一段话：
 
@@ -96,22 +96,22 @@ GitHub 地址：
 
 ```
 
-别人点击后直接高亮，非常丝滑！
+其他人打开链接后，浏览器会直接定位并高亮对应文本。
 
 * * *
 
-### ⚙️ 技术实现简述
+### 技术实现简述
 
 *   使用了 Chrome 插件的 Context Menu API（右键菜单）
 *   用 `window.getSelection()` 拿到你选中的文本
 *   拼接当前页面 URL + `#:~:text=你的内容`
 *   使用 `navigator.clipboard.writeText` 自动复制到剪贴板
 
-简洁、无 UI、无依赖，极简主义直男式开发风格 ✅
+插件没有独立 UI 和第三方依赖，核心逻辑都在后台脚本中。
 
 * * *
 
-### ⚠️ 注意事项
+### 注意事项
 
 *   仅支持 Chromium 内核的浏览器（Chrome、Edge）
 *   Firefox 和 Safari 暂不支持 `#:~:text=` 标准
@@ -119,7 +119,7 @@ GitHub 地址：
 
 * * *
 
-### 📦 项目结构 & 开源地址
+### 项目结构 & 开源地址
 
 ```
 bash
@@ -131,8 +131,8 @@ text-fragment-copier/
 
 ```
 
-📎 GitHub 仓库：
+GitHub 仓库：
 
 [https://github.com/frank9306/text-fragment-copier](https://github.com/frank9306/text-fragment-copier)
 
-欢迎 Star 🌟、Fork、魔改、或提交 PR！
+欢迎 Star、Fork 或提交 PR。

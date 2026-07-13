@@ -4,8 +4,8 @@
 
 ## AI Agent
 
-- [🐳 OpenWebUI + Deepseek API 快速部署笔记](/ai-agent/openwebui-deepseek-api)
-- [🚀 使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](/ai-agent/browser-use-deepseek-github-trending)
+- [OpenWebUI + Deepseek API 快速部署笔记](/ai-agent/openwebui-deepseek-api)
+- [使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](/ai-agent/browser-use-deepseek-github-trending)
 - [基于 LangGraph 构建的聊天机器人](/ai-agent/langgraph-chatbot)
 - [深入理解 LlamaIndex：基于 Notion 文档的智能问答系统实战](/ai-agent/llamaindex-notion-qa)
 - [智能体经典范式-ReAct](/ai-agent/react-agent-pattern)
@@ -16,15 +16,15 @@
 
 ## Python 自动化
 
-- [🕒 timeit：你可能忽视的 Python 性能测试利器](/python-automation/python-timeit)
-- [🚀 从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理](/python-automation/pipenv-to-uv)
-- [🚀 用 AI 自动优化你的 Python 项目？Codeflash 真能帮你提速又不出锅！](/python-automation/codeflash-python-optimization)
-- [🚀 Typer + Typerdrive 开发 CLI 工具全攻略](/python-automation/typer-typerdrive-cli)
+- [timeit：你可能忽视的 Python 性能测试利器](/python-automation/python-timeit)
+- [从 Pipenv 切换到 uv：一键上手现代 Python 依赖管理](/python-automation/pipenv-to-uv)
+- [用 Codeflash 优化 Python 代码：性能分析与测试验证](/python-automation/codeflash-python-optimization)
+- [Typer + Typerdrive 开发 CLI 工具全攻略](/python-automation/typer-typerdrive-cli)
 - [快速上手 Litestar：高性能 Python Web 框架实战](/python-automation/litestar-python-web-framework)
 - [利用 sys.excepthook 捕获未处理异常并记录日志](/python-automation/python-sys-excepthook)
 - [使用 FastAPI 实现 GraphQL 代理：优雅地隐藏后端复杂性](/python-automation/fastapi-graphql-proxy)
 - [使用 uv 替换 Python 包源](/python-automation/uv-python-package-index)
-- [用 Locust 做 API 压测：一篇能让你下次不用再查文档的教程](/python-automation/locust-api-load-testing)
+- [用 Locust 做 API 压测：从脚本编写到结果分析](/python-automation/locust-api-load-testing)
 - [掌握这9个Python标准库，让你的代码效率翻倍](/python-automation/python-standard-library-productivity)
 - [重拾秩序：Go 与 Python 项目的标准结构实践指南](/python-automation/go-python-project-structure)
 - [Python 运行单文件：uv + PEP 723 真正实现即写即跑！](/python-automation/uv-pep-723-single-file)
@@ -33,11 +33,11 @@
 ## RPA / Playwright
 
 - [【实战】Playwright 大文件上传突破 50MB 限制，CDP 助你一臂之力！](/rpa-playwright/playwright-large-file-upload-cdp)
-- [⚔️三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测](/rpa-playwright/playwright-rebrowser-pydoll-bot-detection)
-- [💡 利用 Accept-Language 绕过限制：一次 Yelp 接口异常变慢的排查过程](/rpa-playwright/accept-language-yelp-debugging)
-- [🚀 SHEIN 订单下载踩坑记：UI拦不住我，我用 Playwright 拦截请求改时间！](/rpa-playwright/shein-order-export-playwright)
-- [🚨Python爬虫被识别？一招用 rebrowser_playwright 轻松过检测](/rpa-playwright/rebrowser-playwright-anti-detection)
-- [🛡️ rebrowser-playwright解决Etsy的Bot检测](/rpa-playwright/rebrowser-playwright-etsy-bot-detection)
+- [三种方式挑战 Cloudflare 与 Bot 检测：Playwright、ReBrowser 与 Pydoll 实战评测](/rpa-playwright/playwright-rebrowser-pydoll-bot-detection)
+- [利用 Accept-Language 绕过限制：一次 Yelp 接口异常变慢的排查过程](/rpa-playwright/accept-language-yelp-debugging)
+- [SHEIN 订单下载踩坑记：UI拦不住我，我用 Playwright 拦截请求改时间！](/rpa-playwright/shein-order-export-playwright)
+- [Python爬虫被识别？一招用 rebrowser_playwright 轻松过检测](/rpa-playwright/rebrowser-playwright-anti-detection)
+- [rebrowser-playwright解决Etsy的Bot检测](/rpa-playwright/rebrowser-playwright-etsy-bot-detection)
 - [任务跑挂了你都不知道？用Telegram Bot通知你](/rpa-playwright/telegram-bot-task-notification)
 - [使用 Playwright 复制网页富文本内容](/rpa-playwright/playwright-copy-rich-text)
 - [在 Playwright 页面中实现持久化、可折叠的日志输出面板](/rpa-playwright/playwright-page-log-panel)
@@ -49,8 +49,8 @@
 
 ## Web / React
 
-- [🧩为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件](/web-react/quicknav-chrome-extension-entrypoints)
-- [🚫 为什么浏览器禁止访问某些端口？——以 6000 端口为例](/web-react/browser-blocked-ports-6000)
+- [为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件](/web-react/quicknav-chrome-extension-entrypoints)
+- [为什么浏览器禁止访问某些端口？——以 6000 端口为例](/web-react/browser-blocked-ports-6000)
 - [多Apollo Client在React中的实战踩坑记录](/web-react/react-multiple-apollo-client)
 - [深入分析 React CVE-2025-55182 漏洞：原型链污染导致的远程代码执行](/web-react/react-cve-2025-55182)
 - [使用 setTimeout(() => { debugger }, 5000) 抓取页面中消失的浮层元素](/web-react/debug-disappearing-popover)
