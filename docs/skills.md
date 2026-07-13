@@ -5,7 +5,7 @@ description: 我全局安装的 Agent Skills、用途、来源与安装方式。
 
 # 我的 Agent Skills
 
-这是我当前全局安装的公开 Agent Skills。清单来自本机 `~/.agents/.skill-lock.json`，最后同步于 2026-07-09。
+这是我当前全局安装的公开 Agent Skills。清单来自本机 `~/.agents/.skill-lock.json`，最后同步于 2026-07-13。
 
 ## 如何安装
 
@@ -69,6 +69,7 @@ npx skills add mattpocock/skills -g
 
 | Skill | 用途 | 项目 | 安装命令 |
 | --- | --- | --- | --- |
+| `kill-ai-slop` | 扫描并清理网页中的模板化视觉与文案痕迹 | [yetone/kill-ai-slop](https://github.com/yetone/kill-ai-slop) | `npx skills add yetone/kill-ai-slop --skill kill-ai-slop -g` |
 | `find-skills` | 搜索和安装 Agent Skills | [vercel-labs/skills](https://github.com/vercel-labs/skills) | `npx skills add vercel-labs/skills --skill find-skills -g` |
 | `skill-creator` | 创建或更新 Agent Skills | [openclaw/openclaw](https://github.com/openclaw/openclaw) | `npx skills add openclaw/openclaw --skill skill-creator -g` |
 | `clawra-selfie` | 生成并发送 Clawra 自拍图 | [sumelabs/clawra](https://github.com/sumelabs/clawra) | `npx skills add sumelabs/clawra --skill clawra-selfie -g` |

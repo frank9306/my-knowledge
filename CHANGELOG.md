@@ -6,6 +6,7 @@ All notable published changes to this knowledge site are recorded here.
 
 - Removed decorative emoji and generic promotional phrasing across imported articles while preserving meaningful technical examples and historical source metadata.
 - Improved dark-mode contrast for both site styles, simplified the Codex Helper hero treatment, bundled LXGW WenKai Screen locally, and improved the style switcher's accessible label and mobile touch target.
+- Added `kill-ai-slop` to the public Agent Skills directory with its purpose, source repository, and global installation command.
 
 ## 0.1.4 - 2026-07-13
 
