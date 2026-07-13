@@ -17,7 +17,7 @@
 
 ## 专题文章
 
-本站共收录 52 篇专题文章。
+本站共收录 53 篇专题文章。
 
 ### AI Agent
 
@@ -77,6 +77,7 @@
 
 ### 博客文章
 
+- [Codex Switch Helper：在 Windows 上切换多套 Codex Profile](https://knowledge.webfrank.top/blog/codex-switch-helper-windows-profiles/)
 - [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](https://knowledge.webfrank.top/blog/design-md-visual-system-spec/)
 - [使用 browser-use 进行数据爬取并保存到文件](https://knowledge.webfrank.top/blog/browser-use-scraping-to-file/)
 - [Caddy Web 服务器完全指南：现代化 Web 服务的最佳选择](https://knowledge.webfrank.top/blog/caddy-web-server-guide/)

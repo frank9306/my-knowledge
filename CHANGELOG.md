@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 0.1.3 - 2026-07-13
+
+- Published a practical introduction to Codex Switch Helper, covering Windows Profile switching, shared and sandbox environments, authentication behavior, proxy settings, update delivery, and current security boundaries.
+- Expanded the published Agent collaboration guidance and added explicit pnpm workspace metadata.
+
 ## 0.1.2 - 2026-07-09
 
 - Published the global `AGENTS.md` collaboration rules and a curated catalog of public Agent Skills with their purposes, source repositories, and installation commands.
