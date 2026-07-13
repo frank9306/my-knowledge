@@ -9,7 +9,7 @@
 - [首页](https://knowledge.webfrank.top/)
 - [专题总览](https://knowledge.webfrank.top/topics/)
 - [文章索引](https://knowledge.webfrank.top/blog/)
-- [优秀的资源](https://knowledge.webfrank.top/reading/)
+- [好文分享](https://knowledge.webfrank.top/reading/)
 - [资源导航](https://knowledge.webfrank.top/resources/)
 - [友链](https://knowledge.webfrank.top/friends)
 - [关于](https://knowledge.webfrank.top/about)

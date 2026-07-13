@@ -4,8 +4,9 @@ All notable published changes to this knowledge site are recorded here.
 
 ## 0.1.6 - 2026-07-13
 
-- Added an “优秀的资源” page for curated external reading, starting with a guide to using Git history before reading unfamiliar code.
+- Added a curated external reading page, starting with a guide to using Git history before reading unfamiliar code.
 - Synchronized the public `AGENTS.md` page with the current global collaboration rules.
+- Renamed the curated external reading page to “好文分享” to distinguish it from the existing resource navigation.
 
 ## 0.1.5 - 2026-07-13
 
