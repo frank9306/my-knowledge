@@ -1,14 +1,6 @@
 import { defineConfig } from 'vitepress'
 
 const base = '/'
-const styleInitScript = `;(() => {
-  try {
-    const style = localStorage.getItem('my-knowledge-site-style') || 'warm-bronze'
-    document.documentElement.dataset.siteStyle = style === 'codex-helper' ? 'codex-helper' : 'warm-bronze'
-  } catch {
-    document.documentElement.dataset.siteStyle = 'warm-bronze'
-  }
-})()`
 
 function tokenizeSearchText(text: string) {
   const tokens = text
@@ -114,7 +106,6 @@ export default defineConfig({
   },
   head: [
     ['link', { rel: 'icon', href: `${base}logo.svg` }],
-    ['script', {}, styleInitScript],
-    ['meta', { name: 'theme-color', content: '#8a5a2b' }]
+    ['meta', { name: 'theme-color', content: '#0b0c0c' }]
   ]
 })

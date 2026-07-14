@@ -1,19 +1,22 @@
 {
   "name": "my-knowledge",
-  "version": "0.1.7",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.14.0",
   "scripts": {
     "readme:sync": "node scripts/sync-readme.mjs",
     "design:lint": "designmd lint DESIGN.md",
+    "home:scene-check": "node scripts/check-home-scene.mjs",
     "docs:dev": "vitepress dev docs",
-    "docs:build": "pnpm run readme:sync && pnpm run design:lint && vitepress build docs",
+    "docs:build": "pnpm run readme:sync && pnpm run design:lint && pnpm run home:scene-check && vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
     "@google/design.md": "^0.3.0",
-    "lxgw-wenkai-screen-webfont": "1.7.0",
     "vitepress": "^1.6.4"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
   }
 }

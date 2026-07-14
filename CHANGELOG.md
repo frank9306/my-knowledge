@@ -2,6 +2,13 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.0.0 - 2026-07-14
+
+- Rebuilt the homepage as a full-screen dark editorial experience with responsive navigation, typewriter copy, and topic actions.
+- Added a real-time Three.js CRT character head that follows the pointer with full horizontal rotation and restrained downward movement.
+- Unified the 3D head and photographic body in one responsive scene coordinate system, including dedicated mobile composition and a regression check.
+- Replaced the former Warm Bronze / Codex style switcher with the standard light/dark theme control while retaining the Codex Helper visual language for article pages.
+
 ## 0.1.7 - 2026-07-14
 
 - Published an illustrated guide to the four Agent loop structures, with locally stored static and animated source media.
