@@ -46,6 +46,7 @@ features:
 
 最近更新的内容：
 
+- [Loop Engineering：一张图看懂四种 Agent 循环](/blog/loop-engineering-four-agent-loops)
 - [Codex Switch Helper：在 Windows 上切换多套 Codex Profile](/blog/codex-switch-helper-windows-profiles)
 - [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](/blog/design-md-visual-system-spec)
 - [AI Agent 开发转行指南：从面试痛点看学习路径](/ai-agent/ai-agent-career-guide)

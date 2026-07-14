@@ -4,6 +4,7 @@
 
 ## AI Agent 开源项目
 
+- [DeepTutor](https://deeptutor.info/zh-cn/): Agent-native 的开源个性化学习伴侣，将对话、知识库、可审计记忆、协同写作、交互式书本与学习空间整合到本地工作区，并可连接 Claude Code、Codex 等编程 Agent。
 - [Agent-Reach](https://github.com/Panniantong/Agent-Reach): 给 AI Agent 一键装上互联网能力，统一接入 Twitter、Reddit、YouTube、GitHub、B 站、小红书等平台，免 API 费。
 - [ponytail](https://github.com/DietrichGebert/ponytail): 让 AI Agent 像资深工程师一样“先看再写”，显著减少冗余代码与 token 消耗。
 - [headroom](https://github.com/headroomlabs-ai/headroom): 在 LLM 之前压缩工具输出、日志、RAG 片段，token 用量减少 60–95%，可作库、代理或 MCP 服务运行。
@@ -18,6 +19,7 @@
 
 ## AI 与提示词
 
+- [MotionSites](https://motionsites.ai/): 面向 Lovable、Bolt、Cursor 和 Claude 的高质量网站提示词、应用与动画案例库，适合查找界面动效灵感和可复用的 AI 建站提示词。
 - [Hello Agents](https://hello-agents.datawhale.cc/#/): Datawhale 出品的 AI Agent 入门教程，覆盖基础概念、经典范式和实践案例。
 - [Easy-Vibe](https://datawhalechina.github.io/easy-vibe/zh-cn/): Datawhale 的 AI 编程指南，从零基础入门到部署、AI 知识库和 Agent 团队协作。
 - [Kimi 提示词专家](https://www.kimi.com/kimiplus/conpg00t7lagbbsfqkq0): Kimi 官方提供的提示词参考与模板集合。

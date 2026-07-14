@@ -2,6 +2,12 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 0.1.7 - 2026-07-14
+
+- Published an illustrated guide to the four Agent loop structures, with locally stored static and animated source media.
+- Added the Claude Code loop guide and Everything Claude Code Chinese guide to the curated reading page.
+- Added DeepTutor and MotionSites to the resource navigation.
+
 ## 0.1.6 - 2026-07-13
 
 - Added a curated external reading page, starting with a guide to using Git history before reading unfamiliar code.
