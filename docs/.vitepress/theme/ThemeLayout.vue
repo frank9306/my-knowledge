@@ -3,6 +3,7 @@ import DefaultTheme from 'vitepress/theme'
 import { useData, useRoute } from 'vitepress'
 import { watch } from 'vue'
 import HomeLanding from './HomeLanding.vue'
+import RecentUpdates from './RecentUpdates.vue'
 import { data as articleUpdates } from './recent-updates.data'
 import { markUpdateAsRead, normalizeUpdateUrl, syncArticleVersions } from './recent-updates'
 
@@ -22,6 +23,12 @@ watch(
 </script>
 
 <template>
-  <HomeLanding v-if="frontmatter.layout === 'landing'" />
-  <DefaultTheme.Layout v-else />
+  <DefaultTheme.Layout>
+    <template #nav-bar-content-after>
+      <RecentUpdates />
+    </template>
+    <template #home-hero-before>
+      <HomeLanding v-if="frontmatter.layout === 'home'" />
+    </template>
+  </DefaultTheme.Layout>
 </template>

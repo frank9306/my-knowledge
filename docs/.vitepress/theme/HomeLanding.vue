@@ -2,35 +2,19 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import CrtHead from './CrtHead.vue'
 import { data as articleUpdates } from './recent-updates.data'
-import {
-  type DetectedUpdate,
-  getReadUpdateVersions,
-  markUpdateAsRead,
-  normalizeUpdateUrl,
-  RECENT_UPDATE_WINDOW_MS,
-  syncArticleVersions
-} from './recent-updates'
 
-const menuOpen = ref(false)
-const updatesOpen = ref(false)
-const updatesArea = ref<HTMLElement | null>(null)
-const readUpdateVersions = ref<Record<string, string>>({})
-const detectedUpdates = ref<Record<string, DetectedUpdate>>({})
-const currentTime = ref(0)
-const typedText = ref('')
-const actionsVisible = ref(false)
-const message = '欢迎停留。好奇心总会把对的人带到这里。今天想探索什么？'
+const PERSON_POSITION_KEY = 'frank-archive:person-position'
+const figure = ref<HTMLElement | null>(null)
+const dragPosition = ref<{ x: number; y: number } | null>(null)
+const dragging = ref(false)
+let dragOffset = { x: 0, y: 0 }
 
-let typeTimer: ReturnType<typeof setInterval> | undefined
-let actionTimer: ReturnType<typeof setTimeout> | undefined
-let startTimer: ReturnType<typeof setTimeout> | undefined
-
-const navigation = [
-  { label: '专题', href: '/topics/' },
-  { label: '文章', href: '/blog/' },
-  { label: '资源', href: '/resources/' },
-  { label: '关于', href: '/about' }
-]
+const figureStyle = computed(() => dragPosition.value ? {
+  left: `${dragPosition.value.x}px`,
+  top: `${dragPosition.value.y}px`,
+  right: 'auto',
+  bottom: 'auto'
+} : undefined)
 
 const topics = [
   { label: 'AI Agent', href: '/ai-agent/' },
@@ -39,154 +23,164 @@ const topics = [
   { label: 'Web / React', href: '/web-react/' }
 ]
 
-const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
-  month: 'numeric',
-  day: 'numeric'
-})
-const recentUpdates = computed(() => articleUpdates
-  .filter(({ url, date, version }) => {
-    if (!currentTime.value) return false
+const recommended = [
+  { title: 'Codex Switch Helper：在 Windows 上切换多套 Codex Profile', href: '/blog/codex-switch-helper-windows-profiles' },
+  { title: 'AI Agent 开发转行指南：从面试痛点看学习路径', href: '/ai-agent/ai-agent-career-guide' },
+  { title: '智能体经典范式-ReAct', href: '/ai-agent/react-agent-pattern' },
+  { title: '用 Locust 做 API 压测：从脚本编写到结果分析', href: '/python-automation/locust-api-load-testing' },
+  { title: '三种方式挑战 Cloudflare 与 Bot 检测', href: '/rpa-playwright/playwright-rebrowser-pydoll-bot-detection' },
+  { title: '给 VitePress 站点加一份 DESIGN.md', href: '/blog/design-md-visual-system-spec' }
+]
 
-    const datedAt = new Date(date).getTime()
-    const detection = detectedUpdates.value[normalizeUpdateUrl(url)]
-    const isDetectedRecently = detection?.version === version
+const projects = [
+  { title: 'QuickNav：我的个人导航站浏览器扩展', href: '/web-react/quicknav-browser-extension' },
+  { title: '为了解决「链接别人从哪看起」的问题，我写了个 Chrome 插件', href: '/web-react/quicknav-chrome-extension-entrypoints' },
+  { title: '使用 browser-use + DeepSeek 构建 GitHub 日榜提取器', href: '/ai-agent/browser-use-deepseek-github-trending' },
+  { title: '基于 LlamaIndex 与 Notion 的智能问答系统', href: '/ai-agent/llamaindex-notion-qa' },
+  { title: '在 Playwright 页面中实现持久化日志面板', href: '/rpa-playwright/playwright-page-log-panel' }
+]
 
-    return isRecentTimestamp(datedAt) || isDetectedRecently
-  })
-  .sort((a, b) => getUpdateTimestamp(b) - getUpdateTimestamp(a)))
-const unreadCount = computed(() => (
-  recentUpdates.value.filter(({ url, version }) => (
-    readUpdateVersions.value[normalizeUpdateUrl(url)] !== version
-  )).length
-))
+const latestArticles = articleUpdates.slice(0, 6)
+const dateFormatter = new Intl.DateTimeFormat('zh-CN', { month: 'numeric', day: 'numeric' })
 
-function isRecentTimestamp(timestamp: number) {
-  return timestamp <= currentTime.value && currentTime.value - timestamp < RECENT_UPDATE_WINDOW_MS
+function clampPosition(x: number, y: number) {
+  const rect = figure.value?.getBoundingClientRect()
+  if (!rect) return { x, y }
+
+  return {
+    x: Math.min(Math.max(8, x), Math.max(8, window.innerWidth - rect.width - 8)),
+    y: Math.min(Math.max(8, y), Math.max(8, window.innerHeight - rect.height - 8))
+  }
 }
 
-function syncReadUpdates() {
-  currentTime.value = Date.now()
-  detectedUpdates.value = syncArticleVersions(articleUpdates)
-  readUpdateVersions.value = getReadUpdateVersions()
+function startDragging(event: PointerEvent) {
+  if (event.button !== 0 || !figure.value) return
+  const rect = figure.value.getBoundingClientRect()
+  dragPosition.value = { x: rect.left, y: rect.top }
+  dragOffset = { x: event.clientX - rect.left, y: event.clientY - rect.top }
+  dragging.value = true
+  figure.value.setPointerCapture(event.pointerId)
+  event.preventDefault()
 }
 
-function getUpdateTimestamp(item: (typeof articleUpdates)[number]) {
-  const datedAt = new Date(item.date).getTime()
-  if (isRecentTimestamp(datedAt)) return datedAt
-
-  const detection = detectedUpdates.value[normalizeUpdateUrl(item.url)]
-  return detection?.version === item.version ? detection.detectedAt : datedAt
+function moveDragging(event: PointerEvent) {
+  if (!dragging.value) return
+  dragPosition.value = clampPosition(event.clientX - dragOffset.x, event.clientY - dragOffset.y)
 }
 
-function markUpdateRead(url: string, version: string) {
-  readUpdateVersions.value = markUpdateAsRead(url, version)
+function stopDragging(event: PointerEvent) {
+  if (!dragging.value || !figure.value || !dragPosition.value) return
+  dragging.value = false
+  if (figure.value.hasPointerCapture(event.pointerId)) figure.value.releasePointerCapture(event.pointerId)
+
+  const rect = figure.value.getBoundingClientRect()
+  const availableX = Math.max(1, window.innerWidth - rect.width)
+  const availableY = Math.max(1, window.innerHeight - rect.height)
+  window.localStorage.setItem(PERSON_POSITION_KEY, JSON.stringify({
+    x: dragPosition.value.x / availableX,
+    y: dragPosition.value.y / availableY
+  }))
 }
 
-function closeUpdatesOnOutsideClick(event: MouseEvent) {
-  if (!updatesArea.value?.contains(event.target as Node)) updatesOpen.value = false
+function restorePosition() {
+  if (!figure.value) return
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(PERSON_POSITION_KEY) ?? 'null')
+    if (!stored || typeof stored.x !== 'number' || typeof stored.y !== 'number') return
+    const rect = figure.value.getBoundingClientRect()
+    dragPosition.value = clampPosition(
+      stored.x * Math.max(1, window.innerWidth - rect.width),
+      stored.y * Math.max(1, window.innerHeight - rect.height)
+    )
+  } catch {
+    window.localStorage.removeItem(PERSON_POSITION_KEY)
+  }
 }
 
-function closeUpdatesOnEscape(event: KeyboardEvent) {
-  if (event.key === 'Escape') updatesOpen.value = false
+function clampCurrentPosition() {
+  if (dragPosition.value) dragPosition.value = clampPosition(dragPosition.value.x, dragPosition.value.y)
 }
 
 onMounted(() => {
-  syncReadUpdates()
-  document.addEventListener('click', closeUpdatesOnOutsideClick)
-  document.addEventListener('keydown', closeUpdatesOnEscape)
-  window.addEventListener('storage', syncReadUpdates)
-  actionTimer = setTimeout(() => (actionsVisible.value = true), 400)
-  startTimer = setTimeout(() => {
-    let index = 0
-    typeTimer = setInterval(() => {
-      index += 1
-      typedText.value = message.slice(0, index)
-      if (index >= message.length) clearInterval(typeTimer)
-    }, 55)
-  }, 600)
+  requestAnimationFrame(restorePosition)
+  window.addEventListener('resize', clampCurrentPosition)
 })
 
-onBeforeUnmount(() => {
-  document.removeEventListener('click', closeUpdatesOnOutsideClick)
-  document.removeEventListener('keydown', closeUpdatesOnEscape)
-  window.removeEventListener('storage', syncReadUpdates)
-  clearInterval(typeTimer)
-  clearTimeout(actionTimer)
-  clearTimeout(startTimer)
-})
+onBeforeUnmount(() => window.removeEventListener('resize', clampCurrentPosition))
 </script>
 
 <template>
-  <div class="knowledge-landing">
-    <div class="knowledge-landing__scene">
-      <div class="knowledge-landing__backdrop" />
-      <CrtHead />
-    </div>
-    <div class="knowledge-landing__veil" />
-
-    <header class="knowledge-landing__nav">
-      <a class="knowledge-landing__brand" href="/">FRANK'S ARCHIVE<sup>®</sup><span>✳︎</span></a>
-      <nav class="knowledge-landing__links" aria-label="主导航">
-        <template v-for="(item, index) in navigation" :key="item.href">
-          <a :href="item.href">{{ item.label }}</a><span v-if="index < navigation.length - 1">, </span>
-        </template>
-      </nav>
-      <div class="knowledge-landing__nav-actions">
-        <div ref="updatesArea" class="knowledge-landing__updates">
-          <button
-            class="knowledge-landing__updates-button"
-            type="button"
-            :aria-expanded="updatesOpen"
-            :aria-label="unreadCount ? `本周更新，有 ${unreadCount} 篇未读` : '本周更新，无未读'"
-            aria-controls="recent-updates-panel"
-            @click="updatesOpen = !updatesOpen"
-          >
-            本周更新
-            <span v-if="unreadCount" class="knowledge-landing__updates-dot" aria-hidden="true" />
-          </button>
-          <div
-            v-if="updatesOpen"
-            id="recent-updates-panel"
-            class="knowledge-landing__updates-panel"
-            aria-label="最近 7 天更新"
-          >
-            <p>最近 7 天更新</p>
-            <ul v-if="recentUpdates.length">
-              <li v-for="item in recentUpdates" :key="item.url">
-                <a :href="item.url" @click="markUpdateRead(item.url, item.version)">
-                  <span>{{ item.title }}</span>
-                  <time :datetime="new Date(getUpdateTimestamp(item)).toISOString()">{{ dateFormatter.format(getUpdateTimestamp(item)) }}</time>
-                </a>
-              </li>
-            </ul>
-            <span v-else class="knowledge-landing__updates-empty">最近 7 天暂无更新</span>
-          </div>
-        </div>
-        <a class="knowledge-landing__contact" href="/friends">友情链接</a>
+  <div class="knowledge-home">
+    <header class="knowledge-home__intro">
+      <p class="knowledge-home__archive">FRANK'S ARCHIVE</p>
+      <h1>把技术实践<br>沉淀成可复用的知识地图</h1>
+      <p class="knowledge-home__lead">AI Agent、Python 自动化、RPA、Web 开发与个人工具链笔记。</p>
+      <div class="knowledge-home__topics" aria-label="知识专题">
+        <a v-for="topic in topics" :key="topic.href" :href="topic.href">{{ topic.label }}</a>
       </div>
-      <button
-        class="knowledge-landing__menu"
-        type="button"
-        :aria-expanded="menuOpen"
-        aria-label="切换导航"
-        @click="menuOpen = !menuOpen"
-      ><span /><span /><span /></button>
     </header>
 
-    <div class="knowledge-landing__mobile" :class="{ 'is-open': menuOpen }">
-      <a v-for="item in recentUpdates" :key="`update-${item.url}`" :href="item.url" @click="markUpdateRead(item.url, item.version)">本周更新 · {{ item.title }}</a>
-      <a v-for="item in navigation" :key="item.href" :href="item.href">{{ item.label }}</a>
-      <a href="/friends">友情链接</a>
+    <aside
+      ref="figure"
+      class="knowledge-home__figure"
+      :class="{ 'is-dragging': dragging }"
+      :style="figureStyle"
+      aria-label="可拖动的 3D CRT 档案管理员"
+      title="按住并拖动人物"
+      @pointerdown="startDragging"
+      @pointermove="moveDragging"
+      @pointerup="stopDragging"
+      @pointercancel="stopDragging"
+    >
+      <CrtHead />
+    </aside>
+
+    <div class="knowledge-home__sections">
+      <section class="knowledge-home__section">
+        <div class="knowledge-home__section-heading">
+          <div>
+            <h2>推荐阅读</h2>
+            <p>第一次来，可以先从这些文章开始。</p>
+          </div>
+          <a href="/blog/">全部文章</a>
+        </div>
+        <ul>
+          <li v-for="item in recommended" :key="item.href">
+            <a :href="item.href"><span>{{ item.title }}</span><span aria-hidden="true">↗</span></a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="knowledge-home__section">
+        <div class="knowledge-home__section-heading">
+          <div>
+            <h2>最新文章</h2>
+            <p>最近发布与维护的内容。</p>
+          </div>
+        </div>
+        <ul>
+          <li v-for="item in latestArticles" :key="item.url">
+            <a :href="item.url">
+              <span>{{ item.title }}</span>
+              <time :datetime="item.date">{{ dateFormatter.format(new Date(item.date)) }}</time>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="knowledge-home__section">
+        <div class="knowledge-home__section-heading">
+          <div>
+            <h2>实战项目</h2>
+            <p>真实项目、工具链与踩坑复盘。</p>
+          </div>
+        </div>
+        <ul>
+          <li v-for="item in projects" :key="item.href">
+            <a :href="item.href"><span>{{ item.title }}</span><span aria-hidden="true">↗</span></a>
+          </li>
+        </ul>
+      </section>
     </div>
-
-    <main class="knowledge-landing__hero">
-      <div class="knowledge-landing__intro">嘿，欢迎来到 Frank 的知识库，<br>一座持续生长的技术实践档案。</div>
-      <p class="knowledge-landing__typed">{{ typedText }}<span v-if="typedText.length < message.length" class="knowledge-landing__cursor" /></p>
-      <div class="knowledge-landing__actions" :class="{ 'is-visible': actionsVisible }">
-        <a v-for="topic in topics" :key="topic.href" :href="topic.href">{{ topic.label }}</a>
-        <a class="knowledge-landing__outline" href="/blog/">浏览全部文章 <span aria-hidden="true">↗</span></a>
-      </div>
-    </main>
-
   </div>
 </template>

@@ -1,3 +1,4 @@
 ---
-layout: landing
+layout: home
+markdownStyles: false
 ---

@@ -2,6 +2,12 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.0.3 - 2026-07-16
+
+- Moved recent-update notifications into the shared top navigation and added per-article unread indicators with version-aware read state.
+- Reorganized the homepage around recommended reading, latest articles, and hands-on projects.
+- Replaced the photographic character composition with a transparent, animated full-body 3D CRT archivist that defaults to the bottom-right and can be dragged anywhere within the viewport.
+
 ## 2.0.2 - 2026-07-16
 
 - Added a homepage notification menu for articles published or updated within the last seven days.
