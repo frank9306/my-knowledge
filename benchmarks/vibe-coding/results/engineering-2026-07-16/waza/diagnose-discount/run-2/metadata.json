@@ -1,0 +1,12 @@
+{
+  "repetition": 2,
+  "taskId": "diagnose-discount",
+  "variant": "waza",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 95521,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "score": 100
+}

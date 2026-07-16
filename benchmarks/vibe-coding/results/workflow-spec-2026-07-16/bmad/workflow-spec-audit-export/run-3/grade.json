@@ -1,0 +1,30 @@
+{
+  "taskId": "workflow-spec-audit-export",
+  "score": 100,
+  "checks": {
+    "artifactFiles": [
+      "_bmad-output\\specs\\spec-audit-export\\.memlog.md",
+      "_bmad-output\\specs\\spec-audit-export\\acceptance-criteria.md",
+      "_bmad-output\\specs\\spec-audit-export\\brownfield.md",
+      "_bmad-output\\specs\\spec-audit-export\\SPEC.md"
+    ],
+    "tenantBoundary": true,
+    "pagination": true,
+    "csvSafety": true,
+    "streaming": true,
+    "failureSemantics": true,
+    "nonGoals": true,
+    "testable": true,
+    "structured": true,
+    "scopeKept": true
+  },
+  "changedFiles": [
+    "?? _bmad-output/"
+  ],
+  "usage": {
+    "input_tokens": 346928,
+    "cached_input_tokens": 288896,
+    "output_tokens": 10481,
+    "reasoning_output_tokens": 4052
+  }
+}

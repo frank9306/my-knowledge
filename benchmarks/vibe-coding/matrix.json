@@ -1,0 +1,96 @@
+{
+  "benchmarkVersion": "0.1.0",
+  "date": "2026-07-16",
+  "runner": {
+    "product": "Codex CLI",
+    "version": "0.144.2",
+    "model": "gpt-5.4",
+    "reasoningEffort": "high",
+    "globalPrompt": "https://knowledge.webfrank.top/agents",
+    "repetitions": 3
+  },
+  "variants": [
+    {
+      "id": "baseline",
+      "category": "baseline",
+      "name": "Codex + global AGENTS.md"
+    },
+    {
+      "id": "waza",
+      "category": "engineering-skills",
+      "name": "Waza",
+      "version": "3.31.2",
+      "commit": "b70c0e7f784303aece08304ad13f5ded55650ab7",
+      "source": "https://github.com/tw93/Waza"
+    },
+    {
+      "id": "matt-skills",
+      "category": "engineering-skills",
+      "name": "Skills for Real Engineers",
+      "version": "1.1.0",
+      "commit": "e9fcdf95b402d360f90f1db8d776d5dd450f9234",
+      "source": "https://github.com/mattpocock/skills"
+    },
+    {
+      "id": "superpowers",
+      "category": "engineering-skills",
+      "name": "Superpowers",
+      "version": "6.1.1",
+      "commit": "d884ae04edebef577e82ff7c4e143debd0bbec99",
+      "source": "https://github.com/obra/superpowers"
+    },
+    {
+      "id": "ecc-full",
+      "category": "end-to-end",
+      "name": "Everything Claude Code",
+      "version": "2.0.0",
+      "commit": "8ad4151095e453301ce0e50374103bcd8f50ded2",
+      "source": "https://github.com/affaan-m/ECC"
+    },
+    {
+      "id": "easy-ecc-standard",
+      "category": "installer",
+      "name": "Easy-ECC Standard",
+      "version": "0.1.0",
+      "commit": "11aba51ccfc04e16266b14582feb23bf9e53bcdf",
+      "upstreamVersion": "2.0.0",
+      "source": "https://github.com/frank9306/Easy-ECC"
+    },
+    {
+      "id": "gsd-standard",
+      "category": "end-to-end",
+      "name": "Get Shit Done Standard",
+      "version": "1.42.3",
+      "source": "https://github.com/gsd-build/get-shit-done"
+    },
+    {
+      "id": "spec-kit",
+      "category": "end-to-end",
+      "name": "GitHub Spec Kit",
+      "version": "0.12.16",
+      "source": "https://github.com/github/spec-kit"
+    },
+    {
+      "id": "bmad",
+      "category": "end-to-end",
+      "name": "BMAD Method",
+      "version": "6.10.0",
+      "commit": "717479bc3f50f38119fd958b9e577a8bde2e0184",
+      "source": "https://github.com/bmad-code-org/BMAD-METHOD"
+    },
+    {
+      "id": "vercel-agent-skills",
+      "category": "specialist",
+      "name": "Vercel Agent Skills",
+      "commit": "f8a72b9603728bb92a217a879b7e62e43ad76c81",
+      "source": "https://github.com/vercel-labs/agent-skills"
+    },
+    {
+      "id": "anthropic-skills",
+      "category": "specialist",
+      "name": "Anthropic Skills",
+      "commit": "9d2f1ae187231d8199c64b5b762e1bdf2244733d",
+      "source": "https://github.com/anthropics/skills"
+    }
+  ]
+}

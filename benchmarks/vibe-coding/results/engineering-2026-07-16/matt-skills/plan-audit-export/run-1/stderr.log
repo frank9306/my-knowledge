@@ -1,0 +1,34 @@
+2026-07-16T03:35:56.528030Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-07-16T03:36:20.650596Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.1 seconds
+Output:
+test\auth.test.mjs:4:import { requireTenantAdmin } from "../src/auth.mjs";
+test\auth.test.mjs:6:test("takes the tenant from the authenticated session", () => {
+test\auth.test.mjs:8:    requireTenantAdmin({ tenantId: "tenant-a", roles: ["admin"] }),
+test\auth.test.mjs:9:    { ok: true, tenantId: "tenant-a" },
+.\package.json:2:  "name": "plan-audit-export-fixture",
+docs\requirements.md:3:管理员可以导出自己租户的审计记录。接口接收可选的 `cursor`、`from`、`to`，按发生时间升序输出 CSV。
+docs\requirements.md:5:- 必须复用当前会话中的 `tenantId`，请求不得覆盖租户。
+docs\requirements.md:8:- 以 `=`, `+`, `-`, `@` 开头的单元格必须进行 CSV 注入防护。
+src\audit-store.mjs:1:export async function listAuditEvents({ tenantId, cursor, from, to, limit }) {
+.\docs\requirements.md:3:管理员可以导出自己租户的审计记录。接口接收可选的 `cursor`、`from`、`to`，按发生时间升序输出 CSV。
+.\docs\requirements.md:5:- 必须复用当前会话中的 `tenantId`，请求不得覆盖租户。
+.\docs\requirements.md:8:- 以 `=`, `+`, `-`, `@` 开头的单元格必须进行 CSV 注入防护。
+.\test\auth.test.mjs:4:import { requireTenantAdmin } from "../src/auth.mjs";
+.\test\auth.test.mjs:6:test("takes the tenant from the authenticated session", () => {
+.\test\auth.test.mjs:8:    requireTenantAdmin({ tenantId: "tenant-a", roles: ["admin"] }),
+.\test\auth.test.mjs:9:    { ok: true, tenantId: "tenant-a" },
+src\http-response.mjs:1:export function jsonError(status, code) {
+.\src\audit-store.mjs:1:export async function listAuditEvents({ tenantId, cursor, from, to, limit }) {
+src\auth.mjs:1:export function requireTenantAdmin(session) {
+src\auth.mjs:6:  return { ok: true, tenantId: session.tenantId };
+.\src\http-response.mjs:1:export function jsonError(status, code) {
+.\src\auth.mjs:1:export function requireTenantAdmin(session) {
+.\src\auth.mjs:6:  return { ok: true, tenantId: session.tenantId };
+.\src\routes\audit.mjs:1:import { requireTenantAdmin } from "../auth.mjs";
+.\src\routes\audit.mjs:4:export async function listAuditRoute(request) {
+.\src\routes\audit.mjs:5:  const auth = requireTenantAdmin(request.session);
+src\routes\audit.mjs:1:import { requireTenantAdmin } from "../auth.mjs";
+src\routes\audit.mjs:4:export async function listAuditRoute(request) {
+src\routes\audit.mjs:5:  const auth = requireTenantAdmin(request.session);
+rg: tests: 系统找不到指定的文件。 (os error 2)

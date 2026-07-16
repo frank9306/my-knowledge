@@ -1,0 +1,191 @@
+2026-07-16T03:38:28.535509Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-07-16T03:39:08.652439Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.2 seconds
+Output:
+TAP version 13
+# Subtest: parses delta seconds
+not ok 1 - parses delta seconds
+  ---
+  duration_ms: 1.1097
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\baseline\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160030000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160030000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/baseline/implement-retry-after/run-2/test/retry-after.test.mjs:9:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.start (node:internal/test_runner/test:833:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: parses a future HTTP date
+not ok 2 - parses a future HTTP date
+  ---
+  duration_ms: 0.2436
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\baseline\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160060000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160060000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/baseline/implement-retry-after/run-2/test/retry-after.test.mjs:13:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 110.0454
+
+2026-07-16T03:39:27.757802Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.4 seconds
+Output:
+TAP version 13
+# Subtest: parses delta seconds
+not ok 1 - parses delta seconds
+  ---
+  duration_ms: 1.1471
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\baseline\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160030000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160030000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/baseline/implement-retry-after/run-2/test/retry-after.test.mjs:9:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.start (node:internal/test_runner/test:833:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: ignores surrounding whitespace
+not ok 2 - ignores surrounding whitespace
+  ---
+  duration_ms: 0.1773
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\baseline\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160030000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160030000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/baseline/implement-retry-after/run-2/test/retry-after.test.mjs:13:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: parses a future HTTP date
+not ok 3 - parses a future HTTP date
+  ---
+  duration_ms: 0.1821
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\baseline\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160060000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160060000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/baseline/implement-retry-after/run-2/test/retry-after.test.mjs:21:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:633:7)
+  ...
+# Subtest: clamps a past HTTP date to now
+not ok 4 - clamps a past HTTP date to now
+  ---
+  duration_ms: 0.2158
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\baseline\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:27:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160000000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160000000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/baseline/implement-retry-after/run-2/test/retry-after.test.mjs:28:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:633:7)
+  ...
+# Subtest: returns null for empty and invalid values
+ok 5 - returns null for empty and invalid values
+  ---
+  duration_ms: 0.173
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 1
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 107.7911

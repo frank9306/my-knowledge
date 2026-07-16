@@ -1,0 +1,39 @@
+{
+  "generatedAt": "2026-07-16T04:08:09.413Z",
+  "runs": 3,
+  "byTask": [
+    {
+      "variant": "ecc-full",
+      "taskId": "diagnose-discount",
+      "runs": 3,
+      "meanScore": 86.7,
+      "medianScore": 80,
+      "minScore": 80,
+      "maxScore": 100,
+      "passes": 3,
+      "qualityPasses": 3,
+      "timeouts": 0,
+      "meanSeconds": 92.9,
+      "medianInputTokens": 106085,
+      "medianOutputTokens": 2826,
+      "skillEvidenceRuns": 0
+    }
+  ],
+  "overall": [
+    {
+      "variant": "ecc-full",
+      "runs": 3,
+      "meanScore": 86.7,
+      "medianScore": 80,
+      "minScore": 80,
+      "maxScore": 100,
+      "passes": 3,
+      "qualityPasses": 3,
+      "timeouts": 0,
+      "meanSeconds": 92.9,
+      "medianInputTokens": 106085,
+      "medianOutputTokens": 2826,
+      "skillEvidenceRuns": 0
+    }
+  ]
+}

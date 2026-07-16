@@ -1,0 +1,18 @@
+{
+  "taskId": "workflow-spec-audit-export",
+  "score": 5,
+  "checks": {
+    "artifactFiles": [],
+    "tenantBoundary": false,
+    "pagination": false,
+    "csvSafety": false,
+    "streaming": false,
+    "failureSemantics": false,
+    "nonGoals": false,
+    "testable": false,
+    "structured": false,
+    "scopeKept": true
+  },
+  "changedFiles": [],
+  "usage": null
+}

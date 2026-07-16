@@ -1,0 +1,23 @@
+{
+  "taskId": "implement-retry-after",
+  "score": 55,
+  "checks": {
+    "hiddenTestsPassed": false,
+    "hiddenTestError": "Cannot read properties of null (reading 'trim')",
+    "visibleTestsPassed": true,
+    "agentRanTests": true,
+    "redGreenObserved": true,
+    "testChanged": true,
+    "onlyExpectedFiles": true
+  },
+  "changedFiles": [
+    "M src/retry-after.mjs",
+    " M test/retry-after.test.mjs"
+  ],
+  "usage": {
+    "input_tokens": 203315,
+    "cached_input_tokens": 167552,
+    "output_tokens": 3724,
+    "reasoning_output_tokens": 1219
+  }
+}

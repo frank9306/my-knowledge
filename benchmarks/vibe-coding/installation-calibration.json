@@ -1,0 +1,28 @@
+{
+  "date": "2026-07-16",
+  "platform": "Windows",
+  "codexCli": "0.144.2",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "discoveries": [
+    { "id": "baseline", "installed": 0, "visible": 0, "inputTokens": 13202 },
+    { "id": "waza", "installed": 8, "visible": 8, "inputTokens": 13468, "nativeCodexPlugin": true },
+    { "id": "superpowers", "installed": 14, "visible": 14, "inputTokens": 14661, "nativeCodexPlugin": true },
+    { "id": "matt-skills", "installed": 40, "visible": 17, "inputTokens": 14758, "installMethod": "skills@1.5.17" },
+    { "id": "gsd-standard", "installed": 18, "visible": 18, "inputTokens": 14740 },
+    { "id": "spec-kit", "installed": 10, "visible": 10, "inputTokens": 14225 },
+    { "id": "bmad", "installed": 46, "visible": 46, "inputTokens": 17391 },
+    { "id": "vercel-agent-skills", "installed": 9, "visible": 9, "inputTokens": 14215, "installMethod": "skills@1.5.17" },
+    { "id": "anthropic-skills", "installed": 18, "visible": 18, "inputTokens": 15556, "installMethod": "skills@1.5.17", "warning": "claude-api description showed truncation" },
+    { "id": "ecc-full", "installed": 261, "visible": 261, "inputTokens": 19696, "nativeCodexPlugin": true, "warnings": ["Skill descriptions shortened to fit 2% budget", "hooks.json rejected unknown $schema", "five MCP handshakes failed on shutdown"] }
+  ],
+  "installerChecks": [
+    { "id": "gsd-standard", "version": "1.42.3", "generatedSkills": 18, "success": true },
+    { "id": "gsd-full", "version": "1.42.3", "generatedSkills": 67, "success": true },
+    { "id": "spec-kit", "version": "0.12.16", "generatedSkills": 10, "success": true },
+    { "id": "bmad", "version": "6.10.0", "generatedSkills": 46, "success": true },
+    { "id": "easy-ecc-standard-dry-run", "version": "0.1.0", "plannedComponents": 9, "upstreamVersion": "2.0.0", "success": true },
+    { "id": "easy-ecc-standard-install", "version": "0.1.0", "success": false, "error": "UND_ERR_CONNECT_TIMEOUT", "diagnosis": "bare Node/undici fetch did not use the proxy-dependent Windows network path; no retry or proxy handling" },
+    { "id": "skills-cli-help", "version": "1.5.17", "success": false, "observation": "skills add <source> --help entered the install flow and wrote skills plus skills-lock.json" }
+  ]
+}

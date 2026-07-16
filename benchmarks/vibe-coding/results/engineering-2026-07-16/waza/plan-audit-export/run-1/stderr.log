@@ -1,0 +1,7 @@
+2026-07-16T03:35:26.832503Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-07-16T03:35:33.098373Z ERROR rmcp::transport::worker: worker quit with fatal: unexpected server response: HTTP 500: , when send initialized notification
+2026-07-16T03:35:33.098469Z  WARN codex_rmcp_client::rmcp_client::streamable_http_retry: streamable HTTP MCP initialize failed with a retryable error; retrying attempt=1 max_attempts=3 delay_ms=250 error=handshaking with MCP server failed: Send message error Transport [rmcp::transport::worker::WorkerTransport<rmcp::transport::streamable_http_client::StreamableHttpClientWorker<codex_rmcp_client::http_client_adapter::StreamableHttpClientAdapter>>] error: Transport channel closed, when send initialized notification
+2026-07-16T03:36:07.831375Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 7.2 seconds
+Output:
+/bin/bash: C:UsersfrankAppDataLocalCodexBench019f68b6variantswaza.codexpluginscachewazawaza3.31.2skillsthinkscriptscheck-update.sh: No such file or directory

@@ -1,0 +1,12 @@
+{
+  "repetition": 1,
+  "taskId": "review-tenant-permissions",
+  "variant": "baseline",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 90598,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "score": 100
+}

@@ -1,0 +1,17 @@
+{
+  "taskId": "plan-audit-export",
+  "score": 100,
+  "checks": {
+    "planExists": true,
+    "mapsFiles": true,
+    "coversRisks": true,
+    "coversFailure": true,
+    "coversTests": true,
+    "hasOrderAndQuestions": true,
+    "scopeKept": true
+  },
+  "changedFiles": [
+    "?? PLAN.md"
+  ],
+  "usage": null
+}

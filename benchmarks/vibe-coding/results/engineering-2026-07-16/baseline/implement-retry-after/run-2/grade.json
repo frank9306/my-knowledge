@@ -1,0 +1,23 @@
+{
+  "taskId": "implement-retry-after",
+  "score": 100,
+  "checks": {
+    "hiddenTestsPassed": true,
+    "hiddenTestError": null,
+    "visibleTestsPassed": true,
+    "agentRanTests": true,
+    "redGreenObserved": true,
+    "testChanged": true,
+    "onlyExpectedFiles": true
+  },
+  "changedFiles": [
+    "M src/retry-after.mjs",
+    " M test/retry-after.test.mjs"
+  ],
+  "usage": {
+    "input_tokens": 131903,
+    "cached_input_tokens": 118784,
+    "output_tokens": 3765,
+    "reasoning_output_tokens": 1399
+  }
+}

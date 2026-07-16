@@ -1,0 +1,19 @@
+{
+  "taskId": "diagnose-discount",
+  "score": 100,
+  "checks": {
+    "fixtureStillFails": true,
+    "reproduced": true,
+    "identifiesRounding": true,
+    "identifiesInvariant": true,
+    "suggestsRemainderPolicy": true,
+    "readOnly": true
+  },
+  "changedFiles": [],
+  "usage": {
+    "input_tokens": 58296,
+    "cached_input_tokens": 54784,
+    "output_tokens": 2224,
+    "reasoning_output_tokens": 1050
+  }
+}

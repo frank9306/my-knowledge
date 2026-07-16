@@ -4,6 +4,7 @@ All notable published changes to this knowledge site are recorded here.
 
 ## 2.0.3 - 2026-07-16
 
+- Published a Codex benchmark of 12 Vibe Coding plugins and skill collections, with reproducible task fixtures, scoring scripts, and run traces.
 - Moved recent-update notifications into the shared top navigation and added per-article unread indicators with version-aware read state.
 - Reorganized the homepage around recommended reading, latest articles, and hands-on projects.
 - Replaced the photographic character composition with a transparent, animated full-body 3D CRT archivist that defaults to the bottom-right and can be dragged anywhere within the viewport.

@@ -1,0 +1,271 @@
+2026-07-16T03:39:39.876723Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-07-16T03:40:25.542116Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.7 seconds
+Output:
+Get-Content : Cannot find path 'C:\Users\frank\AppData\Local\CodexBench\019f68b6\variants\superpowers\.codex\plugins\ca
+che\superpowers-dev\superpowers\6.1.1\skills\references\codex-tools.md' because it does not exist.
+At line:2 char:78
++ ... ng]::new(); Get-Content -Raw -Encoding utf8 'C:/Users/frank/AppData/L ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\frank\...\codex-tools.md:String) [Get-Content], ItemNotFoundEx
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+
+
+2026-07-16T03:41:17.168865Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.8 seconds
+Output:
+
+> test
+> node --test
+
+TAP version 13
+# Subtest: parses delta seconds
+not ok 1 - parses delta seconds
+  ---
+  duration_ms: 1.2204
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160030000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160030000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:9:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.start (node:internal/test_runner/test:833:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: ignores surrounding whitespace
+not ok 2 - ignores surrounding whitespace
+  ---
+  duration_ms: 0.1905
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160030000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160030000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:13:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: parses a future HTTP date
+not ok 3 - parses a future HTTP date
+  ---
+  duration_ms: 0.1781
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160060000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160060000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:21:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:633:7)
+  ...
+# Subtest: clamps a past HTTP date to now
+not ok 4 - clamps a past HTTP date to now
+  ---
+  duration_ms: 0.387
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:27:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160000000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160000000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:28:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:633:7)
+  ...
+# Subtest: returns null for invalid values
+ok 5 - returns null for invalid values
+  ---
+  duration_ms: 0.2957
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 1
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 118.6875
+
+2026-07-16T03:41:47.085675Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.8 seconds
+Output:
+
+> test
+> node --test
+
+TAP version 13
+# Subtest: parses delta seconds
+not ok 1 - parses delta seconds
+  ---
+  duration_ms: 2.3586
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160030000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160030000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:9:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.start (node:internal/test_runner/test:833:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: ignores surrounding whitespace
+not ok 2 - ignores surrounding whitespace
+  ---
+  duration_ms: 0.4143
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:12:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160030000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160030000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:13:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: parses a future HTTP date
+not ok 3 - parses a future HTTP date
+  ---
+  duration_ms: 0.3925
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:20:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160060000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160060000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:21:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:633:7)
+  ...
+# Subtest: clamps a past HTTP date to now
+not ok 4 - clamps a past HTTP date to now
+  ---
+  duration_ms: 0.4229
+  location: 'C:\\Users\\frank\\AppData\\Local\\CodexBench\\019f68b6\\runs\\engineering-2026-07-16\\superpowers\\implement-retry-after\\run-2\\test\\retry-after.test.mjs:27:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + null
+    - 1784160000000
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1784160000000
+  actual: ~
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///C:/Users/frank/AppData/Local/CodexBench/019f68b6/runs/engineering-2026-07-16/superpowers/implement-retry-after/run-2/test/retry-after.test.mjs:28:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:934:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:633:18)
+    Test.postRun (node:internal/test_runner/test:1045:19)
+    Test.run (node:internal/test_runner/test:973:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:633:7)
+  ...
+# Subtest: returns null for invalid values
+ok 5 - returns null for invalid values
+  ---
+  duration_ms: 0.3194
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 1
+# fail 4
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 202.1498

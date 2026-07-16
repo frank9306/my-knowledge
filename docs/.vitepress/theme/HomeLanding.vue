@@ -24,6 +24,7 @@ const topics = [
 ]
 
 const recommended = [
+  { title: 'Codex 实测：12 套 Vibe Coding Plugins 与 Skills 怎么选', href: '/blog/vibe-coding-tools-codex-benchmark' },
   { title: 'Codex Switch Helper：在 Windows 上切换多套 Codex Profile', href: '/blog/codex-switch-helper-windows-profiles' },
   { title: 'AI Agent 开发转行指南：从面试痛点看学习路径', href: '/ai-agent/ai-agent-career-guide' },
   { title: '智能体经典范式-ReAct', href: '/ai-agent/react-agent-pattern' },

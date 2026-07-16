@@ -1,0 +1,17 @@
+{
+  "variants": [
+    "baseline",
+    "gsd-standard",
+    "spec-kit",
+    "bmad"
+  ],
+  "tasks": [
+    "workflow-spec-audit-export"
+  ],
+  "repetitions": 3,
+  "concurrency": 4,
+  "timeoutMs": 240000,
+  "output": "benchmarks\\vibe-coding\\results\\workflow-spec-2026-07-16",
+  "resume": false,
+  "startedAt": "2026-07-16T04:13:03.136Z"
+}

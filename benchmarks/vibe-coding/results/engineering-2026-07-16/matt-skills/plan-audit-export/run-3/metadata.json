@@ -1,0 +1,12 @@
+{
+  "repetition": 3,
+  "taskId": "plan-audit-export",
+  "variant": "matt-skills",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 140963,
+  "exitCode": 1,
+  "signal": null,
+  "timedOut": true,
+  "score": 0
+}

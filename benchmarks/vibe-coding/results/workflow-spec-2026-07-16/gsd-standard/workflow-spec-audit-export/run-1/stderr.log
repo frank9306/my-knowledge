@@ -1,0 +1,19 @@
+2026-07-16T04:13:09.652237Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-fixer` declared in the same config layer
+2026-07-16T04:13:09.652270Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-reviewer` declared in the same config layer
+2026-07-16T04:13:09.652273Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-executor` declared in the same config layer
+2026-07-16T04:13:09.652276Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-phase-researcher` declared in the same config layer
+2026-07-16T04:13:09.652278Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-plan-checker` declared in the same config layer
+2026-07-16T04:13:09.652281Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-planner` declared in the same config layer
+2026-07-16T04:13:09.665884Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-07-16T04:13:23.201644Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-fixer` declared in the same config layer
+2026-07-16T04:13:23.201682Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-reviewer` declared in the same config layer
+2026-07-16T04:13:23.201690Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-executor` declared in the same config layer
+2026-07-16T04:13:23.201696Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-phase-researcher` declared in the same config layer
+2026-07-16T04:13:23.201702Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-plan-checker` declared in the same config layer
+2026-07-16T04:13:23.201708Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-planner` declared in the same config layer
+2026-07-16T04:13:23.216243Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-fixer` declared in the same config layer
+2026-07-16T04:13:23.216281Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-reviewer` declared in the same config layer
+2026-07-16T04:13:23.216288Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-executor` declared in the same config layer
+2026-07-16T04:13:23.216294Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-phase-researcher` declared in the same config layer
+2026-07-16T04:13:23.216299Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-plan-checker` declared in the same config layer
+2026-07-16T04:13:23.216306Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-planner` declared in the same config layer

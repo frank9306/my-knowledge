@@ -1,0 +1,33 @@
+2026-07-16T04:17:14.242429Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-fixer` declared in the same config layer
+2026-07-16T04:17:14.242452Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-reviewer` declared in the same config layer
+2026-07-16T04:17:14.242455Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-executor` declared in the same config layer
+2026-07-16T04:17:14.242457Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-phase-researcher` declared in the same config layer
+2026-07-16T04:17:14.242460Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-plan-checker` declared in the same config layer
+2026-07-16T04:17:14.242462Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-planner` declared in the same config layer
+2026-07-16T04:17:14.258506Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-07-16T04:17:19.224302Z  WARN codex_core_plugins::manager: failed to load recommended plugins error=failed to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/suggested: error sending request for url (https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL)
+2026-07-16T04:17:27.500146Z  WARN codex_core_plugins::manager: failed to load recommended plugins error=failed to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/suggested: error sending request for url (https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL)
+2026-07-16T04:17:31.185572Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-fixer` declared in the same config layer
+2026-07-16T04:17:31.185626Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-reviewer` declared in the same config layer
+2026-07-16T04:17:31.185639Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-executor` declared in the same config layer
+2026-07-16T04:17:31.185649Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-phase-researcher` declared in the same config layer
+2026-07-16T04:17:31.185659Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-plan-checker` declared in the same config layer
+2026-07-16T04:17:31.185670Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-planner` declared in the same config layer
+2026-07-16T04:17:31.208030Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-fixer` declared in the same config layer
+2026-07-16T04:17:31.208059Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-code-reviewer` declared in the same config layer
+2026-07-16T04:17:31.208066Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-executor` declared in the same config layer
+2026-07-16T04:17:31.208072Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-phase-researcher` declared in the same config layer
+2026-07-16T04:17:31.208081Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-plan-checker` declared in the same config layer
+2026-07-16T04:17:31.208092Z  WARN codex_core::config::agent_roles: Ignoring malformed agent role definition: duplicate agent role name `gsd-planner` declared in the same config layer
+2026-07-16T04:17:32.528076Z  WARN codex_core_plugins::manager: failed to load recommended plugins error=failed to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/suggested: error sending request for url (https://chatgpt.com/backend-api/ps/plugins/suggested?scope=GLOBAL)
+2026-07-16T04:17:44.233314Z  WARN codex_core_plugins::manager: failed to warm remote plugin catalog cache error=failed to send remote plugin catalog request to https://chatgpt.com/backend-api/ps/plugins/list: error sending request for url (https://chatgpt.com/backend-api/ps/plugins/list?scope=GLOBAL&limit=200)
+2026-07-16T04:18:33.752644Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 1.7 seconds
+Output:
+At line:2 char:47
++ ... Encoding = [Console]::OutputEncoding = [System.Text.Encoding] = [Syst ...
++                                            ~~~~~~~~~~~~~~~~~~~~~~
+The assignment expression is not valid. The input to an assignment operator must be an object that is able to accept as
+signments, such as a variable or a property.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : InvalidLeftHandSide

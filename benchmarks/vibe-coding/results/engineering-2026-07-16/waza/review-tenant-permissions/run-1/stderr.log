@@ -1,0 +1,5 @@
+2026-07-16T03:33:24.979265Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-07-16T03:34:07.571805Z ERROR codex_core::tools::router: error=Exit code: 1
+Wall time: 7.4 seconds
+Output:
+/bin/bash: C:/Users/frank/AppData/Local/CodexBench/019f68b6/variants/waza/.codex/plugins/cache/waza/waza/3.31.2/skills/check/scripts/check-update.sh: No such file or directory

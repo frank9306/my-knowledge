@@ -1,0 +1,12 @@
+{
+  "repetition": 1,
+  "taskId": "plan-audit-export",
+  "variant": "waza",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 141022,
+  "exitCode": 1,
+  "signal": null,
+  "timedOut": true,
+  "score": 0
+}

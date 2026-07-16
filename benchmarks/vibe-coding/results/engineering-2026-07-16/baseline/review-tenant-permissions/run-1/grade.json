@@ -1,0 +1,21 @@
+{
+  "taskId": "review-tenant-permissions",
+  "score": 100,
+  "checks": {
+    "tenantFinding": true,
+    "cacheFinding": true,
+    "limitFinding": true,
+    "testGaps": true,
+    "lineReferences": true,
+    "readOnly": true
+  },
+  "changedFiles": [
+    "M src/permissions.mjs"
+  ],
+  "usage": {
+    "input_tokens": 88159,
+    "cached_input_tokens": 79104,
+    "output_tokens": 3460,
+    "reasoning_output_tokens": 1911
+  }
+}

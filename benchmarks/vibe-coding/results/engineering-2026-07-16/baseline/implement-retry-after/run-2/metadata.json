@@ -1,0 +1,12 @@
+{
+  "repetition": 2,
+  "taskId": "implement-retry-after",
+  "variant": "baseline",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 99871,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "score": 100
+}

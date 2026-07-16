@@ -1,0 +1,17 @@
+{
+  "taskId": "implement-retry-after",
+  "score": 25,
+  "checks": {
+    "hiddenTestsPassed": false,
+    "hiddenTestError": "Expected values to be strictly equal:\n+ actual - expected\n\n+ null\n- 1784160000000\n",
+    "visibleTestsPassed": false,
+    "agentRanTests": false,
+    "redGreenObserved": false,
+    "testChanged": true,
+    "onlyExpectedFiles": true
+  },
+  "changedFiles": [
+    "M test/retry-after.test.mjs"
+  ],
+  "usage": null
+}

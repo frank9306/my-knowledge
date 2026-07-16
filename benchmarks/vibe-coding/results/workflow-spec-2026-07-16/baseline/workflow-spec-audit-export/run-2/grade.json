@@ -1,0 +1,27 @@
+{
+  "taskId": "workflow-spec-audit-export",
+  "score": 100,
+  "checks": {
+    "artifactFiles": [
+      "SPEC.md"
+    ],
+    "tenantBoundary": true,
+    "pagination": true,
+    "csvSafety": true,
+    "streaming": true,
+    "failureSemantics": true,
+    "nonGoals": true,
+    "testable": true,
+    "structured": true,
+    "scopeKept": true
+  },
+  "changedFiles": [
+    "?? SPEC.md"
+  ],
+  "usage": {
+    "input_tokens": 125457,
+    "cached_input_tokens": 98432,
+    "output_tokens": 8814,
+    "reasoning_output_tokens": 3477
+  }
+}

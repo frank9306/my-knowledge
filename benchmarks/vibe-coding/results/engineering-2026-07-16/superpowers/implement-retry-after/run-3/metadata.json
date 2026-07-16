@@ -1,0 +1,12 @@
+{
+  "repetition": 3,
+  "taskId": "implement-retry-after",
+  "variant": "superpowers",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 109261,
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "score": 100
+}

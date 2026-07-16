@@ -18,7 +18,7 @@
 
 ## 专题文章
 
-本站共收录 54 篇专题文章。
+本站共收录 55 篇专题文章。
 
 ### AI Agent
 
@@ -78,6 +78,7 @@
 
 ### 博客文章
 
+- [Codex 实测：12 套 Vibe Coding Plugins 与 Skills 怎么选](https://knowledge.webfrank.top/blog/vibe-coding-tools-codex-benchmark/)
 - [Loop Engineering：一张图看懂四种 Agent 循环](https://knowledge.webfrank.top/blog/loop-engineering-four-agent-loops/)
 - [Codex Switch Helper：在 Windows 上切换多套 Codex Profile](https://knowledge.webfrank.top/blog/codex-switch-helper-windows-profiles/)
 - [给 VitePress 站点加一份 DESIGN.md：把视觉系统交给 AI 编程 Agent](https://knowledge.webfrank.top/blog/design-md-visual-system-spec/)

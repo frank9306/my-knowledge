@@ -1,0 +1,12 @@
+{
+  "repetition": 2,
+  "taskId": "plan-audit-export",
+  "variant": "baseline",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 140846,
+  "exitCode": 1,
+  "signal": null,
+  "timedOut": true,
+  "score": 100
+}

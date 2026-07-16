@@ -1,0 +1,12 @@
+{
+  "repetition": 3,
+  "taskId": "workflow-spec-audit-export",
+  "variant": "gsd-standard",
+  "model": "gpt-5.4",
+  "reasoningEffort": "high",
+  "elapsedMs": 240832,
+  "exitCode": 1,
+  "signal": null,
+  "timedOut": true,
+  "score": 5
+}

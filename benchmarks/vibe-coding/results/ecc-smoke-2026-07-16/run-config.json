@@ -1,0 +1,14 @@
+{
+  "variants": [
+    "ecc-full"
+  ],
+  "tasks": [
+    "diagnose-discount"
+  ],
+  "repetitions": 3,
+  "concurrency": 1,
+  "timeoutMs": 180000,
+  "output": "benchmarks\\vibe-coding\\results\\ecc-smoke-2026-07-16",
+  "resume": false,
+  "startedAt": "2026-07-16T04:03:18.541Z"
+}
