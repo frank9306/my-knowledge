@@ -9,6 +9,9 @@ description: 值得反复阅读的外部技术资源与核心观点索引。
 
 ## Agent 工作流
 
+- [Anthropic 免费 Claude AI 工程课程](https://x.com/huoshan007/status/2076944286231531664)
+  一门约 4 小时的免费课程，集中讲解如何正确提示 Claude、哪些操作会削弱代码生成效果、Anthropic 内部如何使用 Claude，以及如何通过构建循环让 Agent 持续完成任务。原帖附有关键时间点，适合按主题快速观看。
+
 - [Getting started with loops](https://x.com/ClaudeDevs/status/2074208949205881033)
   Claude Code 团队将 Agent 循环分为 turn-based、goal-based、time-based 和 proactive 四类，并从触发方式、停止条件、适用任务与 token 管理角度说明如何选择。核心是为循环设定可验证的完成标准和清晰边界，再用 skills、脚本与独立审查提升持续执行时的代码质量。
 

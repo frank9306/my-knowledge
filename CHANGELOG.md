@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.0.1 - 2026-07-16
+
+- Added the Anthropic Claude AI engineering course to the curated reading page.
+- Added OfficeCLI to the AI Agent open-source project resources.
+
 ## 2.0.0 - 2026-07-14
 
 - Rebuilt the homepage as a full-screen dark editorial experience with responsive navigation, typewriter copy, and topic actions.

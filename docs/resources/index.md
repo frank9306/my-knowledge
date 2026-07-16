@@ -4,6 +4,7 @@
 
 ## AI Agent 开源项目
 
+- [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI/blob/main/README_zh.md): 面向 AI Agent 的开源 Office 命令行工具，可跨平台创建、读取、修改和验证 Word、Excel、PowerPoint 文档，提供结构化 JSON、无头 HTML/PNG 渲染、实时预览与 MCP 集成，无需安装 Microsoft Office。
 - [DeepTutor](https://deeptutor.info/zh-cn/): Agent-native 的开源个性化学习伴侣，将对话、知识库、可审计记忆、协同写作、交互式书本与学习空间整合到本地工作区，并可连接 Claude Code、Codex 等编程 Agent。
 - [Agent-Reach](https://github.com/Panniantong/Agent-Reach): 给 AI Agent 一键装上互联网能力，统一接入 Twitter、Reddit、YouTube、GitHub、B 站、小红书等平台，免 API 费。
 - [ponytail](https://github.com/DietrichGebert/ponytail): 让 AI Agent 像资深工程师一样“先看再写”，显著减少冗余代码与 token 消耗。
