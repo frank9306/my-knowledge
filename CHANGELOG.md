@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.0.2 - 2026-07-16
+
+- Added a homepage notification menu for articles published or updated within the last seven days.
+- Added version-aware read tracking in localStorage so content changes at an existing URL become unread again without flooding first-time visitors with old articles.
+
 ## 2.0.1 - 2026-07-16
 
 - Added the Anthropic Claude AI engineering course to the curated reading page.

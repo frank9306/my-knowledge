@@ -1,8 +1,22 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import CrtHead from './CrtHead.vue'
+import { data as articleUpdates } from './recent-updates.data'
+import {
+  type DetectedUpdate,
+  getReadUpdateVersions,
+  markUpdateAsRead,
+  normalizeUpdateUrl,
+  RECENT_UPDATE_WINDOW_MS,
+  syncArticleVersions
+} from './recent-updates'
 
 const menuOpen = ref(false)
+const updatesOpen = ref(false)
+const updatesArea = ref<HTMLElement | null>(null)
+const readUpdateVersions = ref<Record<string, string>>({})
+const detectedUpdates = ref<Record<string, DetectedUpdate>>({})
+const currentTime = ref(0)
 const typedText = ref('')
 const actionsVisible = ref(false)
 const message = '欢迎停留。好奇心总会把对的人带到这里。今天想探索什么？'
@@ -25,7 +39,62 @@ const topics = [
   { label: 'Web / React', href: '/web-react/' }
 ]
 
+const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
+  month: 'numeric',
+  day: 'numeric'
+})
+const recentUpdates = computed(() => articleUpdates
+  .filter(({ url, date, version }) => {
+    if (!currentTime.value) return false
+
+    const datedAt = new Date(date).getTime()
+    const detection = detectedUpdates.value[normalizeUpdateUrl(url)]
+    const isDetectedRecently = detection?.version === version
+
+    return isRecentTimestamp(datedAt) || isDetectedRecently
+  })
+  .sort((a, b) => getUpdateTimestamp(b) - getUpdateTimestamp(a)))
+const unreadCount = computed(() => (
+  recentUpdates.value.filter(({ url, version }) => (
+    readUpdateVersions.value[normalizeUpdateUrl(url)] !== version
+  )).length
+))
+
+function isRecentTimestamp(timestamp: number) {
+  return timestamp <= currentTime.value && currentTime.value - timestamp < RECENT_UPDATE_WINDOW_MS
+}
+
+function syncReadUpdates() {
+  currentTime.value = Date.now()
+  detectedUpdates.value = syncArticleVersions(articleUpdates)
+  readUpdateVersions.value = getReadUpdateVersions()
+}
+
+function getUpdateTimestamp(item: (typeof articleUpdates)[number]) {
+  const datedAt = new Date(item.date).getTime()
+  if (isRecentTimestamp(datedAt)) return datedAt
+
+  const detection = detectedUpdates.value[normalizeUpdateUrl(item.url)]
+  return detection?.version === item.version ? detection.detectedAt : datedAt
+}
+
+function markUpdateRead(url: string, version: string) {
+  readUpdateVersions.value = markUpdateAsRead(url, version)
+}
+
+function closeUpdatesOnOutsideClick(event: MouseEvent) {
+  if (!updatesArea.value?.contains(event.target as Node)) updatesOpen.value = false
+}
+
+function closeUpdatesOnEscape(event: KeyboardEvent) {
+  if (event.key === 'Escape') updatesOpen.value = false
+}
+
 onMounted(() => {
+  syncReadUpdates()
+  document.addEventListener('click', closeUpdatesOnOutsideClick)
+  document.addEventListener('keydown', closeUpdatesOnEscape)
+  window.addEventListener('storage', syncReadUpdates)
   actionTimer = setTimeout(() => (actionsVisible.value = true), 400)
   startTimer = setTimeout(() => {
     let index = 0
@@ -38,6 +107,9 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+  document.removeEventListener('click', closeUpdatesOnOutsideClick)
+  document.removeEventListener('keydown', closeUpdatesOnEscape)
+  window.removeEventListener('storage', syncReadUpdates)
   clearInterval(typeTimer)
   clearTimeout(actionTimer)
   clearTimeout(startTimer)
@@ -59,7 +131,39 @@ onBeforeUnmount(() => {
           <a :href="item.href">{{ item.label }}</a><span v-if="index < navigation.length - 1">, </span>
         </template>
       </nav>
-      <a class="knowledge-landing__contact" href="/friends">友情链接</a>
+      <div class="knowledge-landing__nav-actions">
+        <div ref="updatesArea" class="knowledge-landing__updates">
+          <button
+            class="knowledge-landing__updates-button"
+            type="button"
+            :aria-expanded="updatesOpen"
+            :aria-label="unreadCount ? `本周更新，有 ${unreadCount} 篇未读` : '本周更新，无未读'"
+            aria-controls="recent-updates-panel"
+            @click="updatesOpen = !updatesOpen"
+          >
+            本周更新
+            <span v-if="unreadCount" class="knowledge-landing__updates-dot" aria-hidden="true" />
+          </button>
+          <div
+            v-if="updatesOpen"
+            id="recent-updates-panel"
+            class="knowledge-landing__updates-panel"
+            aria-label="最近 7 天更新"
+          >
+            <p>最近 7 天更新</p>
+            <ul v-if="recentUpdates.length">
+              <li v-for="item in recentUpdates" :key="item.url">
+                <a :href="item.url" @click="markUpdateRead(item.url, item.version)">
+                  <span>{{ item.title }}</span>
+                  <time :datetime="new Date(getUpdateTimestamp(item)).toISOString()">{{ dateFormatter.format(getUpdateTimestamp(item)) }}</time>
+                </a>
+              </li>
+            </ul>
+            <span v-else class="knowledge-landing__updates-empty">最近 7 天暂无更新</span>
+          </div>
+        </div>
+        <a class="knowledge-landing__contact" href="/friends">友情链接</a>
+      </div>
       <button
         class="knowledge-landing__menu"
         type="button"
@@ -70,6 +174,7 @@ onBeforeUnmount(() => {
     </header>
 
     <div class="knowledge-landing__mobile" :class="{ 'is-open': menuOpen }">
+      <a v-for="item in recentUpdates" :key="`update-${item.url}`" :href="item.url" @click="markUpdateRead(item.url, item.version)">本周更新 · {{ item.title }}</a>
       <a v-for="item in navigation" :key="item.href" :href="item.href">{{ item.label }}</a>
       <a href="/friends">友情链接</a>
     </div>
