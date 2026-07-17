@@ -9,7 +9,7 @@ const [component, head, css] = await Promise.all([
 
 assert.match(
   component,
-  /knowledge-home__figure[\s\S]*<CrtHead\s*\/>/,
+  /knowledge-home__figure[\s\S]*<CrtHead(?:\s+[^>]*)?\s*\/>/,
   'The draggable figure must contain the complete 3D character.'
 )
 assert.doesNotMatch(component, /knowledge-home__backdrop/, 'The homepage character must not use a backdrop element.')

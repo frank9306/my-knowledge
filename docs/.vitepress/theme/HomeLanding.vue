@@ -4,10 +4,18 @@ import CrtHead from './CrtHead.vue'
 import { data as articleUpdates } from './recent-updates.data'
 
 const PERSON_POSITION_KEY = 'frank-archive:person-position'
+type PetReaction = 'notice' | 'pet' | 'grab' | 'release'
+type PetController = { react: (reaction: PetReaction, intensity?: number) => void }
+
 const figure = ref<HTMLElement | null>(null)
+const pet = ref<PetController | null>(null)
 const dragPosition = ref<{ x: number; y: number } | null>(null)
 const dragging = ref(false)
 let dragOffset = { x: 0, y: 0 }
+let dragOrigin = { x: 0, y: 0 }
+let previousPointer = { x: 0, y: 0, time: 0 }
+let dragTravel = 0
+let releaseSpeed = 0
 
 const figureStyle = computed(() => dragPosition.value ? {
   left: `${dragPosition.value.x}px`,
@@ -60,19 +68,30 @@ function startDragging(event: PointerEvent) {
   const rect = figure.value.getBoundingClientRect()
   dragPosition.value = { x: rect.left, y: rect.top }
   dragOffset = { x: event.clientX - rect.left, y: event.clientY - rect.top }
+  dragOrigin = { x: event.clientX, y: event.clientY }
+  previousPointer = { x: event.clientX, y: event.clientY, time: event.timeStamp }
+  dragTravel = 0
+  releaseSpeed = 0
   dragging.value = true
+  pet.value?.react('grab')
   figure.value.setPointerCapture(event.pointerId)
   event.preventDefault()
 }
 
 function moveDragging(event: PointerEvent) {
   if (!dragging.value) return
+  const elapsed = Math.max(8, event.timeStamp - previousPointer.time)
+  const step = Math.hypot(event.clientX - previousPointer.x, event.clientY - previousPointer.y)
+  dragTravel = Math.max(dragTravel, Math.hypot(event.clientX - dragOrigin.x, event.clientY - dragOrigin.y))
+  releaseSpeed = releaseSpeed * 0.65 + step / elapsed * 0.35
+  previousPointer = { x: event.clientX, y: event.clientY, time: event.timeStamp }
   dragPosition.value = clampPosition(event.clientX - dragOffset.x, event.clientY - dragOffset.y)
 }
 
 function stopDragging(event: PointerEvent) {
   if (!dragging.value || !figure.value || !dragPosition.value) return
   dragging.value = false
+  pet.value?.react('release', Math.min(1, releaseSpeed / 1.4))
   if (figure.value.hasPointerCapture(event.pointerId)) figure.value.releasePointerCapture(event.pointerId)
 
   const rect = figure.value.getBoundingClientRect()
@@ -82,6 +101,10 @@ function stopDragging(event: PointerEvent) {
     x: dragPosition.value.x / availableX,
     y: dragPosition.value.y / availableY
   }))
+}
+
+function interactWithPet() {
+  if (dragTravel < 6) pet.value?.react('pet')
 }
 
 function restorePosition() {
@@ -127,14 +150,16 @@ onBeforeUnmount(() => window.removeEventListener('resize', clampCurrentPosition)
       class="knowledge-home__figure"
       :class="{ 'is-dragging': dragging }"
       :style="figureStyle"
-      aria-label="可拖动的 3D CRT 档案管理员"
-      title="按住并拖动人物"
+      aria-label="可点击和拖动的 3D AI 小宠物"
+      title="点击摸摸它，或按住拖动"
+      @pointerenter="pet?.react('notice')"
       @pointerdown="startDragging"
       @pointermove="moveDragging"
       @pointerup="stopDragging"
       @pointercancel="stopDragging"
+      @click="interactWithPet"
     >
-      <CrtHead />
+      <CrtHead ref="pet" />
     </aside>
 
     <div class="knowledge-home__sections">

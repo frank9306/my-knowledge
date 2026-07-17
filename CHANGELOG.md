@@ -4,6 +4,7 @@ All notable published changes to this knowledge site are recorded here.
 
 ## 2.1.0 - 2026-07-17
 
+- Refined the homepage 3D character into a smaller AI pet with articulated limbs, organic idle behaviors, pointer attention, petting, dragging, and momentum-aware release reactions.
 - Added the AI 编程工程 topic with six guides covering Vibe Coding governance, project contracts, delivery loops, Skill lifecycle, external integrations, and security boundaries.
 - Updated the public `AGENTS.md` and Agent Skills snapshots, including the current agent identity, synchronization date, `ui` Skill name, and lifecycle guidance.
 - Expanded Loop Engineering with executable stop conditions and updated site navigation and README generation for the new topic.
