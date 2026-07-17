@@ -1,11 +1,11 @@
 ---
 title: 我的 Agent Skills
-description: 我全局安装的 Agent Skills、用途、来源与安装方式。
+description: 我全局安装的 Agent Skills 快照、用途、来源与安装方式。
 ---
 
 # 我的 Agent Skills
 
-这是我当前全局安装的公开 Agent Skills。清单来自本机 `~/.agents/.skill-lock.json`，最后同步于 2026-07-13。
+这是我当前全局安装的公开 Agent Skills 快照。清单来自本机技能目录，最后同步于 2026-07-17。Skill 名称、版本和上游状态会变化，安装前应重新检查来源、权限和当前 release；选择与维护方法见 [Agent Skills 不在多：选择、安装、更新与退役](/ai-coding/agent-skill-lifecycle)。
 
 ## 如何安装
 
@@ -29,13 +29,13 @@ npx skills update -g
 安装示例：
 
 ```bash
-npx skills add tw93/Waza --skill check --skill design --skill health --skill hunt --skill learn --skill read --skill think --skill write -g
+npx skills add tw93/Waza --skill check --skill ui --skill health --skill hunt --skill learn --skill read --skill think --skill write -g
 ```
 
 | Skill | 用途 |
 | --- | --- |
 | `check` | 代码审查、提交、推送与发布前检查 |
-| `design` | 页面、组件和视觉界面的设计与打磨 |
+| `ui` | 页面、组件和视觉界面的设计与打磨 |
 | `health` | Agent 配置、验证链路和代码库可维护性体检 |
 | `hunt` | 从复现开始定位错误、回归和崩溃的根因 |
 | `learn` | 多来源深度研究并整理为可发布内容 |
@@ -64,6 +64,10 @@ npx skills add mattpocock/skills -g
 | 工具 | `design-an-interface`、`git-guardrails-claude-code`、`migrate-to-shoehorn`、`obsidian-vault`、`scaffold-exercises`、`setup-pre-commit` |
 
 其中部分 Skill 位于项目的 `deprecated` 或 `in-progress` 目录，适合参考和试验，不代表稳定 API。
+
+## 清单如何维护
+
+这份页面记录公开、长期有用的能力，不追求收录数量。新增 Skill 前先用真实任务验证触发效果和成本，稳定使用后固定来源版本；更新时逐个阅读 diff，长期未使用或被原生能力替代时退役。项目内部 Skill 和包含业务上下文的能力不进入公开清单。
 
 ## 其他公开 Skills
 

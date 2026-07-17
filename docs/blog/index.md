@@ -2,6 +2,15 @@
 
 这里汇总站内所有文章，按专题分组。
 
+## AI 编程工程
+
+- [Vibe Coding 为什么需要治理](/ai-coding/vibe-coding-governance)
+- [如何写一份真正有用的 AGENTS.md](/ai-coding/agents-md-project-contract)
+- [AI 编程任务的完整闭环：从需求到验证](/ai-coding/agent-development-loop)
+- [Agent Skills 不在多：选择、安装、更新与退役](/ai-coding/agent-skill-lifecycle)
+- [MCP、Plugin、Connector 到底该不该装](/ai-coding/mcp-plugin-connector-decision)
+- [AI 编程的权限边界与供应链安全](/ai-coding/ai-coding-security-boundaries)
+
 ## AI Agent
 
 - [OpenWebUI + Deepseek API 快速部署笔记](/ai-agent/openwebui-deepseek-api)

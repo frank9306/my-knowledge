@@ -7,6 +7,7 @@ const docsRoot = path.join(root, 'docs');
 const readmePath = path.join(root, 'README.md');
 
 const topicOrder = [
+  ['ai-coding', 'AI 编程工程'],
   ['ai-agent', 'AI Agent'],
   ['python-automation', 'Python 自动化'],
   ['rpa-playwright', 'RPA / Playwright'],

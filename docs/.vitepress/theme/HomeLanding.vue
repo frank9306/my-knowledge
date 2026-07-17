@@ -17,6 +17,7 @@ const figureStyle = computed(() => dragPosition.value ? {
 } : undefined)
 
 const topics = [
+  { label: 'AI 编程工程', href: '/ai-coding/' },
   { label: 'AI Agent', href: '/ai-agent/' },
   { label: 'Python 自动化', href: '/python-automation/' },
   { label: 'RPA / Playwright', href: '/rpa-playwright/' },

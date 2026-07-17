@@ -57,10 +57,25 @@ export default defineConfig({
           text: '知识专题',
           items: [
             { text: '专题总览', link: '/topics/' },
+            { text: 'AI 编程工程', link: '/ai-coding/' },
             { text: 'AI Agent', link: '/ai-agent/' },
             { text: 'Python 自动化', link: '/python-automation/' },
             { text: 'Web / React', link: '/web-react/' },
             { text: 'RPA / Playwright', link: '/rpa-playwright/' }
+          ]
+        }
+      ],
+      '/ai-coding/': [
+        {
+          text: 'AI 编程工程',
+          items: [
+            { text: '专题首页', link: '/ai-coding/' },
+            { text: 'Vibe Coding 治理', link: '/ai-coding/vibe-coding-governance' },
+            { text: 'AGENTS.md 项目契约', link: '/ai-coding/agents-md-project-contract' },
+            { text: 'AI 编程任务闭环', link: '/ai-coding/agent-development-loop' },
+            { text: 'Agent Skill 生命周期', link: '/ai-coding/agent-skill-lifecycle' },
+            { text: 'MCP、Plugin 与 Connector', link: '/ai-coding/mcp-plugin-connector-decision' },
+            { text: '权限边界与供应链安全', link: '/ai-coding/ai-coding-security-boundaries' }
           ]
         }
       ],

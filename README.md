@@ -18,7 +18,16 @@
 
 ## 专题文章
 
-本站共收录 55 篇专题文章。
+本站共收录 61 篇专题文章。
+
+### AI 编程工程
+
+- [AI 编程任务的完整闭环：从需求到验证](https://knowledge.webfrank.top/ai-coding/agent-development-loop/)
+- [Agent Skills 不在多：选择、安装、更新与退役](https://knowledge.webfrank.top/ai-coding/agent-skill-lifecycle/)
+- [如何写一份真正有用的 AGENTS.md](https://knowledge.webfrank.top/ai-coding/agents-md-project-contract/)
+- [AI 编程的权限边界与供应链安全](https://knowledge.webfrank.top/ai-coding/ai-coding-security-boundaries/)
+- [MCP、Plugin、Connector 到底该不该装](https://knowledge.webfrank.top/ai-coding/mcp-plugin-connector-decision/)
+- [Vibe Coding 为什么需要治理](https://knowledge.webfrank.top/ai-coding/vibe-coding-governance/)
 
 ### AI Agent
 

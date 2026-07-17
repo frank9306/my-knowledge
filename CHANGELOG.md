@@ -2,6 +2,12 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.0 - 2026-07-17
+
+- Added the AI 编程工程 topic with six guides covering Vibe Coding governance, project contracts, delivery loops, Skill lifecycle, external integrations, and security boundaries.
+- Updated the public `AGENTS.md` and Agent Skills snapshots, including the current agent identity, synchronization date, `ui` Skill name, and lifecycle guidance.
+- Expanded Loop Engineering with executable stop conditions and updated site navigation and README generation for the new topic.
+
 ## 2.0.3 - 2026-07-16
 
 - Published a Codex benchmark of 12 Vibe Coding plugins and skill collections, with reproducible task fixtures, scoring scripts, and run traces.
