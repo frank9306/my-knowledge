@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.1 - 2026-07-20
+
+- Added site-wide anonymous analytics to track page views, article visits, traffic sources, and navigation paths.
+
 ## 2.1.0 - 2026-07-17
 
 - Refined the homepage 3D character into a smaller AI pet with articulated limbs, organic idle behaviors, pointer attention, petting, dragging, and momentum-aware release reactions.

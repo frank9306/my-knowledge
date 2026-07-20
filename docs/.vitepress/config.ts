@@ -121,6 +121,14 @@ export default defineConfig({
   },
   head: [
     ['link', { rel: 'icon', href: `${base}logo.svg` }],
-    ['meta', { name: 'theme-color', content: '#0b0c0c' }]
+    ['meta', { name: 'theme-color', content: '#0b0c0c' }],
+    [
+      'script',
+      {
+        defer: '',
+        src: 'https://state.webfrank.top/script.js',
+        'data-website-id': 'e68adff9-c909-4ae8-936a-ab2dcc85f09a'
+      }
+    ]
   ]
 })
