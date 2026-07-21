@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.2 - 2026-07-21
+
+- Added a curated long-term recommendations section to the resource navigation, with practical fit, rationale, cautions, and category-level recommendation markers.
+
 ## 2.1.1 - 2026-07-20
 
 - Added site-wide anonymous analytics to track page views, article visits, traffic sources, and navigation paths.
