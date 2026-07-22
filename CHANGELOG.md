@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.3 - 2026-07-22
+
+- Published a practical guide to choosing and planning Plugin, Skill, and MCP capabilities for AI Agent workflows, including boundaries, permissions, and rollout strategy.
+
 ## 2.1.2 - 2026-07-21
 
 - Added a curated long-term recommendations section to the resource navigation, with practical fit, rationale, cautions, and category-level recommendation markers.

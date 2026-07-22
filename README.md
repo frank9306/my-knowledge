@@ -18,7 +18,7 @@
 
 ## 专题文章
 
-本站共收录 61 篇专题文章。
+本站共收录 62 篇专题文章。
 
 ### AI 编程工程
 
@@ -31,6 +31,7 @@
 
 ### AI Agent
 
+- [从工作流到工具连接：如何规划 AI Agent 的 Plugin、Skill 和 MCP](https://knowledge.webfrank.top/ai-agent/plugin-skills-mcp-guide/)
 - [AI Agent 开发转行指南：从面试痛点看学习路径](https://knowledge.webfrank.top/ai-agent/ai-agent-career-guide/)
 - [AI Agent 学习资源整理](https://knowledge.webfrank.top/ai-agent/ai-agent-learning-resources/)
 - [使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](https://knowledge.webfrank.top/ai-agent/browser-use-deepseek-github-trending/)

@@ -4,6 +4,7 @@
 
 ## 文章列表
 
+- [从工作流到工具连接：如何规划 AI Agent 的 Plugin、Skill 和 MCP](/ai-agent/plugin-skills-mcp-guide)
 - [OpenWebUI + Deepseek API 快速部署笔记](/ai-agent/openwebui-deepseek-api)
 - [使用 browser-use + DeepSeek 构建自动化 GitHub 日榜信息提取器](/ai-agent/browser-use-deepseek-github-trending)
 - [基于 LangGraph 构建的聊天机器人](/ai-agent/langgraph-chatbot)
