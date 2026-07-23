@@ -44,8 +44,8 @@
 
 ### [Codex Switch Helper](https://github.com/frank9306/codex-switch-helper)
 
-- **适合：** 需要在 Windows 上管理并切换多套 Codex CLI 配置的用户。
-- **推荐理由：** 集中管理不同账号、模型提供商和环境配置，减少手工替换配置文件带来的操作成本。
+- **适合：** 需要在 Windows 上管理多个 Codex App 账号、API Key、Provider 和并行实例的用户。
+- **推荐理由：** 每个 Profile 隔离 Home、登录状态和桌面应用数据，同时共享 `AGENTS.md`、Skills 与第三方 Plugins，减少手工替换配置文件带来的操作成本。
 - **使用提醒：** 配置中可能包含敏感凭据，导入、备份或分享前应检查并妥善保护。
 
 ### [QuickNav](https://github.com/frank9306/quick-nav-extension)
@@ -88,7 +88,7 @@
 
 ## 个人项目
 
-- [Codex Switch Helper](https://github.com/frank9306/codex-switch-helper) ⭐ 长期推荐：面向 Windows 的 Codex CLI 多配置管理工具，用于切换不同账号、模型提供商和环境配置。
+- [Codex Switch Helper](https://github.com/frank9306/codex-switch-helper) ⭐ 长期推荐：面向 Windows 的 Codex App 多 Profile 管理工具，用于隔离账号、API Key、Home 和桌面应用数据，并共享 AGENTS.md、Skills 与第三方 Plugins。
 - [QuickNav](https://github.com/frank9306/quick-nav-extension) ⭐ 长期推荐：将浏览器新标签页替换为个人导航站，支持卡片管理、智能搜索、批量编辑、每日备忘和快捷添加网站。
 
 ## 学习资料

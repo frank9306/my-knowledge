@@ -1,15 +1,18 @@
 ---
 title: "Codex Switch Helper：在 Windows 上隔离并同时运行多个 Codex Profile"
 date: 2026-07-23
+description: "用独立 Profile 管理 Codex 账号、API Key、Home、Skills 和第三方 Plugins，并在 Windows 上同时运行多个互不干扰的 Codex 实例。"
 ---
 
 # Codex Switch Helper：在 Windows 上隔离并同时运行多个 Codex Profile
 
-在同一台 Windows 电脑上使用多个 Codex 账号或 API Provider，真正容易出问题的不是“换一个 Key”，而是几类状态会互相影响：`auth.json` 保存登录凭据，`config.toml` 保存模型与 Provider 配置，`CODEX_HOME` 决定 Codex 从哪里读取会话、Skills 和配置，而 Codex 桌面应用自身还维护一套 Chromium 应用数据。
+只使用一个 Codex 账号时，默认客户端已经足够简单。可一旦需要在个人账号、工作账号和不同 API Key 之间切换，登录状态、`config.toml`、`CODEX_HOME` 与桌面应用数据就可能互相影响。
 
-[Codex Switch Helper](https://github.com/frank9306/codex-switch-helper) 把这些状态组织成独立 Profile。到 `v0.2.7`，它已经不只是切换环境变量：每个 Profile 都有独立的托管 Codex Home 和应用数据目录，可以同时启动多个互不占用登录状态的 Codex 桌面实例；全局 `AGENTS.md` 和 Skills 则可以跨 Profile 共享。
+[Codex Switch Helper](https://github.com/frank9306/codex-switch-helper) 把这些状态组织成独立 Profile。每个 Profile 都有独立的托管 Codex Home 和应用数据目录，可以同时启动多个互不占用登录状态的 Codex 桌面实例；全局 `AGENTS.md`、Skills 和第三方 Plugins 则可以跨 Profile 共享。
 
-![Codex Switch Helper 界面](https://raw.githubusercontent.com/frank9306/codex-switch-helper/main/docs/screenshot.png)
+它解决的不是“怎么换一个账号”，而是“怎么让多套 Codex 环境长期共存，而且互不打架”。
+
+![Codex Switch Helper Profile 管理界面](/images/codex-switch-helper/dashboard-watermarked.png)
 
 ## 从“切换配置”变成“隔离实例”
 
@@ -42,7 +45,7 @@ API Key Profile 会把 `OPENAI_API_KEY` 只传给对应 Codex 进程，并删除
 
 第三方接口必须兼容 Codex 使用的 Responses API。工具负责生成配置和传递密钥，不负责把 Chat Completions 协议转换成 Responses 协议。连通测试会请求相应的 `/models` 地址，因此“测试通过”只能证明密钥与该端点可访问，不能保证上游完整支持 Codex 的所有请求和工具调用。
 
-## 共享规则和 Skills，但不共享登录状态
+## 共享规则、Skills 和 Plugins，但不共享登录状态
 
 完全隔离解决了账号冲突，也带来一个新问题：如果每个 Profile 都复制一份通用规则和 Skills，后续维护会迅速失去同步。
 
@@ -55,7 +58,17 @@ Skills 页面会同时发现两个位置：
 
 界面支持按名称搜索、按来源分组，并把 `~/.codex/skills` 中缺失的项目导入共享目录。导入采用非覆盖策略：共享目录里已有同名 Skill 时不会被替换。
 
-`v0.2.7` 同时移除了早前加入的用量统计、SQLite 用量库和 Profile 皮肤功能。当前产品重新聚焦于 Profile 隔离、共享规则与 Skills，以及 Codex 实例管理。
+`v0.2.8` 又把第三方 Plugins 纳入共享资源。应用会从托管 Profile 的非官方 Marketplace 缓存中汇总插件，保存到 `~/.agents/plugins/<plugin>/<version>`，生成本地 `agents-shared` Marketplace，再同步到所有托管 Profile。
+
+这个过程有三条保护边界：
+
+- OpenAI 内置或官方 Marketplace 的插件缓存不会被复制进共享库；
+- 同名同版本但文件内容不同的插件会报告冲突，不会静默覆盖；
+- Profile 创建和启动时会检查共享插件，让后来创建的 Profile 也能接入同一套第三方能力。
+
+![Codex Switch Helper Skills 管理界面](/images/codex-switch-helper/skills-watermarked.png)
+
+`v0.2.7` 移除了早前加入的用量统计、SQLite 用量库和 Profile 皮肤功能。当前产品重新聚焦于 Profile 隔离、共享 AGENTS.md、Skills 和 Plugins，以及 Codex 实例管理。
 
 ## 代理、托盘和更新
 
@@ -70,9 +83,13 @@ Skills 页面会同时发现两个位置：
 
 应用还提供 Windows 系统托盘、登录 Windows 后自动启动、Light/Dark 主题和耗时操作进度提示。关闭主窗口后，程序会继续驻留托盘，可从托盘重新打开或退出。更新由 Tauri updater 从 GitHub Releases 获取签名产物；发现新版本时，界面会显示当前版本、目标版本、发布日期和版本说明。
 
+`v0.2.8` 把原来的页面级状态信息改成了紧凑 Toast。成功、信息、错误和加载状态彼此区分，详细错误仍然保留，操作结果不再挤压主要工作区。
+
+![Codex Switch Helper 关于与更新页面](/images/codex-switch-helper/about-watermarked.png)
+
 ## 从安装到第一次并行启动
 
-安装包发布在 [GitHub Releases](https://github.com/frank9306/codex-switch-helper/releases)。截至 2026 年 7 月 23 日，最新公开版本为 `v0.2.7`。
+安装包发布在 [GitHub Releases](https://github.com/frank9306/codex-switch-helper/releases)。截至 2026 年 7 月 23 日，最新公开版本为 `v0.2.8`。
 
 基本使用流程如下：
 
@@ -93,11 +110,17 @@ Skills 页面会同时发现两个位置：
 - `config.toml` 允许用户在 Profile Home 中继续修改。当前版本会保留这些改动，包括手动添加的 MCP Server，不再在每次启动时用旧快照覆盖。
 - 代理和凭据只影响之后由工具启动的实例，已经运行的 Codex 进程不会自动切换到另一个 Profile。
 
-如果只是临时换一次 API Key，手动设置环境变量仍然更轻量。需要长期维护多个账号、第三方 Provider 和并行 Codex 窗口时，Codex Switch Helper 的价值在于把登录状态、Home 和桌面应用数据一起隔离，同时让通用的 `AGENTS.md` 与 Skills 保持共享。
+如果只是临时换一次 API Key，手动设置环境变量仍然更轻量。需要长期维护多个账号、第三方 Provider 和并行 Codex 窗口时，Codex Switch Helper 的价值在于把登录状态、Home 和桌面应用数据一起隔离，同时让通用的 `AGENTS.md`、Skills 与第三方 Plugins 保持共享。
+
+## 如果它替你省掉一次重复登录
+
+开源小工具最需要的，不只是下载量，而是一个明确的信号：有人真的遇到了这个问题，也希望项目继续维护。
+
+如果 Codex Switch Helper 让你少改一次环境变量、少复制一次配置，或者终于能把两个 Codex 实例同时开起来，欢迎到 [GitHub 仓库](https://github.com/frank9306/codex-switch-helper) 点一下 **Star**。这样既方便以后找回来，也能让更多被多账号、多 API Key 和多环境切换困扰的人发现它。
 
 ## 资料与核对范围
 
-本文按 `v0.2.7` 的 README、CHANGELOG、Tauri 配置和 Windows 后端实现核对，版本与功能状态截至 2026 年 7 月 23 日。上游 Codex App 的行为和第三方 Provider 兼容性可能随版本变化，实际接入时仍应以当前 Codex 与服务商文档为准。
+本文按 `v0.2.8` 的 README、CHANGELOG、Tauri 配置和 Windows 后端实现核对，版本与功能状态截至 2026 年 7 月 23 日。上游 Codex App 的行为、第三方 Provider 和 Plugin 兼容性可能随版本变化，实际接入时仍应以当前 Codex 与服务商文档为准。
 
 - [项目仓库与中文 README](https://github.com/frank9306/codex-switch-helper/blob/main/README.zh-CN.md)
 - [版本记录](https://github.com/frank9306/codex-switch-helper/blob/main/CHANGELOG.md)

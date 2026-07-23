@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.7 - 2026-07-23
+
+- Updated the Codex Switch Helper guide for v0.2.8 with new watermarked screenshots, shared third-party Plugin management, clearer product advantages, and a direct GitHub Star call to action.
+- Corrected the project descriptions on the About and Resources pages to reflect process-local credentials, isolated Profile data, concurrent instances, and shared resources.
+
 ## 2.1.6 - 2026-07-23
 
 - Reworked the Vibe Coding governance article with evidence from METR, DORA, NIST, and GitHub, plus two original diagrams explaining risk accumulation and the governed delivery loop.
