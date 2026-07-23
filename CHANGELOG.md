@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.5 - 2026-07-23
+
+- Updated the Codex Switch Helper guide for v0.2.7, covering isolated Profile homes, concurrent Codex instances, in-Profile sign-in, shared AGENTS.md and Skills, and current security boundaries.
+
 ## 2.1.4 - 2026-07-23
 
 - Reworked the Plugin, Skill, and MCP guide with six hand-drawn narrative infographics, clearer in-image explanations, and consistent site watermarking.

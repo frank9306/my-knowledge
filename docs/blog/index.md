@@ -71,7 +71,7 @@
 
 - [Codex 实测：12 套 Vibe Coding Plugins 与 Skills 怎么选](/blog/vibe-coding-tools-codex-benchmark)
 - [Loop Engineering：一张图看懂四种 Agent 循环](/blog/loop-engineering-four-agent-loops)
-- [Codex Switch Helper：在 Windows 上切换多套 Codex Profile](/blog/codex-switch-helper-windows-profiles)
+- [Codex Switch Helper：在 Windows 上隔离并同时运行多个 Codex Profile](/blog/codex-switch-helper-windows-profiles)
 - [“单一职责”是为谁服务的？——SRP 原则的人本视角解读](/blog/srp-human-centered)
 - [公平队列：别让大客户拖垮你的系统](/blog/fair-queue)
 - [使用 browser-use 进行数据爬取并保存到文件](/blog/browser-use-scraping-to-file)
