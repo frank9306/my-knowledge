@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.4 - 2026-07-23
+
+- Reworked the Plugin, Skill, and MCP guide with six hand-drawn narrative infographics, clearer in-image explanations, and consistent site watermarking.
+
 ## 2.1.3 - 2026-07-22
 
 - Published a practical guide to choosing and planning Plugin, Skill, and MCP capabilities for AI Agent workflows, including boundaries, permissions, and rollout strategy.
