@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.6 - 2026-07-23
+
+- Reworked the Vibe Coding governance article with evidence from METR, DORA, NIST, and GitHub, plus two original diagrams explaining risk accumulation and the governed delivery loop.
+
 ## 2.1.5 - 2026-07-23
 
 - Updated the Codex Switch Helper guide for v0.2.7, covering isolated Profile homes, concurrent Codex instances, in-Profile sign-in, shared AGENTS.md and Skills, and current security boundaries.
