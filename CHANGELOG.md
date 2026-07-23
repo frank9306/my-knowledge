@@ -4,7 +4,7 @@ All notable published changes to this knowledge site are recorded here.
 
 ## 2.1.7 - 2026-07-23
 
-- Previewed the in-development Codex Switch Helper v0.2.8 guide with new watermarked screenshots, shared third-party Plugin management, clearer product advantages, and a direct GitHub Star call to action.
+- Published the Codex Switch Helper v0.2.8 guide with new watermarked screenshots, shared third-party Plugin management, clearer product advantages, and a direct GitHub Star call to action.
 - Corrected the project descriptions on the About and Resources pages to reflect process-local credentials, isolated Profile data, concurrent instances, and shared resources.
 
 ## 2.1.6 - 2026-07-23
