@@ -89,7 +89,7 @@ Skills 页面会同时发现两个位置：
 
 ## 从安装到第一次并行启动
 
-安装包发布在 [GitHub Releases](https://github.com/frank9306/codex-switch-helper/releases)。截至 2026 年 7 月 23 日，最新公开版本为 `v0.2.8`。
+安装包发布在 [GitHub Releases](https://github.com/frank9306/codex-switch-helper/releases)。截至 2026 年 7 月 23 日，当前稳定版为 `v0.2.7`，本文提前记录的 v0.2.8 功能仍在开发中。
 
 基本使用流程如下：
 
@@ -120,7 +120,7 @@ Skills 页面会同时发现两个位置：
 
 ## 资料与核对范围
 
-本文按 `v0.2.8` 的 README、CHANGELOG、Tauri 配置和 Windows 后端实现核对，版本与功能状态截至 2026 年 7 月 23 日。上游 Codex App 的行为、第三方 Provider 和 Plugin 兼容性可能随版本变化，实际接入时仍应以当前 Codex 与服务商文档为准。
+本文按待发布 `v0.2.8` 的 README、CHANGELOG、Tauri 配置和 Windows 后端实现核对，功能状态截至 2026 年 7 月 23 日。正式安装仍应以 GitHub Releases 中的最新稳定版为准；上游 Codex App 的行为、第三方 Provider 和 Plugin 兼容性可能随版本变化，实际接入时还应参考当前 Codex 与服务商文档。
 
 - [项目仓库与中文 README](https://github.com/frank9306/codex-switch-helper/blob/main/README.zh-CN.md)
 - [版本记录](https://github.com/frank9306/codex-switch-helper/blob/main/CHANGELOG.md)
