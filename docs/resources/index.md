@@ -69,7 +69,12 @@
 
 ## 网络与代理工具
 
+- [DetectRadar](https://github.com/harrisonwang/detect-radar): 开源的网络环境一致性检测工具，用于核对出口 IP 与浏览器时区、语言和环境特征，并检查 WebRTC、DNS、IPv6 泄露以及 Canvas、Audio、WebGL 等浏览器指纹信号。
 - [ProxyBridge](https://github.com/InterceptSuite/ProxyBridge) ⭐ 长期推荐：跨 Windows / macOS / Linux 的轻量代理客户端，可按进程将 TCP 与 UDP 流量转发到 SOCKS5 或 HTTP 代理，Proxifier 的开源替代品。
+
+## 开源系统与硬件
+
+- [AsteroidOS](https://asteroidos.org/): 面向智能手表的开源 Linux 发行版，强调用户对设备和数据的控制，提供日程、闹钟、音乐控制、天气等常用应用，并支持移植到多款 Android 和 Wear OS 手表。
 
 ## AI 与提示词
 
@@ -93,6 +98,8 @@
 
 ## 学习资料
 
+- [CSS Flexbox Playground](https://yoavsbg.github.io/css-flexbox-playground/): 交互式 Flexbox 学习工具，可实时调整布局属性、观察元素排列变化并复制生成的 CSS，适合通过实验理解主轴、交叉轴、对齐和换行规则。
+- [Ship That Code](https://shipthatcode.com/): 项目制编程学习平台，通过从零实现 Redis、Git、数据库、编程语言、容器运行时和操作系统内核等系统来学习底层原理，练习代码需要在真实执行器中通过测试。
 - [Ebook Treasure Chest](https://jbiaojerry.github.io/ebook-treasure-chest/): 支持搜索的电子书资源索引，覆盖中文 EPUB、MOBI、AZW3 等格式。
 - [小林面试笔记](https://xiaolinnote.com/): 图解 Agent、RAG、LLM 和 Claude Code 的大模型面试题与学习笔记。
 

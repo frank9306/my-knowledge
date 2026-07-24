@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.8 - 2026-07-24
+
+- Expanded the curated reading page with articles on AI research directions and local Git exclude rules.
+- Added AsteroidOS, DetectRadar, Ship That Code, and CSS Flexbox Playground to the resource navigation.
+
 ## 2.1.7 - 2026-07-23
 
 - Published the Codex Switch Helper v0.2.8 guide with new watermarked screenshots, shared third-party Plugin management, clearer product advantages, and a direct GitHub Star call to action.
