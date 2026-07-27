@@ -18,7 +18,7 @@
 
 ## 专题文章
 
-本站共收录 62 篇专题文章。
+本站共收录 63 篇专题文章。
 
 ### AI 编程工程
 
@@ -88,6 +88,7 @@
 
 ### 博客文章
 
+- [AI 工程进入系统时代：从 Agent 到 Harness、Loop 与 Skills](https://knowledge.webfrank.top/blog/ai-engineering-systems-harness-loop-skills/)
 - [Codex Switch Helper：在 Windows 上隔离并同时运行多个 Codex Profile](https://knowledge.webfrank.top/blog/codex-switch-helper-windows-profiles/)
 - [Codex 实测：12 套 Vibe Coding Plugins 与 Skills 怎么选](https://knowledge.webfrank.top/blog/vibe-coding-tools-codex-benchmark/)
 - [Loop Engineering：一张图看懂四种 Agent 循环](https://knowledge.webfrank.top/blog/loop-engineering-four-agent-loops/)

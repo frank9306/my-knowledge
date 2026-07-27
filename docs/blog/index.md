@@ -69,6 +69,7 @@
 
 ## 博客文章
 
+- [AI 工程进入系统时代：从 Agent 到 Harness、Loop 与 Skills](/blog/ai-engineering-systems-harness-loop-skills)
 - [Codex 实测：12 套 Vibe Coding Plugins 与 Skills 怎么选](/blog/vibe-coding-tools-codex-benchmark)
 - [Loop Engineering：一张图看懂四种 Agent 循环](/blog/loop-engineering-four-agent-loops)
 - [Codex Switch Helper：在 Windows 上隔离并同时运行多个 Codex Profile](/blog/codex-switch-helper-windows-profiles)

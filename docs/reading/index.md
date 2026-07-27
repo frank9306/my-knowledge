@@ -14,6 +14,9 @@ description: 值得反复阅读的外部技术资源与核心观点索引。
 
 ## Agent 工作流
 
+- [5 Trends That Defined AI Engineering at World’s Fair 2026](https://www.latent.space/p/aiewf26trends)
+  Richard MacManus 根据 2026 AI Engineer World’s Fair 的演讲与访谈，总结了 AI 工程的五个变化：关注点从 Agent 本体转向 Harness，Loop 成为控制层，FDE 推动企业落地，Coding Agent 成为新的开发交互入口，各平台开始用 Skills 封装工作流。文章也保留了对全自动软件工厂的质疑，适合作为观察 Agent 工程化方向的会议切片。
+
 - [Anthropic 免费 Claude AI 工程课程](https://x.com/huoshan007/status/2076944286231531664)
   一门约 4 小时的免费课程，集中讲解如何正确提示 Claude、哪些操作会削弱代码生成效果、Anthropic 内部如何使用 Claude，以及如何通过构建循环让 Agent 持续完成任务。原帖附有关键时间点，适合按主题快速观看。
 

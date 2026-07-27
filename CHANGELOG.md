@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.9 - 2026-07-27
+
+- Added an AIEWF 2026 trend report to the curated reading page and published an original analysis of Harness Engineering, Agent loops, enterprise adoption, coding interfaces, and Skills.
+
 ## 2.1.8 - 2026-07-24
 
 - Expanded the curated reading page with articles on AI research directions and local Git exclude rules.
