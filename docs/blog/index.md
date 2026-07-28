@@ -69,6 +69,7 @@
 
 ## 博客文章
 
+- [团队如何建设统一的 AI 编程 Harness](/blog/harness-engineering-team-plugin-profiles)
 - [AI 工程进入系统时代：从 Agent 到 Harness、Loop 与 Skills](/blog/ai-engineering-systems-harness-loop-skills)
 - [Codex 实测：12 套 Vibe Coding Plugins 与 Skills 怎么选](/blog/vibe-coding-tools-codex-benchmark)
 - [Loop Engineering：一张图看懂四种 Agent 循环](/blog/loop-engineering-four-agent-loops)

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">团队 Harness Plugin 架构</title>
+  <desc id="desc">团队基线与多个技术栈 Profile 由统一插件中的初始化、检查和升级工作流应用到不同业务项目。</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0f172a" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="1400" height="760" rx="24" fill="#f8fafc"/>
+  <text x="700" y="58" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="30" font-weight="700" fill="#0f172a">一个 Plugin，多种项目 Profile，一套团队标准</text>
+  <text x="700" y="94" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="17" fill="#526173">标准内容与业务项目分离，初始化、检查和升级共享同一契约</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="150" width="330" height="210" rx="18" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+    <rect x="535" y="135" width="330" height="240" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+    <rect x="1000" y="150" width="330" height="210" rx="18" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+  </g>
+
+  <text x="235" y="196" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#0f172a">团队权威标准</text>
+  <text x="105" y="238" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#334155">• 工程与安全基线</text>
+  <text x="105" y="275" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#334155">• 测试与交付要求</text>
+  <text x="105" y="312" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#334155">• 版本与例外规则</text>
+
+  <text x="700" y="184" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#1d4ed8">team-harness Plugin</text>
+  <rect x="585" y="218" width="230" height="42" rx="10" fill="#ffffff" stroke="#93c5fd"/>
+  <rect x="585" y="272" width="230" height="42" rx="10" fill="#ffffff" stroke="#93c5fd"/>
+  <rect x="585" y="326" width="230" height="42" rx="10" fill="#ffffff" stroke="#93c5fd"/>
+  <text x="700" y="246" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#1e3a8a">harness-init</text>
+  <text x="700" y="300" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#1e3a8a">harness-check</text>
+  <text x="700" y="354" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="17" fill="#1e3a8a">harness-upgrade</text>
+
+  <text x="1165" y="196" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700" fill="#0f172a">项目 Profiles</text>
+  <text x="1035" y="238" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#334155">• react-vite-app</text>
+  <text x="1035" y="275" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#334155">• python-fastapi-service</text>
+  <text x="1035" y="312" font-family="Inter, system-ui, sans-serif" font-size="18" fill="#334155">• go-client-library</text>
+
+  <line x1="405" y1="255" x2="520" y2="255" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="995" y1="255" x2="880" y2="255" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <line x1="700" y1="392" x2="700" y2="455" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="725" y="430" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#526173">只投射项目需要的内容</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="500" width="360" height="185" rx="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <rect x="520" y="500" width="360" height="185" rx="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <rect x="970" y="500" width="360" height="185" rx="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  </g>
+
+  <text x="250" y="548" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700" fill="#0f172a">React 前端项目</text>
+  <text x="110" y="590" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">AGENTS.md</text>
+  <text x="110" y="624" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">.harness/manifest.json</text>
+  <text x="110" y="658" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">lint · typecheck · test · build</text>
+
+  <text x="700" y="548" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Python 后端项目</text>
+  <text x="560" y="590" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">AGENTS.md</text>
+  <text x="560" y="624" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">.harness/manifest.json</text>
+  <text x="560" y="658" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">lint · typecheck · test · health</text>
+
+  <text x="1150" y="548" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700" fill="#0f172a">Go 客户端项目</text>
+  <text x="1010" y="590" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">AGENTS.md</text>
+  <text x="1010" y="624" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">.harness/manifest.json</text>
+  <text x="1010" y="658" font-family="JetBrains Mono, monospace" font-size="16" fill="#475569">fmt · vet · test · build</text>
+</svg>

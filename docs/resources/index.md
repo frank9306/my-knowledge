@@ -56,6 +56,8 @@
 
 ## AI Agent 开源项目
 
+- [Better Harness](https://github.com/QoderAI/better-harness): 面向 AI 编程工作流的开源评审与持续改进工具，从任务理解、受控执行、变更验证、可靠交付和经验沉淀五个维度收集证据、生成报告，并为具体问题提供可验证的改进方案。
+- [深入理解 AI Agent：设计原理与工程实践](https://github.com/bojieli/ai-agent-book): 李博杰编写的开源 AI Agent 教材，用 10 章系统讲解设计原理与工程实践，提供全书正文、PDF / EPUB 和 92 个配套实验。
 - [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI/blob/main/README_zh.md): 面向 AI Agent 的开源 Office 命令行工具，可跨平台创建、读取、修改和验证 Word、Excel、PowerPoint 文档，提供结构化 JSON、无头 HTML/PNG 渲染、实时预览与 MCP 集成，无需安装 Microsoft Office。
 - [DeepTutor](https://deeptutor.info/zh-cn/): Agent-native 的开源个性化学习伴侣，将对话、知识库、可审计记忆、协同写作、交互式书本与学习空间整合到本地工作区，并可连接 Claude Code、Codex 等编程 Agent。
 - [Agent-Reach](https://github.com/Panniantong/Agent-Reach): 给 AI Agent 一键装上互联网能力，统一接入 Twitter、Reddit、YouTube、GitHub、B 站、小红书等平台，免 API 费。

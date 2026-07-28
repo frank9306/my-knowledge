@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.10 - 2026-07-28
+
+- Published a detailed guide to building a unified AI coding Harness across React, Python, and Go projects, covering team baselines, project profiles, Plugin boundaries, deterministic initialization, compliance checks, and upgrades.
+- Added Better Harness and the open-source book *深入理解 AI Agent：设计原理与工程实践* to the resource navigation.
+
 ## 2.1.9 - 2026-07-27
 
 - Added an AIEWF 2026 trend report to the curated reading page and published an original analysis of Harness Engineering, Agent loops, enterprise adoption, coding interfaces, and Skills.
