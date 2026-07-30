@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">PolyHarness 目标与证据闭环</title>
+  <desc id="desc">自然语言请求先形成目标契约，经过受控实现后收集绑定最终工作区状态的证据，再交由独立评估器逐项判断。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.card{fill:#fff;stroke:#d9e3f0;stroke-width:2}.bluecard{fill:#eef5ff;stroke:#8bb2e8;stroke-width:2}.greencard{fill:#edf8f2;stroke:#83b79e;stroke-width:2}.dark{fill:#172033}.muted{fill:#526173}.blue{fill:#2563eb}.line{stroke:#7893b5;stroke-width:4;fill:none;marker-end:url(#arrow)}.return{stroke:#8aa898;stroke-width:3;stroke-dasharray:10 9;fill:none;marker-end:url(#arrowGreen)}.t1{font:700 34px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.t2{font:700 22px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.body{font:500 18px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.small{font:500 15px Inter,'Segoe UI','Microsoft YaHei',sans-serif}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#7893b5"/></marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#8aa898"/></marker>
+  </defs>
+  <rect class="bg" width="1440" height="900"/>
+  <text class="t1 dark" x="72" y="70">“完成”来自证据闭环，而不是执行者自述</text>
+  <text class="body muted" x="72" y="106">每个判断都回到预先固定的验收边界，并且只接受属于最终工作区状态的证据。</text>
+
+  <rect class="card" x="72" y="180" width="250" height="156" rx="18"/>
+  <text class="small blue" x="102" y="216">INPUT</text>
+  <text class="t2 dark" x="102" y="258">自然语言需求</text>
+  <text class="body muted" x="102" y="296">“帮我开发登录功能”</text>
+
+  <path class="line" d="M322 258H388"/>
+  <rect class="bluecard" x="390" y="150" width="310" height="216" rx="18"/>
+  <text class="small blue" x="422" y="188">BOUNDARY</text>
+  <text class="t2 dark" x="422" y="230">Goal Contract</text>
+  <text class="body muted" x="422" y="268">目标 · 验收条件 · 约束</text>
+  <text class="body muted" x="422" y="302">非目标 · 交付物</text>
+  <text class="small dark" x="422" y="338">实现不能反向弱化目标</text>
+
+  <path class="line" d="M700 258H766"/>
+  <rect class="card" x="768" y="180" width="250" height="156" rx="18"/>
+  <text class="small blue" x="798" y="216">EXECUTION</text>
+  <text class="t2 dark" x="798" y="258">受控实现</text>
+  <text class="body muted" x="798" y="296">检查项目 → 最小改动 → 验证</text>
+
+  <path class="line" d="M1018 258H1084"/>
+  <rect class="greencard" x="1086" y="150" width="282" height="216" rx="18"/>
+  <text class="small blue" x="1118" y="188">FINAL-STATE EVIDENCE</text>
+  <text class="t2 dark" x="1118" y="230">Evidence Bundle</text>
+  <text class="body muted" x="1118" y="268">项目检查 · 变更 · 交付物</text>
+  <text class="body muted" x="1118" y="302">最终工作区指纹</text>
+  <text class="small dark" x="1118" y="338">过期结果不能证明当前状态</text>
+
+  <path class="line" d="M1227 366V456"/>
+  <rect class="card" x="934" y="458" width="434" height="182" rx="18"/>
+  <text class="small blue" x="966" y="496">READ-ONLY REVIEW</text>
+  <text class="t2 dark" x="966" y="538">独立严格评估</text>
+  <text class="body muted" x="966" y="576">逐项检查条件、约束与交付物</text>
+  <text class="small dark" x="966" y="612">未知引用与 Agent 叙述不能替代证据</text>
+
+  <path class="line" d="M934 550H836"/>
+  <rect class="bluecard" x="322" y="458" width="514" height="182" rx="18"/>
+  <text class="small blue" x="354" y="496">VERDICT</text>
+  <text class="t2 dark" x="354" y="538">ACHIEVED · PARTIAL · NOT_ACHIEVED</text>
+  <text class="body dark" x="354" y="578">UNPROVEN · BLOCKED · NOT_APPLICABLE</text>
+  <text class="small muted" x="354" y="612">不使用百分比分数覆盖缺失或失败的必要条件</text>
+
+  <path class="return" d="M579 640V742H545V366"/>
+  <text class="body muted" x="602" y="734">未达成或证据不足 → 回到明确条件继续修复与验证</text>
+  <text class="small muted" x="1368" y="862" text-anchor="end">概念示意图 · PolyHarness v0.2.0</text>
+</svg>

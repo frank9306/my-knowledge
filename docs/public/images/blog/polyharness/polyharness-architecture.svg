@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+  <title id="title">PolyHarness 分层架构</title>
+  <desc id="desc">稳定工作循环、可组合能力与 Profile 初始化配方共同生成项目 Manifest，再形成项目 Harness。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.panel{fill:#fff;stroke:#d9e3f0;stroke-width:2}.soft{fill:#eef5ff;stroke:#9abbea;stroke-width:2}.green{fill:#edf8f2;stroke:#83b79e;stroke-width:2}.amber{fill:#fff8e8;stroke:#dfbd72;stroke-width:2}.ink{fill:#172033}.muted{fill:#526173}.blue{fill:#2563eb}.line{stroke:#7893b5;stroke-width:3;fill:none;marker-end:url(#arrow)}.dash{stroke-dasharray:9 8}.t1{font:700 34px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.t2{font:700 22px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.body{font:500 18px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.small{font:500 15px Inter,'Segoe UI','Microsoft YaHei',sans-serif}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7893b5"/></marker>
+  </defs>
+  <rect class="bg" width="1440" height="900"/>
+  <text class="t1 ink" x="72" y="70">PolyHarness：稳定规则与场景能力分离</text>
+  <text class="body muted" x="72" y="106">语言和框架可以变化，可靠交付的循环保持稳定；场景差异由 Capability 明确表达。</text>
+
+  <rect class="soft" x="72" y="154" width="390" height="268" rx="18"/>
+  <text class="t2 ink" x="104" y="198">Universal Work Loop</text>
+  <text class="small muted" x="104" y="227">跨项目长期成立的工程过程</text>
+  <g class="body ink">
+    <text x="112" y="276">01 任务理解</text><text x="112" y="316">02 可控执行</text>
+    <text x="112" y="356">03 改动验证</text><text x="276" y="276">04 可靠交付</text>
+    <text x="276" y="316">05 经验沉淀</text>
+  </g>
+
+  <rect class="green" x="525" y="154" width="390" height="268" rx="18"/>
+  <text class="t2 ink" x="557" y="198">Capability Modules</text>
+  <text class="small muted" x="557" y="227">按真实产品边界组合规则</text>
+  <g class="body ink">
+    <text x="565" y="278">api-service</text><text x="735" y="278">web-ui</text>
+    <text x="565" y="326">cli</text><text x="735" y="326">tui</text>
+    <text x="565" y="374">gui</text>
+  </g>
+
+  <rect class="amber" x="978" y="154" width="390" height="268" rx="18"/>
+  <text class="t2 ink" x="1010" y="198">Profile Recipes</text>
+  <text class="small muted" x="1010" y="227">常用组合与实现参数，只负责初始化</text>
+  <g class="body ink">
+    <text x="1018" y="278">python-fastapi</text><text x="1018" y="318">typescript-react-vite</text>
+    <text x="1018" y="358">tauri-react</text>
+  </g>
+
+  <path class="line" d="M268 422V505H565"/>
+  <path class="line" d="M720 422V505"/>
+  <path class="line dash" d="M1173 422V505H875"/>
+  <text class="small muted" x="1070" y="474">初始化后不拥有规则</text>
+
+  <rect class="panel" x="376" y="506" width="688" height="126" rx="18"/>
+  <text class="t2 ink" x="414" y="553">Project Manifest</text>
+  <text class="body muted" x="414" y="590">显式记录 Capability、参数、标准版本与项目例外</text>
+
+  <path class="line" d="M720 632V692"/>
+  <rect class="panel" x="244" y="694" width="952" height="130" rx="18"/>
+  <text class="t2 blue" x="282" y="742">Project Harness</text>
+  <text class="body ink" x="282" y="784">项目指令 · 真实命令 · 检查规则 · 证据边界 · 升级路径</text>
+  <text class="small muted" x="1120" y="862" text-anchor="end">概念示意图 · PolyHarness v0.2.0</text>
+</svg>

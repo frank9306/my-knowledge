@@ -69,6 +69,7 @@
 
 ## 博客文章
 
+- [PolyHarness：把 Coding Agent 的“完成了”变成可验证的工程结论](/blog/polyharness-verifiable-agent-engineering)
 - [团队如何建设统一的 AI 编程 Harness](/blog/harness-engineering-team-plugin-profiles)
 - [AI 工程进入系统时代：从 Agent 到 Harness、Loop 与 Skills](/blog/ai-engineering-systems-harness-loop-skills)
 - [Codex 实测：12 套 Vibe Coding Plugins 与 Skills 怎么选](/blog/vibe-coding-tools-codex-benchmark)

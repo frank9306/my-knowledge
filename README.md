@@ -18,7 +18,7 @@
 
 ## 专题文章
 
-本站共收录 64 篇专题文章。
+本站共收录 65 篇专题文章。
 
 ### AI 编程工程
 
@@ -88,6 +88,7 @@
 
 ### 博客文章
 
+- [PolyHarness：把 Coding Agent 的“完成了”变成可验证的工程结论](https://knowledge.webfrank.top/blog/polyharness-verifiable-agent-engineering/)
 - [团队如何建设统一的 AI 编程 Harness](https://knowledge.webfrank.top/blog/harness-engineering-team-plugin-profiles/)
 - [AI 工程进入系统时代：从 Agent 到 Harness、Loop 与 Skills](https://knowledge.webfrank.top/blog/ai-engineering-systems-harness-loop-skills/)
 - [Codex Switch Helper：在 Windows 上隔离并同时运行多个 Codex Profile](https://knowledge.webfrank.top/blog/codex-switch-helper-windows-profiles/)

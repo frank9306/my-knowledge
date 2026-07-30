@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="820" viewBox="0 0 1440 820" role="img" aria-labelledby="title desc">
+  <title id="title">PolyHarness 证据状态边界</title>
+  <desc id="desc">PRESENT、WIRED 与 EXERCISED 分别表示静态配置存在、真实命令已配置以及本次检查实际执行，三者不能互相替代。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.card{fill:#fff;stroke:#d9e3f0;stroke-width:2}.p1{fill:#f2f5f9;stroke:#b9c7d8;stroke-width:2}.p2{fill:#eef5ff;stroke:#8bb2e8;stroke-width:2}.p3{fill:#edf8f2;stroke:#78af96;stroke-width:2}.dark{fill:#172033}.muted{fill:#526173}.blue{fill:#2563eb}.green{fill:#287654}.line{stroke:#7893b5;stroke-width:4;fill:none;marker-end:url(#arrow)}.t1{font:700 34px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.t2{font:700 24px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.body{font:500 18px Inter,'Segoe UI','Microsoft YaHei',sans-serif}.small{font:500 15px Inter,'Segoe UI','Microsoft YaHei',sans-serif}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#7893b5"/></marker>
+  </defs>
+  <rect class="bg" width="1440" height="820"/>
+  <text class="t1 dark" x="72" y="70">证据强度逐级增加，但每一级只证明自己的事实</text>
+  <text class="body muted" x="72" y="106">目录存在、命令已配置、命令刚执行，是三个不同的工程事实。</text>
+
+  <rect class="p1" x="72" y="172" width="360" height="300" rx="18"/>
+  <text class="small muted" x="106" y="212">STATIC EVIDENCE</text>
+  <text class="t2 dark" x="106" y="258">PRESENT</text>
+  <text class="body dark" x="106" y="306">项目拥有静态配置</text>
+  <text class="body muted" x="106" y="350">例如：测试目录、CI 文件、</text>
+  <text class="body muted" x="106" y="382">AGENTS.md 或脚本声明</text>
+  <rect class="card" x="106" y="412" width="292" height="36" rx="8"/>
+  <text class="small muted" x="252" y="436" text-anchor="middle">不能证明运行行为</text>
+
+  <path class="line" d="M432 322H526"/>
+  <rect class="p2" x="528" y="172" width="360" height="300" rx="18"/>
+  <text class="small blue" x="562" y="212">CONFIGURED ROUTE</text>
+  <text class="t2 dark" x="562" y="258">WIRED</text>
+  <text class="body dark" x="562" y="306">真实项目命令已经配置</text>
+  <text class="body muted" x="562" y="350">Agent 和 CI 有稳定入口，</text>
+  <text class="body muted" x="562" y="382">但本次检查尚未执行</text>
+  <rect class="card" x="562" y="412" width="292" height="36" rx="8"/>
+  <text class="small muted" x="708" y="436" text-anchor="middle">不能替代本次结果</text>
+
+  <path class="line" d="M888 322H982"/>
+  <rect class="p3" x="984" y="172" width="384" height="300" rx="18"/>
+  <text class="small green" x="1018" y="212">OBSERVED THIS RUN</text>
+  <text class="t2 dark" x="1018" y="258">EXERCISED</text>
+  <text class="body dark" x="1018" y="306">本次检查实际执行命令</text>
+  <text class="body muted" x="1018" y="350">结果可以进入当前证据包，</text>
+  <text class="body muted" x="1018" y="382">但仍要与最终状态绑定</text>
+  <rect class="card" x="1018" y="412" width="316" height="36" rx="8"/>
+  <text class="small green" x="1176" y="436" text-anchor="middle">可证明本次执行事实</text>
+
+  <rect class="card" x="170" y="548" width="1100" height="152" rx="18"/>
+  <text class="t2 dark" x="208" y="594">其他边界状态</text>
+  <text class="body muted" x="208" y="638">MISSING：没有找到证据　·　UNOBSERVED：需要人工或项目特定证据</text>
+  <text class="body muted" x="208" y="674">有效例外可使规则变为 NOT_APPLICABLE，但不会把被豁免的行为伪装成通过</text>
+  <text class="small muted" x="1368" y="782" text-anchor="end">概念示意图 · PolyHarness v0.2.0</text>
+</svg>

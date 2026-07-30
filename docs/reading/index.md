@@ -14,6 +14,9 @@ description: 值得反复阅读的外部技术资源与核心观点索引。
 
 ## Agent 工作流
 
+- [Better Harness 开源了：立即把 Harness 专家带进你的 AI Coding 工具](https://mp.weixin.qq.com/s/PuMpxU1ruXlTgT_JWKoHfQ)
+  Phodal 介绍开源工具 Better Harness 如何围绕具体任务采集 Session Evidence、Project Harness 和 Agent Customize 三类证据，并从任务理解、可控执行、改动验证、可靠交付和经验沉淀五个维度评估 Coding Agent 工作流。文章强调配置存在不等于能力生效，每条改进建议都应具备可追溯证据、明确影响、最小修复范围和验证方式。
+
 - [5 Trends That Defined AI Engineering at World’s Fair 2026](https://www.latent.space/p/aiewf26trends)
   Richard MacManus 根据 2026 AI Engineer World’s Fair 的演讲与访谈，总结了 AI 工程的五个变化：关注点从 Agent 本体转向 Harness，Loop 成为控制层，FDE 推动企业落地，Coding Agent 成为新的开发交互入口，各平台开始用 Skills 封装工作流。文章也保留了对全自动软件工厂的质疑，适合作为观察 Agent 工程化方向的会议切片。
 

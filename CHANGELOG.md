@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.11 - 2026-07-30
+
+- Published an illustrated PolyHarness guide explaining its composable Capability architecture, Goal Contracts, final-state Evidence Bundles, strict evaluation, evidence boundaries, and natural-language Codex workflows.
+- Added the Better Harness open-source announcement to the curated Agent workflow reading list.
+
 ## 2.1.10 - 2026-07-28
 
 - Published a detailed guide to building a unified AI coding Harness across React, Python, and Go projects, covering team baselines, project profiles, Plugin boundaries, deterministic initialization, compliance checks, and upgrades.
