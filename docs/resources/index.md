@@ -6,6 +6,12 @@
 
 下面这些资源经过长期关注或实际使用，适合优先了解。推荐不代表没有缺点，使用前仍应结合自己的平台、网络环境和工作方式判断。
 
+### [Harness Engineering 学习指南](https://github.com/deusyu/harness-engineering)
+
+- **适合：** 希望系统理解 Harness Engineering，并从概念、研究资料进一步走向项目实践的 AI 编程开发者。
+- **推荐理由：** 围绕仓库即记录系统、渐进式披露、机械化约束、智能体可读性、反馈回路和熵管理等主题，整理了概念笔记、独立思考、中文翻译、实践案例与外部资料摘要；仓库自身还通过分层 `AGENTS.md`、一致性检查和策展 Skill 实践这些原则，是兼具学习深度与工程示范价值的中文资料库。
+- **使用提醒：** 这是持续生长的个人学习档案，其中的观点和实践并非通用标准；应用到自己的团队前，应回看原始资料，并结合项目规模、风险和验证能力取舍。
+
 ### [DESIGN.md](https://github.com/google-labs-code/design.md)
 
 - **适合：** 希望让 AI 编程 Agent 稳定理解并遵守项目视觉规范的团队。
@@ -56,6 +62,7 @@
 
 ## AI Agent 开源项目
 
+- [Harness Engineering 学习指南](https://github.com/deusyu/harness-engineering) ⭐ 长期推荐：从核心概念、独立思考、中文翻译和实践案例等多个层次系统整理 Harness Engineering，并用分层 `AGENTS.md`、机械化一致性检查与策展 Skill 在仓库自身验证相关原则。
 - [Better Harness](https://github.com/QoderAI/better-harness): 面向 AI 编程工作流的开源评审与持续改进工具，从任务理解、受控执行、变更验证、可靠交付和经验沉淀五个维度收集证据、生成报告，并为具体问题提供可验证的改进方案。
 - [深入理解 AI Agent：设计原理与工程实践](https://github.com/bojieli/ai-agent-book): 李博杰编写的开源 AI Agent 教材，用 10 章系统讲解设计原理与工程实践，提供全书正文、PDF / EPUB 和 92 个配套实验。
 - [OfficeCLI](https://github.com/iOfficeAI/OfficeCLI/blob/main/README_zh.md): 面向 AI Agent 的开源 Office 命令行工具，可跨平台创建、读取、修改和验证 Word、Excel、PowerPoint 文档，提供结构化 JSON、无头 HTML/PNG 渲染、实时预览与 MCP 集成，无需安装 Microsoft Office。

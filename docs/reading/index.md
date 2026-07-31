@@ -14,6 +14,9 @@ description: 值得反复阅读的外部技术资源与核心观点索引。
 
 ## Agent 工作流
 
+- [工程技术：在智能体优先的世界中利用 Codex](https://openai.com/zh-Hans-CN/index/harness-engineering/)
+  OpenAI 分享了一个完全由 Codex 编写、五个月增长到约一百万行代码的内部产品实验。文章重点不是模型本身，而是支撑智能体可靠工作的工程环境：将仓库作为记录系统，以精简的 `AGENTS.md` 提供导航，通过可执行约束、可观测性、反馈回路和持续“垃圾回收”控制架构漂移，并把工程师的角色提升到设计系统、明确意图和编码判断标准。
+
 - [Better Harness 开源了：立即把 Harness 专家带进你的 AI Coding 工具](https://mp.weixin.qq.com/s/PuMpxU1ruXlTgT_JWKoHfQ)
   Phodal 介绍开源工具 Better Harness 如何围绕具体任务采集 Session Evidence、Project Harness 和 Agent Customize 三类证据，并从任务理解、可控执行、改动验证、可靠交付和经验沉淀五个维度评估 Coding Agent 工作流。文章强调配置存在不等于能力生效，每条改进建议都应具备可追溯证据、明确影响、最小修复范围和验证方式。
 

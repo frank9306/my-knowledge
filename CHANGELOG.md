@@ -2,6 +2,12 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.12 - 2026-07-31
+
+- Published an evidence-led Harness Engineering overview with four labeled hand-drawn diagrams covering human and Agent roles, progressive documentation, mechanical enforcement, feedback loops, and entropy management.
+- Added the Harness Engineering learning guide and OpenAI case study to the curated resources and reading pages.
+- Added supporting Plugin, Skill, and MCP planning visuals and a reusable Zhihu draft for the Codex Switch Helper guide.
+
 ## 2.1.11 - 2026-07-30
 
 - Published an illustrated PolyHarness guide explaining its composable Capability architecture, Goal Contracts, final-state Evidence Bundles, strict evaluation, evidence boundaries, and natural-language Codex workflows.

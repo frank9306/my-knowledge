@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Skill、MCP、Plugin：怎么做、怎么连接、怎么交付</title>
+  <desc id="desc">微信公众号横版中文信息图，用三部手绘手机解释 Skill、MCP 和 Plugin，并说明能力连接与权限安全边界。</desc>
+  <defs>
+    <filter id="paper" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="2" seed="12" result="n"/>
+      <feComponentTransfer in="n"><feFuncA type="table" tableValues="0 0.018"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="multiply"/>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#28332F" flood-opacity="0.09"/></filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 Q6 6 10 6 Q6 6 1 11" fill="none" stroke="#505854" stroke-width="2.8" stroke-linecap="round"/></marker>
+    <style>
+      text{font-family:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif;fill:#28332F}
+      .outline{fill:none;stroke:#303936;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+      .thin{fill:none;stroke:#303936;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+      .micro{font-size:15px;font-weight:500;fill:#53605A}
+      .body{font-size:18px;font-weight:600}
+      .key{font-size:17px;font-weight:800}
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="#FCFAF4"/>
+  <rect width="1600" height="900" fill="#F7F4EA" opacity=".5" filter="url(#paper)"/>
+
+  <!-- heading -->
+  <text x="800" y="62" text-anchor="middle" font-size="38" font-weight="900" letter-spacing="1">一图看懂：Skill、MCP、Plugin</text>
+  <text x="800" y="94" text-anchor="middle" font-size="17" fill="#68736E">它们解决的是三个不同层次的问题</text>
+
+  <!-- compact flow stickers -->
+  <g>
+    <g transform="translate(118 112)">
+      <path d="M5 7 Q25 -2 62 4 L320 1 Q340 6 333 45 Q302 52 246 48 L20 51 Q-3 42 5 7Z" fill="#DDEFD2"/>
+      <g transform="translate(18 8)"><rect x="0" y="3" width="44" height="28" rx="6" fill="#FFF" class="thin"/><path d="M10 8v18M22 8v18M34 8v18" stroke="#74A45C" stroke-width="7"/><path d="M44 12h7v10h-7" class="thin"/></g>
+      <text x="186" y="35" text-anchor="middle" font-size="25" font-weight="900">Skill｜教会怎么做</text>
+    </g>
+    <path d="M470 137 Q515 125 559 137" fill="none" stroke="#505854" stroke-width="2.8" marker-end="url(#arrow)"/>
+    <g transform="translate(590 112)">
+      <path d="M4 5 Q30 1 62 5 L326 2 Q342 10 332 47 Q300 53 250 48 L15 51 Q-6 40 4 5Z" fill="#FFF0B8"/>
+      <g transform="translate(19 5)"><rect x="5" y="6" width="30" height="39" rx="5" fill="#FFF" class="thin"/><path d="M12 2h16v6H12z" fill="#FFF" class="thin"/><path d="M10 28h20" stroke="#E7B93E" stroke-width="11"/></g>
+      <text x="193" y="35" text-anchor="middle" font-size="25" font-weight="900">MCP｜连接外部能力</text>
+    </g>
+    <path d="M945 137 Q990 125 1034 137" fill="none" stroke="#505854" stroke-width="2.8" marker-end="url(#arrow)"/>
+    <g transform="translate(1063 112)">
+      <path d="M5 7 Q25 -2 62 4 L386 1 Q405 6 397 45 Q365 52 312 48 L20 51 Q-3 42 5 7Z" fill="#F6D8D1"/>
+      <g transform="translate(18 5)"><rect x="7" y="6" width="27" height="39" rx="5" fill="#FFF" class="thin"/><path d="M14 2h13v7H14z" fill="#FFF" class="thin"/><path d="M12 33h17" stroke="#D76458" stroke-width="9"/></g>
+      <text x="225" y="35" text-anchor="middle" font-size="25" font-weight="900">Plugin｜打包交付能力</text>
+    </g>
+  </g>
+
+  <!-- three hand-drawn phones -->
+  <g filter="url(#shadow)">
+    <!-- phone 1 -->
+    <g transform="translate(92 190)">
+      <path d="M35 21 Q40 2 64 2 L392 5 Q417 7 420 31 L416 452 Q414 475 389 477 L61 474 Q35 472 34 447Z" fill="#FFF" class="outline"/>
+      <path d="M43 30 Q44 13 66 12 L388 14 Q407 15 409 35 L405 443 Q404 464 385 466 L65 463 Q45 462 44 443Z" fill="#FFFDF9" class="thin"/>
+      <path d="M167 13 Q169 29 184 31 H273 Q288 29 290 14" fill="#4C514F" stroke="#303936" stroke-width="2"/><rect x="206" y="18" width="45" height="5" rx="3" fill="#202725"/><circle cx="269" cy="21" r="3" fill="#202725"/>
+      <path d="M55 73 Q58 54 80 54 L369 58 Q390 59 391 80 L389 220 Q388 238 366 238 L347 257 L342 238 L78 235 Q57 234 56 215Z" fill="#E7F3DC" stroke="#70965E" stroke-width="2.2"/>
+      <!-- checklist icon -->
+      <g transform="translate(75 79)"><circle cx="25" cy="25" r="22" fill="#FFF" stroke="#303936" stroke-width="2"/><rect x="12" y="14" width="25" height="24" rx="4" fill="#DDEFD2" class="thin"/><path d="M17 21l3 3 5-6M17 31l3 3 5-6M28 21h5M28 31h5" class="thin"/></g>
+      <text x="133" y="91" class="micro">核心问题</text>
+      <text x="133" y="121" font-size="23" font-weight="900">这件事应该怎么做？</text>
+      <text x="76" y="163" class="body">指令 · 步骤 · 判断标准</text>
+      <text x="76" y="193" class="body">模板 · 脚本 · 参考资料</text>
+      <text x="72" y="297" class="key" fill="#5E8150">典型使用者</text>
+      <g transform="translate(71 315)"><rect width="123" height="38" rx="10" fill="#DDEFD2"/><circle cx="20" cy="19" r="9" fill="#FFF" class="thin"/><text x="71" y="25" text-anchor="middle" class="micro">Agent</text></g>
+      <g transform="translate(207 315)"><rect width="163" height="38" rx="10" fill="#DDEFD2"/><path d="M13 25q7-16 14 0M20 9a6 6 0 1 0 0 12a6 6 0 1 0 0-12" class="thin"/><text x="99" y="25" text-anchor="middle" class="micro">流程设计者</text></g>
+      <g transform="translate(72 382)"><path d="M0 7 Q48 -1 103 5 L292 2 Q309 5 303 43 Q253 48 195 44 L10 47 Q-7 37 0 7Z" fill="#DDEFD2"/><text x="151" y="33" text-anchor="middle" font-size="20" font-weight="900" fill="#527548">本质：方法与执行规范</text></g>
+    </g>
+
+    <!-- phone 2 -->
+    <g transform="translate(589 190)">
+      <path d="M35 21 Q40 2 64 2 L392 5 Q417 7 420 31 L416 452 Q414 475 389 477 L61 474 Q35 472 34 447Z" fill="#FFF" class="outline"/>
+      <path d="M43 30 Q44 13 66 12 L388 14 Q407 15 409 35 L405 443 Q404 464 385 466 L65 463 Q45 462 44 443Z" fill="#FFFDF9" class="thin"/>
+      <path d="M167 13 Q169 29 184 31 H273 Q288 29 290 14" fill="#4C514F" stroke="#303936" stroke-width="2"/><rect x="206" y="18" width="45" height="5" rx="3" fill="#202725"/><circle cx="269" cy="21" r="3" fill="#202725"/>
+      <path d="M55 73 Q58 54 80 54 L369 58 Q390 59 391 80 L389 233 Q388 250 366 250 L347 269 L342 250 L78 247 Q57 246 56 227Z" fill="#FFF4C9" stroke="#BA9439" stroke-width="2.2"/>
+      <!-- plug icon -->
+      <g transform="translate(75 79)"><circle cx="25" cy="25" r="22" fill="#FFF" stroke="#303936" stroke-width="2"/><path d="M16 16v10q0 10 9 10t9-10V16M13 16h7M30 16h7M25 36v7" class="thin"/></g>
+      <text x="133" y="91" class="micro">核心问题</text>
+      <text x="133" y="121" font-size="22" font-weight="900">Agent 如何发现并调用</text>
+      <text x="133" y="150" font-size="22" font-weight="900">外部能力？</text>
+      <text x="76" y="190" class="body">客户端 ↔ 服务器通信</text>
+      <text x="76" y="220" class="body">Tools · Resources · Prompts</text>
+      <text x="72" y="297" class="key" fill="#9A7729">典型使用者</text>
+      <g transform="translate(71 315)"><rect width="143" height="38" rx="10" fill="#FFF0B8"/><circle cx="20" cy="19" r="9" fill="#FFF" class="thin"/><text x="83" y="25" text-anchor="middle" class="micro">Agent 宿主</text></g>
+      <g transform="translate(227 315)"><rect width="143" height="38" rx="10" fill="#FFF0B8"/><path d="M12 26l8-15 8 15M15 21h10" class="thin"/><text x="87" y="25" text-anchor="middle" class="micro">工具开发者</text></g>
+      <g transform="translate(72 382)"><path d="M0 7 Q48 -1 103 5 L292 2 Q309 5 303 43 Q253 48 195 44 L10 47 Q-7 37 0 7Z" fill="#FFF0B8"/><text x="151" y="33" text-anchor="middle" font-size="20" font-weight="900" fill="#8C6B22">本质：能力发现与调用协议</text></g>
+    </g>
+
+    <!-- phone 3 -->
+    <g transform="translate(1086 190)">
+      <path d="M35 21 Q40 2 64 2 L392 5 Q417 7 420 31 L416 452 Q414 475 389 477 L61 474 Q35 472 34 447Z" fill="#FFF" class="outline"/>
+      <path d="M43 30 Q44 13 66 12 L388 14 Q407 15 409 35 L405 443 Q404 464 385 466 L65 463 Q45 462 44 443Z" fill="#FFFDF9" class="thin"/>
+      <path d="M167 13 Q169 29 184 31 H273 Q288 29 290 14" fill="#4C514F" stroke="#303936" stroke-width="2"/><rect x="206" y="18" width="45" height="5" rx="3" fill="#202725"/><circle cx="269" cy="21" r="3" fill="#202725"/>
+      <path d="M55 73 Q58 54 80 54 L369 58 Q390 59 391 80 L389 233 Q388 250 366 250 L347 269 L342 250 L78 247 Q57 246 56 227Z" fill="#F9E2DD" stroke="#BB766B" stroke-width="2.2"/>
+      <!-- package icon -->
+      <g transform="translate(75 79)"><circle cx="25" cy="25" r="22" fill="#FFF" stroke="#303936" stroke-width="2"/><path d="M12 19l13-7 13 7v15l-13 7-13-7zM12 19l13 7 13-7M25 26v15" class="thin"/></g>
+      <text x="133" y="91" class="micro">核心问题</text>
+      <text x="133" y="121" font-size="22" font-weight="900">怎样把一类能力</text>
+      <text x="133" y="150" font-size="22" font-weight="900">交付给用户？</text>
+      <text x="76" y="190" class="body">Skill · App · MCP 集成</text>
+      <text x="76" y="220" class="body">以及可复用的配置模板</text>
+      <text x="72" y="297" class="key" fill="#9D5F55">典型使用者</text>
+      <g transform="translate(71 315)"><rect width="299" height="38" rx="10" fill="#F6D8D1"/><path d="M14 26q7-16 14 0M21 9a6 6 0 1 0 0 12a6 6 0 1 0 0-12" class="thin"/><text x="177" y="25" text-anchor="middle" class="micro">最终用户 · 管理员 · 能力发布者</text></g>
+      <g transform="translate(72 382)"><path d="M0 7 Q48 -1 103 5 L292 2 Q309 5 303 43 Q253 48 195 44 L10 47 Q-7 37 0 7Z" fill="#F6D8D1"/><text x="151" y="33" text-anchor="middle" font-size="20" font-weight="900" fill="#95564D">本质：能力的产品化交付</text></g>
+    </g>
+  </g>
+
+  <!-- sparkles -->
+  <g stroke="#5578B5" stroke-width="2.3" stroke-linecap="round" fill="none">
+    <path d="M67 472v24M55 484h24M78 511l7 7M85 511l-7 7"/><path d="M1530 469v24M1518 481h24M1518 512l7 7M1525 512l-7 7"/>
+  </g>
+
+  <!-- unified shield module -->
+  <g transform="translate(135 681)">
+    <path d="M28 25 Q206 8 397 21 Q635 35 800 4 Q965 35 1203 21 Q1394 8 1572 25 L1548 114 Q1515 167 1402 191 Q1094 210 800 184 Q506 210 198 191 Q85 167 52 114Z" transform="scale(.845 1)" fill="#E4EEFF" stroke="#4F75B6" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M676 16 L676 131 Q676 159 656 178 Q636 159 636 131 V16" fill="#C6DAFA" stroke="#4F75B6" stroke-width="3"/>
+    <g transform="translate(628 72)"><rect x="5" y="20" width="46" height="42" rx="8" fill="#4F75B6"/><path d="M16 21V12Q16 0 28 0T40 12V21" fill="none" stroke="#4F75B6" stroke-width="7"/><circle cx="28" cy="39" r="5" fill="#FFF"/><path d="M28 43v9" stroke="#FFF" stroke-width="3"/></g>
+    <text x="656" y="46" text-anchor="middle" font-size="23" font-weight="900" fill="#365B9A">能力边界与权限安全</text>
+    <g transform="translate(75 73)"><circle cx="23" cy="23" r="23" fill="#DDEFD2" stroke="#70965E" stroke-width="2"/><text x="23" y="30" text-anchor="middle" font-size="22" font-weight="900" fill="#527548">否</text><text x="58" y="20" font-size="20" font-weight="900">Skill 不天然连接</text><text x="58" y="47" class="micro">它描述怎么做，不等于拥有工具。</text></g>
+    <g transform="translate(745 73)"><circle cx="23" cy="23" r="23" fill="#FFF0B8" stroke="#BA9439" stroke-width="2"/><text x="23" y="30" text-anchor="middle" font-size="19" font-weight="900" fill="#8C6B22">是*</text><text x="58" y="20" font-size="20" font-weight="900">MCP 面向外部连接</text><text x="58" y="47" class="micro">但连接本身不等于获得权限。</text></g>
+    <g transform="translate(1025 73)"><circle cx="23" cy="23" r="23" fill="#F6D8D1" stroke="#BB766B" stroke-width="2"/><text x="23" y="30" text-anchor="middle" font-size="20" font-weight="900" fill="#95564D">±</text><text x="58" y="20" font-size="20" font-weight="900">Plugin 不一定连接</text><text x="58" y="47" class="micro">纯 Skill Plugin 可以完全离线。</text></g>
+  </g>
+
+  <text x="1515" y="884" text-anchor="end" font-size="13" fill="#7B8580">Skill → MCP → Plugin，不是替代关系，而是不同层次</text>
+</svg>
