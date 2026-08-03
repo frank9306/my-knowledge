@@ -6,6 +6,8 @@ date: 2026-08-03
 
 # Harness 实战（三）：让 Agent 找得到项目答案
 
+> **系列目录（当前：3/9）** · [总目录](./harness-engineering-practical-series) · [诊断](./harness-series-01-project-diagnosis) · [目标契约](./harness-series-02-goal-contract) · **知识地图** · [执行面](./harness-series-04-command-surface) · [机械约束](./harness-series-05-mechanical-constraints) · [反馈闭环](./harness-series-06-feedback-loop) · [证据评估](./harness-series-07-evidence-evaluation) · [持续治理](./harness-series-08-continuous-governance) · [完整实战](./harness-series-09-minimum-harness-capstone)
+
 Agent 不需要一次读完整个项目，它需要先找到正确入口，再沿着稳定链接取得与当前任务有关的事实。
 
 [![Harness Engineering 系列完整知识地图](/images/blog/harness-series/harness-knowledge-map.svg)](/images/blog/harness-series/harness-knowledge-map.svg)
@@ -60,12 +62,73 @@ src/orders/AGENTS.md
 
 每次人工向 Agent 重复解释同一事实时，记录它应该进入哪一层：全局项目入口、领域文档、局部 `AGENTS.md`，还是可执行规则。这样知识地图由真实任务推动，而不是预先写成一套无人维护的百科全书。
 
+## 实战：为订单搜索建立渐进式知识入口
+
+目标不是把所有文档塞进根目录 `AGENTS.md`，而是让 Agent 在进入相关目录时逐步得到必要事实。可以从下面的结构开始：
+
+```text
+AGENTS.md
+docs/
+  architecture/
+    request-flow.md
+  domain/
+    orders.md
+  runbooks/
+    local-api.md
+apps/
+  web/
+    AGENTS.md
+services/
+  orders/
+    AGENTS.md
+```
+
+根文件只维护导航、全局禁令和标准命令：
+
+```md
+# Project map
+
+- Web 约束：`apps/web/AGENTS.md`
+- 订单领域：`docs/domain/orders.md`
+- 请求链路：`docs/architecture/request-flow.md`
+- 本地 API：`docs/runbooks/local-api.md`
+
+## Global boundaries
+- 不执行生产数据库操作。
+- 涉及迁移、权限扩大或不可逆操作时停止并升级。
+```
+
+`services/orders/AGENTS.md` 再说明局部事实：所有查询必须显式接收 `tenantId`；订单号不是全局唯一；分页游标绑定过滤条件；相关测试和固定夹具位于哪里。它不复制根文件，也不写容易过期的长篇架构史。
+
+### 写出单一事实来源
+
+同一个事实只选择一个权威位置。订单号唯一性属于领域规则，应写入 `docs/domain/orders.md`；局部 `AGENTS.md` 只链接它并说明何时阅读。若接口注释、Wiki 和测试夹具出现三个版本，Agent 仍然只能猜。
+
+给重要页面增加最少的维护信息：责任目录、最后验证日期和验证方式。例如“通过 `tests/api/order-number-scope.test.ts` 验证”，比“最后更新于本月”更有意义，因为工具可以检查链接是否存在，测试可以证明事实仍然接线。
+
+### 做一次可发现性演练
+
+开启一个没有聊天历史的新任务，只提供 Goal Contract 和仓库入口，记录执行者为了回答下面四个问题打开了哪些文件：
+
+1. 订单号在哪个范围内唯一？
+2. 本地如何启动订单 API？
+3. 修改过滤条件后游标如何处理？
+4. 哪些变更必须人工批准？
+
+如果答案需要全文搜索实现细节、询问人类或读取互相矛盾的文档，就把缺口写回知识目录。演练的验收不是“文件已经创建”，而是新会话能沿稳定路径得到同一答案。
+
+## 完成检查
+
+- 根入口不承载整本手册，只提供导航和全局边界；
+- 领域、架构、运行和安全事实各有明确归属；
+- 同一事实只有一个权威来源，其他位置使用链接；
+- 新会话能够独立回答四个订单搜索关键问题；
+- 过期或冲突文档有负责人和可检查的更新机制。
+
 ## 读者练习
 
 从最近一次 Agent 提问中选三个事实，为每个事实指定唯一权威位置，并在根 `AGENTS.md` 中只保留必要导航。最后模拟一个不相关任务，检查入口是否会诱导 Agent 加载过多内容。
 
-## 文章制作说明
+---
 
-- 备选标题：《AGENTS.md 应该是地图，不是百科全书》《渐进式披露：给 Coding Agent 正确的项目上下文》《项目知识如何真正进入 Agent 工作流》
-- 图片生产：图 2 展示知识在控制环中的位置；图 3 比较巨型说明书与分层地图。均为概念图。
-- 事实核查：分层 AGENTS.md 能力来自 AGENTS.md 官方说明；具体目录结构和治理方法是本文建议。
+**上一篇：**[把自然语言需求变成 Goal Contract](./harness-series-02-goal-contract) · [返回系列目录](./harness-engineering-practical-series) · **下一篇：**[统一 Coding Agent 的项目执行面](./harness-series-04-command-surface)

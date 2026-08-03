@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.14 - 2026-08-03
+
+- Reworked the nine-part Harness Engineering series into a continuous hands-on tutorial built around one order-search project, with a dedicated series index, reusable implementation artifacts, completion checks, and previous/next navigation.
+- Removed internal production notes from public articles and replaced the schematic cards with nine consistent robot-led hand-drawn concept illustrations in self-contained SVG and high-resolution PNG formats.
+
 ## 2.1.13 - 2026-08-03
 
 - Published a nine-part Harness Engineering series covering project diagnosis, Goal Contracts, knowledge maps, deterministic command surfaces, mechanical constraints, feedback loops, evidence-led evaluation, continuous governance, and an end-to-end minimum Harness.

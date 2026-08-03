@@ -4,6 +4,7 @@ import { join } from 'node:path'
 
 const root = process.cwd()
 const assetDir = join(root, 'docs/public/images/blog/harness-series')
+const artworkDir = join(root, 'scripts/harness-series-card-artwork')
 const specDir = join(root, 'scripts/harness-series-card-compositions')
 const compositorIndex = process.argv.indexOf('--compositor')
 if (compositorIndex === -1 || !process.argv[compositorIndex + 1]) {
@@ -27,13 +28,11 @@ const cards = [
 
 for (const [slug,title,metaphor,notes] of cards) {
   const labels = [
-    { text:title, x:80,y:40,width:760,height:92,maxFontSize:42,minFontSize:28,background:'#fffaf0',backgroundOpacity:1,borderWidth:0 },
-    { text:`视觉隐喻：${metaphor}`, x:80,y:130,width:620,height:58,maxFontSize:23,minFontSize:18,background:'#fffaf0',backgroundOpacity:1,borderWidth:0,fontWeight:500,textColor:'#59645e' },
-    ...notes.map((text,index)=>({text,x:105+index*230,y:300+(index%2)*90,width:205,height:82,maxFontSize:26,minFontSize:20,background:['#dcebe4','#f7df9d','#bdd8e8','#e5b7ad','#c9deb2','#d9c7e8'][index],backgroundOpacity:1,borderColor:'#5c655f',borderWidth:2,radius:12})),
-    { text:metaphor,x:210,y:720,width:1180,height:58,maxFontSize:28,minFontSize:22,background:'#fffdf7',backgroundOpacity:1,borderColor:'#759682',borderWidth:3,radius:18 },
-    { text:'概念插画：用于解释机制，不代表真实运行证据',x:300,y:770,width:1000,height:64,maxFontSize:19,minFontSize:16,background:'#fffdf7',backgroundOpacity:1,borderWidth:0,fontWeight:500,textColor:'#59645e' },
+    { text:title, x:52,y:38,width:880,height:76,maxFontSize:38,minFontSize:28,background:'#fffaf0',backgroundOpacity:0.94,borderColor:'#769487',borderWidth:2,radius:16 },
+    ...notes.map((text,index)=>({text,x:45+index*255,y:746,width:230,height:62,maxFontSize:24,minFontSize:18,background:['#dcebe4','#f7df9d','#bdd8e8','#e5b7ad','#c9deb2','#d9c7e8'][index],backgroundOpacity:0.96,borderColor:'#5c655f',borderWidth:2,radius:12})),
+    { text:`${metaphor} · 概念插画，不代表真实运行证据`,x:260,y:824,width:1080,height:48,maxFontSize:18,minFontSize:15,background:'#fffdf7',backgroundOpacity:0.94,borderWidth:0,fontWeight:500,textColor:'#59645e' },
   ]
-  const config={width:1600,height:900,artwork:join(assetDir,`${slug}-knowledge-card.png`),output:join(assetDir,`${slug}-knowledge-card.svg`),title:`${title}概念插画`,description:`以${metaphor}解释本篇机制的手绘知识卡片`,labels}
+  const config={width:1600,height:900,artwork:join(artworkDir,`${slug}.png`),output:join(assetDir,`${slug}-knowledge-card.svg`),title:`${title}概念插画`,description:`以${metaphor}解释本篇机制的手绘知识卡片`,labels}
   const configPath=join(specDir,`${slug}.json`)
   await writeFile(configPath,JSON.stringify(config,null,2),'utf8')
   const result=spawnSync(process.execPath,[compositor,'--config',configPath],{stdio:'inherit'})

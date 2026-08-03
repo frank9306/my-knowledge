@@ -6,6 +6,8 @@ date: 2026-08-03
 
 # Harness 实战（四）：统一 Coding Agent 的项目执行面
 
+> **系列目录（当前：4/9）** · [总目录](./harness-engineering-practical-series) · [诊断](./harness-series-01-project-diagnosis) · [目标契约](./harness-series-02-goal-contract) · [知识地图](./harness-series-03-project-knowledge-map) · **执行面** · [机械约束](./harness-series-05-mechanical-constraints) · [反馈闭环](./harness-series-06-feedback-loop) · [证据评估](./harness-series-07-evidence-evaluation) · [持续治理](./harness-series-08-continuous-governance) · [完整实战](./harness-series-09-minimum-harness-capstone)
+
 项目文档里出现一条命令，不代表 Agent 能稳定执行它。真正的执行面必须拥有唯一入口、明确环境、可靠退出码和可解释失败。
 
 [![Harness Engineering 系列完整知识地图](/images/blog/harness-series/harness-knowledge-map.svg)](/images/blog/harness-series/harness-knowledge-map.svg)
@@ -62,12 +64,65 @@ Git 官方文档将 Worktree 定义为同一仓库关联的多个工作树，每
 
 不要把所有输出都改造成 JSON。人类需要易读摘要，Agent 和 CI 需要结构化结果；合理方式是提供 `--json` 或输出报告文件，同时在终端保留简洁诊断。
 
+## 实战：给订单搜索建立唯一执行入口
+
+先把团队口头传播的命令收敛为项目脚本。下面以 `package.json` 为例，其他语言也应提供同样稳定的语义：
+
+```json
+{
+  "scripts": {
+    "harness:setup": "node scripts/harness/setup.mjs",
+    "harness:check": "node scripts/harness/check.mjs",
+    "harness:test:order-search": "vitest run tests/order-search",
+    "harness:e2e:order-search": "playwright test order-search.spec.ts"
+  }
+}
+```
+
+再创建 `harness/manifest.yaml`，把工具实际需要的接口写清楚：
+
+```yaml
+runtime:
+  node: "20"
+package_manager: "pnpm@10"
+commands:
+  setup: pnpm harness:setup
+  static: pnpm lint
+  focused_test: pnpm harness:test:order-search
+  behavior_test: pnpm harness:e2e:order-search
+  build: pnpm build
+environment:
+  required: [DATABASE_URL]
+  optional: [ORDER_FIXTURE_SEED]
+artifacts:
+  junit: artifacts/test-results.xml
+  screenshots: artifacts/order-search/
+```
+
+Manifest 不是另一份 README。它让 Agent 和 CI 读取同一组命令名、环境要求和产物位置，避免一个使用 `npm test`，另一个使用带隐藏参数的本地脚本。
+
+### 让失败可以被机器理解
+
+标准命令应满足三条最低要求：非交互运行；成功返回 `0`，失败返回非零；错误输出指出动作、对象和下一步。比如数据库不可用时，应输出缺少的服务和启动命令，而不是吞掉异常后返回成功。
+
+在干净 Worktree 或临时目录中依次执行 setup、focused test、build。不要因为开发机已安装全局工具就判定可重复。记录 Node、包管理器、浏览器和数据库镜像版本；锁定的是会影响结果的依赖，不是把每个微小实现都冻结。
+
+### 验证环境隔离
+
+为订单测试使用固定租户和固定数据种子，测试结束后清理命名空间。并行执行两次同一场景，确认端口、数据库记录和截图目录不会互相覆盖。若无法并行，Manifest 必须声明互斥资源，而不是让失败表现为偶发不稳定。
+
+## 完成检查
+
+- 新环境只需 Manifest 中的入口即可完成安装和验证；
+- 所有命令非交互且退出码可信；
+- 环境变量区分必需、可选和禁止记录的秘密；
+- 两个隔离任务不会共享可变数据或输出目录；
+- 失败信息能直接指向缺失条件或修复动作。
+
 ## 读者练习
 
 在一个现有项目中连续两次从干净环境运行安装、测试和构建。记录任何提示输入、全局依赖、端口冲突和隐含数据。选择其中一个不确定因素，将它改成显式参数或标准脚本接口。
 
-## 文章制作说明
+---
 
-- 备选标题：《README 有命令，为什么 Agent 还是跑不通》《从脚本集合到统一执行面》《让项目命令真正可重复、可诊断》
-- 图片生产：局部图连接隔离环境、执行与观察；手绘图用统一控制台解释标准入口。
-- 事实核查：Worktree 能力来自 Git 官方文档；Manifest 字段和退出码分层是本文建议。
+**上一篇：**[让 Agent 找得到项目答案](./harness-series-03-project-knowledge-map) · [返回系列目录](./harness-engineering-practical-series) · **下一篇：**[把工程经验变成机械约束](./harness-series-05-mechanical-constraints)

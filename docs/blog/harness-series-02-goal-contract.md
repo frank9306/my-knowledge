@@ -6,6 +6,8 @@ date: 2026-08-03
 
 # Harness 实战（二）：把自然语言需求变成 Goal Contract
 
+> **系列目录（当前：2/9）** · [总目录](./harness-engineering-practical-series) · [诊断](./harness-series-01-project-diagnosis) · **目标契约** · [知识地图](./harness-series-03-project-knowledge-map) · [执行面](./harness-series-04-command-surface) · [机械约束](./harness-series-05-mechanical-constraints) · [反馈闭环](./harness-series-06-feedback-loop) · [证据评估](./harness-series-07-evidence-evaluation) · [持续治理](./harness-series-08-continuous-governance) · [完整实战](./harness-series-09-minimum-harness-capstone)
+
 Goal Contract 的作用不是把需求写得更长，而是保存执行期间不能被悄悄改变的目标、边界和完成条件。
 
 [![Harness Engineering 系列完整知识地图](/images/blog/harness-series/harness-knowledge-map.svg)](/images/blog/harness-series/harness-knowledge-map.svg)
@@ -69,14 +71,69 @@ Agent 发现“当前列表没有订单号字段”时，不应自行扩大到�
 
 契约一旦改变，之前的验证证据可能失效。最终评估必须引用执行结束时的契约版本，而不是最初 Prompt 的记忆。
 
+## 实战：把订单搜索写成可执行契约
+
+在仓库中创建 `harness/goals/order-search.yaml`。下面的示例重点不是 YAML 格式，而是让不同执行者能够对“完成”得出同一个结论：
+
+```yaml
+id: order-search
+goal: 在订单列表中按完整订单号查找当前租户的订单
+scope:
+  include:
+    - GET /api/orders 的 q 参数
+    - 订单列表搜索框和空状态
+    - 查询变化时重置分页游标
+  exclude:
+    - 模糊搜索
+    - 订单内容全文检索
+    - 数据库迁移
+acceptance:
+  - 输入两端空白会被移除
+  - 空字符串等同于未提供 q
+  - 完整订单号只返回当前租户中的匹配记录
+  - 修改 q 或 status 后从第一页重新查询
+  - 无匹配结果时页面显示明确空状态
+risk:
+  - 不得移除服务端 tenant_id 过滤
+  - 不得记录完整订单号和访问令牌
+escalate_when:
+  - 现有订单号在租户内并不唯一
+  - 实现需要修改数据库结构
+verify:
+  - pnpm lint
+  - pnpm test -- order-search
+  - pnpm test:e2e -- order-search
+```
+
+### 逐字段审查契约
+
+先检查 `goal` 是否描述用户可观察结果，而不是“修改 OrderList 组件”这类实现动作。再检查 `scope.exclude`：它防止 Agent 在发现数据库索引问题后自行扩大任务。`acceptance` 中每一项都要能映射到测试或人工判断；“体验良好”无法直接裁决，应改成输入、响应、页面状态或延迟预算。
+
+风险与升级条件承担不同职责。风险说明执行时始终不能破坏什么；升级条件说明遇到什么事实后必须暂停并请求判断。示例中租户过滤是硬边界，而订单号唯一性未知会改变产品语义，所以应升级。
+
+### 用反例检验验收条件
+
+为每条条件至少构造一个反例：`" ORD-1042 "` 检查 trim；租户 B 的同号数据检查隔离；先翻到第二页再输入查询检查游标重置；输入全空格检查是否错误发送 `q=`。如果团队无法就反例的正确结果达成一致，契约仍不完整，不应进入编码。
+
+### 执行中如何变更契约
+
+实现时若发现订单号只在门店内唯一，不要静默添加 `store_id`。在契约中记录发现、影响和候选方案，将状态改为 `needs_decision`。人类确认后更新目标与验收，再继续执行。这样保存的是决策链，而不是在聊天记录中留下无法追踪的一句同意。
+
+## 完成检查
+
+- `goal` 只描述一个可观察结果；
+- 范围明确列出包含项和非目标；
+- 每条验收条件都有对应反例和验证方式；
+- 风险边界与升级条件分开表达；
+- 执行者无权静默扩大范围；
+- 契约文件已进入版本控制并能被后续工具引用。
+
 ## 读者练习
 
 找一条包含“优化、支持、完善、友好、智能”等词的真实需求，把它改写成 Objective、Include、Exclude、Acceptance、Constraints 和 Escalate When。
 
 随后逐条检查：是否存在两个工程师会给出不同解释的句子？若有，继续改写或明确保留人工判断。
 
-## 文章制作说明
+---
 
-- 备选标题：《Agent 为什么会正确实现错误需求》《从 Prompt 到任务契约：给 Coding Agent 一条稳定边界》《Goal Contract：Harness 的任务接口》
-- 图片生产：图 2 聚焦目标与验收；图 3 用加工台隐喻展示结构化过程。均为概念图。
-- 事实核查：Goal Contract 字段与示例是本文设计建议；不得表述为 OpenAI 或 AGENTS.md 的官方规范。
+**上一篇：**[先诊断项目真正缺少什么](./harness-series-01-project-diagnosis) · [返回系列目录](./harness-engineering-practical-series) · **下一篇：**[让 Agent 找得到项目答案](./harness-series-03-project-knowledge-map)

@@ -6,6 +6,8 @@ date: 2026-08-03
 
 # Harness 实战（五）：把工程经验变成机械约束
 
+> **系列目录（当前：5/9）** · [总目录](./harness-engineering-practical-series) · [诊断](./harness-series-01-project-diagnosis) · [目标契约](./harness-series-02-goal-contract) · [知识地图](./harness-series-03-project-knowledge-map) · [执行面](./harness-series-04-command-surface) · **机械约束** · [反馈闭环](./harness-series-06-feedback-loop) · [证据评估](./harness-series-07-evidence-evaluation) · [持续治理](./harness-series-08-continuous-governance) · [完整实战](./harness-series-09-minimum-harness-capstone)
+
 写在文档里的规则只能帮助 Agent 理解意图；进入类型、Lint、测试或 CI 的规则，才能稳定裁决一次变更是否越界。
 
 [![Harness Engineering 系列完整知识地图](/images/blog/harness-series/harness-knowledge-map.svg)](/images/blog/harness-series/harness-knowledge-map.svg)
@@ -54,12 +56,59 @@ ARCH-003 src/ui/order.ts:8
 
 规则升级也应保持可审查：先在历史代码上运行，识别存量违规和误报；再决定修复、记录临时例外或缩小检查范围。机械化不等于突然让全部历史代码无法交付。
 
+## 实战：为订单搜索落地四条不变量
+
+从第一篇的返工记录里选择会造成真实损失、且能稳定检测的规则。订单搜索适合先落地四条：
+
+1. 订单查询必须携带当前 `tenantId`；
+2. 前端不得向日志和分析事件发送完整订单号；
+3. `q` 或 `status` 变化时必须清空 `cursor`；
+4. API 契约变化必须同步契约测试。
+
+每条规则选择离错误最近的裁决层。租户隔离应在查询构造器和集成测试中验证，不能只靠代码评审；日志脱敏可用 Lint 或测试捕获；游标重置属于状态转换测试；API 变化交给 schema diff 或契约测试。
+
+```ts
+it('always scopes exact order lookup to the active tenant', async () => {
+  await seedOrder({ tenantId: 'tenant-b', orderNo: 'ORD-1042' })
+
+  const result = await searchOrders({
+    tenantId: 'tenant-a',
+    q: 'ORD-1042'
+  })
+
+  expect(result.items).toEqual([])
+})
+```
+
+这个测试不证明整个系统安全，但它精确守住本次已知边界。对于必须覆盖所有查询入口的规则，可以再增加架构测试：禁止路由直接调用数据库，只允许通过自动附加租户条件的 repository。
+
+### 先证明规则会失败
+
+临时构造一个违反规则的最小样例，确认检查确实返回非零，然后撤销样例并确认恢复通过。没有经历这一步的“绿色检查”可能只是没有扫描正确目录。验证范围、忽略规则和测试夹具都应接受反向测试。
+
+### 给失败提供修正路径
+
+错误消息至少包含规则名称、触发文件、为什么危险和安全替代方式。例如：
+
+```text
+ORDER_QUERY_TENANT_SCOPE: src/orders/search.ts 绕过 TenantOrderRepository。
+订单读取必须使用 TenantOrderRepository，以便自动附加 tenant_id 条件。
+```
+
+自动修复只适合语义明确的变换，例如补格式或替换废弃导入。权限、数据迁移和跨层架构调整不应由工具静默改写。
+
+## 完成检查
+
+- 只选择 3～5 条有失败记录支撑的不变量；
+- 每条规则都有唯一标识、理由、覆盖范围和安全替代；
+- 已用故意违规样例证明规则真的会失败；
+- 检查接入统一命令和 CI，而不是仅存在于个人脚本；
+- 例外有到期时间和负责人，不能永久静默忽略。
+
 ## 读者练习
 
 收集最近十条代码审查意见，找出出现两次以上的模式。选择一条可可靠检测的规则，为它定义规则 ID、检测范围、错误示例、正确示例和例外条件，再决定使用类型、Lint、结构测试还是单元测试。
 
-## 文章制作说明
+---
 
-- 备选标题：《文档解释意图，工具负责裁决》《如何为 Coding Agent 建立工程护栏》《把重复代码审查变成自动化规则》
-- 图片生产：局部图显示治理、执行和验证；手绘图使用道路护栏表达边界。
-- 事实核查：最小权限定义来自 NIST；四类不变量和工具选择是本文工程归纳。
+**上一篇：**[统一 Coding Agent 的项目执行面](./harness-series-04-command-surface) · [返回系列目录](./harness-engineering-practical-series) · **下一篇：**[让 Agent 看见并修正结果](./harness-series-06-feedback-loop)
