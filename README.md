@@ -18,7 +18,7 @@
 
 ## 专题文章
 
-本站共收录 66 篇专题文章。
+本站共收录 75 篇专题文章。
 
 ### AI 编程工程
 
@@ -88,6 +88,15 @@
 
 ### 博客文章
 
+- [Harness 实战（一）：先诊断项目真正缺少什么](https://knowledge.webfrank.top/blog/harness-series-01-project-diagnosis/)
+- [Harness 实战（二）：把自然语言需求变成 Goal Contract](https://knowledge.webfrank.top/blog/harness-series-02-goal-contract/)
+- [Harness 实战（三）：让 Agent 找得到项目答案](https://knowledge.webfrank.top/blog/harness-series-03-project-knowledge-map/)
+- [Harness 实战（四）：统一 Coding Agent 的项目执行面](https://knowledge.webfrank.top/blog/harness-series-04-command-surface/)
+- [Harness 实战（五）：把工程经验变成机械约束](https://knowledge.webfrank.top/blog/harness-series-05-mechanical-constraints/)
+- [Harness 实战（六）：让 Agent 看见并修正结果](https://knowledge.webfrank.top/blog/harness-series-06-feedback-loop/)
+- [Harness 实战（七）：谁来判断 Coding Agent 真正完成了](https://knowledge.webfrank.top/blog/harness-series-07-evidence-evaluation/)
+- [Harness 实战（八）：让 Harness 在真实任务中持续进化](https://knowledge.webfrank.top/blog/harness-series-08-continuous-governance/)
+- [Harness 实战（九）：为现有项目搭建最小可运行 Harness](https://knowledge.webfrank.top/blog/harness-series-09-minimum-harness-capstone/)
 - [Harness Engineering 深度解读：当 AI 写代码，工程师应该设计什么](https://knowledge.webfrank.top/blog/harness-engineering-agent-first-overview/)
 - [PolyHarness：把 Coding Agent 的“完成了”变成可验证的工程结论](https://knowledge.webfrank.top/blog/polyharness-verifiable-agent-engineering/)
 - [团队如何建设统一的 AI 编程 Harness](https://knowledge.webfrank.top/blog/harness-engineering-team-plugin-profiles/)

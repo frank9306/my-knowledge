@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.13 - 2026-08-03
+
+- Published a nine-part Harness Engineering series covering project diagnosis, Goal Contracts, knowledge maps, deterministic command surfaces, mechanical constraints, feedback loops, evidence-led evaluation, continuous governance, and an end-to-end minimum Harness.
+- Added a corrected authoritative Harness knowledge map, nine focused chapter diagrams, and nine hand-drawn knowledge cards with verified Chinese typography and responsive narrow-screen viewing.
+
 ## 2.1.12 - 2026-07-31
 
 - Published an evidence-led Harness Engineering overview with four labeled hand-drawn diagrams covering human and Agent roles, progressive documentation, mechanical enforcement, feedback loops, and entropy management.

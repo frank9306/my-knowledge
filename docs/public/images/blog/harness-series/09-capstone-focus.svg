@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="t d"><title id="t">系列第 9 篇：最小可运行 Harness</title><desc id="d">把前八篇组件连接为一次可复现、可验证、可改进的真实任务。</desc><defs><marker id="a" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 11 6 1 11z" fill="#41665a"/></marker><style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}.ey{font-size:18px;font-weight:800;letter-spacing:2px;fill:#08785a}.h{font-size:34px;font-weight:800;fill:#14251f}.ct{font-size:18px;font-weight:750;fill:#17251f}.cc{font-size:14px;fill:#637169}.light{fill:#fff}.light2{fill:#cce0d7}.lead{font-size:21px;font-weight:700;fill:#284c3e}.copy{font-size:17px;fill:#52635a}</style></defs><rect width="1600" height="720" fill="#f7faf7"/><circle cx="1515" cy="20" r="190" fill="#dcebe4"/><text x="95" y="78" class="ey">HARNESS ENGINEERING</text><text x="95" y="130" class="h">系列第 9 篇：最小可运行 Harness</text><text x="95" y="190" class="lead">目标 → 执行 → 验证 → 证据 → 沉淀</text>
+  <g opacity="1">
+    <rect x="95" y="260" width="205" height="105" rx="16" fill="#153c31" stroke="#a9cabb" stroke-width="2"/>
+    <text x="119" y="299" class="ct light">契约</text>
+    <text x="119" y="330" class="cc light2">起点</text>
+  </g><path d="M300 312H340" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/>
+  <g opacity="1">
+    <rect x="340" y="260" width="205" height="105" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="364" y="299" class="ct ">知识</text>
+    <text x="364" y="330" class="cc ">关键能力</text>
+  </g><path d="M545 312H585" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/>
+  <g opacity="1">
+    <rect x="585" y="260" width="205" height="105" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="609" y="299" class="ct ">命令</text>
+    <text x="609" y="330" class="cc ">关键能力</text>
+  </g><path d="M790 312H830" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/>
+  <g opacity="1">
+    <rect x="830" y="260" width="205" height="105" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="854" y="299" class="ct ">约束</text>
+    <text x="854" y="330" class="cc ">关键能力</text>
+  </g><path d="M1035 312H1075" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/>
+  <g opacity="1">
+    <rect x="1075" y="260" width="205" height="105" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="1099" y="299" class="ct ">证据</text>
+    <text x="1099" y="330" class="cc ">关键能力</text>
+  </g><path d="M1280 312H1320" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/>
+  <g opacity="1">
+    <rect x="1320" y="260" width="205" height="105" rx="16" fill="#fff7e6" stroke="#d8ad59" stroke-width="2"/>
+    <text x="1344" y="299" class="ct ">治理</text>
+    <text x="1344" y="330" class="cc ">结果</text>
+  </g><rect x="95" y="445" width="1410" height="120" rx="18" fill="#edf6f1" stroke="#9bc7b3" stroke-width="2"/><text x="130" y="493" class="lead">当前关注区域</text><text x="130" y="533" class="copy">把前八篇组件连接为一次可复现、可验证、可改进的真实任务。</text><text x="95" y="645" class="copy">局部图来自同一份权威母图；深色为起点，暖色为本篇要验证的结果。</text></svg>

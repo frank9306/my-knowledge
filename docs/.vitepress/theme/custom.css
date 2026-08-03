@@ -45,6 +45,22 @@
   text-underline-offset: 3px;
 }
 
+/* Harness series diagrams keep their labels readable on narrow article widths. */
+.vp-doc p:has(> img[src*="/harness-series/"]) {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 640px) {
+  .vp-doc img[src*="-focus.svg"],
+  .vp-doc img[src*="-knowledge-card.svg"] {
+    width: 720px;
+    min-width: 720px;
+    max-width: none;
+  }
+}
+
 /* Shared update notification in the standard VitePress navigation bar. */
 .recent-updates {
   position: relative;

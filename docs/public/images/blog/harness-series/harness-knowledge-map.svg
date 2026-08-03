@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1200" viewBox="0 0 1800 1200" role="img" aria-labelledby="title desc">
+<title id="title">Harness Engineering 完整知识地图</title>
+<desc id="desc">一个任务核心控制环与五个横向保障面组成可持续运行的 Agent 工程系统。</desc>
+<defs>
+ <marker id="a" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 11 6 1 11z" fill="#41665a"/></marker>
+ <marker id="ag" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 11 6 1 11z" fill="#08785a"/></marker>
+ <marker id="ao" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 11 6 1 11z" fill="#b96a15"/></marker>
+ <marker id="ar" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto"><path d="M1 1 11 6 1 11z" fill="#9b4f5b"/></marker>
+ <style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}.ey{font-size:18px;font-weight:800;letter-spacing:4px;fill:#08785a}.h1{font-size:43px;font-weight:800;fill:#14251f}.sub{font-size:18px;fill:#617168}.pt{font-size:22px;font-weight:750;fill:#17251f}.pc{font-size:15px;fill:#596961}.core{font-size:26px;font-weight:800;fill:#123d31}.ct{font-size:18px;font-weight:750;fill:#17251f}.cc{font-size:14px;fill:#637169}.light{fill:#fff}.light2{fill:#cce0d7}.tag{font-size:14px;font-weight:800}.foot{font-size:16px;fill:#52635a}</style>
+</defs>
+<rect width="1800" height="1200" fill="#f7faf7"/><circle cx="1740" cy="65" r="220" fill="#dcebe4"/><circle cx="30" cy="1180" r="180" fill="#e5ede7"/>
+<text x="90" y="65" class="ey">HARNESS ENGINEERING</text><text x="90" y="120" class="h1">完整知识地图</text><text x="90" y="160" class="sub">一个任务核心控制环，五个横向保障面，组成可持续运行的 Agent 工程系统</text>
+
+<g id="planes">
+
+  <g opacity="1">
+    <rect x="90" y="205" width="500" height="135" rx="16" fill="#153c31" stroke="#a9cabb" stroke-width="2"/>
+    <text x="114" y="244" class="ct light">安全与权限治理</text>
+    <text x="114" y="275" class="cc light2">最小权限 · 工具白名单 · 密钥保护 · 审批</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="650" y="205" width="500" height="135" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="674" y="244" class="ct ">环境隔离与可重复性</text>
+    <text x="674" y="275" class="cc ">Worktree · 独立资源 · 固定版本 · CI 一致</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="1210" y="205" width="500" height="135" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="1234" y="244" class="ct ">任务编排与状态管理</text>
+    <text x="1234" y="275" class="cc ">任务拆解 · 阶段状态 · 上下文恢复 · 幂等执行</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="245" y="1010" width="610" height="130" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="269" y="1049" class="ct ">恢复、回滚与人工接管</text>
+    <text x="269" y="1080" class="cc ">超时 · 重试上限 · 回滚 · 数据恢复 · 高风险升级</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="945" y="1010" width="610" height="130" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="969" y="1049" class="ct ">评估指标与持续治理</text>
+    <text x="969" y="1080" class="cc ">自主完成率 · 人工介入 · 缺陷逃逸 · 架构漂移</text>
+  </g>
+</g>
+
+<rect x="155" y="390" width="1490" height="570" rx="36" fill="#edf6f1" stroke="#92c4ad" stroke-width="3"/>
+<text x="210" y="443" class="core">任务核心控制环</text><text x="210" y="473" class="pc">理解目标，受约束执行，观察结果，用证据裁决，并把失败写回 Harness</text>
+
+
+  <g opacity="1">
+    <rect x="205" y="520" width="230" height="112" rx="16" fill="#153c31" stroke="#a9cabb" stroke-width="2"/>
+    <text x="229" y="559" class="ct light">目标与边界</text>
+    <text x="229" y="590" class="cc light2">优先级 · 风险 · 决策</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="475" y="520" width="230" height="112" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="499" y="559" class="ct ">意图与验收</text>
+    <text x="499" y="590" class="cc ">目标 · 非目标 · 完成定义</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="745" y="520" width="230" height="112" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="769" y="559" class="ct ">知识与上下文</text>
+    <text x="769" y="590" class="cc ">代码 · 文档 · 计划 · 规则</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="1015" y="520" width="230" height="112" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="1039" y="559" class="ct ">受约束执行</text>
+    <text x="1039" y="590" class="cc ">工具 · 权限 · 架构护栏</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="1285" y="520" width="230" height="112" rx="16" fill="#fff7e6" stroke="#d8ad59" stroke-width="2"/>
+    <text x="1309" y="559" class="ct ">观察结果</text>
+    <text x="1309" y="590" class="cc ">日志 · 指标 · API · UI</text>
+  </g>
+<path d="M435 576H475" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/><path d="M705 576H745" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/><path d="M975 576H1015" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/><path d="M1245 576H1285" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/>
+
+
+  <g opacity="1">
+    <rect x="1285" y="700" width="230" height="112" rx="16" fill="#fff7e6" stroke="#d8ad59" stroke-width="2"/>
+    <text x="1309" y="739" class="ct ">机械验证</text>
+    <text x="1309" y="770" class="cc ">类型 · Lint · 测试 · CI</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="815" y="700" width="270" height="112" rx="16" fill="#ffffff" stroke="#a9cabb" stroke-width="2"/>
+    <text x="839" y="739" class="ct ">反馈与修正</text>
+    <text x="839" y="770" class="cc ">失败 → 定位 → 修改 → 重验</text>
+  </g>
+
+  <g opacity="1">
+    <rect x="285" y="700" width="310" height="112" rx="16" fill="#153c31" stroke="#a9cabb" stroke-width="2"/>
+    <text x="309" y="739" class="ct light">交付结果与证据</text>
+    <text x="309" y="770" class="cc light2">报告 · 截图 · 未验证项</text>
+  </g>
+<path d="M1400 632V700" fill="none" stroke="#41665a" stroke-width="4"  marker-end="url(#a)"/>
+<path d="M1285 756H1085" fill="none" stroke="#b96a15" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#ao)"/><text x="1175" y="744" class="tag" fill="#a85f16">未通过</text>
+<path d="M950 700V670Q950 650 970 650H1130Q1150 650 1150 632" fill="none" stroke="#b96a15" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#ao)"/>
+<path d="M1285 790H1215V835H595V790" fill="none" stroke="#08785a" stroke-width="4"  marker-end="url(#ag)"/><text x="1205" y="824" class="tag" fill="#08785a">通过</text>
+<path d="M815 772H720V980H550V1010" fill="none" stroke="#9b4f5b" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#ar)"/><text x="730" y="965" class="tag" fill="#934956">需要判断</text>
+
+<rect x="620" y="850" width="560" height="78" rx="18" fill="#d8ebe2" stroke="#79b69b" stroke-width="2"/>
+<text x="900" y="884" text-anchor="middle" class="ct">经验沉淀回 Harness</text><text x="900" y="911" text-anchor="middle" class="cc">文档与知识 · 规则与约束 · 测试与工具</text>
+<path d="M440 812V830Q440 889 500 889H620" fill="none" stroke="#08785a" stroke-width="4"  marker-end="url(#ag)"/>
+<path d="M900 850V665Q900 645 880 645V632" fill="none" stroke="#08785a" stroke-width="4"  marker-end="url(#ag)"/>
+<path d="M1020 850V665Q1020 645 1040 645V632" fill="none" stroke="#08785a" stroke-width="4"  marker-end="url(#ag)"/>
+
+<path d="M340 340V470Q340 500 360 500V520" fill="none" stroke="#9b4f5b" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#ar)"/>
+<path d="M900 340V490Q900 505 1040 505V520" fill="none" stroke="#41665a" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#a)"/>
+<path d="M1480 340V475Q1480 495 1350 495V520" fill="none" stroke="#41665a" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#a)"/>
+<path d="M550 1010V980H720V812" fill="none" stroke="#9b4f5b" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#ar)"/>
+<path d="M1250 1010V940Q1250 920 1180 920" fill="none" stroke="#41665a" stroke-width="4" stroke-dasharray="9 7" marker-end="url(#a)"/>
+<text x="90" y="1174" class="foot">阅读顺序：先沿中央主链向右；验证失败进入橙色修正回路，通过进入绿色交付与沉淀路径，需要判断时进入红色人工接管路径。</text>
+</svg>
