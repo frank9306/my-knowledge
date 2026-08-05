@@ -62,6 +62,7 @@
 
 ## AI Agent 开源项目
 
+- [qiaomu-seo](https://github.com/joeseesun/qiaomu-seo): 面向 Codex、Claude Code、Cursor 等 Agent 客户端的专业 SEO Skill，覆盖技术审计、收录与流量诊断、关键词—页面规划、站点迁移、代码修复，以及 Google、Bing 和 AI Search 可见性验证；强调证据分级，不承诺排名或收录结果。
 - [Harness Engineering 学习指南](https://github.com/deusyu/harness-engineering) ⭐ 长期推荐：从核心概念、独立思考、中文翻译和实践案例等多个层次系统整理 Harness Engineering，并用分层 `AGENTS.md`、机械化一致性检查与策展 Skill 在仓库自身验证相关原则。
 - [Better Harness](https://github.com/QoderAI/better-harness): 面向 AI 编程工作流的开源评审与持续改进工具，从任务理解、受控执行、变更验证、可靠交付和经验沉淀五个维度收集证据、生成报告，并为具体问题提供可验证的改进方案。
 - [深入理解 AI Agent：设计原理与工程实践](https://github.com/bojieli/ai-agent-book): 李博杰编写的开源 AI Agent 教材，用 10 章系统讲解设计原理与工程实践，提供全书正文、PDF / EPUB 和 92 个配套实验。

@@ -34,6 +34,8 @@
 ## Content Guidance
 
 - Add long-form posts under `docs/blog/` with readable English slugs.
+- Use the "blue engineering hand-drawn knowledge card" defined in `DESIGN.md` as the default visual style for article illustrations. Treat deviations as intentional exceptions justified by the article's evidence or medium.
+- Generate hand-drawn article artwork without final Chinese text or model-drawn label boxes. Add verified titles, labels, borders, captions, and alt text deterministically in SVG after the artwork is stable.
 - When adding a new article, add it to the top of the "最新文章" section in `docs/index.md` by default.
 - Before adding a new article to the "推荐阅读" section in `docs/index.md`, always ask the user whether it should be included.
 - Keep old blog migration content organized by topic instead of copying old random short URLs.

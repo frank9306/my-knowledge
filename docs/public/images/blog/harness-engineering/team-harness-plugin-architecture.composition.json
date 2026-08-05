@@ -1,0 +1,73 @@
+{
+  "width": 1536,
+  "height": 1024,
+  "artwork": "docs/image-sources/harness-engineering/team-harness-plugin-architecture-artwork.png",
+  "output": "docs/public/images/blog/harness-engineering/team-harness-plugin-architecture.svg",
+  "title": "团队 Harness 的标准投射与持续治理闭环",
+  "description": "团队标准经 Plugin 组装为项目 Harness，通过机械检查进入项目运行，任务证据再推动下一版标准。",
+  "defaults": {
+    "radius": 18,
+    "background": "#fffdf7",
+    "backgroundOpacity": 0.94,
+    "borderColor": "#5278a3",
+    "borderWidth": 3,
+    "textColor": "#273444",
+    "fontFamily": "Microsoft YaHei, Noto Sans CJK SC, sans-serif",
+    "fontWeight": 700,
+    "maxFontSize": 32,
+    "minFontSize": 18,
+    "paddingX": 20,
+    "paddingY": 10,
+    "lineHeight": 1.15
+  },
+  "labels": [
+    {
+      "text": "团队 Harness：从统一标准到持续升级",
+      "x": 278,
+      "y": 24,
+      "width": 980,
+      "height": 88,
+      "maxFontSize": 42,
+      "minFontSize": 30,
+      "borderWidth": 4
+    },
+    {
+      "text": "团队标准",
+      "x": 34,
+      "y": 154,
+      "width": 250,
+      "height": 58
+    },
+    {
+      "text": "Plugin 分发与组装",
+      "x": 352,
+      "y": 154,
+      "width": 350,
+      "height": 58
+    },
+    {
+      "text": "机械检查",
+      "x": 806,
+      "y": 154,
+      "width": 250,
+      "height": 58,
+      "borderColor": "#5f8f68"
+    },
+    {
+      "text": "项目运行与证据",
+      "x": 1162,
+      "y": 154,
+      "width": 340,
+      "height": 58
+    },
+    {
+      "text": "任务证据推动下一版标准",
+      "x": 518,
+      "y": 944,
+      "width": 500,
+      "height": 58,
+      "maxFontSize": 28,
+      "borderColor": "#5f8f68"
+    }
+  ]
+}

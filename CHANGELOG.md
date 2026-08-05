@@ -2,6 +2,13 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.16 - 2026-08-05
+
+- Refined the team Harness guide with a clearer standard, Profile, deterministic-check, and upgrade-loop model, plus a rebuilt hand-drawn architecture illustration and reusable composition source.
+- Added the article illustration system to the project design rules so generated artwork and deterministic SVG labels remain consistent and verifiable.
+- Added canonical URLs, sitemap generation, robots discovery, social metadata, and WebSite structured data across the knowledge site.
+- Added qiaomu-seo to the AI Agent resource navigation.
+
 ## 2.1.15 - 2026-08-05
 
 - Added Figma Community, Hugging Face Spaces, Product Hunt, and GitHub Trending to the resource navigation for discovering designs, AI demos, products, and open-source projects.

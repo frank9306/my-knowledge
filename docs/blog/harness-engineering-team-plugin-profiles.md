@@ -1,6 +1,7 @@
 ---
 title: "团队如何建设统一的 AI 编程 Harness"
 date: 2026-07-28
+description: "从团队基线、项目 Profile、确定性脚本、合规检查与升级闭环出发，设计可分发、可验证、可持续治理的 AI 编程 Harness。"
 ---
 
 # 团队如何建设统一的 AI 编程 Harness
@@ -9,9 +10,9 @@ date: 2026-07-28
 
 > 检查技术栈，创建 `AGENTS.md`，补充测试、构建和 CI，并运行验证。
 
-这能帮助一个项目，却不能形成团队标准。同一句提示词在不同时间、不同模型和不同代码库中，可能生成不同目录、不同规则，甚至不同的“完成”定义。团队真正需要的不是一段更长的提示词，而是一套版本化、可执行、可检查、可升级的工程支撑体系。
+这能改善一个项目，却不能形成团队标准。同一句提示词在不同模型、不同时间和不同代码库中，可能生成不同目录、不同规则，甚至不同的“完成”定义。复制模板也没有解决根本问题：项目一旦修改了副本，就很难判断它是合理定制、意外漂移，还是仍未同步上游标准。
 
-这套体系就是项目的 Harness。Plugin 可以用来分发它，Skill 可以承载初始化流程，MCP 可以提供外部工具，但三者都不等于 Harness 本身。
+团队真正需要的是一套版本化、可执行、可检查、可升级的 Harness。它的权威来源是团队标准，Plugin 负责分发，Profile 表达项目差异，确定性脚本负责生成和检查，版本机制负责升级。少了其中任何一环，团队得到的都更像一次性模板，而不是可治理的工程系统。
 
 ## Harness 首先是一种工程概念
 
@@ -19,7 +20,7 @@ Harness 原意是挽具或控制装置。在 AI Agent 语境里，它通常指�
 
 Birgitta Böckeler 在 [《Harness engineering for coding agent users》](https://martinfowler.com/articles/harness-engineering.html) 中进一步限定了编码场景：用户可以在 Coding Agent 外围建立一层 Harness。前置引导提高首次正确的概率，反馈机制则帮助 Agent 在结果进入人工审查之前自我纠正。
 
-因此，Harness 首先是一个工程概念，也可以发展成一种工程范式，但它不是跨平台统一的插件规范。
+因此，Harness 是工程概念，不是跨平台统一的插件格式。它关注的是 Agent 在什么信息、工具、约束和反馈中工作，而不是这些能力采用哪一种包装方式。
 
 对于一个软件项目，Harness 可能包括：
 
@@ -31,13 +32,13 @@ Birgitta Böckeler 在 [《Harness engineering for coding agent users》](https:
 - CI/CD、代码评审、回滚和恢复路径；
 - 将重复经验沉淀为规则、测试或 Skill 的机制。
 
-可以把它理解为：
+可以把它压缩成一个结果导向的公式：
 
 ```text
 Coding Agent + 项目 Harness → 可复现、可验证、可交付的工程结果
 ```
 
-这里的关键词不是“自动化”，而是“可验证”。Agent 能执行命令，不代表它选择了正确命令；能生成测试，不代表测试覆盖了真实需求；能解释自己完成了任务，也不构成交付证据。
+这里的关键词不是“自动化”，而是“可验证”。Agent 能执行命令，不代表命令正确；能生成测试，不代表测试覆盖了验收条件；能解释自己完成了任务，也不构成交付证据。
 
 ## Harness 同时需要前置引导和结果反馈
 
@@ -68,7 +69,7 @@ Coding Agent + 项目 Harness → 可复现、可验证、可交付的工程结�
 | 确定性控制 | lint、类型检查、测试、结构分析、固定脚本 | 快、便宜、结果稳定，适合高频执行 |
 | 推断性控制 | AI Code Review、语义重复检查、架构评审 Agent | 能处理语义问题，但成本更高，结果具有概率性 |
 
-成熟的 Harness 不会把所有判断交给另一个模型。能够由脚本和测试确定的事实，应优先使用确定性工具；只有无法机械判断的取舍，才交给推断性评审和人工决策。
+成熟的 Harness 不会把所有判断交给另一个模型。能够由脚本和测试确定的事实，应优先使用确定性工具；语义重复、架构取舍等无法机械判断的问题，再交给推断性评审和人工决策。这不是排斥 AI Review，而是让不同检查承担与其成本和可靠性相称的工作。
 
 ## Plugin、Skill、MCP 与 Harness 的边界
 
@@ -82,13 +83,13 @@ Coding Agent + 项目 Harness → 可复现、可验证、可交付的工程结�
 | MCP | 如何连接外部数据和操作 | MCP Server 暴露的工具与资源 |
 | `AGENTS.md` | Agent 在当前仓库中应遵守什么 | 项目级持久指令 |
 
-OpenAI 的 [Plugin 文档](https://developers.openai.com/plugins/build/plugins)要求每个 Plugin 包含 `.codex-plugin/plugin.json`。Plugin 还可以打包 Skills、MCP Server、Hooks 和资源。这个规范定义了能力如何交付，却没有规定业务项目必须怎样测试、如何发布或何时需要人工审批。
+OpenAI 的 [Plugin 文档](https://developers.openai.com/plugins/build/plugins)要求每个 Plugin 包含 `.codex-plugin/plugin.json`，并可按架构打包 Skills、MCP Server 连接、资源和生命周期 Hooks。这个规范定义了能力如何交付，却没有规定业务项目必须怎样测试、如何发布或何时需要人工审批。
 
 一个项目即使没有安装任何 Plugin，也可以拥有良好的 Harness。清晰的 `AGENTS.md`、统一命令、可靠测试、CI、日志和回滚方案已经能够形成完整支撑。反过来，安装很多 Plugin 也不代表 Harness 完整；工具数量无法证明目标明确、权限合理或结果经过验证。
 
 ## 单个项目的最小 Harness
 
-Harness 没有统一目录标准，也不要求一次创建所有文件。对于一个普通项目，最小结构通常只需要：
+Harness 没有统一目录标准，也不要求一次创建所有文件。对于一个普通项目，起点可以很小：
 
 ```text
 my-project/
@@ -99,7 +100,7 @@ my-project/
 └── test/
 ```
 
-其中四个能力不可缺少：
+目录不是验收标准，下面四种能力才是：
 
 1. **项目入口明确**：人和 Agent 都能找到安装、启动和调试方式。
 2. **工作边界明确**：`AGENTS.md` 说明规则、禁止事项和完成条件。
@@ -108,7 +109,7 @@ my-project/
 
 `docs/architecture.md`、`.github/workflows/ci.yml`、`.codex/config.toml`、Hooks 和项目内 Skills 都是按需增加的。小型代码库不需要为了“看起来完整”创建空目录。复杂系统也不能用一份泛化的 `AGENTS.md` 代替真实的架构约束、集成测试和恢复方案。
 
-OpenAI 的 [`AGENTS.md` 指南](https://learn.chatgpt.com/docs/agent-configuration/agents-md)说明，Codex 会从项目根目录向当前工作目录加载指令，并让更接近当前目录的规则覆盖上层规则。这适合表达“团队基线 + 项目规则 + 子模块例外”。
+OpenAI 的 [`AGENTS.md` 指南](https://learn.chatgpt.com/docs/agent-configuration/agents-md)说明，Codex 会从项目根目录向当前工作目录加载指令链，更接近当前目录的规则因为位于合并结果后部而获得更高优先级。这适合表达“团队基线 + 项目规则 + 子模块例外”。
 
 但这些规则必须经过治理。应由 CI 强制执行的检查，也不能全部退化成自然语言提醒。
 
@@ -121,15 +122,15 @@ OpenAI 的 [`AGENTS.md` 指南](https://learn.chatgpt.com/docs/agent-configurati
 3. **模板会漂移**：复制出去的规则无法自动获得上游更新。
 4. **缺少合规判断**：团队无法区分合法定制与意外偏离。
 
-因此，团队 Harness 的权威来源不应该是一段提示词，而应该是一套版本化标准。初始化过程也不应完全由模型自由撰写；Skill 可以负责理解意图和解释冲突，真正的文件生成、字段校验和版本比较应由确定性脚本完成。
+因此，团队 Harness 的权威来源不应该是一段提示词，而应该是一套版本化标准。Skill 可以负责理解意图、推荐 Profile 和解释冲突；真正的文件生成、字段校验、差异比较和退出码应由确定性脚本完成。模型负责判断，脚本负责保证相同输入得到可比较的结果。
 
 ## 团队标准需要三层结构
 
-一个可维护的团队 Harness 可以分为三层：
+一个可维护的团队 Harness 可以分为三层。三层之外，还需要一条把标准持续带回项目的治理闭环：
 
-![团队 Harness Plugin 通过统一基线和技术栈 Profile 为不同项目生成并检查 Harness](/images/blog/harness-engineering/team-harness-plugin-architecture.svg)
+![团队标准经 Plugin 组装成项目 Harness，通过机械检查进入项目运行，任务证据再推动下一版标准](/images/blog/harness-engineering/team-harness-plugin-architecture.svg)
 
-*图 1：Plugin 是分发与执行入口；团队基线和 Profile 才是标准内容；业务项目只接收与自己相关的 Harness 文件。概念示意图。*
+*图 1：Plugin 是分发与组装入口，不是标准本身。团队基线、Profile 与项目覆盖生成可验证的项目 Harness；检查结果和真实任务证据再推动标准升级。手绘概念插画。*
 
 ### 第一层：团队基线
 
@@ -174,7 +175,7 @@ go-client-library
 
 ## 一个 Plugin 管理多个 Profile
 
-对于同时拥有 React 前端、Python 后端和 Go 客户端的团队，第一选择通常是一个团队级 Plugin，而不是每种语言一个 Plugin：
+对于同时拥有 React 前端、Python 后端和 Go 客户端的团队，如果它们共享治理责任、发布节奏和安全边界，可以先使用一个团队级 Plugin：
 
 ```text
 team-harness/
@@ -200,13 +201,13 @@ team-harness/
 └── test/
 ```
 
-一个 Plugin 有三个直接收益：
+集中分发有三个直接收益：
 
 - 团队基线只有一个权威版本；
 - 成员只需安装一个能力包；
 - 初始化、检查和升级使用同一套契约。
 
-初始化器可以根据 `package.json`、`pyproject.toml`、`go.mod`、依赖和目录结构推荐 Profile，但检测结果只能作为建议。遇到 monorepo、混合技术栈或证据冲突时，应要求显式选择。初始化器不能按文件出现顺序静默决定。
+初始化器可以根据 `package.json`、`pyproject.toml`、`go.mod`、依赖和目录结构推荐 Profile，但检测结果只能作为建议。遇到 monorepo、混合技术栈或证据冲突时，应要求显式选择，不能按第一个匹配文件静默决定。
 
 每个业务项目还应记录自己采用的版本和 Profile，例如：
 
@@ -310,27 +311,38 @@ team-harness-go
 
 ## 哪些东西是必须的
 
-从 Plugin 格式看，最小可安装包只需要 Manifest 和至少一个 Skill。但从团队 Harness 的功能目标看，最低要求更高：
+从 Plugin 格式看，Manifest 提供稳定身份，其他目录取决于 Plugin 的能力构成。但从团队 Harness 的功能目标看，最低要求更高：
 
 | 内容 | 是否必需 | 原因 |
 | --- | --- | --- |
 | `.codex-plugin/plugin.json` | 必需 | 提供稳定身份和安装入口 |
 | 团队基线标准 | 必需 | 建立唯一权威来源 |
 | 至少一个真实 Profile | 必需 | 把通用原则映射到项目形态 |
-| 初始化 Skill | 必需 | 提供受控的使用入口 |
-| 合规检查 Skill | 必需 | 防止标准变成一次性模板 |
+| 初始化工作流 | 必需 | 提供受控的使用入口，可由 Skill 调用脚本 |
+| 合规检查工作流 | 必需 | 防止标准变成一次性模板 |
 | 确定性生成与检查脚本 | 必需 | 保证相同输入得到一致结果 |
 | 标准版本和项目清单 | 必需 | 支持比较、例外和升级 |
 | Fixtures 与自动测试 | 必需 | 防止初始化器破坏现有项目 |
-| 升级 Skill | 推荐 | 标准稳定后补充 |
+| 升级工作流 | 推荐 | 标准稳定后补充 |
 | CI 模板 | 按团队环境决定 | 使用统一 CI 时应提供 |
 | MCP Server、UI | 通常不需要 | 初始化本地文件不需要外部服务 |
 
-第一版不应追求覆盖所有语言和框架。更稳妥的范围是选择团队真实存在的三种项目形态，例如 `react-vite-app`、`python-fastapi-service` 和 `go-client-library`。先完成初始化、检查、冲突保护和测试，再增加新的 Profile。
+第一版不应追求覆盖所有语言和框架。更稳妥的范围是只选择一到三种真实项目形态，例如 `react-vite-app`、`python-fastapi-service` 和 `go-client-library`。先让初始化、检查、冲突保护和 Fixtures 跑通，再增加 Profile。
+
+## 第一版怎样落地
+
+如果团队从零开始，可以把第一版控制在四个里程碑内：
+
+1. **定义契约**：选定一个真实项目类型，写出团队基线、Profile、项目清单 Schema 和统一检查结果。
+2. **实现确定性路径**：让 `init` 支持预览与冲突保护，让 `check` 返回稳定状态和非零失败退出码，并用 Fixtures 覆盖空项目、已有配置和错误 Profile。
+3. **接入真实项目**：先在少量仓库试点，记录误报、漏报、人工覆盖和实际失败，不急于扩展技术栈。
+4. **闭合升级链路**：发布第二个标准版本，验证项目能看懂差异、保留合法覆盖并重新通过检查。
+
+这四步检验的是系统能否演进，而不只是能否生成文件。第一版如果还无法安全升级，就不应宣称团队已经建立了统一标准。
 
 ## Better Harness 位于哪个位置
 
-[Better Harness](https://github.com/QoderAI/better-harness) 用来评审和改进项目 Harness，而不是充当团队 Harness 标准。它从任务理解、受控执行、变更验证、可靠交付和经验沉淀等维度收集证据，帮助团队发现规则、工具和反馈机制之间的缺口。
+[Better Harness](https://github.com/QoderAI/better-harness) 用来评审和改进项目 Harness，而不是充当团队 Harness 标准。它围绕任务理解、受控执行、变更验证、可靠交付和经验沉淀五个维度收集证据，帮助团队发现规则、工具和反馈机制之间的缺口。
 
 二者可以配合：
 
@@ -362,7 +374,7 @@ Harness 不是创建项目时生成一批文件就结束。真正的工程价值
 项目升级并验证效果
 ```
 
-Plugin 解决分发，Profile 解决差异，脚本保证确定性，检查器防止漂移，版本机制支持升级。把这几部分连接起来，团队才拥有统一的 Harness；否则得到的只是许多看起来相似、实际上无法治理的 `AGENTS.md`。
+Plugin 解决分发，Profile 解决差异，脚本保证确定性，检查器暴露漂移，版本机制支持升级。判断体系是否成立，不要数仓库里生成了多少文件，而要看三个问题：同一标准能否在不同项目得到可解释的结果，项目偏离能否被发现，标准升级能否保留合法定制。三个答案都为“能”，团队才真正拥有统一的 Harness。
 
 ## 资料与事实边界
 

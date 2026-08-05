@@ -1,6 +1,12 @@
 import { defineConfig } from 'vitepress'
 
 const base = '/'
+const siteUrl = 'https://knowledge.webfrank.top'
+
+function pageUrl(page: string) {
+  const path = page === 'index.md' ? '' : page.replace(/(^|\/)index\.md$/, '$1').replace(/\.md$/, '')
+  return new URL(path, `${siteUrl}/`).href
+}
 
 function tokenizeSearchText(text: string) {
   const tokens = text
@@ -30,6 +36,38 @@ export default defineConfig({
   base,
   cleanUrls: true,
   lastUpdated: true,
+  sitemap: {
+    hostname: siteUrl
+  },
+  transformHead({ page, title, description }) {
+    const canonicalUrl = pageUrl(page)
+    const socialTitle = title || 'Frank 的知识库'
+    const socialDescription = description || '技术笔记、自动化实践、AI Agent 学习与个人知识沉淀。'
+
+    return [
+      ['link', { rel: 'canonical', href: canonicalUrl }],
+      ['meta', { property: 'og:type', content: 'website' }],
+      ['meta', { property: 'og:locale', content: 'zh_CN' }],
+      ['meta', { property: 'og:site_name', content: 'Frank 的知识库' }],
+      ['meta', { property: 'og:title', content: socialTitle }],
+      ['meta', { property: 'og:description', content: socialDescription }],
+      ['meta', { property: 'og:url', content: canonicalUrl }],
+      ['meta', { name: 'twitter:card', content: 'summary' }],
+      ['meta', { name: 'twitter:title', content: socialTitle }],
+      ['meta', { name: 'twitter:description', content: socialDescription }],
+      [
+        'script',
+        { type: 'application/ld+json' },
+        JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: 'Frank 的知识库',
+          url: siteUrl,
+          inLanguage: 'zh-CN'
+        })
+      ]
+    ]
+  },
   ignoreDeadLinks: [/^https?:\/\/localhost(:\d+)?/, /^https?:\/\/127\.0\.0\.1(:\d+)?/],
   markdown: {
     html: false
