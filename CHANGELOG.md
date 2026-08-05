@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.15 - 2026-08-05
+
+- Added Figma Community, Hugging Face Spaces, Product Hunt, and GitHub Trending to the resource navigation for discovering designs, AI demos, products, and open-source projects.
+
 ## 2.1.14 - 2026-08-03
 
 - Reworked the nine-part Harness Engineering series into a continuous hands-on tutorial built around one order-search project, with a dedicated series index, reusable implementation artifacts, completion checks, and previous/next navigation.

@@ -100,6 +100,13 @@
 - [多摸鱼热榜](https://duomoyu.com/hot-list): 整合多个平台热榜的摸鱼一站式入口。
 - [科技爱好者周刊](https://github.com/ruanyf/weekly) ⭐ 长期推荐：阮一峰维护的科技内容周刊，每周五发布，长期跟踪技术、工具和趋势。
 
+## 创意与项目发现
+
+- [Figma Community](https://www.figma.com/community): 浏览和获取社区共享的设计文件、组件、插件与模板。
+- [Hugging Face Spaces](https://huggingface.co/spaces): 发现和体验社区发布的机器学习与 AI 应用演示。
+- [Product Hunt](https://www.producthunt.com/?bc=1): 发现新发布的科技产品、应用和开发者工具。
+- [GitHub Trending](https://github.com/trending): 查看 GitHub 当前热门的开源仓库与开发者项目。
+
 ## 个人项目
 
 - [Codex Switch Helper](https://github.com/frank9306/codex-switch-helper) ⭐ 长期推荐：面向 Windows 的 Codex App 多 Profile 管理工具，用于隔离账号、API Key、Home 和桌面应用数据，并共享 AGENTS.md、Skills 与第三方 Plugins。
