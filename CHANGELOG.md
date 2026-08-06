@@ -2,6 +2,10 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.1.17 - 2026-08-06
+
+- Improved the homepage title wrapping, mobile 3D character footprint, visible keyboard focus states, and keyboard interaction accessibility.
+
 ## 2.1.16 - 2026-08-05
 
 - Refined the team Harness guide with a clearer standard, Profile, deterministic-check, and upgrade-loop model, plus a rebuilt hand-drawn architecture illustration and reusable composition source.

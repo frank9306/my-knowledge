@@ -107,6 +107,12 @@ function interactWithPet() {
   if (dragTravel < 6) pet.value?.react('pet')
 }
 
+function interactWithPetByKeyboard(event: KeyboardEvent) {
+  if (event.key !== 'Enter' && event.key !== ' ') return
+  event.preventDefault()
+  pet.value?.react('pet')
+}
+
 function restorePosition() {
   if (!figure.value) return
   try {
@@ -145,8 +151,9 @@ onBeforeUnmount(() => window.removeEventListener('resize', clampCurrentPosition)
       </div>
     </header>
 
-    <aside
+    <button
       ref="figure"
+      type="button"
       class="knowledge-home__figure"
       :class="{ 'is-dragging': dragging }"
       :style="figureStyle"
@@ -158,9 +165,10 @@ onBeforeUnmount(() => window.removeEventListener('resize', clampCurrentPosition)
       @pointerup="stopDragging"
       @pointercancel="stopDragging"
       @click="interactWithPet"
+      @keydown="interactWithPetByKeyboard"
     >
       <CrtHead ref="pet" />
-    </aside>
+    </button>
 
     <div class="knowledge-home__sections">
       <section class="knowledge-home__section">
