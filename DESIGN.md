@@ -1,5 +1,5 @@
 ---
-version: "2.1.0"
+version: "2.2.0"
 name: Codex Editorial Archive
 description: 以统一导航、内容型首页与 Codex 工具风文章页构成的 VitePress 知识站点视觉系统。
 colors:

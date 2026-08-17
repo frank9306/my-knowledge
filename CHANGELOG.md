@@ -2,6 +2,12 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.2.0 - 2026-08-17
+
+- Rebuilt the resource area around a typed single source of truth, with an automatically grouped full catalog and a dedicated filterable recommendations page.
+- Added build-time resource validation for duplicate IDs, unknown categories, and incomplete recommendation details while preserving the site's Markdown HTML security boundary.
+- Initialized and seeded the project Brain with architecture, workflow, stack, roadmap, and durable decision knowledge for future coding agents.
+
 ## 2.1.17 - 2026-08-06
 
 - Improved the homepage title wrapping, mobile 3D character footprint, visible keyboard focus states, and keyboard interaction accessibility.

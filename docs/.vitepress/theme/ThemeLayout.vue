@@ -4,6 +4,7 @@ import { useData, useRoute } from 'vitepress'
 import { watch } from 'vue'
 import HomeLanding from './HomeLanding.vue'
 import RecentUpdates from './RecentUpdates.vue'
+import ResourceCatalog from './ResourceCatalog.vue'
 import { data as articleUpdates } from './recent-updates.data'
 import { markUpdateAsRead, normalizeUpdateUrl, syncArticleVersions } from './recent-updates'
 
@@ -29,6 +30,12 @@ watch(
     </template>
     <template #home-hero-before>
       <HomeLanding v-if="frontmatter.layout === 'home'" />
+    </template>
+    <template #page-top>
+      <ResourceCatalog
+        v-if="frontmatter.resourceCatalog === 'all' || frontmatter.resourceCatalog === 'recommended'"
+        :mode="frontmatter.resourceCatalog"
+      />
     </template>
   </DefaultTheme.Layout>
 </template>

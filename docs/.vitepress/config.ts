@@ -79,7 +79,13 @@ export default defineConfig({
       { text: '专题', link: '/topics/' },
       { text: '文章', link: '/blog/' },
       { text: '好文分享', link: '/reading/' },
-      { text: '资源', link: '/resources/' },
+      {
+        text: '资源',
+        items: [
+          { text: '精选推荐', link: '/resources/recommended' },
+          { text: '全部资源', link: '/resources/' }
+        ]
+      },
       {
         text: '关于',
         items: [
@@ -126,7 +132,10 @@ export default defineConfig({
       '/resources/': [
         {
           text: '资源',
-          items: [{ text: '资源导航', link: '/resources/' }]
+          items: [
+            { text: '精选推荐', link: '/resources/recommended' },
+            { text: '全部资源', link: '/resources/' }
+          ]
         }
       ],
       '/reading/': [
