@@ -80,20 +80,15 @@ onBeforeUnmount(() => controller?.abort())
 
 <template>
   <section class="remote-source" aria-labelledby="skills-source-title">
-    <header class="remote-source__header">
-      <div>
-        <p class="remote-source__eyebrow">LIVE FROM GITHUB</p>
-        <h2 id="skills-source-title">公开 Agent Skills</h2>
-        <p>自动发现仓库中的 <code>skills/&lt;category&gt;/&lt;name&gt;/SKILL.md</code>，当前共 {{ skills.length }} 个。</p>
-      </div>
-      <a :href="repositoryUrl" target="_blank" rel="noopener noreferrer">查看源仓库</a>
-    </header>
-    <p v-if="loading" class="remote-source__status" role="status">正在发现 GitHub 中的 Skills…</p>
+    <h2 id="skills-source-title" class="sr-only">Agent Skills 清单</h2>
+    <p v-if="loading" class="remote-source__status" role="status">加载中…</p>
     <div v-else-if="error" class="remote-source__error" role="alert">
-      <p>暂时无法读取 GitHub：{{ error }}</p>
+      <p>加载失败：{{ error }}</p>
       <button type="button" @click="load">重试</button>
     </div>
-    <div v-else-if="groups.length" class="skill-groups">
+    <div v-else-if="groups.length">
+      <p class="remote-source__count">{{ skills.length }} 个公开 Skills</p>
+      <div class="skill-groups">
       <section v-for="[category, items] in groups" :key="category" class="skill-group">
         <h3>{{ category }}</h3>
         <ul>
@@ -106,7 +101,9 @@ onBeforeUnmount(() => controller?.abort())
           </li>
         </ul>
       </section>
+      </div>
     </div>
-    <p v-else class="remote-source__status">仓库中暂未发现公开 Skill。</p>
+    <p v-else class="remote-source__status">暂无公开 Skills。</p>
+    <a class="remote-source__link" :href="repositoryUrl" target="_blank" rel="noopener noreferrer">源仓库</a>
   </section>
 </template>

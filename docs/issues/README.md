@@ -27,6 +27,7 @@ None.
 | [ISSUE-0003](ISSUE-0003-load-agents-md-and-agent-skills-from-github-at-runtime.md) | Load AGENTS.md and Agent Skills from GitHub at runtime |
 | [ISSUE-0004](ISSUE-0004-remove-version-publishing-prompt-from-project-instructions.md) | Remove version-publishing prompt from project instructions |
 | [ISSUE-0005](ISSUE-0005-remove-the-about-page-from-the-knowledge-site.md) | Remove the About page from the knowledge site |
+| [ISSUE-0006](ISSUE-0006-tighten-source-copy-on-agent-configuration-pages.md) | Tighten source copy on Agent configuration pages |
 
 ## Cancelled
 

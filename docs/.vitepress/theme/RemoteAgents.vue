@@ -34,19 +34,13 @@ onBeforeUnmount(() => controller?.abort())
 
 <template>
   <section class="remote-source" aria-labelledby="agents-source-title">
-    <header class="remote-source__header">
-      <div>
-        <p class="remote-source__eyebrow">LIVE FROM GITHUB</p>
-        <h2 id="agents-source-title">全局协作规则</h2>
-        <p>每次打开页面时读取 <code>main/instructions/core.md</code>，无需手动同步本站。</p>
-      </div>
-      <a :href="sourceUrl" target="_blank" rel="noopener noreferrer">查看源文件</a>
-    </header>
-    <p v-if="loading" class="remote-source__status" role="status">正在读取 GitHub 最新内容…</p>
+    <h2 id="agents-source-title" class="sr-only">AGENTS.md 内容</h2>
+    <p v-if="loading" class="remote-source__status" role="status">加载中…</p>
     <div v-else-if="error" class="remote-source__error" role="alert">
-      <p>暂时无法读取 GitHub：{{ error }}</p>
+      <p>加载失败：{{ error }}</p>
       <button type="button" @click="load">重试</button>
     </div>
     <pre v-else class="remote-source__document" tabindex="0"><code>{{ content }}</code></pre>
+    <a class="remote-source__link" :href="sourceUrl" target="_blank" rel="noopener noreferrer">源文件</a>
   </section>
 </template>

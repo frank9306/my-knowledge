@@ -560,16 +560,13 @@ body {
 
 /* Runtime GitHub sources for AGENTS.md and Agent Skills. */
 .remote-source { margin-top: 36px; border-top: 1px solid var(--site-section-border); padding-top: 28px; }
-.remote-source__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
-.remote-source__header h2,
 .skill-group h3 { margin: 0; border: 0; padding: 0; }
-.remote-source__header p { margin: 8px 0 0; color: var(--vp-c-text-2); }
-.remote-source__eyebrow { color: var(--vp-c-brand-1) !important; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
-.remote-source__header > a,
+.remote-source__link,
 .remote-source__error button { flex: 0 0 auto; min-height: 40px; display: inline-flex; align-items: center; border: 1px solid var(--site-line-strong); border-radius: 6px; background: transparent; padding: 0 14px; color: var(--vp-c-text-2); font: inherit; font-size: 13px; cursor: pointer; }
-.remote-source__header > a:hover,
+.remote-source__link { margin-top: 18px; }
+.remote-source__link:hover,
 .remote-source__error button:hover { border-color: var(--vp-c-brand-1); color: var(--vp-c-brand-1); text-decoration: none; }
-.remote-source__header > a:focus-visible,
+.remote-source__link:focus-visible,
 .remote-source__error button:focus-visible,
 .remote-source__document:focus-visible,
 .skill-group a:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 3px; }
@@ -578,6 +575,7 @@ body {
 .remote-source__error p { margin: 0 0 14px; }
 .remote-source__document { max-height: 70vh; overflow: auto; border: 1px solid var(--site-card-border); border-radius: 8px; background: var(--vp-code-block-bg); padding: 20px; white-space: pre-wrap; overflow-wrap: anywhere; }
 .remote-source__document code { font-size: 13px; line-height: 1.7; }
+.remote-source__count { margin: 0 0 18px; color: var(--vp-c-text-2); font-size: 13px; }
 .skill-groups { display: grid; gap: 42px; }
 .skill-group h3 { color: var(--vp-c-brand-1); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
 .skill-group ul { margin: 16px 0 0; padding: 0; list-style: none; }
@@ -589,7 +587,6 @@ body {
 .skill-group__install { display: block; width: fit-content; max-width: 100%; margin-top: 12px; overflow-x: auto; color: var(--vp-c-text-2); font-size: 12px; white-space: nowrap; }
 
 @media (max-width: 640px) {
-  .remote-source__header { flex-direction: column; }
   .skill-group li > a { grid-template-columns: 1fr; gap: 8px; }
   .remote-source__document { max-height: 62vh; padding: 14px; }
 }
