@@ -8,7 +8,9 @@ None.
 
 ## Ready
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0007](ISSUE-0007-restructure-the-knowledge-site-around-timeline-favorites-and-personal-ai.md) | Restructure the knowledge site around timeline, favorites, and personal AI |
 
 ## In progress
 
