@@ -8,9 +8,7 @@ None.
 
 ## Ready
 
-| ID | Title |
-|---|---|
-| [ISSUE-0007](ISSUE-0007-restructure-the-knowledge-site-around-timeline-favorites-and-personal-ai.md) | Restructure the knowledge site around timeline, favorites, and personal AI |
+None.
 
 ## In progress
 
@@ -30,6 +28,8 @@ None.
 | [ISSUE-0004](ISSUE-0004-remove-version-publishing-prompt-from-project-instructions.md) | Remove version-publishing prompt from project instructions |
 | [ISSUE-0005](ISSUE-0005-remove-the-about-page-from-the-knowledge-site.md) | Remove the About page from the knowledge site |
 | [ISSUE-0006](ISSUE-0006-tighten-source-copy-on-agent-configuration-pages.md) | Tighten source copy on Agent configuration pages |
+| [ISSUE-0007](ISSUE-0007-restructure-the-knowledge-site-around-timeline-favorites-and-personal-ai.md) | Restructure the knowledge site around timeline, favorites, and personal AI |
+| [ISSUE-0008](ISSUE-0008-simplify-homepage-article-heading-copy.md) | Simplify homepage article heading copy |
 
 ## Cancelled
 

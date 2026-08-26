@@ -77,74 +77,10 @@ export default defineConfig({
     logo: '/logo.svg',
     nav: [
       { text: '首页', link: '/' },
-      { text: '专题', link: '/topics/' },
-      { text: '文章', link: '/blog/' },
-      { text: '好文分享', link: '/reading/' },
-      {
-        text: '资源',
-        items: [
-          { text: '精选推荐', link: '/resources/recommended' },
-          { text: '全部资源', link: '/resources/' }
-        ]
-      },
-      {
-        text: '关于',
-        items: [
-          { text: 'AGENTS.md', link: '/agents' },
-          { text: 'Agent Skills', link: '/skills' }
-        ]
-      }
+      { text: '我的收藏', link: '/favorites' },
+      { text: '我的 AI', link: '/ai' }
     ],
-    sidebar: {
-      '/topics/': [
-        {
-          text: '知识专题',
-          items: [
-            { text: '专题总览', link: '/topics/' },
-            { text: 'AI 编程工程', link: '/ai-coding/' },
-            { text: 'AI Agent', link: '/ai-agent/' },
-            { text: 'Python 自动化', link: '/python-automation/' },
-            { text: 'Web / React', link: '/web-react/' },
-            { text: 'RPA / Playwright', link: '/rpa-playwright/' }
-          ]
-        }
-      ],
-      '/ai-coding/': [
-        {
-          text: 'AI 编程工程',
-          items: [
-            { text: '专题首页', link: '/ai-coding/' },
-            { text: 'Vibe Coding 治理', link: '/ai-coding/vibe-coding-governance' },
-            { text: 'AGENTS.md 项目契约', link: '/ai-coding/agents-md-project-contract' },
-            { text: 'AI 编程任务闭环', link: '/ai-coding/agent-development-loop' },
-            { text: 'Agent Skill 生命周期', link: '/ai-coding/agent-skill-lifecycle' },
-            { text: 'MCP、Plugin 与 Connector', link: '/ai-coding/mcp-plugin-connector-decision' },
-            { text: '权限边界与供应链安全', link: '/ai-coding/ai-coding-security-boundaries' }
-          ]
-        }
-      ],
-      '/blog/': [
-        {
-          text: '文章',
-          items: [{ text: '文章索引', link: '/blog/' }]
-        }
-      ],
-      '/resources/': [
-        {
-          text: '资源',
-          items: [
-            { text: '精选推荐', link: '/resources/recommended' },
-            { text: '全部资源', link: '/resources/' }
-          ]
-        }
-      ],
-      '/reading/': [
-        {
-          text: '好文分享',
-          items: [{ text: '文章索引', link: '/reading/' }]
-        }
-      ]
-    },
+    sidebar: {},
     socialLinks: [{ icon: 'github', link: 'https://github.com/frank9306' }],
     search: {
       provider: 'local',

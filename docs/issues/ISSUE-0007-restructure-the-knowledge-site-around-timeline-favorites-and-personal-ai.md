@@ -1,12 +1,11 @@
 ---
 id: ISSUE-0007
 title: "Restructure the knowledge site around timeline, favorites, and personal AI"
-status: ready
+status: done
 priority: medium
 created: 2026-08-26
 updated: 2026-08-26
-closed:
-sources: []
+closed: 2026-08-26
 related_adrs: []
 depends_on: []
 ---
@@ -23,17 +22,17 @@ depends_on: []
 
 ## Acceptance criteria
 
-- [ ] 实施前提供首页、我的收藏和我的 AI 的设计预览，并获得用户确认。
-- [ ] 顶部导航收敛为首页、我的收藏、我的 AI，同时保留全站搜索。
-- [ ] 首页汇总全部原创文章，显示分类标签，按最近变更时间倒序。
-- [ ] 首页支持当前页面搜索，首屏显示 12 篇，通过“加载更多”每次追加 12 篇。
-- [ ] 我的收藏合并资源与好文，支持搜索、资源/好文类型筛选及六类统一用途筛选。
-- [ ] 收藏分类固定为：AI 与 Agent、开发工具、自动化、学习资料、信息发现、网络与服务。
-- [ ] 我的 AI 总览页进入现有 AGENTS.md 和 Skills 页面，并保留远程加载及失败恢复状态。
-- [ ] 删除专题、文章、资源、好文及各文章主题的旧索引页，但保留文章正文、`/agents` 和 `/skills` URL。
-- [ ] 清理旧导航、侧边栏和站内索引引用，重新生成 README。
-- [ ] 更新 `DESIGN.md`，并通过设计检查、生产构建和桌面/375px 浏览器验证。
-- [ ] 搜索、筛选、空状态、加载更多、键盘操作、深浅主题及 reduced-motion 均可用。
+- [x] 实施前提供首页、我的收藏和我的 AI 的设计预览，并获得用户确认。
+- [x] 顶部导航收敛为首页、我的收藏、我的 AI，同时保留全站搜索。
+- [x] 首页汇总全部原创文章，显示分类标签，按最近变更时间倒序。
+- [x] 首页支持当前页面搜索，首屏显示 12 篇，通过“加载更多”每次追加 12 篇。
+- [x] 我的收藏合并资源与好文，支持搜索、资源/好文类型筛选及六类统一用途筛选。
+- [x] 收藏分类固定为：AI 与 Agent、开发工具、自动化、学习资料、信息发现、网络与服务。
+- [x] 我的 AI 总览页进入现有 AGENTS.md 和 Skills 页面，并保留远程加载及失败恢复状态。
+- [x] 删除专题、文章、资源、好文及各文章主题的旧索引页，但保留文章正文、`/agents` 和 `/skills` URL。
+- [x] 清理旧导航、侧边栏和站内索引引用，重新生成 README。
+- [x] 更新 `DESIGN.md`，并通过设计检查、生产构建和桌面/375px 浏览器验证。
+- [x] 搜索、筛选、空状态、加载更多、键盘操作、深浅主题及 reduced-motion 均可用。
 
 ## Out of scope
 
@@ -54,11 +53,17 @@ depends_on: []
 
 ## Implementation notes
 
-No implementation has started.
+- 用户从三套设计预览中确认采用 A“时间轴档案”方向。
+- 新增文章时间线数据与视图：首页汇总 77 篇原创文章，页面内搜索后重置分页，首屏与每次加载固定为 12 篇。
+- 新增统一收藏数据层，将 `resources.ts` 与原好文条目合并，提供关键词、类型和六类用途组合筛选。
+- 新增“我的 AI”总览并保留 `/agents`、`/skills` 远程加载组件与恢复状态。
+- 顶部导航收敛为三个入口，移除主题侧边栏和十个旧索引页，文章正文路径保持不变。
+- 根据浏览器截图修正旧首页容器造成的双重顶部留白，并缩小 CRT 对内容的遮挡范围。
+- 只读代码审查发现并修复“自动化分类为空”和 `/` 快捷键错误聚焦全站搜索两项 P2。
 
 ## Verification
 
-Not verified.
+4 个 Node 行为测试、DESIGN lint、首页场景检查、生产构建、Brain 链接检查、diff 检查及 1440px/375px Chrome 验收通过。
 
 ## Activity log
 
@@ -68,6 +73,10 @@ Issue created from the supplied project input.
 
 ### 2026-08-26 — Status changed from proposed to ready.
 
+### 2026-08-26 — Status changed from ready to in-progress.
+
+### 2026-08-26 — Status changed from in-progress to done.
+
 ## Completion summary
 
-Not completed.
+按确认的时间轴档案方向完成首页、我的收藏和我的 AI 重构，删除旧索引并保留文章及 AI 详情 URL。

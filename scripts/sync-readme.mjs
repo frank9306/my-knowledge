@@ -17,11 +17,8 @@ const topicOrder = [
 
 const pageOrder = [
   ['/', '首页'],
-  ['/topics/', '专题总览'],
-  ['/blog/', '文章索引'],
-  ['/reading/', '好文分享'],
-  ['/resources/', '资源导航'],
-  ['/friends', '友链'],
+  ['/favorites', '我的收藏'],
+  ['/ai', '我的 AI'],
   ['/agents', 'AGENTS.md'],
   ['/skills', 'Agent Skills'],
 ];

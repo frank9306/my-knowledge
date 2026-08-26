@@ -7,6 +7,8 @@ import RecentUpdates from './RecentUpdates.vue'
 import ResourceCatalog from './ResourceCatalog.vue'
 import RemoteAgents from './RemoteAgents.vue'
 import RemoteSkills from './RemoteSkills.vue'
+import FavoritesCatalog from './FavoritesCatalog.vue'
+import AiOverview from './AiOverview.vue'
 import { data as articleUpdates } from './recent-updates.data'
 import { markUpdateAsRead, normalizeUpdateUrl, syncArticleVersions } from './recent-updates'
 
@@ -34,8 +36,10 @@ watch(
       <HomeLanding v-if="frontmatter.layout === 'home'" />
     </template>
     <template #page-top>
+      <FavoritesCatalog v-if="frontmatter.archiveView === 'favorites'" />
+      <AiOverview v-else-if="frontmatter.archiveView === 'ai'" />
       <ResourceCatalog
-        v-if="frontmatter.resourceCatalog === 'all' || frontmatter.resourceCatalog === 'recommended'"
+        v-else-if="frontmatter.resourceCatalog === 'all' || frontmatter.resourceCatalog === 'recommended'"
         :mode="frontmatter.resourceCatalog"
       />
     </template>

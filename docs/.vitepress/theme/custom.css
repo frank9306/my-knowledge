@@ -590,3 +590,24 @@ body {
   .skill-group li > a { grid-template-columns: 1fr; gap: 8px; }
   .remote-source__document { max-height: 62vh; padding: 14px; }
 }
+
+/* Archive information architecture (ISSUE-0007): the timeline owns page spacing. */
+.VPHome:has(.knowledge-home) .knowledge-home {
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+}
+
+.VPHome:has(.knowledge-home) .knowledge-home__figure {
+  width: 140px;
+  height: 228px;
+}
+
+@media (max-width: 767px) {
+  .VPHome:has(.knowledge-home) .knowledge-home__figure {
+    right: 4px;
+    bottom: 6px;
+    width: 78px;
+    height: 127px;
+  }
+}
