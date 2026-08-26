@@ -32,7 +32,6 @@ Track project work locally according to `docs/agents/issue-tracker.md`. Preserve
 - GitHub Pages deployment is defined in `.github/workflows/deploy.yml` and runs on pushes to `main`.
 - The workflow uses Node 20, pnpm 10, `pnpm install --frozen-lockfile`, `pnpm docs:build`, then publishes `docs/.vitepress/dist`.
 - For any change that will be pushed and published, update the current monthly file under `docs/changelog/` in the same commit according to `docs/agents/issue-tracker.md`.
-- When the user says to publish a new version, run `pnpm docs:build`, inspect the git diff, create a git commit for the intended changes, and push it to `main` without waiting for another prompt.
 
 ## README Sync
 

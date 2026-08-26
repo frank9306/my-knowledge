@@ -5,6 +5,8 @@ import { watch } from 'vue'
 import HomeLanding from './HomeLanding.vue'
 import RecentUpdates from './RecentUpdates.vue'
 import ResourceCatalog from './ResourceCatalog.vue'
+import RemoteAgents from './RemoteAgents.vue'
+import RemoteSkills from './RemoteSkills.vue'
 import { data as articleUpdates } from './recent-updates.data'
 import { markUpdateAsRead, normalizeUpdateUrl, syncArticleVersions } from './recent-updates'
 
@@ -36,6 +38,10 @@ watch(
         v-if="frontmatter.resourceCatalog === 'all' || frontmatter.resourceCatalog === 'recommended'"
         :mode="frontmatter.resourceCatalog"
       />
+    </template>
+    <template #doc-footer-before>
+      <RemoteAgents v-if="route.path === '/agents'" />
+      <RemoteSkills v-else-if="route.path === '/skills'" />
     </template>
   </DefaultTheme.Layout>
 </template>

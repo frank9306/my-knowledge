@@ -22,7 +22,6 @@ const pageOrder = [
   ['/reading/', '好文分享'],
   ['/resources/', '资源导航'],
   ['/friends', '友链'],
-  ['/about', '关于'],
   ['/agents', 'AGENTS.md'],
   ['/skills', 'Agent Skills'],
 ];

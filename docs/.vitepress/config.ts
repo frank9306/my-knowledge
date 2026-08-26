@@ -90,7 +90,6 @@ export default defineConfig({
       {
         text: '关于',
         items: [
-          { text: '关于我', link: '/about' },
           { text: 'AGENTS.md', link: '/agents' },
           { text: 'Agent Skills', link: '/skills' }
         ]

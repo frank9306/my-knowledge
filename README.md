@@ -12,7 +12,6 @@
 - [好文分享](https://knowledge.webfrank.top/reading/)
 - [资源导航](https://knowledge.webfrank.top/resources/)
 - [友链](https://knowledge.webfrank.top/friends)
-- [关于](https://knowledge.webfrank.top/about)
 - [AGENTS.md](https://knowledge.webfrank.top/agents)
 - [Agent Skills](https://knowledge.webfrank.top/skills)
 
