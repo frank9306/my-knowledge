@@ -1,6 +1,6 @@
 # Brain Index
 
-_Auto-generated. Last updated 2026-08-26T03:12:54.123Z._
+_Auto-generated. Last updated 2026-08-26T08:36:11.243Z._
 
 - [design-system-build-gate](pages/design-system-build-gate.md) — category: decision | tags: [architecture workflow] | ## 决策
 - [generated-readme-navigation](pages/generated-readme-navigation.md) — category: decision | tags: [architecture workflow] | ## 决策

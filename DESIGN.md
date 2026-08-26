@@ -1,13 +1,13 @@
 ---
-version: "2.2.0"
-name: Codex Editorial Archive
-description: 以统一导航、内容型首页与 Codex 工具风文章页构成的 VitePress 知识站点视觉系统。
+version: "2.3.0"
+name: Webfrank Knowledge Archive
+description: 与 Webfrank 个人站共享深色编辑式语言、同时保留 VitePress 阅读结构与 3D CRT 档案管理员的知识站点视觉系统。
 colors:
-  primary: "#2563eb"
-  bg: "#f8fafc"
-  bg-soft: "#ffffff"
-  text-1: "#111827"
-  text-2: "#526173"
+  primary: "#6f91ff"
+  bg: "#111214"
+  bg-soft: "#181a1d"
+  text-1: "#f2f1ed"
+  text-2: "#a3a4a8"
 typography:
   h1:
     fontFamily: "Inter"
@@ -32,7 +32,7 @@ typography:
 rounded:
   sm: 4px
   md: 8px
-  lg: 12px
+  lg: 14px
 spacing:
   xs: 4px
   sm: 8px
@@ -58,13 +58,13 @@ components:
 
 ## Overview
 
-Codex Editorial Archive 是 Frank 知识库的统一视觉系统：首页与文章页共用 VitePress 顶部导航，首页主体呈现推荐阅读、最新文章和实战项目，透明背景的完整 3D CRT 档案管理员默认悬浮在视口右下角。文章页沿用 Codex Helper 的冷静工具界面语言。站点只保留 VitePress 原生 light/dark 切换，不再提供第二套风格选择。
+Webfrank Knowledge Archive 与 `webfrank.top` 个人站共享一套品牌语言：首页与文章页使用深炭黑画布、暖白文字、克制蓝色信号、细线分区与编辑式留白。知识库保留 VitePress 的文档阅读结构，并把透明背景的完整 3D CRT 档案管理员作为唯一标志性视觉例外。站点只保留 VitePress 原生 light/dark 切换，dark 是默认品牌呈现。
 
 站点主要面向"中文技术笔记、自动化实践、AI Agent 学习与个人知识沉淀"，所以视觉风格优先考虑：
 
 - **可读性**：正文 1rem、行高 1.7、系统 sans 字体，保证技术内容易扫描。
-- **层次感**：用冷灰背景和蓝色淡边框区分卡片与章节，不依赖重阴影。
-- **一致性**：首页内容区与文章页共用背景、文字、边框和导航 token；3D 人物直接悬浮在页面上，不使用背景图或卡片容器。
+- **层次感**：用字号、留白、发丝分隔线和轻微色阶区分内容，不依赖重阴影或卡片堆叠。
+- **跨站一致性**：首页、文章页与个人站共用背景、文字、边框和交互节奏；3D 人物直接悬浮在页面上，不使用背景图或卡片容器。
 
 ## Style Modes
 
@@ -72,13 +72,13 @@ Codex Editorial Archive 是 Frank 知识库的统一视觉系统：首页与文�
 
 ## Colors
 
-主品牌色为 `primary`（`#2563eb`），对应 VitePress 的 `--vp-c-brand-1`。
+主品牌色为 `primary`（`#6f91ff`），对应 VitePress 的 `--vp-c-brand-1`。
 
-- **`bg` (#f8fafc)**：light 主背景。
-- **`bg-soft` (#ffffff)**：卡片和柔和容器背景。
-- **`text-1` (#111827)**：主文本。
-- **`text-2` (#526173)**：metadata 与次级文本。
-- **`primary` (#2563eb)**：链接、按钮和交互强调。
+- **`bg` (#111214)**：默认 dark 主背景。
+- **`bg-soft` (#181a1d)**：导航、弹层和柔和容器背景。
+- **`text-1` (#f2f1ed)**：暖白主文本。
+- **`text-2` (#a3a4a8)**：metadata 与次级文本。
+- **`primary` (#6f91ff)**：链接、焦点和少量关键交互强调。
 
 首页内容区使用文章页同一套 light/dark token。旧米色 CRT 人物使用透明 WebGL 画布，在 light/dark 模式中都直接叠加于页面背景之上。
 
@@ -86,14 +86,14 @@ Codex Editorial Archive 是 Frank 知识库的统一视觉系统：首页与文�
 
 Dark 模式自动通过 `.dark` class 切换，对应 token 关系不变：
 
-- `bg` → `#0b1220`
-- `bg-soft` → `#172033`
-- `text-1` → `#e5edf8`
-- `text-2` → `#a8b4c7`
+- `bg` → `#111214`
+- `bg-soft` → `#181a1d`
+- `text-1` → `#f2f1ed`
+- `text-2` → `#a3a4a8`
 
-- **Dark 背景**：`#0b1220` / `#111827` / `#172033`，保留工具感但避免纯黑。
-- **Dark 文本**：`#e5edf8` / `#a8b4c7`，比默认暖色 dark 更冷静。
-- **Dark 品牌色**：`#60a5fa`，hover 使用 `#38bdf8`，确保深色背景上的链接和 hero 标题保持足够对比度。
+- **Dark 背景**：`#111214` / `#181a1d` / `#1d1f23`，保留层次但避免纯黑。
+- **Dark 文本**：`#f2f1ed` / `#a3a4a8`，与个人站一致使用暖白层级。
+- **Dark 品牌色**：`#6f91ff`，hover 使用 `#89a5ff`，仅用于链接、焦点与关键动作。
 
 ## Typography
 

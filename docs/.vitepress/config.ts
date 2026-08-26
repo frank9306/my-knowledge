@@ -33,6 +33,7 @@ export default defineConfig({
   title: 'Frank 的知识库',
   description: '技术笔记、自动化实践、AI Agent 学习与个人知识沉淀。',
   lang: 'zh-CN',
+  appearance: 'dark',
   base,
   cleanUrls: true,
   lastUpdated: true,
@@ -168,7 +169,7 @@ export default defineConfig({
   },
   head: [
     ['link', { rel: 'icon', href: `${base}logo.svg` }],
-    ['meta', { name: 'theme-color', content: '#0b0c0c' }],
+    ['meta', { name: 'theme-color', content: '#111214' }],
     [
       'script',
       {
