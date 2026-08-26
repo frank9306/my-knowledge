@@ -2,6 +2,11 @@
 
 All notable published changes to this knowledge site are recorded here.
 
+## 2.2.1 - 2026-08-26
+
+- Published an illustrated guide to the `frontend-design` Skill and its evidence-led workflow for design decisions, implementation, and browser verification.
+- Initialized repository-owned AI engineering documentation for local Issues, context, ADRs, meetings, research, changelogs, and handoffs.
+
 ## 2.2.0 - 2026-08-17
 
 - Rebuilt the resource area around a typed single source of truth, with an automatically grouped full catalog and a dedicated filterable recommendations page.

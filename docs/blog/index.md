@@ -69,6 +69,7 @@
 
 ## 博客文章
 
+- [我做了一个 Frontend Design Skill：让 AI 不只会写页面，还会做设计决策](/blog/frontend-design-skill-production-workflow)
 - [Harness Engineering 实战系列：从项目诊断到可持续闭环](/blog/harness-engineering-practical-series)
 - [Harness 实战（一）：先诊断项目真正缺少什么](/blog/harness-series-01-project-diagnosis)
 - [Harness 实战（二）：把自然语言需求变成 Goal Contract](/blog/harness-series-02-goal-contract)
