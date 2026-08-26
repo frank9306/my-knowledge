@@ -166,12 +166,12 @@ When entering an unfamiliar repository or performing a broad review, use Git his
 
 When the user explicitly asks to commit code:
 
-- Before committing, ensure the repository root contains a `CHANGELOG.md` file. Create it if it does not exist.
-- Record every commit in `CHANGELOG.md`, including the version number and a concise summary of the changes included in that commit.
-- Before updating `CHANGELOG.md` or committing, ask the user whether the project version should be updated.
+- Track completed or cancelled work through a local Issue under `docs/issues/`.
+- Record the delivered outcome in the current `docs/changelog/YYYY-MM.md` file under `Added`, `Changed`, `Fixed`, `Removed`, `Security`, `Documentation`, or `Cancelled`, with a link back to the Issue.
+- Before updating the monthly Changelog or committing, ask the user whether the project version should be updated.
 - If the user wants a version update, ask the user to confirm the exact target version number.
 - After the target version is confirmed, update all relevant version files for that repository, such as `package.json`, `pyproject.toml`, manifest files, lock files, or other project-specific version sources.
-- If the user declines a version update, keep the current version and record the commit under the current version or an `Unreleased` section, matching the repository's existing changelog style when present.
+- If the user declines a version update, keep the current version and record only the delivered Issue outcome in the monthly Changelog.
 - Do not invent version numbers or silently skip changelog updates when committing code.
 
 ## Debugging

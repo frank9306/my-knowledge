@@ -1,6 +1,6 @@
 # Issues
 
-This index is maintained from `ISSUE-NNNN-title.md` files.
+This index is generated from local Issue files.
 
 ## Proposed
 
@@ -20,7 +20,9 @@ None.
 
 ## Done
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0001](ISSUE-0001-migrate-changelog-to-repository-owned-monthly-records.md) | Migrate changelog to repository-owned monthly records |
 
 ## Cancelled
 
