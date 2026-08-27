@@ -30,6 +30,9 @@ None.
 | [ISSUE-0006](ISSUE-0006-tighten-source-copy-on-agent-configuration-pages.md) | Tighten source copy on Agent configuration pages |
 | [ISSUE-0007](ISSUE-0007-restructure-the-knowledge-site-around-timeline-favorites-and-personal-ai.md) | Restructure the knowledge site around timeline, favorites, and personal AI |
 | [ISSUE-0008](ISSUE-0008-simplify-homepage-article-heading-copy.md) | Simplify homepage article heading copy |
+| [ISSUE-0009](ISSUE-0009-remove-the-nine-part-harness-engineering-practical-series.md) | Remove the nine-part Harness Engineering practical series |
+| [ISSUE-0010](ISSUE-0010-publish-a-proxy-chain-debugging-retrospective.md) | Publish a proxy-chain debugging retrospective |
+| [ISSUE-0011](ISSUE-0011-shorten-the-proxy-debugging-article-title.md) | Shorten the proxy debugging article title |
 
 ## Cancelled
 

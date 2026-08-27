@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">环境变量继承导致本地代理回环</title>
+  <desc id="desc">左侧显示 Codex 将本地代理环境变量传给执行器后，代理桥把同一个本地端点同时作为目标代理和前置代理形成回环；右侧显示识别相同端点并跳过前置代理后的直连链路。</desc>
+  <defs>
+    <filter id="paper" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="3" seed="17" result="noise"/><feColorMatrix in="noise" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 .035 0"/><feBlend in="SourceGraphic" mode="multiply"/></filter>
+    <marker id="blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#4f75c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="red" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1 L11 6 L1 11" fill="none" stroke="#c75b55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <style>
+      .title{font:700 34px "Microsoft YaHei","Noto Sans SC",sans-serif;fill:#292d34}.label{font:600 22px "Microsoft YaHei","Noto Sans SC",sans-serif;fill:#30343b}.small{font:500 18px "Microsoft YaHei","Noto Sans SC",sans-serif;fill:#626872}.mono{font:600 18px Consolas,"Microsoft YaHei",monospace;fill:#414750}.panel{fill:#fffaf0;stroke:#8195b7;stroke-width:2.5}.node{fill:#eaf1ff;stroke:#5677b5;stroke-width:3}.warn{fill:#fff0df;stroke:#c98545;stroke-width:3}.bad{fill:#fde8e5;stroke:#c75b55;stroke-width:3}.ok{fill:#e5f4e8;stroke:#5b9866;stroke-width:3}.blue{fill:none;stroke:#4f75c9;stroke-width:4;stroke-linecap:round;stroke-dasharray:10 7}.red{fill:none;stroke:#c75b55;stroke-width:4;stroke-linecap:round;stroke-dasharray:10 7}
+    </style>
+  </defs>
+  <rect width="1200" height="760" rx="26" fill="#f5eedf" filter="url(#paper)"/>
+  <text x="600" y="58" text-anchor="middle" class="title">当“前置代理”和“目标代理”指向同一个本地端点</text>
+  <rect x="50" y="88" width="535" height="616" rx="22" class="panel"/>
+  <text x="82" y="128" class="label">问题链路：环境继承 + 同端点</text>
+  <g transform="translate(155 164)"><rect width="320" height="78" rx="15" class="node"/><text x="160" y="34" text-anchor="middle" class="label">Codex</text><text x="160" y="61" text-anchor="middle" class="mono">HTTP_PROXY=127.0.0.1:PORT</text></g>
+  <path d="M315 242 L315 292" class="blue" marker-end="url(#blue)"/><text x="333" y="272" class="small">子进程继承</text>
+  <g transform="translate(155 302)"><rect width="320" height="86" rx="15" class="warn"/><text x="160" y="35" text-anchor="middle" class="label">执行器 / 代理桥</text><text x="160" y="65" text-anchor="middle" class="small">检测环境变量作为前置代理</text></g>
+  <path d="M315 388 L315 446" class="red" marker-end="url(#red)"/>
+  <g transform="translate(142 456)"><rect width="346" height="92" rx="15" class="bad"/><text x="173" y="37" text-anchor="middle" class="label">目标代理 = 前置代理</text><text x="173" y="68" text-anchor="middle" class="mono">127.0.0.1:PORT</text></g>
+  <path d="M488 502 C555 500 549 620 396 628 C226 636 77 600 143 512" class="red" marker-end="url(#red)"/>
+  <text x="315" y="674" text-anchor="middle" class="small">为了到达自己，又先经过自己</text>
+  <rect x="615" y="88" width="535" height="616" rx="22" class="panel"/>
+  <text x="647" y="128" class="label">正确链路：识别同端点并跳过</text>
+  <g transform="translate(722 172)"><rect width="320" height="88" rx="15" class="node"/><text x="160" y="36" text-anchor="middle" class="label">执行器 / 代理桥</text><text x="160" y="66" text-anchor="middle" class="small">规范化 host、port 与协议</text></g>
+  <path d="M882 260 L882 324" class="blue" marker-end="url(#blue)"/>
+  <g transform="translate(707 334)"><rect width="350" height="104" rx="15" class="ok"/><text x="175" y="38" text-anchor="middle" class="label">同一个本地端点</text><text x="175" y="69" text-anchor="middle" class="small">不再套用前置代理</text><text x="175" y="92" text-anchor="middle" class="mono">DIRECT</text></g>
+  <path d="M882 438 L882 510" class="blue" marker-end="url(#blue)"/>
+  <g transform="translate(732 520)"><rect width="300" height="88" rx="15" class="warn"/><text x="150" y="36" text-anchor="middle" class="label">本地目标代理</text><text x="150" y="67" text-anchor="middle" class="mono">127.0.0.1:PORT</text></g>
+  <text x="882" y="664" text-anchor="middle" class="small">只绕过自引用，不绕过其他本地代理</text>
+</svg>
