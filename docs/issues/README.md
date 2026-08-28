@@ -8,13 +8,13 @@ None.
 
 ## Ready
 
-| ID | Title |
-|---|---|
-| [ISSUE-0013](ISSUE-0013-task-loop.md) | 在仓库 frank9306/my-knowledge 的 docs/agents/README.md 中，Automated dispatch 规则后补充一句：自动任务的结果回传应包含 Issue 编 |
+None.
 
 ## In progress
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0013](ISSUE-0013-task-loop.md) | 在仓库 frank9306/my-knowledge 的 docs/agents/README.md 中，Automated dispatch 规则后补充一句：自动任务的结果回传应包含 Issue 编 |
 
 ## Blocked
 
