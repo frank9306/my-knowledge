@@ -48,7 +48,8 @@ Implement the owner's request in this repository while preserving project instru
 
 - `pnpm install --frozen-lockfile` succeeded after dependencies were absent.
 - `pnpm docs:build` succeeded: `readme:sync` regenerated navigation with 69 articles across 6 topics; `design:lint` reported 0 errors / 0 warnings (1 info); `home:scene-check` passed; `vitepress build` completed in ~52s with the standard chunk-size notice only.
-- `git status` after the build shows only `docs/agents/README.md` modified, confirming no unrelated files changed.
+- The implementation commit changes only the requested rule and the required local Issue, index, and Changelog records (four documentation files).
+- Implementation commit: `f56413452be3210086821a270ad1db2931602879` (`docs: require Hermes/DSH runs to maintain local Issues [ISSUE-0012]`).
 
 ## Activity log
 
@@ -60,4 +61,4 @@ Request received at `2026-08-28T11:05:00+08:00`.
 
 ## Completion summary
 
-Added a brief automated-dispatch rule to `docs/agents/README.md` requiring Hermes/DSH runs to create and maintain a local Issue under the same acceptance and Changelog flow, with no other files modified.
+Added a brief automated-dispatch rule to `docs/agents/README.md` requiring Hermes/DSH runs to create and maintain a local Issue under the same acceptance and Changelog flow, with changes limited to that rule and its required Issue, index, and Changelog records.
