@@ -8,7 +8,9 @@ None.
 
 ## Ready
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0012](ISSUE-0012-task-loop.md) | 在 docs/agents/README.md 中增加一条简短规则：通过 Hermes/DSH 自动执行的工作也必须创建并维护 docs/issues 本地 Issue，并遵循同一验收和 Change |
 
 ## In progress
 
