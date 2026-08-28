@@ -12,9 +12,7 @@ None.
 
 ## In progress
 
-| ID | Title |
-|---|---|
-| [ISSUE-0012](ISSUE-0012-task-loop.md) | 在 docs/agents/README.md 中增加一条简短规则：通过 Hermes/DSH 自动执行的工作也必须创建并维护 docs/issues 本地 Issue，并遵循同一验收和 Change |
+None.
 
 ## Blocked
 
@@ -35,6 +33,7 @@ None.
 | [ISSUE-0009](ISSUE-0009-remove-the-nine-part-harness-engineering-practical-series.md) | Remove the nine-part Harness Engineering practical series |
 | [ISSUE-0010](ISSUE-0010-publish-a-proxy-chain-debugging-retrospective.md) | Publish a proxy-chain debugging retrospective |
 | [ISSUE-0011](ISSUE-0011-shorten-the-proxy-debugging-article-title.md) | Shorten the proxy debugging article title |
+| [ISSUE-0012](ISSUE-0012-task-loop.md) | 在 docs/agents/README.md 中增加一条简短规则：通过 Hermes/DSH 自动执行的工作也必须创建并维护 docs/issues 本地 Issue，并遵循同一验收和 Change |
 
 ## Cancelled
 

@@ -1,11 +1,11 @@
 ---
 id: ISSUE-0012
 title: "在 docs/agents/README.md 中增加一条简短规则：通过 Hermes/DSH 自动执行的工作也必须创建并维护 docs/issues 本地 Issue，并遵循同一验收和 Change"
-status: in-progress
+status: done
 priority: medium
 created: 2026-08-28
 updated: 2026-08-28
-closed:
+closed: 2026-08-28
 sources: ["wechat"]
 related_adrs: []
 depends_on: []
@@ -25,9 +25,9 @@ Implement the owner's request in this repository while preserving project instru
 
 ## Acceptance criteria
 
-- [ ] The requested repository change is implemented within the stated scope.
-- [ ] `pnpm docs:build` passes.
-- [ ] Verification evidence and the resulting commit are recorded below.
+- [x] The requested repository change is implemented within the stated scope.
+- [x] `pnpm docs:build` passes.
+- [x] Verification evidence and the resulting commit are recorded below.
 
 ## Out of scope
 
@@ -41,11 +41,14 @@ Implement the owner's request in this repository while preserving project instru
 
 ## Implementation notes
 
-No implementation has started.
+- Added a short "Automated dispatch" rule under `docs/agents/README.md` stating that work dispatched automatically through Hermes/DSH must still create and maintain a local `docs/issues/ISSUE-NNNN-*.md` record and follow the same acceptance criteria, verification, and Changelog flow described in `issue-tracker.md` and `workflow.md`.
+- No site content, dependencies, Brain, or configuration files were modified and no files were removed.
 
 ## Verification
 
-Not verified.
+- `pnpm install --frozen-lockfile` succeeded after dependencies were absent.
+- `pnpm docs:build` succeeded: `readme:sync` regenerated navigation with 69 articles across 6 topics; `design:lint` reported 0 errors / 0 warnings (1 info); `home:scene-check` passed; `vitepress build` completed in ~52s with the standard chunk-size notice only.
+- `git status` after the build shows only `docs/agents/README.md` modified, confirming no unrelated files changed.
 
 ## Activity log
 
@@ -53,6 +56,8 @@ Not verified.
 
 Request received at `2026-08-28T11:05:00+08:00`.
 
+### 2026-08-28 — Status changed from in-progress to done.
+
 ## Completion summary
 
-Not completed.
+Added a brief automated-dispatch rule to `docs/agents/README.md` requiring Hermes/DSH runs to create and maintain a local Issue under the same acceptance and Changelog flow, with no other files modified.
