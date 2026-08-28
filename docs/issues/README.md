@@ -12,9 +12,7 @@ None.
 
 ## In progress
 
-| ID | Title |
-|---|---|
-| [ISSUE-0013](ISSUE-0013-task-loop.md) | 在仓库 frank9306/my-knowledge 的 docs/agents/README.md 中，Automated dispatch 规则后补充一句：自动任务的结果回传应包含 Issue 编 |
+None.
 
 ## Blocked
 
@@ -36,6 +34,7 @@ None.
 | [ISSUE-0010](ISSUE-0010-publish-a-proxy-chain-debugging-retrospective.md) | Publish a proxy-chain debugging retrospective |
 | [ISSUE-0011](ISSUE-0011-shorten-the-proxy-debugging-article-title.md) | Shorten the proxy debugging article title |
 | [ISSUE-0012](ISSUE-0012-task-loop.md) | 在 docs/agents/README.md 中增加一条简短规则：通过 Hermes/DSH 自动执行的工作也必须创建并维护 docs/issues 本地 Issue，并遵循同一验收和 Change |
+| [ISSUE-0013](ISSUE-0013-task-loop.md) | 在仓库 frank9306/my-knowledge 的 docs/agents/README.md 中，Automated dispatch 规则后补充一句：自动任务的结果回传应包含 Issue 编 |
 
 ## Cancelled
 
