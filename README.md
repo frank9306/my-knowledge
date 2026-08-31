@@ -14,10 +14,11 @@
 
 ## 专题文章
 
-本站共收录 69 篇专题文章。
+本站共收录 70 篇专题文章。
 
 ### AI 编程工程
 
+- [什么是对 AI 友好的代码结构](https://knowledge.webfrank.top/ai-coding/deep-modules-for-ai-coding/)
 - [Vibe Coding 为什么需要治理](https://knowledge.webfrank.top/ai-coding/vibe-coding-governance/)
 - [AI 编程任务的完整闭环：从需求到验证](https://knowledge.webfrank.top/ai-coding/agent-development-loop/)
 - [Agent Skills 不在多：选择、安装、更新与退役](https://knowledge.webfrank.top/ai-coding/agent-skill-lifecycle/)
