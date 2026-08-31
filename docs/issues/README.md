@@ -12,7 +12,9 @@ None.
 
 ## In progress
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0015](ISSUE-0015-publish-a-synthesis-of-ten-ai-coding-harness-readings.md) | Publish a synthesis of ten AI coding Harness readings |
 
 ## Blocked
 
