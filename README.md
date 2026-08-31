@@ -14,11 +14,13 @@
 
 ## 专题文章
 
-本站共收录 71 篇专题文章。
+本站共收录 73 篇专题文章。
 
 ### AI 编程工程
 
+- [跨会话继续同一任务：如何做好 Agent Handoff](https://knowledge.webfrank.top/ai-coding/cross-session-agent-handoff/)
 - [什么是对 AI 友好的代码结构](https://knowledge.webfrank.top/ai-coding/deep-modules-for-ai-coding/)
+- [怎么合理使用子 Agent](https://knowledge.webfrank.top/ai-coding/how-to-use-subagents/)
 - [值得反复阅读的10篇 Vibe Coding 文章](https://knowledge.webfrank.top/ai-coding/vibe-coding-top-10-readings/)
 - [Vibe Coding 为什么需要治理](https://knowledge.webfrank.top/ai-coding/vibe-coding-governance/)
 - [AI 编程任务的完整闭环：从需求到验证](https://knowledge.webfrank.top/ai-coding/agent-development-loop/)

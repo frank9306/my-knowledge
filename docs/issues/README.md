@@ -38,6 +38,8 @@ None.
 | [ISSUE-0012](ISSUE-0012-task-loop.md) | 在 docs/agents/README.md 中增加一条简短规则：通过 Hermes/DSH 自动执行的工作也必须创建并维护 docs/issues 本地 Issue，并遵循同一验收和 Change |
 | [ISSUE-0013](ISSUE-0013-task-loop.md) | 在仓库 frank9306/my-knowledge 的 docs/agents/README.md 中，Automated dispatch 规则后补充一句：自动任务的结果回传应包含 Issue 编 |
 | [ISSUE-0014](ISSUE-0014-publish-an-article-on-deep-modules-for-ai-coding.md) | Publish an article on deep modules for AI coding |
+| [ISSUE-0016](ISSUE-0016-publish-articles-on-subagents-and-cross-session-handoffs.md) | Publish articles on subagents and cross-session handoffs |
+| [ISSUE-0017](ISSUE-0017-tighten-the-subagent-and-handoff-articles.md) | Tighten the subagent and handoff articles |
 
 ## Cancelled
 
