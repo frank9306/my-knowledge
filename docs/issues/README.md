@@ -40,6 +40,7 @@ None.
 | [ISSUE-0014](ISSUE-0014-publish-an-article-on-deep-modules-for-ai-coding.md) | Publish an article on deep modules for AI coding |
 | [ISSUE-0016](ISSUE-0016-publish-articles-on-subagents-and-cross-session-handoffs.md) | Publish articles on subagents and cross-session handoffs |
 | [ISSUE-0017](ISSUE-0017-tighten-the-subagent-and-handoff-articles.md) | Tighten the subagent and handoff articles |
+| [ISSUE-0019](ISSUE-0019-publish-llms-txt-and-sitemap-xml-discovery-files.md) | Publish llms.txt and sitemap.xml discovery files |
 
 ## Cancelled
 

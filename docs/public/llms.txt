@@ -1,0 +1,17 @@
+# Frank 的知识库
+
+> 技术笔记、自动化实践、AI Agent 学习与个人知识沉淀。
+
+这是一个以简体中文为主的个人知识站，内容涵盖 AI 编程、AI Agent、Python 自动化、Web / React，以及 RPA / Playwright 实践。
+
+## 主要入口
+
+- [首页](https://knowledge.webfrank.top/): 最新内容与站点导航
+- [我的收藏](https://knowledge.webfrank.top/favorites): 精选工具、项目与学习资源
+- [我的 AI](https://knowledge.webfrank.top/ai): 个人 AI 工作流与相关内容
+- [Agents](https://knowledge.webfrank.top/agents): Agent 配置与实践
+- [Skills](https://knowledge.webfrank.top/skills): Agent Skills 资源与说明
+
+## 站点索引
+
+- [XML Sitemap](https://knowledge.webfrank.top/sitemap.xml): 全部公开文章与页面的规范 URL
