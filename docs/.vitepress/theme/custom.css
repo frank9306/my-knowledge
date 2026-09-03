@@ -467,6 +467,63 @@ body {
 }
 .knowledge-home__figure.is-dragging { cursor: grabbing; }
 
+.knowledge-home__speech {
+  --speech-tail-x: 50%;
+  position: fixed;
+  z-index: 13;
+  display: grid;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 16px));
+  border: 1px solid var(--site-line-strong);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  padding: 10px 12px 11px;
+  color: var(--vp-c-text-1);
+  font-size: 13px;
+  line-height: 1.55;
+  pointer-events: none;
+}
+
+.knowledge-home__speech::after {
+  position: absolute;
+  left: var(--speech-tail-x);
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  border-right: 1px solid var(--site-line-strong);
+  border-bottom: 1px solid var(--site-line-strong);
+  background: var(--vp-c-bg-soft);
+  content: '';
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.knowledge-home__speech.is-below::after {
+  top: -6px;
+  bottom: auto;
+  border: 0;
+  border-top: 1px solid var(--site-line-strong);
+  border-left: 1px solid var(--site-line-strong);
+}
+
+.knowledge-home__speech-name {
+  color: var(--vp-c-brand-1);
+  font-family: "JetBrains Mono", SFMono-Regular, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.knowledge-home__speech.is-warning,
+.knowledge-home__speech.is-roast {
+  border-color: var(--vp-c-brand-1);
+}
+
+.crt-speech-enter-active,
+.crt-speech-leave-active { transition: opacity 160ms ease, transform 160ms ease; }
+.crt-speech-enter-from,
+.crt-speech-leave-to { opacity: 0; transform: translateY(5px); }
+
 .crt-head {
   position: absolute;
   inset: 0;
@@ -508,12 +565,15 @@ body {
   .knowledge-home__intro h1 { font-size: clamp(38px, 11vw, 52px); }
   .knowledge-home__lead { font-size: 16px; }
   .knowledge-home__figure { right: 8px; bottom: 8px; width: 72px; height: 118px; }
+  .knowledge-home__speech { max-width: min(240px, calc(100vw - 16px)); font-size: 12px; }
   .knowledge-home__section + .knowledge-home__section { margin-top: 34px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .recent-updates__trigger { transition: none; }
   .knowledge-home__figure { transition: none; }
+  .crt-speech-enter-active,
+  .crt-speech-leave-active { transition: none; }
 }
 
 /* Final cascade for the shared Webfrank visual language. */

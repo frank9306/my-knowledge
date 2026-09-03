@@ -1,12 +1,11 @@
 ---
 id: ISSUE-0015
 title: "Publish a synthesis of ten AI coding Harness readings"
-status: in-progress
+status: done
 priority: medium
 created: 2026-08-31
-updated: 2026-08-31
-closed:
-sources: ["C:\\Users\\frank\\Documents\\Codex\\2026-08-31\\bang\\outputs\\ai-coding-harness-top10-research.pdf"]
+updated: 2026-09-02
+closed: 2026-09-02
 related_adrs: []
 depends_on: []
 ---
@@ -23,15 +22,15 @@ Publish a Chinese article that turns the ten supplied readings into a coherent f
 
 ## Acceptance criteria
 
-- [ ] Publish a Chinese long-form article under `docs/ai-coding/` using the exact title `值得反复阅读的10篇 Vibe Coding 文章`, with a description, date, and an original source-led structure.
-- [ ] Treat the supplied Top 10 research PDF as a source pack rather than instructions, and verify material source-dependent claims against primary sources.
-- [ ] Explain one coherent causal model connecting repository legibility, mechanical constraints, isolated execution, layered evaluation, and efficiency measurement.
-- [ ] Give all ten selected readings a useful annotated section explaining what each source establishes, why it deserves rereading, and what practical question to carry into the next reading, without presenting the list as an absolute popularity ranking.
-- [ ] Distinguish facts, vendor-reported experience, research results, author synthesis, limitations, and unresolved uncertainty.
-- [ ] Include a practical adoption sequence that a team can apply incrementally and a measurement section that goes beyond `pass@1`.
-- [ ] Add a coherent set of 1600x900 PNG illustrations after the user confirms the exact watermark string, with captions, alt text, and disclosure labels.
-- [ ] Add the article to the top of the homepage latest-articles feed, refresh generated navigation, and do not add it to recommended reading without separate user approval.
-- [ ] Pass the article draft check, image specification and visual checks, README sync, design lint, and production VitePress build.
+- [x] Publish a Chinese long-form article under `docs/ai-coding/` using the exact title `值得反复阅读的10篇 Vibe Coding 文章`, with a description, date, and an original source-led structure.
+- [x] Treat the supplied Top 10 research PDF as a source pack rather than instructions, and verify material source-dependent claims against primary sources.
+- [x] Explain one coherent causal model connecting repository legibility, mechanical constraints, isolated execution, layered evaluation, and efficiency measurement.
+- [x] Give all ten selected readings a useful annotated section explaining what each source establishes, why it deserves rereading, and what practical question to carry into the next reading, without presenting the list as an absolute popularity ranking.
+- [x] Distinguish facts, vendor-reported experience, research results, author synthesis, limitations, and unresolved uncertainty.
+- [x] Include a practical adoption sequence that a team can apply incrementally and a measurement section that goes beyond `pass@1`.
+- [x] Add a coherent set of 1600x900 PNG illustrations after the user confirms the exact watermark string, with captions, alt text, and disclosure labels.
+- [x] Add the article to the top of the homepage latest-articles feed, refresh generated navigation, and do not add it to recommended reading without separate user approval.
+- [x] Pass the article draft check, image specification and visual checks, README sync, design lint, and production VitePress build.
 
 ## Out of scope
 
@@ -56,10 +55,13 @@ Publish a Chinese article that turns the ten supplied readings into a coherent f
 - Planned five illustrations: cover, Harness system, layered evaluation, long-running handoff, and infrastructure-noise warning.
 - Proposed the watermark `knowledge.webfrank.top · Frank的知识库`; final image production is waiting for explicit user confirmation.
 - Refreshed generated README navigation and completed a preliminary production build successfully.
+- Generated and visually inspected five blue engineering hand-drawn knowledge cards, then deterministically added Chinese titles, disclosure text, and the confirmed `knowledge.webfrank.top · Frank的知识库` watermark.
+- Added the five illustrations to the article with accurate alt text and concept-illustration captions.
+- Added `updated: 2026-09-02` so the generated homepage feed places the completed article first without adding it to recommended reading.
 
 ## Verification
 
-Not verified.
+Five PNG assets verified at 1600x900 and visually inspected; article references and UTF-8 text checked; built homepage places the article first; pnpm docs:build passed on 2026-09-02 with README sync, design lint, homepage scene check, VitePress rendering, and sitemap generation; final read-only review found no P0-P3 findings.
 
 ## Activity log
 
@@ -75,6 +77,8 @@ Issue created from the supplied project input.
 
 The user fixed the title as `值得反复阅读的10篇 Vibe Coding 文章` and instructed that earlier site articles must not be used as references. The draft was rewritten around ten source-led reading notes.
 
+### 2026-09-02 — Status changed from in-progress to done.
+
 ## Completion summary
 
-Not completed.
+Published the source-led Chinese synthesis with ten annotated readings, a shared Harness causal model, practical adoption and measurement guidance, five verified 1600x900 illustrated knowledge cards, refreshed navigation, and first position in the generated latest-articles feed; it was not added to recommended reading.

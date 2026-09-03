@@ -12,9 +12,7 @@ None.
 
 ## In progress
 
-| ID | Title |
-|---|---|
-| [ISSUE-0015](ISSUE-0015-publish-a-synthesis-of-ten-ai-coding-harness-readings.md) | Publish a synthesis of ten AI coding Harness readings |
+None.
 
 ## Blocked
 
@@ -38,12 +36,17 @@ None.
 | [ISSUE-0012](ISSUE-0012-task-loop.md) | 在 docs/agents/README.md 中增加一条简短规则：通过 Hermes/DSH 自动执行的工作也必须创建并维护 docs/issues 本地 Issue，并遵循同一验收和 Change |
 | [ISSUE-0013](ISSUE-0013-task-loop.md) | 在仓库 frank9306/my-knowledge 的 docs/agents/README.md 中，Automated dispatch 规则后补充一句：自动任务的结果回传应包含 Issue 编 |
 | [ISSUE-0014](ISSUE-0014-publish-an-article-on-deep-modules-for-ai-coding.md) | Publish an article on deep modules for AI coding |
+| [ISSUE-0015](ISSUE-0015-publish-a-synthesis-of-ten-ai-coding-harness-readings.md) | Publish a synthesis of ten AI coding Harness readings |
 | [ISSUE-0016](ISSUE-0016-publish-articles-on-subagents-and-cross-session-handoffs.md) | Publish articles on subagents and cross-session handoffs |
 | [ISSUE-0017](ISSUE-0017-tighten-the-subagent-and-handoff-articles.md) | Tighten the subagent and handoff articles |
 | [ISSUE-0019](ISSUE-0019-publish-llms-txt-and-sitemap-xml-discovery-files.md) | Publish llms.txt and sitemap.xml discovery files |
 | [ISSUE-0020](ISSUE-0020-publish-an-article-introducing-the-you2-personal-work-memory-agent.md) | Publish an article introducing the You² personal work memory Agent |
 | [ISSUE-0021](ISSUE-0021-add-explanatory-illustrations-to-the-you2-product-article.md) | Add explanatory illustrations to the You² product article |
+| [ISSUE-0022](ISSUE-0022-crt-404.md) | 升级首页 CRT-404 馆长互动 |
+| [ISSUE-0023](ISSUE-0023-update-site-analytics-backend-identifier.md) | Update site analytics backend identifier |
 
 ## Cancelled
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0018](ISSUE-0018-embed-an-interactive-harness-engineering-mind-map.md) | Embed an interactive Harness engineering mind map |

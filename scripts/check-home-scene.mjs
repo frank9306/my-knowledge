@@ -12,6 +12,21 @@ assert.match(
   /knowledge-home__figure[\s\S]*<CrtHead(?:\s+[^>]*)?\s*\/>/,
   'The draggable figure must contain the complete 3D character.'
 )
+assert.match(component, /CRT-404/, 'The homepage character must expose the CRT-404 identity.')
+assert.match(component, /knowledge-home__speech/, 'The character must render a speech bubble.')
+assert.match(component, /role="status"/, 'The speech bubble must expose status semantics.')
+assert.match(component, /aria-live="polite"/, 'The speech bubble must announce dialogue politely.')
+for (const dialogueType of ['welcome', 'normal', 'warning', 'roast']) {
+  assert.match(component, new RegExp(`${dialogueType}Lines`), `The character must include ${dialogueType} dialogue.`)
+}
+assert.match(component, /WELCOME_DATE_KEY/, 'The daily welcome must use its own local storage key.')
+assert.match(component, /WELCOME_DELAY_MS\s*=\s*600/, 'The welcome must start after a short entrance delay.')
+assert.match(component, /CLICK_WINDOW_MS\s*=\s*2000/, 'Rapid clicks must use a two-second window.')
+assert.match(component, /WARNING_CLICK_COUNT\s*=\s*4/, 'The fourth rapid click must warn.')
+assert.match(component, /ROAST_CLICK_COUNT\s*=\s*7/, 'The seventh rapid click must roast.')
+assert.match(component, /CLICK_RESET_MS\s*=\s*3000/, 'A click streak must reset after three seconds.')
+assert.match(component, /pet\.value\?\.react\('welcome'\)/, 'The daily welcome must trigger its matching animation.')
+assert.match(component, /dragTravel\s*>=\s*6/, 'Dragging must be excluded from the click streak.')
 assert.doesNotMatch(component, /knowledge-home__backdrop/, 'The homepage character must not use a backdrop element.')
 assert.doesNotMatch(css, /home-hero-body\.png/, 'The homepage character must not use a body background image.')
 
@@ -31,6 +46,10 @@ assert.match(head, /head\.rotation\.y \+= \(targetRotationY - head\.rotation\.y\
 for (const bodyPart of ['torso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg']) {
   assert.match(head, new RegExp(`const ${bodyPart}\\b`), `The complete 3D character must include ${bodyPart}.`)
 }
+for (const reaction of ['welcome', 'warn', 'roast']) {
+  assert.match(head, new RegExp(`reaction === '${reaction}'`), `The character must animate the ${reaction} reaction.`)
+}
+assert.match(head, /if \(reduceMotion\.matches\) \{[\s\S]*characterY = 0[\s\S]*scaleY = 1/, 'Reduced motion must neutralize large body movement.')
 assert.match(head, /setClearColor\(0x000000, 0\)/, 'The WebGL scene must render with a transparent background.')
 
 console.log('Draggable 3D homepage character check passed.')

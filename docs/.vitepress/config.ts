@@ -110,7 +110,7 @@ export default defineConfig({
       {
         defer: '',
         src: 'https://state.webfrank.top/script.js',
-        'data-website-id': 'e68adff9-c909-4ae8-936a-ab2dcc85f09a'
+        'data-website-id': 'dfe19437-097d-46dd-82d4-9a3cab647b38'
       }
     ]
   ]

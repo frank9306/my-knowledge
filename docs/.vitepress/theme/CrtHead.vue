@@ -10,7 +10,7 @@ let resizeObserver: ResizeObserver | undefined
 let targetRotationX = 0
 let targetRotationY = 0
 let cleanup = () => {}
-type PetReaction = 'notice' | 'pet' | 'grab' | 'release'
+type PetReaction = 'notice' | 'pet' | 'grab' | 'release' | 'welcome' | 'warn' | 'roast'
 let activeReaction: PetReaction | null = null
 let reactionStartedAt = 0
 let reactionIntensity = 0
@@ -384,14 +384,64 @@ onMounted(() => {
       eyeMood = 0.16
     }
 
-    const reaction = reduceMotion.matches ? null : activeReaction
+    const reaction = activeReaction
     const reactionAge = performance.now() / 1000 - reactionStartedAt
-    const reactionDuration = reaction === 'notice' ? 1.25 : reaction === 'pet' ? 2.1 : 1.45
+    const reactionDuration = reaction === 'notice'
+      ? 1.25
+      : reaction === 'pet'
+        ? 2.1
+        : reaction === 'welcome'
+          ? 3
+          : reaction === 'warn'
+            ? 1.8
+            : reaction === 'roast'
+              ? 2.8
+              : 1.45
     if (reaction && reaction !== 'grab' && reactionAge > reactionDuration) activeReaction = null
     const reactionPhase = THREE.MathUtils.clamp(reactionAge / reactionDuration, 0, 1)
     const reactionWeight = reaction === 'grab' ? 1 : Math.sin(reactionPhase * Math.PI) ** 2
 
-    if (reaction === 'notice') {
+    if (reaction === 'welcome') {
+      const wave = Math.sin(reactionPhase * Math.PI * 6) * reactionWeight
+      const hop = Math.max(0, Math.sin(reactionPhase * Math.PI * 3)) * reactionWeight
+      headX -= 0.1 * reactionWeight
+      headZ += wave * 0.045
+      characterY += hop * 0.24
+      scaleX -= hop * 0.035
+      scaleY += hop * 0.065
+      rightArmZ += 1.25 * reactionWeight
+      rightArmX -= 0.18 * reactionWeight
+      rightForearmZ -= (0.72 + wave * 0.32) * reactionWeight
+      leftArmZ -= 0.28 * reactionWeight
+      leftForearmZ += 0.22 * reactionWeight
+      eyeMood = 1.22
+      antennaEnergy = 1.8
+    } else if (reaction === 'warn') {
+      headZ -= 0.2 * reactionWeight
+      headX -= 0.08 * reactionWeight
+      torsoZ += 0.04 * reactionWeight
+      leftArmZ -= 0.16 * reactionWeight
+      rightArmZ += 0.58 * reactionWeight
+      rightForearmZ -= 1.05 * reactionWeight
+      rightForearmX -= 0.15 * reactionWeight
+      eyeMood = 0.7
+      antennaEnergy = 1.45
+    } else if (reaction === 'roast') {
+      const disbelief = Math.sin(reactionPhase * Math.PI * 8) * reactionWeight
+      headX -= 0.18 * reactionWeight
+      headY += disbelief * 0.18
+      headZ += disbelief * 0.055
+      torsoX -= 0.15 * reactionWeight
+      characterY += 0.08 * reactionWeight
+      leftArmZ -= 0.86 * reactionWeight
+      rightArmZ += 0.86 * reactionWeight
+      leftForearmZ += 0.62 * reactionWeight
+      rightForearmZ -= 0.62 * reactionWeight
+      leftForearmX -= 0.28 * reactionWeight
+      rightForearmX -= 0.28 * reactionWeight
+      eyeMood = 0.48
+      antennaEnergy = 2.2
+    } else if (reaction === 'notice') {
       headX -= 0.1 * reactionWeight
       headZ += 0.12 * reactionWeight
       torsoX += 0.05 * reactionWeight
@@ -447,6 +497,30 @@ onMounted(() => {
       antennaEnergy = 1 + Math.abs(wobble) * 0.8
     }
 
+    if (reduceMotion.matches) {
+      headX = targetRotationX
+      headY = targetRotationY
+      headZ = 0
+      torsoX = 0
+      torsoZ = 0
+      leftArmX = 0
+      rightArmX = 0
+      leftArmZ = 0.12
+      rightArmZ = -0.12
+      leftForearmX = 0
+      rightForearmX = 0
+      leftForearmZ = 0.04
+      rightForearmZ = -0.04
+      leftLegX = 0
+      rightLegX = 0
+      leftShinX = 0.03
+      rightShinX = 0.03
+      characterX = 0
+      characterY = 0
+      scaleX = 1
+      scaleY = 1
+    }
+
     head.rotation.y += (targetRotationY - head.rotation.y) * 0.024
     head.rotation.y += (headY - targetRotationY) * 0.045
     head.rotation.x += (headX - head.rotation.x) * 0.045
@@ -472,7 +546,9 @@ onMounted(() => {
     rightShin.rotation.x += (rightShinX - rightShin.rotation.x) * 0.11
 
     const blinkPulse = Math.max(0, Math.sin(elapsed * 0.78) - 0.986) * 72
-    antenna.rotation.z = Math.sin(elapsed * 2.1 * antennaEnergy) * 0.045 * antennaEnergy + headZ * 0.7
+    antenna.rotation.z = reduceMotion.matches
+      ? 0
+      : Math.sin(elapsed * 2.1 * antennaEnergy) * 0.045 * antennaEnergy + headZ * 0.7
     antennaTip.scale.setScalar(1 + (eyeMood - 1) * 0.24 + (antennaEnergy - 1) * 0.08)
     eyes.forEach((eye, index) => {
       const staggeredBlink = index === 1 ? blinkPulse * 0.92 : blinkPulse

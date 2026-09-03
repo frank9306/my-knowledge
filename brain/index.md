@@ -1,7 +1,8 @@
 # Brain Index
 
-_Auto-generated. Last updated 2026-08-26T10:18:19.623Z._
+_Auto-generated. Last updated 2026-09-03T07:39:47.515Z._
 
+- [crt-404-curator-personality](pages/crt-404-curator-personality.md) — category: decision | tags: [home-scene interaction character] | CRT-404 是知识站首页的 3D 档案馆长，角色气质为冷面、幽默、嘴毒。
 - [design-system-build-gate](pages/design-system-build-gate.md) — category: decision | tags: [architecture workflow] | ## 决策
 - [generated-readme-navigation](pages/generated-readme-navigation.md) — category: decision | tags: [architecture workflow] | ## 决策
 - [github-pages-custom-domain](pages/github-pages-custom-domain.md) — category: decision | tags: [architecture workflow] | ## 决策
