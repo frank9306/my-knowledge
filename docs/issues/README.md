@@ -41,6 +41,8 @@ None.
 | [ISSUE-0016](ISSUE-0016-publish-articles-on-subagents-and-cross-session-handoffs.md) | Publish articles on subagents and cross-session handoffs |
 | [ISSUE-0017](ISSUE-0017-tighten-the-subagent-and-handoff-articles.md) | Tighten the subagent and handoff articles |
 | [ISSUE-0019](ISSUE-0019-publish-llms-txt-and-sitemap-xml-discovery-files.md) | Publish llms.txt and sitemap.xml discovery files |
+| [ISSUE-0020](ISSUE-0020-publish-an-article-introducing-the-you2-personal-work-memory-agent.md) | Publish an article introducing the You² personal work memory Agent |
+| [ISSUE-0021](ISSUE-0021-add-explanatory-illustrations-to-the-you2-product-article.md) | Add explanatory illustrations to the You² product article |
 
 ## Cancelled
 
