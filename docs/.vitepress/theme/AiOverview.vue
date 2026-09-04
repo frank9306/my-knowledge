@@ -14,6 +14,10 @@
         <span>02</span>
         <div><p>能力目录</p><h2><a href="/skills">Agent Skills <span aria-hidden="true">→</span></a></h2><small>浏览公开 Skills 的名称、说明、类别和上游来源。</small></div>
       </li>
+      <li id="ai-access">
+        <span>03</span>
+        <div><p>AI DISCOVERY</p><h2><a href="/llms.txt">AI 访问接口 <span aria-hidden="true">→</span></a></h2><small><code>llms.txt</code> 提供站点入口与索引；支持 WebMCP 的浏览器 Agent 还能通过只读工具搜索、读取和打开公开文章。</small></div>
+      </li>
     </ol>
   </main>
 </template>

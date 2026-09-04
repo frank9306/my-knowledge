@@ -44,6 +44,7 @@ None.
 | [ISSUE-0021](ISSUE-0021-add-explanatory-illustrations-to-the-you2-product-article.md) | Add explanatory illustrations to the You² product article |
 | [ISSUE-0022](ISSUE-0022-crt-404.md) | 升级首页 CRT-404 馆长互动 |
 | [ISSUE-0023](ISSUE-0023-update-site-analytics-backend-identifier.md) | Update site analytics backend identifier |
+| [ISSUE-0024](ISSUE-0024-expose-the-knowledge-site-through-webmcp-and-announce-ai-discovery-support.md) | Expose the knowledge site through WebMCP and announce AI discovery support |
 
 ## Cancelled
 

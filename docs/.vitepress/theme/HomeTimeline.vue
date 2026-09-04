@@ -39,6 +39,18 @@ onBeforeUnmount(() => window.removeEventListener('keydown', focusSearch, true))
       </label>
     </header>
 
+    <aside class="archive-announcement" aria-labelledby="archive-announcement-title">
+      <span>NEW / AI DISCOVERY</span>
+      <div>
+        <strong id="archive-announcement-title">本站现已支持 WebMCP 与 llms.txt</strong>
+        <p>AI Agent 可以发现站点内容，并通过只读工具搜索、读取和打开公开文章。</p>
+      </div>
+      <span class="archive-announcement__links">
+        <a href="/ai#ai-access">查看说明</a>
+        <a href="/llms.txt">打开 llms.txt</a>
+      </span>
+    </aside>
+
     <p class="archive-timeline__count" aria-live="polite">{{ filtered.length }} 篇文章</p>
     <ol v-if="visible.length" class="archive-timeline__list">
       <li v-for="item in visible" :key="item.url">
@@ -67,6 +79,13 @@ onBeforeUnmount(() => window.removeEventListener('keydown', focusSearch, true))
 .archive-search input { width: 100%; min-height: 48px; padding: 0 48px 0 15px; border: 1px solid var(--vp-c-divider); border-radius: 4px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); font: inherit; }
 .archive-search input:focus { border-color: var(--vp-c-brand-1); outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 24%, transparent); }
 .archive-search kbd { position: absolute; right: 12px; border: 1px solid var(--vp-c-divider); border-radius: 3px; padding: 1px 6px; color: var(--vp-c-text-3); font-size: 11px; }
+.archive-announcement { display: grid; grid-template-columns: 126px minmax(0, 1fr) auto; gap: 24px; align-items: start; margin-top: 28px; border: 1px solid color-mix(in srgb, var(--vp-c-brand-1) 36%, var(--vp-c-divider)); border-radius: 8px; background: var(--vp-c-bg-soft); padding: 18px 20px; }
+.archive-announcement > span:first-child { color: var(--vp-c-brand-1); font-family: var(--vp-font-family-mono); font-size: 10px; font-weight: 700; letter-spacing: .1em; }
+.archive-announcement strong { display: block; color: var(--vp-c-text-1); font-size: 15px; line-height: 1.45; }
+.archive-announcement p { margin: 6px 0 0; color: var(--vp-c-text-2); font-size: 13px; line-height: 1.6; }
+.archive-announcement__links { display: flex; gap: 14px; font-size: 12px; white-space: nowrap; }
+.archive-announcement a { color: var(--vp-c-brand-1); text-decoration: none; }
+.archive-announcement a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .archive-timeline__count { margin: 26px 0 8px; color: var(--vp-c-text-2); font-size: 13px; }
 .archive-timeline__list { margin: 0; padding: 0; list-style: none; }
 .archive-timeline__list li { display: grid; grid-template-columns: 126px minmax(0, 1fr) auto; gap: 24px; align-items: start; padding: 22px 8px; border-top: 1px solid var(--vp-c-divider); }
@@ -79,13 +98,15 @@ onBeforeUnmount(() => window.removeEventListener('keydown', focusSearch, true))
 .archive-timeline__tag { margin: 0; border: 1px solid var(--vp-c-divider); border-radius: 4px; padding: 3px 7px; color: var(--vp-c-text-2); font-size: 11px; white-space: nowrap; }
 .archive-load-more { display: flex; min-width: 150px; min-height: 44px; justify-content: center; gap: 10px; align-items: center; margin: 32px auto 0; border: 1px solid var(--vp-c-divider); border-radius: 4px; background: transparent; color: var(--vp-c-text-1); font: inherit; cursor: pointer; }
 .archive-load-more:hover { border-color: var(--vp-c-brand-1); color: var(--vp-c-brand-1); }
-.archive-load-more:focus-visible, .archive-timeline__list a:focus-visible { outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 32%, transparent); outline-offset: 4px; }
+.archive-load-more:focus-visible, .archive-timeline__list a:focus-visible, .archive-announcement a:focus-visible { outline: 3px solid color-mix(in srgb, var(--vp-c-brand-1) 32%, transparent); outline-offset: 4px; }
 .archive-empty { margin-top: 20px; padding: 36px 20px; border: 1px solid var(--vp-c-divider); color: var(--vp-c-text-2); text-align: center; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
 @media (max-width: 767px) {
   .archive-timeline { width: auto; padding: calc(var(--vp-nav-height) + 42px) 20px 72px; }
   .archive-timeline__header { grid-template-columns: 1fr; gap: 28px; }
   .archive-timeline__header h1 { font-size: clamp(40px, 13vw, 56px); }
+  .archive-announcement { grid-template-columns: 1fr; gap: 10px; padding: 16px; }
+  .archive-announcement__links { flex-wrap: wrap; gap: 10px 18px; }
   .archive-timeline__list li { grid-template-columns: 1fr auto; gap: 8px 12px; padding: 18px 0; }
   .archive-timeline__list time { grid-column: 1 / -1; }
   .archive-timeline__list a small { display: none; }
