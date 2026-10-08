@@ -1,44 +1,44 @@
 ---
-version: "2.4.0"
-name: Webfrank Knowledge Archive
-description: 与 Webfrank 个人站共享深色编辑式语言、同时保留 VitePress 阅读结构与 3D CRT 档案管理员的知识站点视觉系统。
+version: "3.0.0"
+name: Frank Knowledge Atlas
+description: 面向中文技术创作者与 AI 工程实践者的交互式知识地图，以深墨蓝画布、冰白文字、单一钴蓝信号和可检索主题关系建立个人知识品牌。
 colors:
-  primary: "#6f91ff"
-  bg: "#111214"
-  bg-soft: "#181a1d"
-  text-1: "#f2f1ed"
-  text-2: "#a3a4a8"
+  primary: "#5d7cff"
+  bg: "#0b1020"
+  bg-soft: "#10182a"
+  text-1: "#edf2ff"
+  text-2: "#9ca8c2"
 typography:
   h1:
-    fontFamily: "Inter"
-    fontSize: 2.5rem
-    fontWeight: 600
-    letterSpacing: "-0.03em"
+    fontFamily: "Noto Sans SC"
+    fontSize: 4.5rem
+    fontWeight: 760
+    letterSpacing: "-0.055em"
   h2:
-    fontFamily: "Inter"
-    fontSize: 1.75rem
-    fontWeight: 600
+    fontFamily: "Noto Sans SC"
+    fontSize: 2.5rem
+    fontWeight: 740
   body:
-    fontFamily: "Inter"
+    fontFamily: "Noto Sans SC"
     fontSize: 1rem
-    lineHeight: 1.7
+    lineHeight: 1.75
   caption:
-    fontFamily: "Inter"
-    fontSize: 0.875rem
+    fontFamily: "IBM Plex Mono"
+    fontSize: 0.75rem
     color: "{colors.text-2}"
   code:
-    fontFamily: "JetBrains Mono"
+    fontFamily: "IBM Plex Mono"
     fontSize: 0.9em
 rounded:
-  sm: 4px
-  md: 8px
-  lg: 14px
+  sm: 2px
+  md: 4px
+  lg: 6px
 spacing:
   xs: 4px
   sm: 8px
   md: 16px
   lg: 24px
-  xl: 32px
+  xl: 40px
 components:
   page:
     backgroundColor: "{colors.bg}"
@@ -46,9 +46,9 @@ components:
     backgroundColor: "{colors.bg-soft}"
     rounded: "{rounded.md}"
   nav-link:
-    textColor: "{colors.text-1}"
+    textColor: "{colors.text-2}"
   nav-link-hover:
-    textColor: "{colors.primary}"
+    textColor: "{colors.text-1}"
   link:
     textColor: "{colors.primary}"
   caption:
@@ -58,153 +58,135 @@ components:
 
 ## Overview
 
-Webfrank Knowledge Archive 与 `webfrank.top` 个人站共享一套品牌语言：首页与文章页使用深炭黑画布、暖白文字、克制蓝色信号、细线分区与编辑式留白。知识库保留 VitePress 的文档阅读结构，并把透明背景的完整 3D CRT 档案管理员作为唯一标志性视觉例外。站点只保留 VitePress 原生 light/dark 切换，dark 是默认品牌呈现。
+Frank Knowledge Atlas 将个人技术站点理解为一张持续生长、可检索、可复用的知识地图。主要用户是阅读中文技术长文、研究 AI Agent、自动化、RPA 和前端工程的开发者。站点的首要任务是帮助访问者快速找到一条可信的探索路径，而不是展示文章数量或制造营销氛围。
 
-站点主要面向"中文技术笔记、自动化实践、AI Agent 学习与个人知识沉淀"，所以视觉风格优先考虑：
-
-- **可读性**：正文 1rem、行高 1.7、系统 sans 字体，保证技术内容易扫描。
-- **层次感**：用字号、留白、发丝分隔线和轻微色阶区分内容，不依赖重阴影或卡片堆叠。
-- **跨站一致性**：首页、文章页与个人站共用背景、文字、边框和交互节奏；3D 人物直接悬浮在页面上，不使用背景图或卡片容器。
-
-## Style Modes
-
-站点只有一套 Codex Editorial 风格，通过 VitePress 原生 `.dark` class 切换 light/dark。不要重新引入 `data-site-style`、额外 localStorage 状态或第二个风格切换控件。
+视觉论点是“深色工程图纸上的知识关系”。深墨蓝画布负责沉浸和专注，冰白文字建立阅读层级，钴蓝只表示交互、路径和当前选择。知识地图是唯一标志性元素。页面不使用漂浮角色、玻璃拟态、发光渐变、装饰性数据或同尺寸卡片墙。
 
 ## Colors
 
-主品牌色为 `primary`（`#6f91ff`），对应 VitePress 的 `--vp-c-brand-1`。
+Dark 是默认品牌呈现，light 使用相同语义关系而不是反相复制。
 
-- **`bg` (#111214)**：默认 dark 主背景。
-- **`bg-soft` (#181a1d)**：导航、弹层和柔和容器背景。
-- **`text-1` (#f2f1ed)**：暖白主文本。
-- **`text-2` (#a3a4a8)**：metadata 与次级文本。
-- **`primary` (#6f91ff)**：链接、焦点和少量关键交互强调。
+- `bg` `#0b1020`：dark 主画布。
+- `bg-soft` `#10182a`：内容表面、代码块和浮层。
+- `text-1` `#edf2ff`：标题与主要内容。
+- `text-2` `#9ca8c2`：摘要、日期、帮助文字与次级关系。
+- `primary` `#5d7cff`：链接、焦点、知识路径和当前选择。一个页面不再引入第二个高饱和强调色。
+- `line` `#24304a`：结构边界。边线只表达真实分组或关系。
 
-首页内容区使用文章页同一套 light/dark token。旧米色 CRT 人物使用透明 WebGL 画布，在 light/dark 模式中都直接叠加于页面背景之上。
-
-### Dark 模式对应
-
-Dark 模式自动通过 `.dark` class 切换，对应 token 关系不变：
-
-- `bg` → `#111214`
-- `bg-soft` → `#181a1d`
-- `text-1` → `#f2f1ed`
-- `text-2` → `#a3a4a8`
-
-- **Dark 背景**：`#111214` / `#181a1d` / `#1d1f23`，保留层次但避免纯黑。
-- **Dark 文本**：`#f2f1ed` / `#a3a4a8`，与个人站一致使用暖白层级。
-- **Dark 品牌色**：`#6f91ff`，hover 使用 `#89a5ff`，仅用于链接、焦点与关键动作。
+Light 模式使用 `#f4f7ff` 画布、`#ffffff` 表面、`#10182a` 主文字和 `#4e6ee8` 强调色。两种模式均满足 WCAG AA 正文对比要求。
 
 ## Typography
 
-字体栈统一为一套：
+- 中文界面与正文使用 `Noto Sans SC`、`Segoe UI`、`Microsoft YaHei`、`sans-serif` 回退链。
+- 代码、日期、类别和机器接口使用 `IBM Plex Mono`、`JetBrains Mono`、`Consolas` 回退链。
+- 首页主标题为 48-72px，最多两行，字重 760，紧字距，行高 1.14。
+- 文章标题为 42-68px，正文保持 1rem 和 1.85 行高，阅读宽度约 760px。
+- 小号等宽文字只用于真实元数据，不用于装饰性眉题或编号。
 
-- **基础字体（sans）**：`"Inter"` → `"Segoe UI"` → `"Microsoft YaHei"` → `sans-serif`。
-- **等宽字体**：`"JetBrains Mono"` → `SFMono-Regular` → `Consolas` → `monospace`，用于代码块和行内 `code`。
+## Layout
 
-字号体系：
-
-- **`h1`**：2.5rem / 600 / `letter-spacing: -0.03em`，用于页面主标题、首页 hero 名字。
-- **`h2`**：1.75rem / 600，文章内的二级标题；自带蓝色低透明度上边框和 24px 顶部留白。
-- **`body`**：1rem / `line-height: 1.7`，正文与列表。
-- **`caption`**：0.875rem / `text-2` 色，副标题、metadata、注释。
-- **`code`**：0.9em（继承父元素大小），等宽字体，行内与代码块统一。
-
-## Layout & Spacing
-
-站点使用 VitePress 顶部导航与正文阅读布局，不引入网格框架。一级信息架构固定为首页、我的收藏、我的 AI；文章正文不显示主题侧边栏。
-
-### 时间轴档案首页
-
-- 首页采用经用户确认的“A：时间轴档案”方向，全部原创文章按 `updated ?? date` 倒序排列。
-- 日期、标题/摘要、分类标签组成三列档案行；分类是识别标签，不是首页筛选条件。
-- 页面内搜索作用于文章标题、摘要和分类；首屏 12 篇，“加载更多”每次增加 12 篇。
-- 3D CRT 档案管理员继续固定悬浮在右下角，不占用时间线列宽。
-
-### 收藏与 AI 总览
-
-- “我的收藏”把资源和好文合并为发丝线分隔的单一目录，支持关键词、资源/好文类型与六类用途组合筛选。
-- 六类用途固定为：AI 与 Agent、开发工具、自动化、学习资料、信息发现、网络与服务。
-- “我的 AI”采用大号序号与编辑式目录行，只负责进入 `/agents` 和 `/skills`；详情页继续保留远程加载和失败恢复状态。
-
-间距阶梯（来自 VitePress 8px 基线 + 自定义 24px 章节分隔）：
-
-- `xs` (4px)：icon 与文字之间的最小间距。
-- `sm` (8px)：行内元素、tag、badge 之间的间距。
-- `md` (16px)：卡片内边距、组件之间的间距。
-- `lg` (24px)：段落间距、章节分隔顶部留白。
-- `xl` (32px)：区块级大间距。
+- 站点桌面容器为 `min(1450px, 100vw - 96px)`，1100px 以下缩减为视口减 64px，767px 以下为视口减 36px。
+- 首页首屏采用非对称两栏，左侧完成定位与文章搜索，右侧用真实主题和筛选行为构成知识地图。
+- 首页第二屏使用一个重点文章和三个紧凑入口，再逐步披露更多记录。
+- 收藏页以两列目录呈现筛选结果，不使用无限卡片嵌套。
+- AI 页面用一个核心节点和三条可访问路径表达协作规则、Skills 与机器可读入口。
+- 文章页不显示主题侧边栏，正文保持稳定阅读宽度。
 
 ## Elevation & Depth
 
-本站不依赖阴影制造层次，优先用"淡蓝边框 + 冷灰背景差"来表达：
-
-- **卡片（VPFeature）**：`bg-soft` 背景 + `rounded.md` 圆角；外加品牌蓝低透明度的 1px 边框。
-- **章节分隔（h2）**：上方 1px 蓝灰分隔线 + 24px 顶部留白。
-- **链接**：默认无下划线，hover 显示下划线，`text-underline-offset: 3px`，避免与文字粘连。
+页面不依赖阴影。层次来自画布色阶、1px 结构线、排版尺度和间距。浮层允许使用实色表面与清晰边框，不使用玻璃模糊作为主要材质。
 
 ## Shapes
 
-圆角阶梯：
-
-- `sm` (4px)：按钮、tag、输入框。
-- `md` (8px)：卡片、对话框。
-- `lg` (12px)：首页 hero image 容器、特殊强调卡片。
+- `sm` 2px：机械边线和小型状态元素。
+- `md` 4px：按钮、筛选器、代码块和目录表面。
+- `lg` 6px：搜索框和少量主交互。
+- 圆形只用于知识节点，不能扩散到普通按钮或内容容器。
 
 ## Components
 
-`page`：站点主背景。
+### Knowledge map
 
-- 背景 `bg`，与 light / dark 模式对应。
+- 六个固定主题为 AI Agent、AI 编程工程、Python 自动化、RPA / Playwright、Web / React、技术随笔。
+- 节点必须是键盘可操作的真实筛选按钮，连接线用于解释主题关系。
+- 移动端保留全部主题和筛选能力，缩短辅助文字，不把桌面图简单缩小。
 
-`card`：首页 feature 卡片、相关推荐卡片、引用块容器。
+### Search
 
-- 背景 `bg-soft`，圆角 `md`；外加品牌蓝低透明度边框。
+- 首页搜索作用于文章标题、摘要和分类，标签必须明确为“搜索技术文章”。
+- 全站搜索继续由 VitePress 本地搜索提供。
+- 空结果说明下一步，不使用只有“无数据”的死端文案。
 
-`nav-link` / `nav-link-hover`：顶部导航项的默认与 hover 颜色。
+### Article discovery
 
-- `nav-link`：`text-1` 色，无下划线。
-- `nav-link-hover`：`primary` 色，强化交互反馈。
+- 重点文章优先使用文章自身的第一张本地图片。没有图片时使用纯排版回退，不伪造产品截图。
+- 日期和分类来自真实 frontmatter，不生成阅读时长或虚构统计。
+- 长列表使用渐进加载，结构线只位于条目之间。
 
-`link`：正文中的普通链接。
+### Collection filters
 
-- 默认 `primary` 色，hover 显示下划线（`text-underline-offset: 3px`，按 `Elevation & Depth` 描述式约定处理）。
+- 搜索、内容类型和使用场景是三个独立概念。
+- 当前选择通过文字、边框和背景共同表达，不只依赖颜色。
 
-`caption`：副标题、metadata、注释。
+### Remote sources
 
-- 文本色 `text-2`，排版用 `typography.caption`（0.875rem / Inter）。
+- AGENTS.md 与 Skills 保留加载、空、错误和重试状态。
+- 错误文案说明失败原因和最小恢复动作。
 
-`article-illustration`：文章默认配图，采用“蓝色工程主题的手绘知识卡式概念信息图”。
+## Interaction
 
-- **媒介质感**：暖米白纸张背景、细铅笔或彩铅轮廓、轻微自然抖动、低饱和水彩填色与细微纸纹；保持教育性和亲和力，不使用写实摄影、电影光效或高光 3D 渲染。
-- **角色与隐喻**：需要行动主体时，默认使用造型一致的蓝白圆润机器人代表 Agent；用地图、仓库、工具台、书本、检查门、传送带、路标和回收箱等普通物件解释工程机制。角色和物件必须服务于论点，不添加无关装饰。
-- **功能构图**：根据论点选择左右对比、3–5 步流程、中心辐射、机制剖面或单一隐喻总结。每张图只承担一个主要解释任务，保留清晰阅读路径与充足留白。
-- **功能配色**：柔和蓝色表示规则、路径和主流程；绿色表示通过、修复和可靠反馈；橙黄表示待处理、Profile 差异或提醒；克制的红色只表示失败、风险和拦截。
-- **文字生产**：生成底图时不得包含字母、数字、中文、伪文字、水印或最终标签边框。标题、标签、边框和说明必须在底图稳定后用确定性 SVG 排版叠加；中文标题使用粗圆体或手写感字体，标签使用清晰圆体，文字用深炭灰而不是纯黑。
-- **交付格式**：优先交付自包含 SVG，在其中嵌入生成式底图并保留可验证的文字层；同时提供准确的 Markdown alt text 和“概念插画”图注。纯机制图确实更适合代码原生矢量时可以例外，但需保持同一配色和信息层级。
-- **验证要求**：最终 SVG 必须以原始尺寸和文章实际显示宽度各渲染一次，逐项检查标题与标签的文案、居中、边距、边框包含、可读性和底图完整性；成功构建不能替代视觉检查。
+- 高频交互保持即时，hover 与 pressed 反馈控制在颜色、边框和 1px 位移以内。
+- 键盘焦点使用 2px 钴蓝轮廓和 4px offset。
+- 知识节点点击后更新文章结果并把结果区带入视口。
+- 最近更新弹层支持 Escape 和点击外部关闭，原有未读状态保持不变。
 
-`home-scene`：首页上可拖动的完整 3D CRT 档案管理员。
+## Motion
 
-- 人物由头部、躯干、手臂和腿部的实时 3D 几何体组成，并带有轻微待机动画，不使用摄影身体或背景图。
-- 角色身份固定为“CRT-404 馆长”：冷面、幽默、嘴毒的知识档案管理员；台词只回应欢迎或访客主动交互，不进行定时闲聊。
-- 每个访客本地自然日首次进入首页时，人物通过头顶文字气泡欢迎并配合挥手、点头和轻跳；普通点击给出简短回应，短时间连续点击则分级警告和吐槽。
-- 气泡必须跟随人物并限制在视口内，不拦截人物交互；使用 polite live region 播报内容，在 light / dark 模式下均复用站点 token。
-- 吐槽可以使用强烈反讽和粗口，但只针对重复点击行为，不攻击受保护身份，也不表达真实威胁。
-- `prefers-reduced-motion` 下保留台词和静态表情反馈，取消欢迎、警告和吐槽的大幅肢体动作。
-- 默认固定在视口右下角；用户可用鼠标或触摸拖到任意位置，坐标必须限制在可视区域内并保存到 localStorage。
-- WebGL 画布保持透明，不添加背景、边框、阴影或卡片容器。
-- 水平跟随范围固定为左右各 65°，响应插值系数为 `0.024`。
-- `pnpm home:scene-check` 是人物完整性、透明背景和默认定位的回归检查，并作为 `docs:build` 的前置步骤运行。
+- 默认动效强度为 4/10，只用于地图路径响应、图片轻微缩放和状态切换。
+- 不使用滚动劫持、循环跑马灯、磁吸按钮或装饰性视差。
+- `prefers-reduced-motion: reduce` 下关闭平滑滚动、变换和过渡，内容与反馈仍完整。
+
+## Responsive Behavior
+
+- 900px 以下首页首屏改为单列，地图位于定位文案之后。
+- 767px 以下知识地图隐藏解释性子项但保留主题标签、关系线和点击目标。
+- 多列文章、收藏和 AI 路径在移动端改为单列，主要动作与上下文不得消失。
+- 最低验证宽度为 375px。所有触摸目标至少 42px，关键文字不能依赖截断才能成立。
+
+## Content & Terminology
+
+站点语气直接、具体、可信。描述解决过的问题、可复用的方法和明确边界，不使用“赋能”“无缝”“颠覆”等空泛营销词。
+
+- 站点：`FRANK / KNOWLEDGE`
+- 首页：`知识地图`
+- 收藏：`工具收藏`
+- AI 总览：`AI 协作系统`
+- 首页定位：`把零散经验，组织成可复用的系统。`
+- 首页说明：`这里记录 AI Agent、自动化与前端工程中，真正解决过问题的方法。`
+
+## Accessibility
+
+- 默认目标为 WCAG AA，正文和交互文字同时在 light 与 dark 模式验证。
+- 主题地图使用可访问按钮和明确区域名称，视觉连接线不进入辅助技术阅读顺序。
+- 搜索输入、筛选按钮、外链和错误恢复均可通过键盘操作。
+- 动态结果数量使用 polite live region，加载错误使用 alert。
+- 图像必须使用真实 alt；纯装饰图像使用空 alt。
+
+## Product States
+
+- 搜索无结果：说明更换关键词或选择主题。
+- 远程内容加载：保持内容骨架位置，使用状态文字，不显示空结果。
+- 远程内容失败：显示具体错误与“重试”。
+- 收藏无结果：说明清空关键词或切换使用场景。
+- 动态更新：最近更新面板继续区分已读与未读。
 
 ## Do's and Don'ts
 
-- ✅ **DO**：正文里使用 `text-1` 而不是纯黑；用 token 引用（`{colors.primary}`）而不是硬编码 hex。
-- ✅ **DO**：新增的卡片复用 `card` 组件的 token，保持视觉一致。
-- ✅ **DO**：dark 模式保持 token 名一致，只在 `.dark` 作用域里覆盖颜色值。
-- ✅ **DO**：文章概念配图默认复用 `article-illustration` 的机器人、纸张质感、功能配色和确定性文字层。
-- ❌ **DON'T**：不要在正文里硬编码品牌色；统一通过 `colors.primary` 引用。
-- ❌ **DON'T**：不要为卡片加阴影（`box-shadow`）来制造层次；本站用边框 + 背景差。
-- ❌ **DON'T**：不要使用 `border-radius` 大于 `lg` (12px)，保持工具界面克制。
-- ❌ **DON'T**：不要重新增加第二套风格切换；只使用 VitePress 原生 light/dark。
-- ❌ **DON'T**：不要让图像模型直接生成最终中文标签、标签框、数据或伪文字。
+- DO 使用一个钴蓝强调色表达交互和路径。
+- DO 优先通过文字层级、间距和结构线组织内容。
+- DO 使用真实文章、日期、分类、图片和公开接口名称。
+- DO 在 375px、键盘模式和 reduced motion 下验证关键路径。
+- DON'T 使用 CRT-404、漂浮吉祥物或与内容无关的 3D 场景。
+- DON'T 使用紫蓝发光、玻璃卡片、装饰性状态点或三张同款功能卡。
+- DON'T 伪造阅读时长、访问量、运行状态或工程统计。
+- DON'T 把知识地图做成不可操作的背景装饰。

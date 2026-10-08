@@ -30,8 +30,8 @@ function tokenizeSearchText(text: string) {
 }
 
 export default defineConfig({
-  title: 'Frank 的知识库',
-  description: '技术笔记、自动化实践、AI Agent 学习与个人知识沉淀。',
+  title: 'FRANK / KNOWLEDGE',
+  description: '把 AI Agent、自动化与前端工程中的真实经验，组织成可检索、可复用的知识系统。',
   lang: 'zh-CN',
   appearance: 'dark',
   base,
@@ -42,14 +42,14 @@ export default defineConfig({
   },
   transformHead({ page, title, description }) {
     const canonicalUrl = pageUrl(page)
-    const socialTitle = title || 'Frank 的知识库'
-    const socialDescription = description || '技术笔记、自动化实践、AI Agent 学习与个人知识沉淀。'
+    const socialTitle = title || 'FRANK / KNOWLEDGE'
+    const socialDescription = description || '把 AI Agent、自动化与前端工程中的真实经验，组织成可检索、可复用的知识系统。'
 
     return [
       ['link', { rel: 'canonical', href: canonicalUrl }],
       ['meta', { property: 'og:type', content: 'website' }],
       ['meta', { property: 'og:locale', content: 'zh_CN' }],
-      ['meta', { property: 'og:site_name', content: 'Frank 的知识库' }],
+      ['meta', { property: 'og:site_name', content: 'FRANK / KNOWLEDGE' }],
       ['meta', { property: 'og:title', content: socialTitle }],
       ['meta', { property: 'og:description', content: socialDescription }],
       ['meta', { property: 'og:url', content: canonicalUrl }],
@@ -62,7 +62,7 @@ export default defineConfig({
         JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          name: 'Frank 的知识库',
+          name: 'FRANK / KNOWLEDGE',
           url: siteUrl,
           inLanguage: 'zh-CN'
         })
@@ -76,9 +76,9 @@ export default defineConfig({
   themeConfig: {
     logo: '/logo.svg',
     nav: [
-      { text: '首页', link: '/' },
-      { text: '我的收藏', link: '/favorites' },
-      { text: '我的 AI', link: '/ai' }
+      { text: '知识地图', link: '/' },
+      { text: '工具收藏', link: '/favorites' },
+      { text: 'AI 协作系统', link: '/ai' }
     ],
     sidebar: {},
     socialLinks: [{ icon: 'github', link: 'https://github.com/frank9306' }],
@@ -98,13 +98,13 @@ export default defineConfig({
       }
     },
     footer: {
-      message: 'Built with VitePress and GitHub Pages.',
+      message: '把解决过的问题，沉淀成可以再次调用的方法。',
       copyright: 'Copyright © 2025-present Frank'
     }
   },
   head: [
     ['link', { rel: 'icon', href: `${base}logo.svg` }],
-    ['meta', { name: 'theme-color', content: '#111214' }],
+    ['meta', { name: 'theme-color', content: '#0b1020' }],
     [
       'script',
       {

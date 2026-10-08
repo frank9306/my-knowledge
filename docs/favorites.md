@@ -1,6 +1,6 @@
 ---
-title: 我的收藏
-description: 统一浏览收藏的资源与好文。
+title: 工具收藏
+description: 浏览经过使用、阅读和筛选后留下的工具、资料与参考文章。
 layout: page
 sidebar: false
 aside: false

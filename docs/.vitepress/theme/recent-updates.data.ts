@@ -12,11 +12,16 @@ export default createContentLoader('**/*.md', {
         date: new Date(frontmatter.updated ?? frontmatter.date).toISOString(),
         description: String(frontmatter.description ?? ''),
         category: categoryFromUrl(url),
+        image: firstLocalImage(src ?? ''),
         version: createHash('sha256').update((src ?? '').replace(/\r\n/g, '\n')).digest('hex').slice(0, 16)
       }))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   }
 })
+
+function firstLocalImage(source: string) {
+  return source.match(/!\[[^\]]*\]\((\/images\/[^)\s]+)\)/)?.[1] ?? ''
+}
 
 function categoryFromUrl(url: string) {
   const section = url.split('/').filter(Boolean)[0]

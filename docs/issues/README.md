@@ -12,7 +12,9 @@ None.
 
 ## In progress
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0028](ISSUE-0028-redesign-the-knowledge-site-as-an-interactive-knowledge-atlas.md) | Redesign the knowledge site as an interactive knowledge atlas |
 
 ## Blocked
 

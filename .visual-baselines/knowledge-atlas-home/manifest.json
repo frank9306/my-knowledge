@@ -1,0 +1,13 @@
+{
+  "reference": "reference.png",
+  "referenceSize": { "width": 1586, "height": 992 },
+  "referenceSha256": "59d4b826938bf71e8a6f9e8c961c5bbca018b2b14c9a14e387c10fb5f4da83da",
+  "direction": "User-approved A: Knowledge Atlas",
+  "route": "/",
+  "status": "awaiting-browser-verification",
+  "limitations": [
+    "Local browser navigation blocked with net::ERR_BLOCKED_BY_CLIENT.",
+    "No rendered capture or quantitative fidelity comparison available.",
+    "Real article assets and update metadata replace concept placeholders."
+  ]
+}

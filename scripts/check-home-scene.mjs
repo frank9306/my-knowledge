@@ -1,55 +1,39 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 
-const [component, head, css] = await Promise.all([
+const [landing, timeline, css, config] = await Promise.all([
   readFile(new URL('../docs/.vitepress/theme/HomeLanding.vue', import.meta.url), 'utf8'),
-  readFile(new URL('../docs/.vitepress/theme/CrtHead.vue', import.meta.url), 'utf8'),
-  readFile(new URL('../docs/.vitepress/theme/custom.css', import.meta.url), 'utf8')
+  readFile(new URL('../docs/.vitepress/theme/HomeTimeline.vue', import.meta.url), 'utf8'),
+  readFile(new URL('../docs/.vitepress/theme/custom.css', import.meta.url), 'utf8'),
+  readFile(new URL('../docs/.vitepress/config.ts', import.meta.url), 'utf8')
 ])
 
-assert.match(
-  component,
-  /knowledge-home__figure[\s\S]*<CrtHead(?:\s+[^>]*)?\s*\/>/,
-  'The draggable figure must contain the complete 3D character.'
-)
-assert.match(component, /CRT-404/, 'The homepage character must expose the CRT-404 identity.')
-assert.match(component, /knowledge-home__speech/, 'The character must render a speech bubble.')
-assert.match(component, /role="status"/, 'The speech bubble must expose status semantics.')
-assert.match(component, /aria-live="polite"/, 'The speech bubble must announce dialogue politely.')
-for (const dialogueType of ['welcome', 'normal', 'warning', 'roast']) {
-  assert.match(component, new RegExp(`${dialogueType}Lines`), `The character must include ${dialogueType} dialogue.`)
+assert.match(landing, /<main class="knowledge-atlas"/, 'The homepage must expose the Knowledge Atlas surface.')
+assert.match(landing, /data-fidelity="canvas"/, 'The homepage canvas must expose a stable visual baseline anchor.')
+assert.match(landing, /<HomeTimeline\s*\/>/, 'The homepage must render the article discovery experience.')
+assert.doesNotMatch(landing, /CrtHead|CRT-404|knowledge-home__figure/, 'The retired CRT archivist must not render.')
+
+assert.match(timeline, /把零散经验，(?:<br>)?组织成可复用的系统。/, 'The approved positioning headline must render verbatim.')
+assert.match(timeline, /这里记录 AI Agent、自动化与前端工程中，真正解决过问题的方法。/, 'The approved supporting copy must render verbatim.')
+assert.match(timeline, /class="atlas-map"/, 'The homepage must expose the topic map as its signature element.')
+assert.match(timeline, /aria-label="知识主题地图"/, 'The topic map must have an accessible name.')
+assert.match(timeline, /AI Agent/, 'The topic map must include AI Agent.')
+assert.match(timeline, /Python 自动化/, 'The topic map must include Python automation.')
+assert.match(timeline, /RPA \/ Playwright/, 'The topic map must include RPA and Playwright.')
+assert.match(timeline, /Web \/ React/, 'The topic map must include Web and React.')
+assert.match(timeline, /v-model="query"/, 'The homepage must retain inline article search.')
+assert.match(timeline, /aria-live="polite"/, 'Filtered article counts must be announced politely.')
+assert.match(timeline, /data-fidelity="headline"/, 'The hero headline must expose a stable visual baseline anchor.')
+assert.match(timeline, /data-fidelity="map"/, 'The topic map must expose a stable visual baseline anchor.')
+
+assert.match(css, /--atlas-canvas:\s*#0b1020/, 'The design system must define the ink-navy atlas canvas.')
+assert.match(css, /--atlas-accent:\s*#5d7cff/, 'The design system must define the approved cobalt accent.')
+assert.match(css, /\.atlas-hero\s*\{[^}]*grid-template-columns:/s, 'The desktop hero must use a two-column grid.')
+assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*\.atlas-hero\s*\{[^}]*grid-template-columns:\s*1fr/s, 'The knowledge map must collapse to one column on mobile.')
+assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/, 'The theme must provide a reduced-motion path.')
+
+for (const label of ['知识地图', '工具收藏', 'AI 协作系统']) {
+  assert.match(config, new RegExp(`text: '${label}'`), `The primary navigation must include ${label}.`)
 }
-assert.match(component, /WELCOME_DATE_KEY/, 'The daily welcome must use its own local storage key.')
-assert.match(component, /WELCOME_DELAY_MS\s*=\s*600/, 'The welcome must start after a short entrance delay.')
-assert.match(component, /CLICK_WINDOW_MS\s*=\s*2000/, 'Rapid clicks must use a two-second window.')
-assert.match(component, /WARNING_CLICK_COUNT\s*=\s*4/, 'The fourth rapid click must warn.')
-assert.match(component, /ROAST_CLICK_COUNT\s*=\s*7/, 'The seventh rapid click must roast.')
-assert.match(component, /CLICK_RESET_MS\s*=\s*3000/, 'A click streak must reset after three seconds.')
-assert.match(component, /pet\.value\?\.react\('welcome'\)/, 'The daily welcome must trigger its matching animation.')
-assert.match(component, /dragTravel\s*>=\s*6/, 'Dragging must be excluded from the click streak.')
-assert.doesNotMatch(component, /knowledge-home__backdrop/, 'The homepage character must not use a backdrop element.')
-assert.doesNotMatch(css, /home-hero-body\.png/, 'The homepage character must not use a body background image.')
 
-const figureRule = css.match(/\.knowledge-home__figure\s*\{([^}]+)\}/)?.[1] ?? ''
-assert.match(figureRule, /position:\s*fixed/, 'The character must float relative to the viewport.')
-assert.match(figureRule, /right:\s*20px/, 'The character must default to the right edge.')
-assert.match(figureRule, /bottom:\s*16px/, 'The character must default to the bottom edge.')
-assert.doesNotMatch(figureRule, /background(?:-image)?:/, 'The floating character must remain transparent.')
-
-const headRule = css.match(/\.crt-head\s*\{([^}]+)\}/)?.[1] ?? ''
-assert.match(headRule, /inset:\s*0/, 'The 3D canvas must fill the draggable figure.')
-assert.match(headRule, /width:\s*100%/, 'The 3D canvas must use the full figure width.')
-assert.match(headRule, /height:\s*100%/, 'The 3D canvas must use the full figure height.')
-
-assert.match(head, /degToRad\(65\)/, 'Horizontal head rotation must be limited to 65 degrees per side.')
-assert.match(head, /head\.rotation\.y \+= \(targetRotationY - head\.rotation\.y\) \* 0\.024/, 'Horizontal head tracking must use the faster response rate.')
-for (const bodyPart of ['torso', 'leftArm', 'rightArm', 'leftLeg', 'rightLeg']) {
-  assert.match(head, new RegExp(`const ${bodyPart}\\b`), `The complete 3D character must include ${bodyPart}.`)
-}
-for (const reaction of ['welcome', 'warn', 'roast']) {
-  assert.match(head, new RegExp(`reaction === '${reaction}'`), `The character must animate the ${reaction} reaction.`)
-}
-assert.match(head, /if \(reduceMotion\.matches\) \{[\s\S]*characterY = 0[\s\S]*scaleY = 1/, 'Reduced motion must neutralize large body movement.')
-assert.match(head, /setClearColor\(0x000000, 0\)/, 'The WebGL scene must render with a transparent background.')
-
-console.log('Draggable 3D homepage character check passed.')
+console.log('Knowledge Atlas homepage check passed.')
