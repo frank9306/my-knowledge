@@ -1,4 +1,7 @@
-import { defineConfig } from 'vitepress'
+import { writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
+import { createContentLoader, defineConfig } from 'vitepress'
+import { createRssFeed } from './rss.mjs'
 
 const base = '/'
 const siteUrl = 'https://knowledge.webfrank.top'
@@ -37,6 +40,17 @@ export default defineConfig({
   base,
   cleanUrls: true,
   lastUpdated: true,
+  async buildEnd(config) {
+    const articles = await createContentLoader([
+      'blog/**/*.md',
+      'ai-coding/**/*.md',
+      'ai-agent/**/*.md',
+      'python-automation/**/*.md',
+      'rpa-playwright/**/*.md',
+      'web-react/**/*.md'
+    ]).load()
+    await writeFile(join(config.outDir, 'rss.xml'), createRssFeed(articles, config.site, siteUrl), 'utf8')
+  },
   sitemap: {
     hostname: siteUrl
   },
@@ -78,7 +92,8 @@ export default defineConfig({
     nav: [
       { text: '知识地图', link: '/' },
       { text: '工具收藏', link: '/favorites' },
-      { text: 'AI 协作系统', link: '/ai' }
+      { text: 'AI 协作系统', link: '/ai' },
+      { text: 'RSS 订阅', link: '/rss.xml' }
     ],
     sidebar: {},
     socialLinks: [{ icon: 'github', link: 'https://github.com/frank9306' }],
@@ -103,6 +118,7 @@ export default defineConfig({
     }
   },
   head: [
+    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'FRANK / KNOWLEDGE RSS', href: `${siteUrl}/rss.xml` }],
     ['link', { rel: 'icon', href: `${base}logo.svg` }],
     ['meta', { name: 'theme-color', content: '#0b1020' }],
     [

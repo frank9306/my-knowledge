@@ -48,6 +48,7 @@ None.
 | [ISSUE-0023](ISSUE-0023-update-site-analytics-backend-identifier.md) | Update site analytics backend identifier |
 | [ISSUE-0024](ISSUE-0024-expose-the-knowledge-site-through-webmcp-and-announce-ai-discovery-support.md) | Expose the knowledge site through WebMCP and announce AI discovery support |
 | [ISSUE-0025](ISSUE-0025-unpublish-the-you2-personal-work-memory-article.md) | Unpublish the You2 personal work memory article |
+| [ISSUE-0029](ISSUE-0029-add-rss-subscriptions-to-the-knowledge-site.md) | Add RSS subscriptions to the knowledge site |
 
 ## Cancelled
 
