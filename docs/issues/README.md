@@ -49,6 +49,7 @@ None.
 | [ISSUE-0024](ISSUE-0024-expose-the-knowledge-site-through-webmcp-and-announce-ai-discovery-support.md) | Expose the knowledge site through WebMCP and announce AI discovery support |
 | [ISSUE-0025](ISSUE-0025-unpublish-the-you2-personal-work-memory-article.md) | Unpublish the You2 personal work memory article |
 | [ISSUE-0029](ISSUE-0029-add-rss-subscriptions-to-the-knowledge-site.md) | Add RSS subscriptions to the knowledge site |
+| [ISSUE-0030](ISSUE-0030-add-an-rss-copy-button-and-intent-analytics.md) | Add an RSS copy button and intent analytics |
 
 ## Cancelled
 

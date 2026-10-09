@@ -76,7 +76,7 @@ input { -webkit-tap-highlight-color: transparent; }
   backdrop-filter: blur(14px);
 }
 
-.VPNavBar .container {
+.VPNavBar > .wrapper > .container {
   width: 100%;
   max-width: none;
   padding: 0 4.25vw;
@@ -704,7 +704,9 @@ input { -webkit-tap-highlight-color: transparent; }
 
 @media (max-width: 767px) {
   :root { --atlas-shell: calc(100vw - 36px); }
-  .VPNavBar .container { padding: 0 18px; }
+  .VPNavBar .wrapper { padding: 0; }
+  .VPNavBar > .wrapper > .container { padding: 0 18px; }
+  .VPNavBarTitle .title { font-size: 12px; letter-spacing: 0; }
   .recent-updates { margin-left: 2px; }
   .recent-updates__desktop-label { display: none; }
   .recent-updates__mobile-label { display: inline; }

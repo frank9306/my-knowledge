@@ -88,12 +88,12 @@ export default defineConfig({
     html: false
   },
   themeConfig: {
+    rssUrl: `${siteUrl}/rss.xml`,
     logo: '/logo.svg',
     nav: [
       { text: '知识地图', link: '/' },
       { text: '工具收藏', link: '/favorites' },
-      { text: 'AI 协作系统', link: '/ai' },
-      { text: 'RSS 订阅', link: '/rss.xml' }
+      { text: 'AI 协作系统', link: '/ai' }
     ],
     sidebar: {},
     socialLinks: [{ icon: 'github', link: 'https://github.com/frank9306' }],

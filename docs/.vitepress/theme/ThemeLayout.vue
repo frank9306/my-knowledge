@@ -4,6 +4,7 @@ import { useData, useRoute } from 'vitepress'
 import { onBeforeUnmount, onMounted, watch } from 'vue'
 import HomeLanding from './HomeLanding.vue'
 import RecentUpdates from './RecentUpdates.vue'
+import RssSubscribe from './RssSubscribe.vue'
 import ResourceCatalog from './ResourceCatalog.vue'
 import RemoteAgents from './RemoteAgents.vue'
 import RemoteSkills from './RemoteSkills.vue'
@@ -45,6 +46,7 @@ watch(
   <DefaultTheme.Layout>
     <template #nav-bar-content-after>
       <RecentUpdates />
+      <RssSubscribe />
     </template>
     <template #home-hero-before>
       <HomeLanding v-if="frontmatter.layout === 'home'" />
