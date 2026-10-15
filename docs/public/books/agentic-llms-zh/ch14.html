@@ -1,0 +1,350 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 14 章 案例三：构建多智能体诊断框架 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html" aria-current="page"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html" aria-current="page"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">14 / 23 · 中文翻译</p><section id="Ch14" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch14-0001">第 14 章 案例研究 3：构建多智能体诊断框架</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch14.S1">14.1 场景概述</a></li><li class="level-h2"><a href="#Ch14.S2">14.2 环境设置</a></li><li class="level-h2"><a href="#Ch14.S3">14.3 实现步骤</a></li><li class="level-h3"><a href="#Ch14.S3.SS1">14.3.1 步骤 0：训练诊断模型</a></li><li class="level-h3"><a href="#Ch14.S3.SS2">14.3.2 步骤 1：理解并运行基线</a></li><li class="level-h3"><a href="#Ch14.S3.SS3">14.3.3 步骤 2：以大语言模型智能体替换规则规划器</a></li><li class="level-h2"><a href="#Ch14.S4">14.4 评估</a></li><li class="level-h2"><a href="#Ch14.S5">14.5 反思问题</a></li><li class="level-h3"><a href="#Ch14.S5.SSx1">可选扩展</a></li><li class="level-h3"><a href="#Ch14.S5.SSx2">说明</a></li><li class="level-h2"><a href="#Ch14.S6">14.6 结语</a></li><li class="level-h2"><a href="#bibm">参考文献</a></li></ol></nav></details><div id="Ch14.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch14.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch14.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch14.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch14.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0111">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch14.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch14.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0112">本案例将通过实践，让你学习为高风险应用领域构建多智能体系统。具体而言，你将能够：</p>
+<ul id="Ch14.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch14.S0.I1.i1" class="ltx_item">
+<div id="Ch14.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch14.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0113">实现医院诊断工作流，使规划者智能体与执行者智能体通过共享上下文进行通信。</p>
+</div></li>
+<li id="Ch14.S0.I1.i2" class="ltx_item">
+<div id="Ch14.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch14.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0114">将训练后的机器学习分类器作为工具集成到智能体流程中。</p>
+</div></li>
+<li id="Ch14.S0.I1.i3" class="ltx_item">
+<div id="Ch14.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch14.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0115">用语言模型替换基于规则的规划者，并评估其对路由与诊断准确率的影响。</p>
+</div></li>
+<li id="Ch14.S0.I1.i4" class="ltx_item">
+<div id="Ch14.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch14.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0116">使用分类和路由指标评估系统表现，区分规划者错误与执行者错误。</p>
+</div></li>
+<li id="Ch14.S0.I1.i5" class="ltx_item">
+<div id="Ch14.S0.I1.i5.p1" class="ltx_para">
+<p id="Ch14.S0.I1.i5.p1.1" class="ltx_p" data-supplement-id="extra-0117">批判性地思考在医疗场景中部署智能体系统的局限、风险与伦理考量。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch14.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch14-0002">14.1 场景概述</h2>
+
+<div id="Ch14.S1.p1" class="ltx_para">
+<p id="Ch14.S1.p1.1" class="ltx_p" data-translation-id="ch14-0003">本案例重点构建并扩展一个简化的多智能体医院模拟，采用受模型上下文协议（MCP，第 <a href="ch11.html#Ch11" title="Chapter 11 How Agents Use Tools to Act in the World ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">11</span></a> 章）启发的共享上下文 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibm.bib1" title="" class="ltx_ref">Hou et al., 2026</a>]</cite>。本案例旨在提供高风险领域智能体架构的实践经验，强调协调、规划、评估和安全考虑。</p>
+</div>
+<div id="Ch14.S1.p2" class="ltx_para">
+<p id="Ch14.S1.p2.1" class="ltx_p" data-translation-id="ch14-0004">你将模拟医院场景中的诊断工作流。患者病例由仅通过共享上下文交互的智能体处理：</p>
+<ul id="Ch14.S1.I1" class="ltx_itemize">
+<li id="Ch14.S1.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S1.I1.i1.p1" class="ltx_para">
+<p id="Ch14.S1.I1.i1.p1.1" class="ltx_p" data-translation-id="ch14-0005">规划智能体决定应采用哪些诊断路径。</p>
+</div></li>
+<li id="Ch14.S1.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S1.I1.i2.p1" class="ltx_para">
+<p id="Ch14.S1.I1.i2.p1.1" class="ltx_p" data-translation-id="ch14-0006">执行智能体应用已训练的机器学习分类器，生成诊断。</p>
+</div></li>
+<li id="Ch14.S1.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S1.I1.i3.p1" class="ltx_para">
+<p id="Ch14.S1.I1.i3.p1.1" class="ltx_p" data-translation-id="ch14-0007">共享上下文存储病例、任务、中间决策和结果。</p>
+</div></li>
+</ul>
+<p id="Ch14.S1.p2.2" class="ltx_p" data-translation-id="ch14-0008">模拟按离散步骤运行，记录病例如何流经系统。与先前案例一样，目标不是构建临床有效的系统，而是理解智能体架构在高风险领域如何表现：智能体如何通过共享状态协调、语言模型担任分诊角色时表现如何，以及系统的局限与安全问题出现在哪里。11 1 本案例部分基于 Ayushman Pranav 的教程《Modeling Hospital Intelligence with MCP: A Multi-Agent Diagnostic Simulation》，见 <a href="https://medium.com/@AyushmanPranav/modeling-hospital-intelligence-with-mcp-a-multi-agent-diagnostic-simulation-afeff0dd885d" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://medium.com/@AyushmanPranav/modeling-hospital-intelligence-with-mcp-a-multi-agent-diagnostic-simulation-afeff0dd885d</a>。</p>
+</div>
+</section>
+<section id="Ch14.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch14-0009">14.2 环境设置</h2>
+
+<div id="Ch14.S2.p1" class="ltx_para">
+<p id="Ch14.S2.p1.1" class="ltx_p" data-translation-id="ch14-0010">与先前案例一样，建议使用 Python 3.10 或更高版本，在专用虚拟环境中工作（设置说明见代码清单 <a href="#Ch14.F1" title="Figure 14.1 ‣ 14.2 Environment Setup ‣ Chapter 14 Case Study 3: Building a Multi-Agent Diagnosis Framework ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">14.1</span></a>）。</p>
+</div>
+<figure id="Ch14.F1" class="ltx_figure">
+<div id="Ch14.F1.3" class="ltx_listing ltx_lst_language_bash ltx_lst_numbers_left ltx_lstlisting ltx_framed ltx_framed_topbottom ltx_listing"><div class="ltx_listing_data"><a download="">⬇</a></div>
+<div id="lstnumberx370" class="ltx_listingline"><span class="ltx_tag ltx_tag_listingline">1</span><span id="lstnumberx370.2" class="ltx_text ltx_lst_comment ltx_font_typewriter ltx_font_italic" style="font-size:80%;">#<span id="lstnumberx370.2.1" class="ltx_text ltx_lst_space"> </span>create<span id="lstnumberx370.2.2" class="ltx_text ltx_lst_space"> </span>and<span id="lstnumberx370.2.3" class="ltx_text ltx_lst_space"> </span>activate<span id="lstnumberx370.2.4" class="ltx_text ltx_lst_space"> </span>a<span id="lstnumberx370.2.5" class="ltx_text ltx_lst_space"> </span>virtual<span id="lstnumberx370.2.6" class="ltx_text ltx_lst_space"> </span>environment</span></div>
+<div id="lstnumberx371" class="ltx_listingline"><span class="ltx_tag ltx_tag_listingline">2</span><span id="lstnumberx371.2" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">python3</span><span id="lstnumberx371.3" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx371.4" class="ltx_text ltx_font_typewriter" style="font-size:80%;">-</span><span id="lstnumberx371.5" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">m</span><span id="lstnumberx371.6" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx371.7" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">venv</span><span id="lstnumberx371.8" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx371.9" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">venv</span></div>
+<div id="lstnumberx372" class="ltx_listingline"><span class="ltx_tag ltx_tag_listingline">3</span><span id="lstnumberx372.2" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">source</span><span id="lstnumberx372.3" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx372.4" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">venv</span><span id="lstnumberx372.5" class="ltx_text ltx_font_typewriter" style="font-size:80%;">/</span><span id="lstnumberx372.6" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">bin</span><span id="lstnumberx372.7" class="ltx_text ltx_font_typewriter" style="font-size:80%;">/</span><span id="lstnumberx372.8" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">activate</span><span id="lstnumberx372.9" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;">        </span><span id="lstnumberx372.10" class="ltx_text ltx_lst_comment ltx_font_typewriter ltx_font_italic" style="font-size:80%;">#<span id="lstnumberx372.10.1" class="ltx_text ltx_lst_space"> </span>Windows:<span id="lstnumberx372.10.2" class="ltx_text ltx_lst_space"> </span>venv\Scripts\activate</span></div>
+<div id="lstnumberx373" class="ltx_listingline"><span class="ltx_tag ltx_tag_listingline">4</span></div>
+<div id="lstnumberx374" class="ltx_listingline"><span class="ltx_tag ltx_tag_listingline">5</span><span id="lstnumberx374.2" class="ltx_text ltx_lst_comment ltx_font_typewriter ltx_font_italic" style="font-size:80%;">#<span id="lstnumberx374.2.1" class="ltx_text ltx_lst_space"> </span>install<span id="lstnumberx374.2.2" class="ltx_text ltx_lst_space"> </span>dependencies</span></div>
+<div id="lstnumberx375" class="ltx_listingline"><span class="ltx_tag ltx_tag_listingline">6</span><span id="lstnumberx375.2" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">pip</span><span id="lstnumberx375.3" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx375.4" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">install</span><span id="lstnumberx375.5" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx375.6" class="ltx_text ltx_font_typewriter" style="font-size:80%;">-</span><span id="lstnumberx375.7" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">r</span><span id="lstnumberx375.8" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx375.9" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">requirements</span><span id="lstnumberx375.10" class="ltx_text ltx_font_typewriter" style="font-size:80%;">.</span><span id="lstnumberx375.11" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">txt</span></div>
+</div>
+<figcaption class="ltx_caption" data-translation-id="ch14-0011">图 14.1：设置案例研究 3 的环境</figcaption>
+</figure>
+<div id="Ch14.S2.p2" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch14.S2.p2.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch14.S2.p2.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch14.S2.p2.pic1.1.1" class="ltx_inline-block fas fa-rocket" aria-hidden="true">
+</span>
+<p id="Ch14.S2.p2.pic1.1.2" class="ltx_p" data-supplement-id="extra-0118">在 GitHub 查看！</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch14.S2.p2.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch14.S2.p2.pic1.2.1" class="ltx_p" data-supplement-id="extra-0119">基线代码、数据文件和训练后的模型可在此获取：<a href="https://github.com/Agentic-LLMs/Agentic-AI-tutorials/tree/main/case3" title="" class="ltx_ref ltx_href" rel="noopener noreferrer">
+<span class="ltx_inline-block fas fa-code" aria-hidden="true">
+</span> <span class="ltx_text ltx_font_bold">Assignment 3</span> on Github<span class="ltx_note ltx_role_footnote"><sup class="ltx_note_mark">2</sup><span class="ltx_note_outer"><span class="ltx_note_content"><sup class="ltx_note_mark">2</sup>
+                                <span class="ltx_tag ltx_tag_note"><span class="ltx_text">2</span></span>
+
+
+
+                              <span class="ltx_text">https://github.com/Agentic-LLMs/Agentic-AI-tutorials/tree/main/case3</span></span></span></span></a></p>
+</div></div></aside></span>
+</div>
+</section>
+<section id="Ch14.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch14-0012">14.3 实现步骤</h2>
+
+<section id="Ch14.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch14-0013">14.3.1 步骤 0：训练诊断模型</h3>
+
+<div id="Ch14.S3.SS1.p1" class="ltx_para">
+<p id="Ch14.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch14-0014">提供的脚本 0_train_models.py 会在三个公开数据集上训练简单分类器（随机森林）：</p>
+</div>
+<div id="Ch14.S3.SS1.p2" class="ltx_para">
+<ul id="Ch14.S3.I1" class="ltx_itemize">
+<li id="Ch14.S3.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I1.i1.p1" class="ltx_para">
+<p id="Ch14.S3.I1.i1.p1.1" class="ltx_p" data-translation-id="ch14-0015">糖尿病——Pima Indians Diabetes 数据集。</p>
+</div></li>
+<li id="Ch14.S3.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I1.i2.p1" class="ltx_para">
+<p id="Ch14.S3.I1.i2.p1.1" class="ltx_p" data-translation-id="ch14-0016">乳腺癌——Wisconsin 乳腺癌数据集，可直接通过 sklearn.datasets 获取。</p>
+</div></li>
+<li id="Ch14.S3.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I1.i3.p1" class="ltx_para">
+<p id="Ch14.S3.I1.i3.p1.1" class="ltx_p" data-translation-id="ch14-0017">心脏病——UCI 心脏病数据集。</p>
+</div></li>
+</ul>
+<p id="Ch14.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch14-0018">执行提供的训练脚本，存储所得模型供后续使用；步骤 1 和 2 的执行智能体将这些训练好的模型作为工具加载，而非每次运行都重新训练。</p>
+</div>
+<section id="Ch14.S3.SS1.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch14-0019">交付内容</h5>
+
+<div id="Ch14.S3.SS1.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch14.S3.SS1.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch14-0020">三种疾病的训练模型文件，或能重新生成模型的清晰、可复现脚本。</p>
+</div>
+</section>
+</section>
+<section id="Ch14.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch14-0021">14.3.2 步骤 1：理解并运行基线</h3>
+
+<div id="Ch14.S3.SS2.p1" class="ltx_para">
+<p id="Ch14.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch14-0022">基线实现 1_basic_mcp.py 使用三个基于规则的规划智能体，每个都硬编码为处理一种疾病。运行前仔细阅读代码。它实现了本案例中反复出现的三个组件：</p>
+</div>
+<div id="Ch14.S3.SS2.p2" class="ltx_para">
+<ul id="Ch14.S3.I2" class="ltx_itemize">
+<li id="Ch14.S3.I2.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I2.i1.p1" class="ltx_para">
+<p id="Ch14.S3.I2.i1.p1.1" class="ltx_p" data-translation-id="ch14-0023">共享上下文（类 MCP 层）：存储新患者病例、已分配诊断任务及诊断结果的中央数据结构。所有智能体只通过共享上下文交互，从不直接彼此通信，反映第 <a href="ch11.html#Ch11" title="Chapter 11 How Agents Use Tools to Act in the World ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">11</span></a> 节讨论模型上下文协议时的共享状态协调模式。</p>
+</div></li>
+<li id="Ch14.S3.I2.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I2.i2.p1" class="ltx_para">
+<p id="Ch14.S3.I2.i2.p1.1" class="ltx_p" data-translation-id="ch14-0024">规划智能体：每个规则规划器读取未分配病例，用固定规则判断自己的疾病领域是否适用，并在共享上下文中创建任务。</p>
+</div></li>
+<li id="Ch14.S3.I2.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I2.i3.p1" class="ltx_para">
+<p id="Ch14.S3.I2.i3.p1.1" class="ltx_p" data-translation-id="ch14-0025">执行智能体：每个执行器读取分配给其专科的任务，运行步骤 0 对应的训练后机器学习分类器，生成预测，并将结果写回共享上下文。</p>
+</div></li>
+</ul>
+</div>
+<div id="Ch14.S3.SS2.p3" class="ltx_para">
+<p id="Ch14.S3.SS2.p3.1" class="ltx_p" data-translation-id="ch14-0026">运行基线模拟，观察单个患者病例如何流经系统：从到达、规划和任务创建，到执行和结果记录。</p>
+</div>
+<section id="Ch14.S3.SS2.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch14-0027">分析问题</h5>
+
+<div id="Ch14.S3.SS2.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch14.S3.SS2.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch14-0028">评估这一基线设置有多真实。性能评估是否充分？患者与诊断的处理方式隐含了哪些假设？</p>
+</div>
+</section>
+</section>
+<section id="Ch14.S3.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch14-0029">14.3.3 步骤 2：以大语言模型智能体替换规则规划器</h3>
+
+<div id="Ch14.S3.SS3.p1" class="ltx_para">
+<p id="Ch14.S3.SS3.p1.1" class="ltx_p" data-translation-id="ch14-0030">第二部分 2_llm_mcp.py 将三个规则规划器替换为一个基于大语言模型的规划智能体。这对规划器而言困难得多：现在每个患者病例将三个数据集的特征合并到一条记录，再用提供的 make_case_text 函数转为文本描述；不允许修改此函数。大语言模型规划器必须读取合并后的文本病例描述，在不使用硬编码规则的情况下决定适用哪些诊断路径。</p>
+</div>
+<div id="Ch14.S3.SS3.p2" class="ltx_para">
+<p id="Ch14.S3.SS3.p2.1" class="ltx_p" data-translation-id="ch14-0031">你的任务是：</p>
+<ul id="Ch14.S3.I3" class="ltx_itemize">
+<li id="Ch14.S3.I3.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I3.i1.p1" class="ltx_para">
+<p id="Ch14.S3.I3.i1.p1.1" class="ltx_p" data-translation-id="ch14-0032">实现调用真实大语言模型的函数（例如通过 Ollama 调用本地模型，或使用 OpenAI、Gemini API），获得规划器对给定病例的决策；</p>
+</div></li>
+<li id="Ch14.S3.I3.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I3.i2.p1" class="ltx_para">
+<p id="Ch14.S3.I3.i2.p1.1" class="ltx_p" data-translation-id="ch14-0033">实现 LLMPlannerAgent 的 step() 方法，为每个病例选择一条或多条诊断路径，并给出主要诊断；</p>
+</div></li>
+<li id="Ch14.S3.I3.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I3.i3.p1" class="ltx_para">
+<p id="Ch14.S3.I3.i3.p1.1" class="ltx_p" data-translation-id="ch14-0034">妥善处理格式错误或不可解析的模型输出，避免一次错误回应导致模拟崩溃；以及</p>
+</div></li>
+<li id="Ch14.S3.I3.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S3.I3.i4.p1" class="ltx_para">
+<p id="Ch14.S3.I3.i4.p1.1" class="ltx_p" data-translation-id="ch14-0035">记录每项规划决策及相应病例，以便运行后分析规划器行为。</p>
+</div></li>
+</ul>
+<p id="Ch14.S3.SS3.p2.2" class="ltx_p" data-translation-id="ch14-0036">规划器现在必须从非结构化文本推断相关性，而非使用固定规则，因此本步骤应让你直接体验大语言模型承担决策角色时出现的可靠性问题：解析失败、格式不一致，以及模型路由决策与数据集真实标签不一致。</p>
+</div>
+<section id="Ch14.S3.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch14-0037">交付内容</h5>
+
+<div id="Ch14.S3.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch14.S3.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch14-0038">一个可用的 LLMPlannerAgent，简要说明使用哪个大语言模型及访问方式（本地或 API），并提供完整模拟运行的规划决策日志。</p>
+</div>
+</section>
+</section>
+</section>
+<section id="Ch14.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch14-0039">14.4 评估</h2>
+
+<div id="Ch14.S4.p1" class="ltx_para">
+<p id="Ch14.S4.p1.1" class="ltx_p" data-translation-id="ch14-0040">必须评估系统的两个组件，并将评估分别进行：</p>
+</div>
+<div id="Ch14.S4.p2" class="ltx_para">
+<ul id="Ch14.S4.I1" class="ltx_itemize">
+<li id="Ch14.S4.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S4.I1.i1.p1" class="ltx_para">
+<p id="Ch14.S4.I1.i1.p1.1" class="ltx_p" data-translation-id="ch14-0041">模型（执行器）性能：对每种疾病，使用混淆矩阵及准确率、精确率、召回率、F1 等标准分类指标评估执行器预测。</p>
+</div></li>
+<li id="Ch14.S4.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S4.I1.i2.p1" class="ltx_para">
+<p id="Ch14.S4.I1.i2.p1.1" class="ltx_p" data-translation-id="ch14-0042">规划器性能：使用路由决策的精确率和召回率（病例是否送到正确的一条或多条疾病路径？），以及主要诊断准确率（是否正确识别主要问题？）评估模型的分诊质量。</p>
+</div></li>
+</ul>
+<p id="Ch14.S4.p2.1" class="ltx_p" data-translation-id="ch14-0043">报告中，应清楚区分错误路由导致的错误（规划器错误）与模型预测错误（执行器错误）。病例可能独立因任一原因失败：正确路由的病例仍可能被执行器误分类，而本来可以正确分类的病例，可能因规划器未将其送往正确路径而完全遗漏。只报告端到端准确率会掩盖区别，不满足本案例要求。</p>
+</div>
+</section>
+<section id="Ch14.S5" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch14-0044">14.5 反思问题</h2>
+
+<div id="Ch14.S5.p1" class="ltx_para">
+<p id="Ch14.S5.p1.1" class="ltx_p" data-translation-id="ch14-0045">以下问题用于指导你撰写简短实现报告。无需写成叙述文章，简洁直接回答即可，并准备口头进一步解释推理。</p>
+</div>
+<section id="Ch14.S5.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch14-0046">A. 基线架构</h5>
+
+<div id="Ch14.S5.SS0.SSS0.Px1.p1" class="ltx_para">
+<ul id="Ch14.S5.I1" class="ltx_itemize">
+<li id="Ch14.S5.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I1.i1.p1" class="ltx_para">
+<p id="Ch14.S5.I1.i1.p1.1" class="ltx_p" data-translation-id="ch14-0047">用不超过五句话，描述单个患者病例通过基线系统的流程。</p>
+</div></li>
+<li id="Ch14.S5.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I1.i2.p1" class="ltx_para">
+<p id="Ch14.S5.I1.i2.p1.1" class="ltx_p" data-translation-id="ch14-0048">每个基线病例从一个数据集抽样，因此在构造上恰好属于一个疾病领域。这对规则规划器如何“决定”意味着什么？这是现实的分诊模型吗？</p>
+</div></li>
+<li id="Ch14.S5.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I1.i3.p1" class="ltx_para">
+<p id="Ch14.S5.I1.i3.p1.1" class="ltx_p" data-translation-id="ch14-0049">步骤 0 分类器的训练和评估采用与生成模拟病例相同的数据分布。为什么这在方法上有问题？更公平的评估协议应如何设计？</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch14.S5.SS0.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch14-0050">B. 大语言模型规划器设计</h5>
+
+<div id="Ch14.S5.SS0.SSS0.Px2.p1" class="ltx_para">
+<ul id="Ch14.S5.I2" class="ltx_itemize">
+<li id="Ch14.S5.I2.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I2.i1.p1" class="ltx_para">
+<p id="Ch14.S5.I2.i1.p1.1" class="ltx_p" data-translation-id="ch14-0051">使用了哪个大语言模型，如何访问（本地模型、API）？简要说明选择理由。</p>
+</div></li>
+<li id="Ch14.S5.I2.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I2.i2.p1" class="ltx_para">
+<p id="Ch14.S5.I2.i2.p1.1" class="ltx_p" data-translation-id="ch14-0052">make_case_text 函数把患者描述为来自三个独立、不相关数据集的特征组合。为什么这在医学上不真实？对本练习的目的而言，这有影响吗？</p>
+</div></li>
+<li id="Ch14.S5.I2.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I2.i3.p1" class="ltx_para">
+<p id="Ch14.S5.I2.i3.p1.1" class="ltx_p" data-translation-id="ch14-0053">描述 step() 实现中的一个具体设计选择，例如如何处理解析失败、放弃判断，或同时路由到多种疾病的病例，并说明理由。</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch14.S5.SS0.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch14-0054">C. 结果</h5>
+
+<div id="Ch14.S5.SS0.SSS0.Px3.p1" class="ltx_para">
+<ul id="Ch14.S5.I3" class="ltx_itemize">
+<li id="Ch14.S5.I3.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I3.i1.p1" class="ltx_para">
+<p id="Ch14.S5.I3.i1.p1.1" class="ltx_p" data-translation-id="ch14-0055">报告每种疾病的分诊精确率、召回率，以及执行器模型混淆矩阵。这些数值说明整体系统工作得如何？</p>
+</div></li>
+<li id="Ch14.S5.I3.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I3.i2.p1" class="ltx_para">
+<p id="Ch14.S5.I3.i2.p1.1" class="ltx_p" data-translation-id="ch14-0056">模型规划器可以将单个病例同时路由到多种疾病。分别举出一个有益场景和一个可能有害的场景。</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch14.S5.SS0.SSS0.Px4" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch14-0057">D. 反思</h5>
+
+<div id="Ch14.S5.SS0.SSS0.Px4.p1" class="ltx_para">
+<ul id="Ch14.S5.I4" class="ltx_itemize">
+<li id="Ch14.S5.I4.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I4.i1.p1" class="ltx_para">
+<p id="Ch14.S5.I4.i1.p1.1" class="ltx_p" data-translation-id="ch14-0058">指出一个将大语言模型用作医疗分诊规划器特有的安全风险，并描述缓解方法。</p>
+</div></li>
+<li id="Ch14.S5.I4.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch14.S5.I4.i2.p1" class="ltx_para">
+<p id="Ch14.S5.I4.i2.p1.1" class="ltx_p" data-translation-id="ch14-0059">将模型路由决策与原始单疾病数据集的真实标签比较，以评估分诊性能，是否公平？解释你的保留意见。</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch14.S5.SSx1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch14-0060">可选扩展</h3>
+
+<div id="Ch14.S5.SSx1.p1" class="ltx_para">
+<p id="Ch14.S5.SSx1.p1.1" class="ltx_p" data-translation-id="ch14-0061">作为额外任务，可以通过更真实的患者抽样扩展系统，例如利用更有原则的先验抽样混合或共病病例。也可从 UCI 仓库添加另一种疾病，或引入评估器、验证器智能体，在规划决策到达执行器前检查。另一种思路是模拟人在环路决策，或纳入不确定性阈值和放弃判断机制，使规划器在缺乏信心时拒绝路由。最后，可集成外部知识源检索（第 <a href="ch12.html#Ch12" title="Chapter 12 Search and Retrieval in Agentic LLMs ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">12</span></a> 章），使规划器依据临床参考资料作出路由决策，而不是纯粹依赖参数化知识。</p>
+</div>
+</section>
+<section id="Ch14.S5.SSx2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch14-0062">说明</h3>
+
+<div id="Ch14.S5.SSx2.p1" class="ltx_para">
+<p id="Ch14.S5.SSx2.p1.1" class="ltx_p" data-translation-id="ch14-0063">本作业用于教育，不用于临床。不要声称这里构建的系统具有医学有效性。重点在于清晰、可复现与批判性反思。在此场景中，保守路由、不确定时放弃判断并透明说明局限的系统，比最大化准确率却隐藏失败模式的系统更好。</p>
+</div>
+</section>
+</section>
+<section id="Ch14.S6" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch14-0064">14.6 结语</h2>
+
+<div id="Ch14.S6.p1" class="ltx_para">
+<p id="Ch14.S6.p1.1" class="ltx_p" data-translation-id="ch14-0065">本案例结合本书前面的多条线索：智能体角色与协调（第三部分）、工具使用与模型上下文协议（第 <a href="ch11.html#Ch11" title="Chapter 11 How Agents Use Tools to Act in the World ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">11</span></a> 章），以及在复合智能体系统中区分规划错误与执行错误的评估方法。通过先构建规则基线，再用单个模型规划器替换原有规划器，你直接看到：当规划依赖模型对非结构化文本病例的解释时，困难程度会增加多少。</p>
+</div>
+<div id="Ch14.S6.p2" class="ltx_para">
+<p id="Ch14.S6.p2.1" class="ltx_p" data-translation-id="ch14-0066">选择医疗背景是有意的：在这一领域，过度自信且无法解释的错误代价很高，放弃判断、人类监督和可审计性属于核心设计要求。同样的协调模式远不止适用于医疗，还适用于任何由语言模型负责路由决策、再由更专门组件据此行动的智能体系统。</p>
+</div>
+</section>
+<section id="bibm" class="ltx_bibliography ltx_list_14_case3_assist">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibm.L1" class="ltx_biblist">
+<li id="bibm.bib1" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hou <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Hou, Y. Zhao, S. Wang, and H. Wang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Model context protocol (mcp): landscape, security threats, and future research directions</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">ACM Trans. Softw. Eng. Methodol.</span> <span class="ltx_text ltx_bib_volume">35</span> (<span class="ltx_text ltx_bib_number">10</span>).
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 1049-331X</span>,
+<a href="https://doi.org/10.1145/3796519" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1145/3796519" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch14.S1.p1.1" title="14.1 Scenario Overview ‣ Chapter 14 Case Study 3: Building a Multi-Agent Diagnosis Framework ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§14.1</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch13.html">← 第 13 章</a><a href="index.html">全书目录</a><a href="ch15.html">第 15 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

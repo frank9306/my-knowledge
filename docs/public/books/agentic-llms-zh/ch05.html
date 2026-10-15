@@ -1,0 +1,559 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 5 章 案例一：从零构建大语言模型 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html" aria-current="page"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html" aria-current="page"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">05 / 23 · 中文翻译</p><section id="Ch5" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch05-0001">第 5 章 案例研究 1：从零构建大语言模型</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch5.S1">5.1 构建聊天机器人</a></li><li class="level-h2"><a href="#Ch5.S2">5.2 背景：Karpathy 的 nanochat</a></li><li class="level-h2"><a href="#Ch5.S3">5.3 实验准备</a></li><li class="level-h2"><a href="#Ch5.S4">5.4 任务 0：模型 Hub 热身。</a></li><li class="level-h2"><a href="#Ch5.S5">5.5 任务 1：词元化</a></li><li class="level-h3"><a href="#Ch5.S5.SS1">5.5.1 要做什么</a></li><li class="level-h3"><a href="#Ch5.S5.SS2">5.5.2 交付内容</a></li><li class="level-h2"><a href="#Ch5.S6">5.6 任务 2：预训练</a></li><li class="level-h3"><a href="#Ch5.S6.SS1">5.6.1 要做什么</a></li><li class="level-h3"><a href="#Ch5.S6.SS2">5.6.2 交付内容</a></li><li class="level-h2"><a href="#Ch5.S7">5.7 任务 3：中间训练与监督微调</a></li><li class="level-h3"><a href="#Ch5.S7.SS1">5.7.1 要做什么</a></li><li class="level-h3"><a href="#Ch5.S7.SS2">5.7.2 交付内容</a></li><li class="level-h2"><a href="#Ch5.S8">5.8 任务 4：推断、部署与批判性反思</a></li><li class="level-h3"><a href="#Ch5.S8.SS1">5.8.1 A 部分：推断与部署</a></li><li class="level-h3"><a href="#Ch5.S8.SS2">5.8.2 B 部分：批判性反思</a></li><li class="level-h2"><a href="#Ch5.S9">5.9 推荐阅读</a></li><li class="level-h2"><a href="#Ch5.S10">5.10 结语</a></li><li class="level-h2"><a href="#bibd">参考文献</a></li></ol></nav></details><div id="Ch5.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch5.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch5.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch5.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch5.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0023">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch5.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch5.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0024">本案例将介绍如何训练自己的模型。具体而言，你将能够：</p>
+<ul id="Ch5.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch5.S0.I1.i1" class="ltx_item">
+<div id="Ch5.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch5.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0025">解释 ChatGPT 风格大语言模型的端到端训练流程，区分各阶段的目的与机制：分词、预训练、中期训练和监督微调。</p>
+</div></li>
+<li id="Ch5.S0.I1.i2" class="ltx_item">
+<div id="Ch5.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch5.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0026">配置并训练字节对编码（BPE）分词器，阐明选择词表大小时的权衡。</p>
+</div></li>
+<li id="Ch5.S0.I1.i3" class="ltx_item">
+<div id="Ch5.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch5.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0027">从机制层面描述 Transformer 架构，包括注意力头、网络层数与嵌入维度。你将研究这些超参数如何与模型容量和计算预算相互影响。</p>
+</div></li>
+<li id="Ch5.S0.I1.i4" class="ltx_item">
+<div id="Ch5.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch5.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0028">使用标准基准（ARC-Easy、ARC-Challenge、GSM-8K）评估训练后的语言模型，并批判性地解读结果，包括其失效模式。</p>
+</div></li>
+<li id="Ch5.S0.I1.i5" class="ltx_item">
+<div id="Ch5.S0.I1.i5.p1" class="ltx_para">
+<p id="Ch5.S0.I1.i5.p1.1" class="ltx_p" data-supplement-id="extra-0029">批判性地思考大语言模型训练涉及的伦理、环境与可及性问题，包括作为准入门槛的成本，以及蕴含价值判断的数据整理选择。</p>
+</div></li>
+<li id="Ch5.S0.I1.i6" class="ltx_item">
+<div id="Ch5.S0.I1.i6.p1" class="ltx_para">
+<p id="Ch5.S0.I1.i6.p1.1" class="ltx_p" data-supplement-id="extra-0030">查找并浏览开放访问大语言模型的相关信息，包括阅读模型卡、训练报告、大语言模型训练代码及其他类型的模型平台条目。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch5.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0002">5.1 构建聊天机器人</h2>
+
+<div id="Ch5.S1.p1" class="ltx_para">
+<p id="Ch5.S1.p1.1" class="ltx_p" data-translation-id="ch05-0003">我们将完成一个涵盖现代 ChatGPT 风格语言模型完整生命周期的实践案例。使用 nanochat，11 1 <a href="https://github.com/karpathy/nanochat" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://github.com/karpathy/nanochat</a>，这是 Andrej Karpathy 于 2025 年 4 月发布的指令遵循大语言模型的精简、单代码库、全栈实现。早期 nanoGPT 仅涵盖预训练，nanochat 则实现完整流水线：字节对编码词元化器、网页文本预训练、随后在基准数据集上监督微调（SFT）、推断服务器和聊天网页界面。</p>
+</div>
+<div id="Ch5.S1.p2" class="ltx_para">
+<p id="Ch5.S1.p2.1" class="ltx_p" data-translation-id="ch05-0004">代码主要使用纯 Python，依赖极少，因而易于使用和扩展。代码库约有 8000 行 Python 和少量 Rust。22 2 如果这个数字听起来很大，须知道对应专有系统往往有数百万行代码。nanochat 旨在成为一个小型自包含版本。</p>
+</div>
+<div id="Ch5.S1.p3" class="ltx_para">
+<p id="Ch5.S1.p3.1" class="ltx_p" data-translation-id="ch05-0005">nanochat 的表现令人瞩目：仅需 48 美元（<math id="Ch5.S1.p3.m2" class="ltx_Math" alttext="\sim" display="inline" intent=":literal"><semantics><mo>∼</mo><annotation encoding="application/x-tex">\sim</annotation></semantics></math>2 小时的 8xH100 GPU 节点），即可训练具有 GPT-2 能力的大语言模型（2019 年训练成本为 <math id="Ch5.S1.p3.m1" class="ltx_Math" alttext="\sim" display="inline" intent=":literal"><semantics><mo>∼</mo><annotation encoding="application/x-tex">\sim</annotation></semantics></math>43,000 美元 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibd.bib2" title="" class="ltx_ref">Radford et al., 2019</a>]</cite>）。这种算力对于普通大学学生项目虽不算常见，但可缩小实验，使其适用于实践课程作业。要意识到，从原始字节到可用聊天助手，每次梯度更新和每个设计决策都可见。我们将通过四项全部需要完成的任务，带你走完 nanochat 流水线。</p>
+</div>
+<div id="Ch5.S1.p4" class="ltx_para">
+<p id="Ch5.S1.p4.1" class="ltx_p" data-translation-id="ch05-0006">由于课程 GPU 预算有限，你将训练小模型（深度为 4，视可用资源而定，见第 <a href="#Ch5.S3" title="5.3 Experiment Preparation ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">5.3</span></a> 节），然后结合理论和已发布的 nanochat 基准，反思更大规模时可能发生什么。</p>
+</div>
+</section>
+<section id="Ch5.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0007">5.2 背景：Karpathy 的 nanochat</h2>
+
+<div id="Ch5.S2.p1" class="ltx_para">
+<p id="Ch5.S2.p1.1" class="ltx_p" data-translation-id="ch05-0008">本案例让你亲自实践现代大语言模型训练流水线的每个阶段，从输入文本到部署聊天助手。它将第 2–4 章的理论概念落实为具体、可调试的代码。</p>
+</div>
+<div id="Ch5.S2.p2" class="ltx_para">
+<p id="Ch5.S2.p2.1" class="ltx_p" data-translation-id="ch05-0009">nanochat 开箱即用，只需设置一个复杂度旋钮 --depth，指定 Transformer 层数，就能训练计算最优模型。其余超参数——嵌入宽度、注意力头数、学习率调度、训练时长、权重衰减——都以近最优方式自动推导。这使配置空间易于管理，同时保留理解每个参数作用的全部教学价值。</p>
+</div>
+<div id="Ch5.S2.p3" class="ltx_para">
+<p id="Ch5.S2.p3.1" class="ltx_p" data-translation-id="ch05-0010">训练流水线按现在你应该已经熟悉的阶段进行，下面简要说明。</p>
+</div>
+<section id="Ch5.S2.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0011">预训练</h5>
+
+<div id="Ch5.S2.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch5.S2.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch05-0012">模型在取自 CLIMBMix <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibd.bib6" title="" class="ltx_ref">Diao et al., 2026</a>]</cite> 的约 60 亿词元上训练，该数据集是基于聚类、迭代自举的数据混合语料库。深度 24（<math id="Ch5.S2.SS0.SSS0.Px1.p1.m1" class="ltx_Math" alttext="\sim" display="inline" intent=":literal"><semantics><mo>∼</mo><annotation encoding="application/x-tex">\sim</annotation></semantics></math>14 亿参数）的模型在 4<math id="Ch5.S2.SS0.SSS0.Px1.p1.m2" class="ltx_Math" alttext="\times" display="inline" intent=":literal"><semantics><mo>×</mo><annotation encoding="application/x-tex">\times</annotation></semantics></math>H100 节点计算集群上约 4 小时，可达到 2.41 的验证损失（每字节 0.717 比特）。</p>
+</div>
+</section>
+<section id="Ch5.S2.SS0.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0013">监督微调（SFT）</h5>
+
+<div id="Ch5.S2.SS0.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch5.S2.SS0.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch05-0014">从预训练检查点出发，模型在指令遵循和推理混合数据上微调：SmolTalk <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibd.bib7" title="" class="ltx_ref">Ben Allal and others, 2024</a>]</cite>（46 万次通用对话）、MMLU（知识选择题，3 轮）、GSM-8K（小学数学，4 轮）、身份对话和合成拼写任务，总计约 110 万训练样例。注意，交叉熵损失只在助手词元上计算，不在用户提示上计算，与 InstructGPT 训练过程一致 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibd.bib1" title="" class="ltx_ref">Ouyang et al., 2022</a>]</cite>。</p>
+</div>
+<div id="Ch5.S2.SS0.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch5.S2.SS0.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch05-0015">每个训练阶段之前，使用 Rust 实现在 20 亿字符上训练 BPE 词元化器，不到一分钟便产生包含 32,768 个词元的词表。</p>
+</div>
+<div id="Ch5.S2.SS0.SSS0.Px2.p3" class="ltx_para">
+<p id="Ch5.S2.SS0.SSS0.Px2.p3.1" class="ltx_p" data-translation-id="ch05-0016">项目内置网页推断服务器和轻量 JavaScript 聊天界面，可以立即与你训练的模型互动。</p>
+</div>
+</section>
+<section id="Ch5.S2.SS0.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0017">补充资源</h5>
+
+<div id="Ch5.S2.SS0.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch5.S2.SS0.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch05-0018">两门免费课程为本案例材料提供互补视角。Hugging Face LLM Course <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibd.bib8" title="" class="ltx_ref">Hugging Face, 2022</a>]</cite> 介绍 transformers、datasets、tokenizers 和 accelerate 库，以及当今多数开放权重模型发布与评估所在的 Hugging Face Hub。Mathieu Labonne 的 LLM Course <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibd.bib9" title="" class="ltx_ref">Labonne, 2023</a>]</cite> 提供实践路线图，涵盖预训练数据整理、参数高效微调（LoRA、QLoRA）、偏好对齐（DPO、PPO、GRPO）、量化（GGUF、GPTQ）及生产推断服务（vLLM、TGI）。这些资源共同将 nanochat 放入更广的开源大语言模型生态中，任务 3 和 4 会明确引用。你也可自由寻找额外资源。强烈建议在报告必要之处添加来源链接和引用。</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0019">5.3 实验准备</h2>
+
+<section id="Ch5.S3.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0020">代码仓库</h5>
+
+<div id="Ch5.S3.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch5.S3.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch05-0021">克隆课程仓库，在编写代码前仔细阅读 README。</p>
+</div>
+<figure id="LST1" class="ltx_float ltx_lstlisting">
+<figcaption class="ltx_caption" data-translation-id="ch05-0022">代码清单 1：克隆 nanochat 仓库</figcaption>
+<div id="LST1.2" class="ltx_listing ltx_lst_language_bash ltx_lst_numbers_left ltx_lstlisting ltx_framed ltx_framed_rectangle ltx_listing"><div class="ltx_listing_data"><a download="">⬇</a></div>
+<div id="lstnumberx1" class="ltx_listingline"><span class="ltx_tag ltx_tag_listingline">1</span><span id="lstnumberx1.2" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">git</span><span id="lstnumberx1.3" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx1.4" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">clone</span><span id="lstnumberx1.5" class="ltx_text ltx_lst_space ltx_font_typewriter" style="font-size:80%;"> </span><span id="lstnumberx1.6" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">git@github</span><span id="lstnumberx1.7" class="ltx_text ltx_font_typewriter" style="font-size:80%;">.</span><span id="lstnumberx1.8" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">com</span><span id="lstnumberx1.9" class="ltx_text ltx_font_typewriter" style="font-size:80%;">:</span><span id="lstnumberx1.10" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">karpathy</span><span id="lstnumberx1.11" class="ltx_text ltx_font_typewriter" style="font-size:80%;">/</span><span id="lstnumberx1.12" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">nanochat</span><span id="lstnumberx1.13" class="ltx_text ltx_font_typewriter" style="font-size:80%;">.</span><span id="lstnumberx1.14" class="ltx_text ltx_lst_identifier ltx_font_typewriter" style="font-size:80%;">git</span></div>
+</div>
+</figure>
+</section>
+<section id="Ch5.S3.SS0.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0023">计算资源</h5>
+
+<div id="Ch5.S3.SS0.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch5.S3.SS0.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch05-0024">无须专用计算资源，可以使用自己的笔记本（配有 GPU）或更大计算机。实验设计为每次运行最长约 8 小时。预训练使用 --depth 4 配置；只有硬件不允许更大模型时，才可使用 --depth 2。除非拥有强劲硬件，否则不要尝试深度 <math id="Ch5.S3.SS0.SSS0.Px2.p1.m1" class="ltx_Math" alttext="\geq" display="inline" intent=":literal"><semantics><mo>≥</mo><annotation encoding="application/x-tex">\geq</annotation></semantics></math>12。</p>
+</div>
+</section>
+<section id="Ch5.S3.SS0.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0025">日志</h5>
+
+<div id="Ch5.S3.SS0.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch5.S3.SS0.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch05-0026">nanochat 按可配置间隔在终端记录训练损失、验证损失及每字节比特数，并提供运行期间报告和保存信息的额外功能。因此，最好从开始就启用写入 .jsonl 文件的结构化日志。运行后再补日志很痛苦。可以尝试不同日志文件格式。建议在训练完整模型前使用 wandb.ai 等服务。</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0027">5.4 任务 0：模型 Hub 热身。</h2>
+
+<section id="Ch5.S4.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0028">说明</h5>
+
+<div id="Ch5.S4.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch5.S4.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch05-0029">开始任务前，最好熟悉不同模型的常见参数和训练设置。为此练习浏览 Hugging Face Hub。33 3 <a href="https://huggingface.co/models" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://huggingface.co/models</a> 对表 <a href="#Ch5.T1" title="Table 5.1 ‣ Description ‣ 5.4 Task 0: Model Hub warm-up. ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">5.1</span></a> 中三个模型 ID，分别查找并记录：</p>
+<ol id="Ch5.S4.I1" class="ltx_enumerate">
+<li id="Ch5.S4.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch5.S4.I1.i1.p1" class="ltx_para">
+<p id="Ch5.S4.I1.i1.p1.1" class="ltx_p" data-translation-id="ch05-0030">训练词元数或步数；</p>
+</div></li>
+<li id="Ch5.S4.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch5.S4.I1.i2.p1" class="ltx_para">
+<p id="Ch5.S4.I1.i2.p1.1" class="ltx_p" data-translation-id="ch05-0031">模型架构（层数、隐藏维度、注意力头数、可训练参数数目）；以及</p>
+</div></li>
+<li id="Ch5.S4.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch5.S4.I1.i3.p1" class="ltx_para">
+<p id="Ch5.S4.I1.i3.p1.1" class="ltx_p" data-translation-id="ch05-0032">如可能，记录训练数据来源。</p>
+</div></li>
+</ol>
+</div>
+<figure id="Ch5.T1" class="ltx_table">
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch5.T1.3" class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr id="Ch5.T1.3.1" class="ltx_tr">
+<th id="Ch5.T1.3.1.1" class="ltx_td ltx_align_left ltx_th ltx_th_column ltx_border_tt" data-translation-id="ch05-0101">模型 ID</th>
+<th id="Ch5.T1.3.1.2" class="ltx_td ltx_align_left ltx_th ltx_th_column ltx_border_tt" data-translation-id="ch05-0102">组织</th></tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr id="Ch5.T1.3.2" class="ltx_tr">
+<td id="Ch5.T1.3.2.1" class="ltx_td ltx_align_left ltx_border_t" data-translation-id="ch05-0103">allenai/OLMo-1B</td>
+<td id="Ch5.T1.3.2.2" class="ltx_td ltx_align_left ltx_border_t" data-translation-id="ch05-0104">Allen Institute for AI</td></tr>
+<tr id="Ch5.T1.3.3" class="ltx_tr">
+<td id="Ch5.T1.3.3.1" class="ltx_td ltx_align_left" data-translation-id="ch05-0105">HuggingFaceTB/SmolLM2-360M</td>
+<td id="Ch5.T1.3.3.2" class="ltx_td ltx_align_left" data-translation-id="ch05-0106">Hugging Face</td></tr>
+<tr id="Ch5.T1.3.4" class="ltx_tr">
+<td id="Ch5.T1.3.4.1" class="ltx_td ltx_align_left ltx_border_bb" data-translation-id="ch05-0107">Qwen/Qwen2.5-0.5B</td>
+<td id="Ch5.T1.3.4.2" class="ltx_td ltx_align_left ltx_border_bb" data-translation-id="ch05-0108">Alibaba Cloud</td></tr>
+</tbody>
+</table>
+</div><figcaption class="ltx_caption ltx_centering" data-translation-id="ch05-0033">表 5.1：Hub 热身练习的模型 ID</figcaption>
+</figure>
+<div id="Ch5.S4.SS0.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch5.S4.SS0.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch05-0034">注意每项信息的查找位置：有些字段直接在模型卡上，有些需查看 Files 标签下的 config.json，还有一些只能在配套论文中找到。在报告中加入简短表格呈现结果，并注明每个字段的来源。</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S5" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0035">5.5 任务 1：词元化</h2>
+
+<section id="Ch5.S5.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0036">5.5.1 要做什么</h3>
+
+<div id="Ch5.S5.SS1.p1" class="ltx_para">
+<p id="Ch5.S5.SS1.p1.1" class="ltx_p" data-translation-id="ch05-0037">使用 nanochat 的 Rust 词元化器训练程序，在 CLIMBMix 数据集的 5 亿字符样本上训练 BPE 词元化器。执行两次实验，词表大小分别为 8192 和 32,768 个词元。</p>
+</div>
+</section>
+<section id="Ch5.S5.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0038">5.5.2 交付内容</h3>
+
+<div id="Ch5.S5.SS2.p1" class="ltx_para">
+<ul id="Ch5.S5.I1" class="ltx_itemize">
+<li id="Ch5.S5.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S5.I1.i1.p1" class="ltx_para">
+<p id="Ch5.S5.I1.i1.p1.1" class="ltx_p" data-translation-id="ch05-0039">一个可复现词元化器训练过程的短脚本。</p>
+</div></li>
+<li id="Ch5.S5.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S5.I1.i2.p1" class="ltx_para">
+<p id="Ch5.S5.I1.i2.p1.1" class="ltx_p" data-translation-id="ch05-0040">一节报告（最多 1 页），用自己的词元化器输出作为证据回答以下问题：</p>
+<ol id="Ch5.S5.I1.i2.I1" class="ltx_enumerate">
+<li id="Ch5.S5.I1.i2.I0.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch5.S5.I1.i2.I0.i1.p1" class="ltx_para">
+<p id="Ch5.S5.I1.i2.I0.i1.p1.1" class="ltx_p" data-translation-id="ch05-0041">什么是 BPE，它与词级、字符级词元化有何不同？为具体例子绘制合并树（可以从数据中找，也可以自己构造，但不要复用现成示例！）。务必包含各次合并的计数。</p>
+</div></li>
+<li id="Ch5.S5.I1.i2.I0.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch5.S5.I1.i2.I0.i2.p1" class="ltx_para">
+<p id="Ch5.S5.I1.i2.I0.i2.p1.1" class="ltx_p" data-translation-id="ch05-0042">对于固定文本样本，词表大小如何影响压缩率（每字符词元数）和序列长度？展示两个词元化器在英语文本上的测量结果。</p>
+</div></li>
+<li id="Ch5.S5.I1.i2.I0.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch5.S5.I1.i2.I0.i3.p1" class="ltx_para">
+<p id="Ch5.S5.I1.i2.I0.i3.p1.1" class="ltx_p" data-translation-id="ch05-0043">为什么词表大小对下游语言模型很重要？回答时考虑嵌入矩阵大小、softmax 分母，以及为罕见词元学习可靠表示的挑战。</p>
+</div></li>
+<li id="Ch5.S5.I1.i2.I0.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">4.</span>
+<div id="Ch5.S5.I1.i2.I0.i4.p1" class="ltx_para">
+<p id="Ch5.S5.I1.i2.I0.i4.p1.1" class="ltx_p" data-translation-id="ch05-0044">观察到哪些异常现象或失败情况？词元化器如何处理数字、源代码或非英语文本？</p>
+</div></li>
+</ol>
+</div></li>
+</ul>
+<p id="Ch5.S5.SS2.p1.1" class="ltx_p" data-translation-id="ch05-0045">注意：BPE 解释是否正确；实证证据的质量；词表权衡分析的深度；失败案例讨论是否敏锐。</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S6" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0046">5.6 任务 2：预训练</h2>
+
+<section id="Ch5.S6.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0047">5.6.1 要做什么</h3>
+
+<div id="Ch5.S6.SS1.p1" class="ltx_para">
+<p id="Ch5.S6.SS1.p1.1" class="ltx_p" data-translation-id="ch05-0048">使用 nanochat，以 --depth 4（计算机不够快时用 --depth 2）在 CLIMBMix 上预训练 Transformer。定期在检查点记录训练损失、验证损失和每字节比特数。</p>
+</div>
+</section>
+<section id="Ch5.S6.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0049">5.6.2 交付内容</h3>
+
+<div id="Ch5.S6.SS2.p1" class="ltx_para">
+<ul id="Ch5.S6.I1" class="ltx_itemize">
+<li id="Ch5.S6.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S6.I1.i1.p1" class="ltx_para">
+<p id="Ch5.S6.I1.i1.p1.1" class="ltx_p" data-translation-id="ch05-0050">训练集与验证集的每字节比特数曲线（绘图并纳入报告）。使用 bpb，而非原始损失。</p>
+</div></li>
+<li id="Ch5.S6.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S6.I1.i2.p1" class="ltx_para">
+<p id="Ch5.S6.I1.i2.p1.1" class="ltx_p" data-translation-id="ch05-0051">保存的模型检查点。</p>
+</div></li>
+<li id="Ch5.S6.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S6.I1.i3.p1" class="ltx_para">
+<p id="Ch5.S6.I1.i3.p1.1" class="ltx_p" data-translation-id="ch05-0052">一节报告（约 2 页），涵盖：</p>
+<ol id="Ch5.S6.I1.i3.I1" class="ltx_enumerate">
+<li id="Ch5.S6.I1.i3.I0.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch5.S6.I1.i3.I0.i1.p1" class="ltx_para">
+<p id="Ch5.S6.I1.i3.I0.i1.p1.1" class="ltx_p" data-translation-id="ch05-0053">深度参数：解释 nanochat 中 --depth 参数控制什么，代码库如何从它自动推导其他全部超参数：嵌入宽度、注意力头数、学习率调度和训练时长。对于所选深度，说明层数、注意力头数、嵌入维度、可训练参数总数及模型将训练的总词元数。单一旋钮设计对这样的代码库为何有用？相较单独调节每个超参数，有何局限？</p>
+</div></li>
+<li id="Ch5.S6.I1.i3.I0.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch5.S6.I1.i3.I0.i2.p1" class="ltx_para">
+<p id="Ch5.S6.I1.i3.I0.i2.p1.1" class="ltx_p" data-translation-id="ch05-0054">缩放定律：使用 Chinchilla 框架 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibd.bib4" title="" class="ltx_ref">Hoffmann et al., 2022</a>]</cite>，根据模型参数数目计算计算最优训练词元数。nanochat 默认训练时长与之相比如何？训练不足和过度训练分别意味着什么？</p>
+</div></li>
+<li id="Ch5.S6.I1.i3.I0.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch5.S6.I1.i3.I0.i3.p1" class="ltx_para">
+<p id="Ch5.S6.I1.i3.I0.i3.p1.1" class="ltx_p" data-translation-id="ch05-0055">损失分析：将训练期间每字节比特数（bpb）的变化画成训练曲线，并解释形状。曲线何时变平？训练与验证之间的差距说明什么？</p>
+</div></li>
+<li id="Ch5.S6.I1.i3.I0.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">4.</span>
+<div id="Ch5.S6.I1.i3.I0.i4.p1" class="ltx_para">
+<p id="Ch5.S6.I1.i3.I0.i4.p1.1" class="ltx_p" data-translation-id="ch05-0056">定性检查：在不使用系统提示的情况下，从预训练模型采样五个补全文本（原始下一词元预测）。这一阶段模型能做什么？你认为为什么如此？</p>
+</div></li>
+</ol>
+</div></li>
+</ul>
+<p id="Ch5.S6.SS2.p1.1" class="ltx_p" data-translation-id="ch05-0057">注意：深度参数和自动配置说明是否正确；架构描述是否准确；缩放定律计算是否应用正确；损失分析的质量；定性评估是否有洞见。</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S7" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0058">5.7 任务 3：中间训练与监督微调</h2>
+
+<section id="Ch5.S7.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0059">5.7.1 要做什么</h3>
+
+<div id="Ch5.S7.SS1.p1" class="ltx_para">
+<p id="Ch5.S7.SS1.p1.1" class="ltx_p" data-translation-id="ch05-0060">回顾一下，nanochat 只执行两个训练阶段：预训练和 SFT。但书中讨论过，额外的中间训练阶段可以改善模型表现。本任务中，你将修改 scripts/chat_sft.py，实现新的中间训练阶段，目标是将推理适配（中间训练）与指令遵循（SFT）分开，并实证测量效果。</p>
+</div>
+<section id="Ch5.S7.SS1.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0061">阶段 1——中间训练</h5>
+
+<div id="Ch5.S7.SS1.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch5.S7.SS1.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch05-0062">修改 chat_sft.py 中的 train_tasks 列表，只包含推理和知识任务 MMLU、GSM-8K。移除其他所有对话与拼写数据。从预训练基础检查点运行 chat_sft.py，保存得到的检查点。</p>
+</div>
+</section>
+<section id="Ch5.S7.SS1.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch05-0063">阶段 2——SFT</h5>
+
+<div id="Ch5.S7.SS1.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch5.S7.SS1.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch05-0064">再次修改 chat_sft.py，使 train_tasks 只包含 SmolTalk。还需小幅修改脚本，使其加载阶段 1 检查点，而非预训练基础模型。可从检查 chat_sft.py 中的 load_model 调用开始。44 4 提示：阅读 nanochat/checkpoint_manager.py，理解如何定位检查点。从阶段 1 检查点运行 chat_sft.py，在中间训练之后继续 SFT。</p>
+</div>
+<div id="Ch5.S7.SS1.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch5.S7.SS1.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch05-0065">每个阶段之后，用 scripts/chat_eval.py 在 ARC-Easy、ARC-Challenge 和 GSM-8K 上评估。</p>
+</div>
+<div id="Ch5.S7.SS1.SSS0.Px2.p3" class="ltx_para">
+<p id="Ch5.S7.SS1.SSS0.Px2.p3.1" class="ltx_p" data-translation-id="ch05-0066">合理性检查：运行阶段 1 前检查数据，打印 MMLU 和 SmolTalk 的前几行，理解格式与内容。确保能回答：每个数据集贡献多少训练样例，一个训练样例是什么样的？</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S7.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0067">5.7.2 交付内容</h3>
+
+<div id="Ch5.S7.SS2.p1" class="ltx_para">
+<ul id="Ch5.S7.I1" class="ltx_itemize">
+<li id="Ch5.S7.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S7.I1.i1.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i1.p1.1" class="ltx_p" data-translation-id="ch05-0068">两个检查点，每阶段（中间训练和 SFT）各一个。</p>
+</div></li>
+<li id="Ch5.S7.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S7.I1.i2.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i2.p1.1" class="ltx_p" data-translation-id="ch05-0069">各阶段之后 ARC-Easy、ARC-Challenge 和 GSM-8K 的评估分数，以表格报告，纳入报告（见下文）。</p>
+</div></li>
+<li id="Ch5.S7.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S7.I1.i3.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i3.p1.1" class="ltx_p" data-translation-id="ch05-0070">一节报告（约 3 页），涵盖：</p>
+<ol id="Ch5.S7.I1.i3.I1" class="ltx_enumerate">
+<li id="Ch5.S7.I1.i3.I0.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch5.S7.I1.i3.I0.i1.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i3.I0.i1.p1.1" class="ltx_p" data-translation-id="ch05-0071">实现：描述为实现分阶段训练而对代码库作出的修改。列出训练实验采用的超参数。可以自由尝试不同设置！</p>
+</div></li>
+<li id="Ch5.S7.I1.i3.I0.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch5.S7.I1.i3.I0.i2.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i3.I0.i2.p1.1" class="ltx_p" data-translation-id="ch05-0072">损失掩码：为什么 SFT 损失只在助手词元上计算？构造具体词元级例子，说明使用与不使用掩码时损失分别是什么样。</p>
+</div></li>
+<li id="Ch5.S7.I1.i3.I0.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch5.S7.I1.i3.I0.i3.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i3.I0.i3.p1.1" class="ltx_p" data-translation-id="ch05-0073">数据集分析：对每阶段，描述所用数据集、近似规模，以及为何特意为该阶段选择它。数据集训练划分可能包含什么价值观或潜在偏见？它们可能如何塑造模型行为？</p>
+</div></li>
+<li id="Ch5.S7.I1.i3.I0.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">4.</span>
+<div id="Ch5.S7.I1.i3.I0.i4.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i3.I0.i4.p1.1" class="ltx_p" data-translation-id="ch05-0074">基准分数：用表格报告各阶段评估分数。阶段 1 与阶段 2 之间有什么变化，为什么？还须与预训练结果比较，使分析涵盖全部三个阶段。注明令人意外的结果。</p>
+</div></li>
+<li id="Ch5.S7.I1.i3.I0.i5" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">5.</span>
+<div id="Ch5.S7.I1.i3.I0.i5.p1" class="ltx_para">
+<p id="Ch5.S7.I1.i3.I0.i5.p1.1" class="ltx_p" data-translation-id="ch05-0075">参数高效微调：nanochat 执行全量微调，SFT 期间更新每个参数。描述 LoRA（低秩适配）及其量化变体 QLoRA 与全量微调的不同。它们在计算、内存和最终模型质量方面有什么权衡？对于目前训练采用的深度，你是否推荐 PEFT 技术？</p>
+</div></li>
+</ol>
+</div></li>
+</ul>
+<p id="Ch5.S7.SS2.p1.1" class="ltx_p" data-translation-id="ch05-0076">注意：实现描述是否正确清晰；损失掩码解释是否正确；数据集分析的批判性质量；基准分数及其解释是否准确完整；LoRA／QLoRA 比较的概念准确性。</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S8" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0077">5.8 任务 4：推断、部署与批判性反思</h2>
+
+<section id="Ch5.S8.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0078">5.8.1 A 部分：推断与部署</h3>
+
+<div id="Ch5.S8.SS1.p1" class="ltx_para">
+<p id="Ch5.S8.SS1.p1.1" class="ltx_p" data-translation-id="ch05-0079">启动 nanochat 的推断服务器和网页界面，与你训练的模型互动。然后在报告中回答以下内容（约 1 页）：</p>
+</div>
+<div id="Ch5.S8.SS1.p2" class="ltx_para">
+<ol id="Ch5.S8.I1" class="ltx_enumerate">
+<li id="Ch5.S8.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch5.S8.I1.i1.p1" class="ltx_para">
+<p id="Ch5.S8.I1.i1.p1.1" class="ltx_p" data-translation-id="ch05-0080">推断循环：描述自回归采样如何工作，包括键—值（KV）缓存如何避免解码步骤之间的重复计算。尝试不同参数解码：什么是温度？改变它（尝试 0.1、0.7、1.5）如何影响输出质量和多样性？展示并讨论自己模型的五个代表性例子。</p>
+</div></li>
+<li id="Ch5.S8.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch5.S8.I1.i2.p1" class="ltx_para">
+<p id="Ch5.S8.I1.i2.p1.1" class="ltx_p" data-translation-id="ch05-0081">生产加固：指出 nanochat 推断服务器在生产规模部署之前，需要进行的三项具体工程改动。</p>
+</div></li>
+<li id="Ch5.S8.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch5.S8.I1.i3.p1" class="ltx_para">
+<p id="Ch5.S8.I1.i3.p1.1" class="ltx_p" data-translation-id="ch05-0082">能力比较与缩放：查找至少两个公开可用模型在 ARC-Easy、ARC-Challenge 和 GSM-8K 上发布的基准分数：一个与你的 nanochat 模型规模相近，一个明显更大。可选择任何推断设计的分数（如零样本、少样本等），但须报告具体条件。Hugging Face Hub 上的模型卡和排行榜是良好起点，引用每个所用来源。构建表格，将自己的结果与已发布数据并列。然后回答两问：相对于相似参数数量的模型，你的模型处于什么位置？它与同规模、充分训练模型的差距，揭示了数据质量、训练时长和对齐怎样的作用？</p>
+</div></li>
+</ol>
+</div>
+</section>
+<section id="Ch5.S8.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch05-0083">5.8.2 B 部分：批判性反思</h3>
+
+<div id="Ch5.S8.SS2.p1" class="ltx_para">
+<p id="Ch5.S8.SS2.p1.1" class="ltx_p" data-translation-id="ch05-0084">撰写简短讨论（约 0.5–1 页），回应下列三个题目之一。</p>
+</div>
+<div id="Ch5.S8.SS2.p2" class="ltx_para">
+<blockquote id="Ch5.S8.SS2.p2.1" class="ltx_quote">
+<p id="Ch5.S8.SS2.p2.1.1" class="ltx_p" data-translation-id="ch05-0085">题目 1——可及性与普及：nanochat 的醒目宣称是“100 美元能买到的最佳 ChatGPT”，使个人也能训练大语言模型。批判性评价这一说法。还有谁无法使用这条流水线，为什么？</p>
+</blockquote>
+</div>
+<div id="Ch5.S8.SS2.p3" class="ltx_para">
+<blockquote id="Ch5.S8.SS2.p3.1" class="ltx_quote">
+<p id="Ch5.S8.SS2.p3.1.1" class="ltx_p" data-translation-id="ch05-0086">题目 2——数据与价值观：nanochat 在 CLIMBMix 上预训练，这是基于聚类、迭代自举的数据混合语料库。构建该数据集时作出了哪些决策，其中包含谁的价值观？不同的预训练语料库如何可能带来性质不同的模型？</p>
+</blockquote>
+</div>
+<div id="Ch5.S8.SS2.p4" class="ltx_para">
+<blockquote id="Ch5.S8.SS2.p4.1" class="ltx_quote">
+<p id="Ch5.S8.SS2.p4.1.1" class="ltx_p" data-translation-id="ch05-0087">题目 3——环境成本：nanochat 的“可负担”训练大约消耗 8<math id="Ch5.S8.SS2.p4.m1" class="ltx_Math" alttext="\times" display="inline" intent=":literal"><semantics><mo>×</mo><annotation encoding="application/x-tex">\times</annotation></semantics></math>H100 GPU 的四小时运行。用成熟方法（如 ML CO2 Impact 计算器）估算自己训练的碳成本。55 5 <a href="https://mlco2.impact.compute.org" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://mlco2.impact.compute.org</a> 将它置于大语言模型环境影响的更广背景中。便宜是否等于低影响？</p>
+</blockquote>
+</div>
+<div id="Ch5.S8.SS2.p5" class="ltx_para">
+<p id="Ch5.S8.SS2.p5.1" class="ltx_p" data-translation-id="ch05-0088">A 部分注意：推断循环描述是否正确；生产加固建议是否可行；基准说明是否完整；对最先进水平的讨论是否相关。</p>
+</div>
+<div id="Ch5.S8.SS2.p6" class="ltx_para">
+<p id="Ch5.S8.SS2.p6.1" class="ltx_p" data-translation-id="ch05-0089">B 部分注意：分析深度、证据使用，以及质疑假设的意愿。</p>
+</div>
+</section>
+</section>
+<section id="Ch5.S9" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0090">5.9 推荐阅读</h2>
+
+<div id="Ch5.S9.p1" class="ltx_para">
+<ul id="Ch5.S9.I1" class="ltx_itemize">
+<li id="Ch5.S9.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S9.I1.i1.p1" class="ltx_para">
+<p id="Ch5.S9.I1.i1.p1.1" class="ltx_p" data-translation-id="ch05-0091"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibd.bib3" title="" class="ltx_ref">Vaswani et al. [2017]</a></cite>——原始 Transformer 论文；任务 2 前必读。</p>
+</div></li>
+<li id="Ch5.S9.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S9.I1.i2.p1" class="ltx_para">
+<p id="Ch5.S9.I1.i2.p1.1" class="ltx_p" data-translation-id="ch05-0092"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibd.bib4" title="" class="ltx_ref">Hoffmann et al. [2022]</a></cite>——Chinchilla 缩放定律；任务 2 的缩放定律问题所必需。</p>
+</div></li>
+<li id="Ch5.S9.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S9.I1.i3.p1" class="ltx_para">
+<p id="Ch5.S9.I1.i3.p1.1" class="ltx_p" data-translation-id="ch05-0093"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibd.bib1" title="" class="ltx_ref">Ouyang et al. [2022]</a></cite>——InstructGPT；任务 3 中 SFT 和 RLHF 的基础。</p>
+</div></li>
+<li id="Ch5.S9.I1.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S9.I1.i4.p1" class="ltx_para">
+<p id="Ch5.S9.I1.i4.p1.1" class="ltx_p" data-translation-id="ch05-0094"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibd.bib6" title="" class="ltx_ref">Diao et al. [2026]</a></cite>——CLIMBMix／Nemotron-CLIMB；任务 2 数据集分析问题之前阅读数据整理方法。</p>
+</div></li>
+<li id="Ch5.S9.I1.i5" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S9.I1.i5.p1" class="ltx_para">
+<p id="Ch5.S9.I1.i5.p1.1" class="ltx_p" data-translation-id="ch05-0095"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibd.bib5" title="" class="ltx_ref">Bender et al. [2021]</a></cite>——对大语言模型的批判性视角；与任务 4 反思题目相关。</p>
+</div></li>
+<li id="Ch5.S9.I1.i6" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S9.I1.i6.p1" class="ltx_para">
+<p id="Ch5.S9.I1.i6.p1.1" class="ltx_p" data-translation-id="ch05-0096"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibd.bib8" title="" class="ltx_ref">Hugging Face [2022]</a></cite>——Hugging Face LLM Course；涵盖 transformers、tokenizers、datasets 库和 Hugging Face Hub，为任务 1、3、4 提供有用背景。</p>
+</div></li>
+<li id="Ch5.S9.I1.i7" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch5.S9.I1.i7.p1" class="ltx_para">
+<p id="Ch5.S9.I1.i7.p1.1" class="ltx_p" data-translation-id="ch05-0097"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibd.bib9" title="" class="ltx_ref">Labonne [2023]</a></cite>——Labonne 的 LLM Course；实践路线图涵盖 LoRA／QLoRA、DPO、GGUF／GPTQ 量化及 vLLM／TGI 服务；推荐任务 3 和 4 前阅读。</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch5.S10" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch05-0098">5.10 结语</h2>
+
+<div id="Ch5.S10.p1" class="ltx_para">
+<p id="Ch5.S10.p1.1" class="ltx_p" data-translation-id="ch05-0099">本章以 nanochat 为窗口，考察完整大语言模型训练流水线。你训练了 BPE 词元化器，观察 Transformer 从网页文本学习，使模型适应指令遵循，在标准基准上评估，并将其部署为聊天助手。</p>
+</div>
+<div id="Ch5.S10.p2" class="ltx_para">
+<p id="Ch5.S10.p2.1" class="ltx_p" data-translation-id="ch05-0100">你的深度 4 模型与前沿之间的差距会很明显，因为我们并不期望你有数据中心级计算能力。不过，理论上这些实验可以扩展：以更高深度和更多数据重新运行，应如缩放定律预测那样产生能力更强的模型。完成作业 1 后，你实质上已独自训练了完整大语言模型，也更有能力在未来进行需要更大规模的实验。</p>
+</div>
+</section>
+<section id="bibd" class="ltx_bibliography ltx_list_05_case1_scratch">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibd.L1" class="ltx_biblist">
+<li id="bibd.bib7" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ben Allal <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Ben Allal <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">SmolTalk</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Hugging Face</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://huggingface.co/datasets/HuggingFaceTB/smoltalk" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S2.SS0.SSS0.Px2.p1.1" title="Supervised finetuning (SFT) ‣ 5.2 Background: Karpathy’s nanochat ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§5.2</span></a>.
+</span></li>
+<li id="bibd.bib5" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bender <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. M. Bender, T. Gebru, A. McMillan-Major, and S. Shmitchell</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">On the dangers of stochastic parrots: can language models be too big?</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">FAccT ’21</span>, <span class="ltx_text ltx_bib_place">New York, NY, USA</span>, <span class="ltx_text ltx_bib_pages">pp. 610–623</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text isbn ltx_bib_external">ISBN 9781450383097</span>,
+<a href="https://doi.org/10.1145/3442188.3445922" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1145/3442188.3445922" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S9.I1.i5.p1.1" title="In 5.9 Recommended Reading ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">5th item</span></a>.
+</span></li>
+<li id="bibd.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Diao <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Diao, Y. Yang, Y. Fu, X. Dong, D. Su, M. Kliegl, Z. Chen, P. Belcak, Y. Suhara, H. Yin, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Nemotron-climb: clustering-based iterative data mixture bootstrapping for language model pre-training</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">38</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S2.SS0.SSS0.Px1.p1.1" title="Pretraining ‣ 5.2 Background: Karpathy’s nanochat ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§5.2</span></a>,
+<a href="#Ch5.S9.I1.i4.p1.1" title="In 5.9 Recommended Reading ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">4th item</span></a>.
+</span></li>
+<li id="bibd.bib4" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hoffmann <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Hoffmann, S. Borgeaud, A. Mensch, E. Buchatskaya, T. Cai, E. Rutherford, D. de Las Casas, L. A. Hendricks, J. Welbl, A. Clark, T. Hennigan, E. Noland, K. Millican, G. van den Driessche, B. Damoc, A. Guy, S. Osindero, K. Simonyan, E. Elsen, O. Vinyals, J. W. Rae, and L. Sifre</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Training compute-optimal large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 36th International Conference on Neural Information Processing Systems</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">NIPS ’22</span>, <span class="ltx_text ltx_bib_place">Red Hook, NY, USA</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text isbn ltx_bib_external">ISBN 9781713871088</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S6.I1.i3.I0.i2.p1.1" title="In 3rd item ‣ 5.6.2 Deliverables ‣ 5.6 Task 2: Pretraining ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">item 2</span></a>,
+<a href="#Ch5.S9.I1.i2.p1.1" title="In 5.9 Recommended Reading ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2nd item</span></a>.
+</span></li>
+<li id="bibd.bib8" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hugging Face (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Hugging Face</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The hugging face LLM course</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://huggingface.co/learn/llm-course" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S2.SS0.SSS0.Px3.p1.1" title="Supplementary resources ‣ 5.2 Background: Karpathy’s nanochat ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§5.2</span></a>,
+<a href="#Ch5.S9.I1.i6.p1.1" title="In 5.9 Recommended Reading ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6th item</span></a>.
+</span></li>
+<li id="bibd.bib9" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Labonne (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Labonne</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">LLM course</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://github.com/mlabonne/llm-course" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S2.SS0.SSS0.Px3.p1.1" title="Supplementary resources ‣ 5.2 Background: Karpathy’s nanochat ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§5.2</span></a>,
+<a href="#Ch5.S9.I1.i7.p1.1" title="In 5.9 Recommended Reading ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7th item</span></a>.
+</span></li>
+<li id="bibd.bib1" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ouyang <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Ouyang, J. Wu, X. Jiang, D. Almeida, C. Wainwright, P. Mishkin, C. Zhang, S. Agarwal, K. Slama, A. Ray, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Training language models to follow instructions with human feedback</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 27730–27744</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S2.SS0.SSS0.Px2.p1.1" title="Supervised finetuning (SFT) ‣ 5.2 Background: Karpathy’s nanochat ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§5.2</span></a>,
+<a href="#Ch5.S9.I1.i3.p1.1" title="In 5.9 Recommended Reading ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3rd item</span></a>.
+</span></li>
+<li id="bibd.bib2" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Radford <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, I. Sutskever, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language models are unsupervised multitask learners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">OpenAI blog</span> <span class="ltx_text ltx_bib_volume">1</span> (<span class="ltx_text ltx_bib_number">8</span>), <span class="ltx_text ltx_bib_pages">pp. 9</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S1.p3.1" title="5.1 Building a Chatbot ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§5.1</span></a>.
+</span></li>
+<li id="bibd.bib3" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Vaswani <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Attention is all you need</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">30</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch5.S9.I1.i1.p1.1" title="In 5.9 Recommended Reading ‣ Chapter 5 Case Study 1: Building LLMs from Scratch ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1st item</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch04.html">← 第 4 章</a><a href="index.html">全书目录</a><a href="ch06.html">第 6 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

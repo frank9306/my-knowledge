@@ -1,0 +1,627 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 20 章 进阶：Transformer 与智能体架构 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html" aria-current="page"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html" aria-current="page"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">20 / 23 · 中文翻译</p><section id="Ch20" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch20-0001">第 20 章 *高级 Transformer 与智能体架构</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch20.S1">20.1 Transformer 架构</a></li><li class="level-h3"><a href="#Ch20.S1.SS1">20.1.1 Transformer 是图灵完备的</a></li><li class="level-h3"><a href="#Ch20.S1.SS2">20.1.2 在决策轨迹上预训练回溯能力</a></li><li class="level-h3"><a href="#Ch20.S1.SS3">20.1.3 LoopedLLM 与递归多智能体系统</a></li><li class="level-h2"><a href="#Ch20.S2">20.2 智能体架构</a></li><li class="level-h3"><a href="#Ch20.S2.SS1">20.2.1 上下文强化学习</a></li><li class="level-h3"><a href="#Ch20.S2.SS2">20.2.2 自修改超智能体</a></li><li class="level-h3"><a href="#Ch20.S2.SS3">20.2.3 元智能体</a></li><li class="level-h2"><a href="#Ch20.S3">20.3 结束语</a></li><li class="level-h2"><a href="#bibs">参考文献</a></li></ol></nav></details><div id="Ch20.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch20.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch20.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch20.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch20.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0172">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch20.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch20.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0173">本章将介绍进阶 Transformer 与智能体架构。具体而言，你将能够：</p>
+<ul id="Ch20.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch20.S0.I1.i1" class="ltx_item">
+<div id="Ch20.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch20.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0174">理解图灵完备性的概念，并了解 Transformer 原则上具有图灵完备性。</p>
+</div></li>
+<li id="Ch20.S0.I1.i2" class="ltx_item">
+<div id="Ch20.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch20.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0175">理解当使用决策轨迹而非自然语言进行训练时，Transformer 模型能够执行规划。</p>
+</div></li>
+<li id="Ch20.S0.I1.i3" class="ltx_item">
+<div id="Ch20.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch20.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0176">描述在循环语言模型中，如何跳过分词层，将嵌入直接连接到其他嵌入。</p>
+</div></li>
+<li id="Ch20.S0.I1.i4" class="ltx_item">
+<div id="Ch20.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch20.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0177">描述智能体如何通过存储状态—动作—奖励三元组的历史，在上下文中进行强化学习。</p>
+</div></li>
+<li id="Ch20.S0.I1.i5" class="ltx_item">
+<div id="Ch20.S0.I1.i5.p1" class="ltx_para">
+<p id="Ch20.S0.I1.i5.p1.1" class="ltx_p" data-supplement-id="extra-0178">描述自修改智能体的优点与缺点。</p>
+</div></li>
+<li id="Ch20.S0.I1.i6" class="ltx_item">
+<div id="Ch20.S0.I1.i6.p1" class="ltx_para">
+<p id="Ch20.S0.I1.i6.p1.1" class="ltx_p" data-supplement-id="extra-0179">理解如何将元学习应用于 Harness 设计，创建能够改进基础 Harness 的元 Harness。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch20.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch20-0002">20.1 Transformer 架构</h2>
+
+<div id="Ch20.S1.p1" class="ltx_para">
+<p id="Ch20.S1.p1.1" class="ltx_p" data-translation-id="ch20-0003">大语言模型的成功，为 Transformer 架构催生了有趣的新研究方向。大语言模型擅长语言，却不擅长推理和规划等其他类型的问题。这促使研究者探索 Transformer 所能执行的计算类型的边界，接下来几节将讨论其中一些主题。具体来说，他们提出了 Transformer 是否图灵完备的问题（第 <a href="#Ch20.S1.SS1" title="20.1.1 Transformers are Turing-complete ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.1.1</span></a> 节）。在规划问题上的弱表现，推动了直接使用决策轨迹训练 Transformer 的研究，以检验这样能否让它们具备规划和回溯能力（第 <a href="#Ch20.S1.SS2" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.1.2</span></a> 节）。随后，我们将考察循环语言模型，其中多个模型直接在嵌入层面连接。</p>
+</div>
+<section id="Ch20.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch20-0004">20.1.1 Transformer 是图灵完备的</h3>
+
+<div id="Ch20.S1.SS1.p1" class="ltx_para">
+<p id="Ch20.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch20-0005">大语言模型难以在推理阶段管理状态，这似乎意味着它们能够执行的计算类型有限。在理论计算机科学中，图灵完备性这一概念表示，某种计算模型是否足够强大，能够执行某一类别的任意计算，其中包括正确管理状态值的能力。这一概念由 Alan Turing 在 1936 年的一篇著名论文中提出，他证明了某类机器足够强大，可以做到这一点 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib16" title="" class="ltx_ref">Turing, 1936</a>]</cite>。要称为图灵完备，系统必须能够模拟任何其他计算设备，并处理任何可以用算法表达的问题，尽管为此可能需要无限的时间和内存。事实证明，达到图灵完备并不太难；大多数通用编程语言都是图灵完备的。11 1 例如，Python 编程语言是图灵完备的，而不带反向引用的简单正则表达式匹配则不是。</p>
+</div>
+<div id="Ch20.S1.SS1.p2" class="ltx_para">
+<p id="Ch20.S1.SS1.p2.1" class="ltx_p" data-translation-id="ch20-0006">大语言模型，以及一般的基于 Transformer 的模型，难以管理状态，这似乎说明 Transformer 架构可能并非图灵完备。有趣的是，早在 2021 年，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib40" title="" class="ltx_ref">Pérez et al. [2021]</a></cite> 就研究了这一问题，并证明 Transformer 架构能够模拟图灵机，因此是图灵完备的。</p>
+</div>
+<div id="Ch20.S1.SS1.p3" class="ltx_para">
+<p id="Ch20.S1.SS1.p3.1" class="ltx_p" data-translation-id="ch20-0007">这一结果令人鼓舞，因为它说明，从根本上并不存在 Transformer 无法正确管理状态的理由。问题很可能在于找到正确的提示，或者正确的预训练与微调数据集。</p>
+</div>
+<div id="Ch20.S1.SS1.p4" class="ltx_para">
+<p id="Ch20.S1.SS1.p4.1" class="ltx_p" data-translation-id="ch20-0008">遗憾的是，理论上可行，并不意味着实现起来容易，也不意味着能高效完成。例如，Transformer 架构的某些扩展，可能让高效状态管理更容易实现。下面我们讨论为了让大语言模型高效解决决策与规划问题而发展出的方法。</p>
+</div>
+</section>
+<section id="Ch20.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch20-0009">20.1.2 在决策轨迹上预训练回溯能力</h3>
+
+<div id="Ch20.S1.SS2.p1" class="ltx_para">
+<p id="Ch20.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch20-0010">Transformer 具有图灵完备性的发现，鼓舞了规划和决策研究。本节讨论在决策轨迹上预训练 Transformer 架构并取得良好结果的研究。注意，本节讨论的并非在自然语言上训练的 Transformer，也就是大语言模型，而是在决策轨迹上训练的 Transformer。</p>
+</div>
+<figure id="Ch20.F1" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/cartpole.png" id="Ch20.F1.g1" class="ltx_graphics ltx_centering ltx_img_square" style="aspect-ratio:238/211;" width="238" height="211" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch20-0011">图 20.1：Cartpole 问题：仅通过左右移动小车来保持杆的平衡</figcaption>
+</figure>
+<div id="Ch20.S1.SS2.p2" class="ltx_para">
+<p id="Ch20.S1.SS2.p2.1" class="ltx_p" data-translation-id="ch20-0012">首先讨论直接在决策轨迹上预训练 Transformer：输入是状态—动作—奖励三元组序列，而不是语言词元。多项工作研究能否训练 Transformer 网络执行强化学习，即从反馈中学习、执行学到的策略，以及通过探索学会更好的动作。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib14" title="" class="ltx_ref">Chen et al. [2021]</a>, <a href="#bibs.bib15" title="" class="ltx_ref">Lee et al. [2023]</a>, <a href="#bibs.bib18" title="" class="ltx_ref">Wang et al. [2024]</a></cite> 表明，基本的 Transformer 架构确实可以在典型规划问题的决策轨迹上预训练和微调。当一个空白的、未经过语言训练的 Transformer 在决策轨迹上预训练后，它可以表现出上下文强化学习（ICRL）。目前，这一点已在 Boyan 链和 Cartpole 等玩具问题中得到验证，见图 <a href="#Ch20.F1" title="Figure 20.1 ‣ 20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.1</span></a>。此外，在国际象棋和 Hex 游戏中，通过在极小极大 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib11" title="" class="ltx_ref">Markeeva et al., 2024</a>, <a href="#bibs.bib10" title="" class="ltx_ref">Knuth and Moore, 1975</a>]</cite> 和 MCTS <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib37" title="" class="ltx_ref">Browne et al., 2012</a>]</cite> 搜索轨迹上预训练决策 Transformer，也取得了令人鼓舞的结果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib39" title="" class="ltx_ref">Schultz et al., 2024</a>, <a href="#bibs.bib17" title="" class="ltx_ref">Kempinski et al., 2025</a>]</cite>。Transformer 能够学会向前看若干步并进行搜索。其他工作也报告了在 Othello 游戏中的良好结果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib1" title="" class="ltx_ref">Li et al., 2023</a>, <a href="#bibs.bib17" title="" class="ltx_ref">Kempinski et al., 2025</a>, <a href="#bibs.bib12" title="" class="ltx_ref">Chen et al., 2025</a>]</cite>。</p>
+</div>
+<div id="Ch20.S1.SS2.p3" class="ltx_para">
+<p id="Ch20.S1.SS2.p3.1" class="ltx_p" data-translation-id="ch20-0013">另一项研究如何训练 Transformer 架构进行决策的工作，是自回溯 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib23" title="" class="ltx_ref">Yang et al., 2026a</a>]</cite>。在这种方法中，模型同样在决策轨迹上训练，但引入了一种新的词元 <math id="Ch20.S1.SS2.p3.m1" class="ltx_Math" alttext="&lt;" display="inline" intent=":literal"><semantics><mo>&lt;</mo><annotation encoding="application/x-tex">&lt;</annotation></semantics></math>backtrack<math id="Ch20.S1.SS2.p3.m2" class="ltx_Math" alttext="&gt;" display="inline" intent=":literal"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math>，提示模型在推理阶段显式回溯。模型使用决策数据集训练，在训练过程中遇到错误时，学习 <math id="Ch20.S1.SS2.p3.m3" class="ltx_Math" alttext="&lt;" display="inline" intent=":literal"><semantics><mo>&lt;</mo><annotation encoding="application/x-tex">&lt;</annotation></semantics></math>backtrack<math id="Ch20.S1.SS2.p3.m4" class="ltx_Math" alttext="&gt;" display="inline" intent=":literal"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math> 词元，以寻找替代解。于是，在推理阶段就会执行这种回溯。模型运行由扩展、回溯和选择构成的机制，以考察当前状态的其他可选解。</p>
+</div>
+<div id="Ch20.S1.SS2.p4" class="ltx_para">
+<p id="Ch20.S1.SS2.p4.1" class="ltx_p" data-translation-id="ch20-0014">与小型 DeepSeek-R1 和 Qwen3 版本上的标准基线相比，自回溯方法在 24 点游戏和迷宫导航等典型规划问题上报告了良好结果。通过引入新的词元类型和模型中的新回溯功能，这种方法让增强的 Transformer 模型能够执行搜索，模糊了训练与推理之间的界线。</p>
+</div>
+<div id="Ch20.S1.SS2.p5" class="ltx_para">
+<p id="Ch20.S1.SS2.p5.1" class="ltx_p" data-translation-id="ch20-0015">这些结果令人鼓舞，尽管 Transformer 在状态管理方面的弱点究竟解决了多少，仍是开放问题。在更大问题上执行推理阶段的 ICRL，是一个活跃研究领域。</p>
+</div>
+</section>
+<section id="Ch20.S1.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch20-0016">20.1.3 LoopedLLM 与递归多智能体系统</h3>
+
+<div id="Ch20.S1.SS3.p1" class="ltx_para">
+<p id="Ch20.S1.SS3.p1.1" class="ltx_p" data-translation-id="ch20-0017">提升 Transformer 的表达能力，使其更接近通用编程架构。我们将讨论另两个发展方向：循环语言模型和递归系统。</p>
+</div>
+<div id="Ch20.S1.SS3.p2" class="ltx_para">
+<p id="Ch20.S1.SS3.p2.1" class="ltx_p" data-translation-id="ch20-0018">在语言层面连接大语言模型智能体很容易：让它们使用各自都受过训练的自然语言彼此交谈即可。然而，这需要多次分词和反分词，不仅耗时，还会引入嵌入之间的差异。我们能否绕过分词器，直接连接嵌入，并在这一层面进行训练和推理？</p>
+</div>
+<div id="Ch20.S1.SS3.p3" class="ltx_para">
+<p id="Ch20.S1.SS3.p3.1" class="ltx_p" data-translation-id="ch20-0019"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib36" title="" class="ltx_ref">Giannou et al. [2023]</a></cite> 展示了循环 Transformer 如何模拟基础计算器、基础线性代数库，以及采用反向传播的上下文学习算法。循环 Transformer 的输入神经元，直接连接到同一模型或另一模型的 Transformer 输出神经元。循环 Transformer 是一种强大的架构，例如可参见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib28" title="" class="ltx_ref">Yang et al. [2023]</a>, <a href="#bibs.bib30" title="" class="ltx_ref">Saunshi et al. [2025]</a>, <a href="#bibs.bib29" title="" class="ltx_ref">Zhu et al. [2025]</a></cite>。</p>
+</div>
+<div id="Ch20.S1.SS3.p4" class="ltx_para">
+<p id="Ch20.S1.SS3.p4.1" class="ltx_p" data-translation-id="ch20-0020">嵌入到嵌入直接连接的进一步发展，是递归多智能体系统 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib13" title="" class="ltx_ref">Yang et al., 2026b</a>]</cite>。这种方法将异构智能体连接在协作循环中，实现分布内的潜在思维生成，以及跨智能体的潜在状态迁移。内外循环学习算法，也就是第 <a href="ch08.html#Ch8" title="Chapter 8 Metalearning ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">8</span></a> 章所述的元学习，通过跨递归轮次共享基于梯度的信用分配，对整个系统进行协同优化。使用四个智能体，在数学、科学、医学、搜索和代码生成基准上的实验显示，多智能体训练能够稳定进行。与其他单智能体、多智能体及递归基线相比，准确率提高了几个百分点，推理速度翻倍，词元使用量也以相近比例减少。</p>
+</div>
+<div id="Ch20.S1.SS3.p5" class="ltx_para">
+<p id="Ch20.S1.SS3.p5.1" class="ltx_p" data-translation-id="ch20-0021">RecursiveMAS 的一项创新是引入两级递归链接。训练多智能体系统十分困难，因为梯度必须流经多个模型，这一过程可能变得不稳定。RecursiveMAS 通过冻结底层大语言模型的参数，仅训练轻量的 RecursiveLink 模块，改善这一过程。训练分两个阶段进行。</p>
+</div>
+</section>
+</section>
+<section id="Ch20.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch20-0022">20.2 智能体架构</h2>
+
+<div id="Ch20.S2.p1" class="ltx_para">
+<p id="Ch20.S2.p1.1" class="ltx_p" data-translation-id="ch20-0023">除了新的 Transformer 架构，智能体式大语言模型研究也催生了高级智能体架构。首先考察上下文强化学习，我们将看到，当提示中给出状态—动作—奖励三元组历史时，大语言模型能够进行策略改进。其次考察自修改智能体，并讨论这种方法的优缺点。最后，我们讨论元智能体。</p>
+</div>
+<figure id="Ch20.F2" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch20.F2.pic1" class="ltx_picture ltx_centering" height="83.23" overflow="visible" version="1.1" viewbox="0 0 361.75 83.23" width="361.75"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,83.23) matrix(1 0 0 -1 0 0) translate(189.17,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 104.84 31.5 L -104.84 31.5 C -107.9 31.5 -110.38 29.02 -110.38 25.96 L -110.38 13.41 C -110.38 10.35 -107.9 7.87 -104.84 7.87 L 104.84 7.87 C 107.9 7.87 110.38 10.35 110.38 13.41 L 110.38 25.96 C 110.38 29.02 107.9 31.5 104.84 31.5 Z M -110.38 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -105.77 16.21)"><foreignobject style="--ltx-fo-width:6.32em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="87.48" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0180">环境：<math id="Ch20.F2.pic1.m1" class="ltx_Math" alttext="T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><mo>,</mo><mrow><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 82.58 90.55 L -82.58 90.55 C -85.63 90.55 -88.11 88.07 -88.11 85.02 L -88.11 72.46 C -88.11 69.41 -85.63 66.93 -82.58 66.93 L 82.58 66.93 C 85.63 66.93 88.11 69.41 88.11 72.46 L 88.11 85.02 C 88.11 88.07 85.63 90.55 82.58 90.55 Z M -88.11 66.93"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -83.5 75.28)"><foreignobject style="--ltx-fo-width:7.84em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="108.51" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0181">智能体：<math id="Ch20.F2.pic1.m2" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 改进 <math id="Ch20.F2.pic1.m3" class="ltx_Math" alttext="\pi_{\theta}(s)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">\pi_{\theta}(s)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -110.65 19.69"></path><path style="fill:none" d="M -110.65 19.69 C -172.31 19.69 -150.04 78.74 -89.51 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -89.51 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -184.56 45.74)"><foreignobject style="--ltx-fo-width:2.45em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="33.91" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch20.F2.pic1.m4" class="ltx_Math" alttext="(s^{\prime},r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s^{\prime},r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 88.39 78.74"></path><path style="fill:none" d="M 88.39 78.74 C 150.04 78.74 172.31 19.69 111.78 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 111.78 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 150.65 46.23)"><foreignobject style="--ltx-fo-width:0.53em;--ltx-fo-height:0.43em;--ltx-fo-depth:0em;font-size:10pt;" height="5.96" overflow="visible" transform="matrix(1 0 0 -1 0 5.96)" width="7.31" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch20.F2.pic1.m5" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch20-0024">图 20.2：作为参考，标准强化学习循环中，智能体依据策略 <math id="Ch20.F2.m10" class="ltx_Math" alttext="\pi_{\theta}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mi>θ</mi></msub><annotation encoding="application/x-tex">\pi_{\theta}</annotation></semantics></math> 等选择动作 <math id="Ch20.F2.m9" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>，从环境返回的反馈奖励 <math id="Ch20.F2.m8" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 中学习由 <math id="Ch20.F2.m6" class="ltx_Math" alttext="\theta" display="inline" intent=":literal"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> 参数化的策略 <math id="Ch20.F2.m7" class="ltx_Math" alttext="\pi_{\theta}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mi>θ</mi></msub><annotation encoding="application/x-tex">\pi_{\theta}</annotation></semantics></math>。<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib38" title="" class="ltx_ref">Sutton and Barto, 2018</a>]</cite></figcaption>
+</figure>
+<section id="Ch20.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch20-0025">20.2.1 上下文强化学习</h3>
+
+<div id="Ch20.S2.SS1.p1" class="ltx_para">
+<p id="Ch20.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch20-0026">回顾第 <a href="ch02.html#Ch2.S2.SS3" title="2.2.3 Reinforcement Learning ‣ 2.2 Machine Learning Methods For Natural Language Processing ‣ Chapter 2 Foundations of Language Modeling with LLMs ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2.2.3</span></a> 节，强化学习的目标是计算一个对每个状态都给出最优动作的策略 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib38" title="" class="ltx_ref">Sutton and Barto, 2018</a>]</cite>。当智能体逐渐收敛到这一策略时，它在每个时间步从环境反馈，也就是奖励中学习这些动作。奖励强化了智能体对策略在各状态下所选动作的信心，见图 <a href="#Ch20.F2" title="Figure 20.2 ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.2</span></a>。上一节的自我反思方法，为智能体 Harness（运行支架）借用了许多强化学习思想。下面讨论通过上下文强化学习优化提示的相关方法，其中由大语言模型执行提示改进。</p>
+</div>
+<div id="Ch20.S2.SS1.p2" class="ltx_para">
+<p id="Ch20.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch20-0027">研究者观察到，当外部提示优化器向大语言模型提供环境历史时，模型中会直接涌现类似强化学习的机制：某些自我反思循环中的大语言模型能够执行策略改进。这一现象称为上下文强化学习（ICRL）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib21" title="" class="ltx_ref">Song et al., 2025</a>]</cite>，见图 <a href="#Ch20.F3" title="Figure 20.3 ‣ 20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.3</span></a>。</p>
+</div>
+<div id="Ch20.S2.SS1.p3" class="ltx_para">
+<p id="Ch20.S2.SS1.p3.1" class="ltx_p" data-translation-id="ch20-0028"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib19" title="" class="ltx_ref">Krishnamurthy et al. [2024]</a></cite> 提出了一个问题：在语言上训练的通用大语言模型，能否在上下文中探索，又能否从反馈中进行上下文学习？此后多项研究对这一问题给出了肯定答案 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib20" title="" class="ltx_ref">Demircan et al., 2024</a>, <a href="#bibs.bib21" title="" class="ltx_ref">Song et al., 2025</a>, <a href="#bibs.bib22" title="" class="ltx_ref">Moeini et al., 2025</a>, <a href="#bibs.bib41" title="" class="ltx_ref">Monea et al., 2024</a>, <a href="#bibs.bib42" title="" class="ltx_ref">Nie et al., 2024</a>, <a href="#bibs.bib18" title="" class="ltx_ref">Wang et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch20.S2.SS1.p4" class="ltx_para">
+<p id="Ch20.S2.SS1.p4.1" class="ltx_p" data-translation-id="ch20-0029">在 ICRL 中，外部 Harness 迭代调用大语言模型，在上下文中向其输入动作、状态和奖励三元组序列（图 <a href="#Ch20.F3" title="Figure 20.3 ‣ 20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.3</span></a>）。每轮迭代都会扩充三元组历史。大语言模型则通过改进其隐式策略作出响应，在每轮迭代中给出越来越好的动作选择；因此，我们认为，它在模型内部执行了强化学习的核心过程。</p>
+</div>
+<div id="Ch20.S2.SS1.p5" class="ltx_para">
+<p id="Ch20.S2.SS1.p5.1" class="ltx_p" data-translation-id="ch20-0030">在 ICRL 中，智能体算法选择动作，采样一个步骤，并从环境获取答案，即状态—奖励对，见图 <a href="#Ch20.F3" title="Figure 20.3 ‣ 20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.3</span></a>。马尔可夫决策过程（MDP）是一种计算下一个状态所需的全部相关信息，都包含在前一个状态与所采取动作中的过程。因此，策略大语言模型的提示包含所有相关信息：它积累 <math id="Ch20.S2.SS1.p5.m1" class="ltx_Math" alttext="(s,a,r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s,a,r)</annotation></semantics></math> 三元组历史，大语言模型可以利用这些历史，改进为每个状态选择最佳动作的策略。</p>
+</div>
+<figure id="Ch20.F3" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch20.F3.pic1" class="ltx_picture ltx_centering" height="83.23" overflow="visible" version="1.1" viewbox="0 0 436.49 83.23" width="436.49"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,83.23) matrix(1 0 0 -1 0 0) translate(259.51,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 104.84 31.5 L -104.84 31.5 C -107.9 31.5 -110.38 29.02 -110.38 25.96 L -110.38 13.41 C -110.38 10.35 -107.9 7.87 -104.84 7.87 L 104.84 7.87 C 107.9 7.87 110.38 10.35 110.38 13.41 L 110.38 25.96 C 110.38 29.02 107.9 31.5 104.84 31.5 Z M -110.38 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -105.77 16.21)"><foreignobject style="--ltx-fo-width:6.32em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="87.48" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0182">环境：<math id="Ch20.F3.pic1.m1" class="ltx_Math" alttext="T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><mo>,</mo><mrow><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 71.87 90.55 L -71.87 90.55 C -74.92 90.55 -77.4 88.07 -77.4 85.02 L -77.4 72.46 C -77.4 69.41 -74.92 66.93 -71.87 66.93 L 71.87 66.93 C 74.92 66.93 77.4 69.41 77.4 72.46 L 77.4 85.02 C 77.4 88.07 74.92 90.55 71.87 90.55 Z M -77.4 66.93"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -72.79 75.28)"><foreignobject style="--ltx-fo-width:3.25em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="44.97" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0183">智能体：<math id="Ch20.F3.pic1.m2" class="ltx_Math" alttext="\pi_{LLM_{P\pi}}(s,r)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><msub><mi>π</mi><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>π</mi></mrow></msub></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">\pi_{LLM_{P\pi}}(s,r)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -110.65 19.69"></path><path style="fill:none" d="M -110.65 19.69 C -176.71 19.69 -143.74 78.74 -78.8 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -78.8 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -254.89 45.74)"><foreignobject style="--ltx-fo-width:3.37em;--ltx-fo-height:0.69em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.3" overflow="visible" transform="matrix(1 0 0 -1 0 9.61)" width="46.62" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0184">历史 <math id="Ch20.F3.pic1.m3" class="ltx_Math" alttext="\cup(s^{\prime},a,r)" display="inline" intent=":literal"><semantics><mrow><mo rspace="0em">∪</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\cup(s^{\prime},a,r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 77.68 78.74"></path><path style="fill:none" d="M 77.68 78.74 C 143.74 78.74 176.71 19.69 111.78 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 111.78 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 148.6 46.23)"><foreignobject style="--ltx-fo-width:0.53em;--ltx-fo-height:0.43em;--ltx-fo-depth:0em;font-size:10pt;" height="5.96" overflow="visible" transform="matrix(1 0 0 -1 0 5.96)" width="7.31" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch20.F3.pic1.m4" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch20-0031">图 20.3：ICRL：使用强化学习优化提示</figcaption>
+</figure>
+<div id="Ch20.S2.SS1.p6" class="ltx_para">
+<p id="Ch20.S2.SS1.p6.1" class="ltx_p" data-translation-id="ch20-0032">对于状态，回答历史是一个自然选择，但一般而言，如何将大语言模型提示改进最佳地建模为 MDP，仍是活跃研究领域。</p>
+</div>
+<div id="Ch20.S2.SS1.p7" class="ltx_para">
+<p id="Ch20.S2.SS1.p7.1" class="ltx_p" data-translation-id="ch20-0033">在 ICRL 中，智能体使用大语言模型作为策略函数。也可以像自我反思 Harness 那样，以不同提示让大语言模型扮演环境。</p>
+</div>
+<div id="Ch20.S2.SS1.p8" class="ltx_para">
+<p id="Ch20.S2.SS1.p8.1" class="ltx_p" data-translation-id="ch20-0034">上下文强化学习发生在多轮提示 Harness 中：环境大语言模型在当前轮生成回复后，由大语言模型为刚刚计算出的回复计算数值奖励。下一轮，系统用同样的任务再次提示智能体大语言模型，但此时上下文已包含之前的回复和奖励。随着上下文变长，智能体大语言模型的回复质量提高。就像强化学习算法一样，大语言模型能够在推理阶段最大化数值奖励。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib21" title="" class="ltx_ref">Song et al. [2025]</a></cite> 报告了如何在思维树的应用中验证 ICRL 方法，包括 24 点游戏、创意写作和 ScienceWorld，表现超过 Self-Refine 和 Reflexion。</p>
+</div>
+<div id="Ch20.S2.SS1.p9" class="ltx_para">
+<p id="Ch20.S2.SS1.p9.1" class="ltx_p" data-translation-id="ch20-0035">ICRL 过程在大语言模型内部如何运行？在推理阶段，大语言模型通过 Transformer 网络执行前向传播，计算推理词元。研究发现，这一前向传播会隐式执行强化学习 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib18" title="" class="ltx_ref">Wang et al., 2024</a>]</cite>。换言之，权重内学习，是模型在训练时通过训练所得权重学到了正确答案；上下文学习，是模型在推理时通过上下文提供的少样本示例学到正确答案；上下文强化学习，则是大语言模型对自己通过推理产生的、不断增长的状态—动作—奖励三元组序列，使用表面看来类似强化学习的方式，学到正确答案。因此，当上下文中给出一系列提示或历史时，优化策略的强化算法，由大语言模型的前向传播，也就是推理步骤，隐式执行。</p>
+</div>
+<div id="Ch20.S2.SS1.p10" class="ltx_para">
+<p id="Ch20.S2.SS1.p10.1" class="ltx_p" data-translation-id="ch20-0036">注意，大语言模型既可作为智能体充当策略优化器，也可作为环境，计算下一个状态和奖励。为了确保智能体在学习时不会意外利用环境的知识，最好使用一个独立的大语言模型。这同样是活跃的研究领域。</p>
+</div>
+</section>
+<section id="Ch20.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch20-0037">20.2.2 自修改超智能体</h3>
+
+<div id="Ch20.S2.SS2.p1" class="ltx_para">
+<p id="Ch20.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch20-0038">本书讨论过基于搜索算法和强化学习的自我反思提示改进器。这些外部算法的代码由人类研究人员编写，在智能体学习过程中不会改变。提示改进的方式受到这些静态算法的限制。</p>
+</div>
+<div id="Ch20.S2.SS2.p2" class="ltx_para">
+<p id="Ch20.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch20-0039">大语言模型擅长操作和评判计算机代码 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib35" title="" class="ltx_ref">Zhuge et al., 2024</a>]</cite>。原则上，我们可以轻易要求它们生成智能体提示 Harness，或上下文强化学习 Harness 的代码。甚至可以要求大语言模型在某个具体问题实例上运行代码，再根据实验结果，要求它改进提示改进器的代码。如果大语言模型善于利用实验结果编写提示改进代码，这种方法可能比已发表文献中的标准方法更好。</p>
+</div>
+<div id="Ch20.S2.SS2.p3" class="ltx_para">
+<p id="Ch20.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch20-0040">自修改代码，即在执行过程中改变自身指令的计算机程序，在计算机科学中有悠久历史 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib24" title="" class="ltx_ref">Cai et al., 2007</a>]</cite>，可用作条件分支语句的替代。许多计算机语言都支持它，从汇编语言到 Lisp <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib25" title="" class="ltx_ref">Abelson and Sussman, 2022</a>]</cite> 和 Python。它是一种强大的方法，可用于提升性能，例如即时编译 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib34" title="" class="ltx_ref">Ansel et al., 2011</a>]</cite>。然而，程序会变得更难预测，可能导致程序错误难以查找，并引发安全问题。因此，在程序可预测性很重要时，有时会不鼓励采用这种方法。</p>
+</div>
+<div id="Ch20.S2.SS2.p4" class="ltx_para">
+<p id="Ch20.S2.SS2.p4.1" class="ltx_p" data-translation-id="ch20-0041">自修改智能体的一项优势是开放性：它们能够持续自我改进，不受静态算法设定的固定边界限制 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib32" title="" class="ltx_ref">Schmidhuber, 2007</a>]</cite>。挑战在于如何安全地做到这一点 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib33" title="" class="ltx_ref">Zhang et al., 2026b</a>]</cite>。在 Darwin-Gödel-Machine-Hyperagents 中，作者将（1）解决目标任务的智能体，与（2）修改自身及任务智能体的元智能体，整合到一个可编辑的程序中。注意，元层级的修改过程本身也可编辑，从而实现自修改。原则上，这不仅允许改进任务求解行为，还允许改进产生未来改进的机制 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib27" title="" class="ltx_ref">Zhang et al., 2026c</a>]</cite>。然而，实验并未达到完全开放，因为它们采用了固定的任务分布，以及固定的父代选择和评估协议。</p>
+</div>
+<div id="Ch20.S2.SS2.p5" class="ltx_para">
+<p id="Ch20.S2.SS2.p5.1" class="ltx_p" data-translation-id="ch20-0042">方法变得越开放，一个颇具悖论的挑战就越突出：控制改进过程，确保它不退化，而是持续进步 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib26" title="" class="ltx_ref">Cemri et al., 2025</a>, <a href="#bibs.bib31" title="" class="ltx_ref">Ecoffet et al., 2020</a>]</cite>。一般而言，强大元学习方法的问题在于确保学习过程稳定。强大的生成需要强大的评估，也就是适应环境。</p>
+</div>
+</section>
+<section id="Ch20.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch20-0043">20.2.3 元智能体</h3>
+
+<div id="Ch20.S2.SS3.p1" class="ltx_para">
+<p id="Ch20.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch20-0044">我们在许多自我反思方法中看到的元学习两级优化过程，可以作为显式设计原则，用于智能体 Harness 设计。近期已有若干此类架构发表。在这些设计中，内层学习循环由 Harness 与大语言模型组成，外层学习循环则改进内层 Harness 的配置。内层 Harness 配置通常执行提示管理、记忆管理、工具使用，以及安全与控制，可以用语言或代码表示。外层循环分析内层循环的执行轨迹，以改进内层 Harness 的配置或代码。下面简要介绍一些方法。</p>
+</div>
+<div id="Ch20.S2.SS3.p2" class="ltx_para">
+<p id="Ch20.S2.SS3.p2.1" class="ltx_p" data-translation-id="ch20-0045">自我改进编程智能体 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib8" title="" class="ltx_ref">Robeyns et al., 2025</a>]</cite> 基于自修改智能体思想。研究者展示了，配备基本编程工具的智能体系统能够自主编辑自身。他们的方法改善了软件工程基准任务上的表现，将性能从 17% 显著提升至 53%。</p>
+</div>
+<figure id="Ch20.F4" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/metaharness.png" id="Ch20.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/159;" width="476" height="159" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch20-0046">图 20.4：Meta Harness 方法示意 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib2" title="" class="ltx_ref">Lee et al., 2026</a>]</cite></figcaption>
+</figure>
+<div id="Ch20.S2.SS3.p3" class="ltx_para">
+<p id="Ch20.S2.SS3.p3.1" class="ltx_p" data-translation-id="ch20-0047">Meta Harness <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib2" title="" class="ltx_ref">Lee et al., 2026</a>]</cite> 利用外部记忆和文本优化，也取得了良好结果。图 <a href="#Ch20.F4" title="Figure 20.4 ‣ 20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.4</span></a> 展示了 Meta Harness 的工作方式。（1）文件系统保存所有先前候选方案的源代码、执行轨迹和分数；智能体阅读这些内容，并生成新 Harness 的代码。（2）在评估任务上评估提出的 Harness。（3）将所有提出的代码、推理轨迹和评估分数存入文件系统的新目录，然后重复循环。</p>
+</div>
+<div id="Ch20.S2.SS3.p4" class="ltx_para">
+<p id="Ch20.S2.SS3.p4.1" class="ltx_p" data-translation-id="ch20-0048">Self Harness <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib7" title="" class="ltx_ref">Zhang et al., 2026a</a>]</cite> 和 Agentic Harness Engineering <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib6" title="" class="ltx_ref">Lin et al., 2026</a>]</cite> 进一步探索 Harness 设计，在软件工程任务上取得了显著提升。递归自演化智能体 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib5" title="" class="ltx_ref">Nguyen et al., 2026</a>]</cite> 则重点关注自我改进智能体的选择环节。</p>
+</div>
+<div id="Ch20.S2.SS3.p5" class="ltx_para">
+<p id="Ch20.S2.SS3.p5.1" class="ltx_p" data-translation-id="ch20-0049"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib9" title="" class="ltx_ref">Luo et al. [2026]</a></cite> 描述了另一种用例。他们使用元 Harness 设计一个将科学论文转换为会议海报的 Harness。因此，这项工作在两个层面有所贡献：构造元 Harness 的方法，以及一个具体的海报设计 Harness——显然，作者也将它用于自己的论文。</p>
+</div>
+<figure id="Ch20.F5" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/shepherd.png" id="Ch20.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/270;" width="476" height="270" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch20-0050">图 20.5：Shepherd 元智能体环境示意 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib4" title="" class="ltx_ref">Yu et al., 2026</a>]</cite></figcaption>
+</figure>
+<div id="Ch20.S2.SS3.p6" class="ltx_para">
+<p id="Ch20.S2.SS3.p6.1" class="ltx_p" data-translation-id="ch20-0051">Shepherd 系统 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibs.bib4" title="" class="ltx_ref">Yu et al., 2026</a>]</cite> 提供了函数式元智能体编程环境。22 2 <a href="https://shepherd-agents.ai" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://shepherd-agents.ai</a> Shepherd 将大语言模型智能体定义为 Python 函数，使其执行轨迹可以被监控、回滚、分叉、修改和恢复。早期实验显示，在三个不同基准上均取得了显著性能提升，如图 <a href="#Ch20.F5" title="Figure 20.5 ‣ 20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.5</span></a> 所示。</p>
+</div>
+<div id="Ch20.S2.SS3.p7" class="ltx_para">
+<p id="Ch20.S2.SS3.p7.1" class="ltx_p" data-translation-id="ch20-0052"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibs.bib3" title="" class="ltx_ref">Ren et al. [2026]</a></cite> 是一篇全面综述，介绍了更多自我改进智能体设计方法。其分类体系明确承认两级架构。</p>
+</div>
+</section>
+</section>
+<section id="Ch20.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch20-0053">20.3 结束语</h2>
+
+<div id="Ch20.S3.p1" class="ltx_para">
+<p id="Ch20.S3.p1.1" class="ltx_p" data-translation-id="ch20-0054">本章在 Transformer 层面和智能体层面讨论了一些高级架构。这两个领域的研究都十分活跃。</p>
+</div>
+</section>
+<section id="bibs" class="ltx_bibliography ltx_list_20_advanced_arch">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibs.L1" class="ltx_biblist">
+<li id="bibs.bib25" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Abelson and Sussman (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Abelson and G. J. Sussman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Structure and interpretation of computer programs: javascript edition</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">MIT press</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p3.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib34" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ansel <span class="ltx_text ltx_bib_etal">et al.</span> (2011)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Ansel, P. Marchenko, U. Erlingsson, E. Taylor, B. Chen, D. L. Schuff, D. Sehr, C. L. Biffle, and B. Yee</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language-independent sandboxing of just-in-time compilation and self-modifying code</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 32nd ACM SIGPLAN conference on Programming language design and implementation</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 355–366</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p3.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib37" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Browne <span class="ltx_text ltx_bib_etal">et al.</span> (2012)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. B. Browne, E. Powley, D. Whitehouse, S. M. Lucas, P. I. Cowling, P. Rohlfshagen, S. Tavener, D. Perez, S. Samothrakis, and S. Colton</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey of monte carlo tree search methods</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">IEEE Transactions on Computational Intelligence and AI in games</span> <span class="ltx_text ltx_bib_volume">4</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 1–43</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib24" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Cai <span class="ltx_text ltx_bib_etal">et al.</span> (2007)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Cai, Z. Shao, and A. Vaynberg</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Certified self-modifying code</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 28th ACM SIGPLAN Conference on Programming Language Design and Implementation</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 66–77</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p3.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Cemri <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Cemri, M. Z. Pan, S. Yang, L. A. Agrawal, B. Chopra, R. Tiwari, K. Keutzer, A. Parameswaran, D. Klein, K. Ramchandran, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Why do multi-agent llm systems fail?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2503.13657</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p5.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Chen, K. Lu, A. Rajeswaran, K. Lee, A. Grover, M. Laskin, P. Abbeel, A. Srinivas, and I. Mordatch</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Decision transformer: reinforcement learning via sequence modeling</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">34</span>, <span class="ltx_text ltx_bib_pages">pp. 15084–15097</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Chen, Y. Yuan, J. Li, S. Belongie, M. de Rijke, and A. Søgaard</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">What if othello-playing language models could see?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2507.14520</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Demircan <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Demircan, T. Saanum, A. K. Jagadish, M. Binz, and E. Schulz</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Sparse autoencoders reveal temporal difference learning in large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.01280</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS1.p3.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib31" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ecoffet <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Ecoffet, J. Clune, and J. Lehman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Open questions in creating safe open-ended ai: tensions between control and creativity</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Artificial Life Conference Proceedings 32</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 27–35</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p5.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib36" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Giannou <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Giannou, S. Rajput, J. Sohn, K. Lee, J. D. Lee, and D. Papailiopoulos</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Looped transformers as programmable computers</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Machine Learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 11398–11442</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS3.p3.1" title="20.1.3 LoopedLLM and Recursive Multi-Agent Systems ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.3</span></a>.
+</span></li>
+<li id="bibs.bib17" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kempinski <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Kempinski, I. Gemp, K. Larson, M. Lanctot, Y. Bachrach, and T. Kachman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Game of thoughts: iterative reasoning in game-theoretic domains with large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proc. of the 24th International Conference on Autonomous Agents and Multiagent Systems</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1088–1097</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Knuth and Moore (1975)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. E. Knuth and R. W. Moore</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">An analysis of alpha-beta pruning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Artificial intelligence</span> <span class="ltx_text ltx_bib_volume">6</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 293–326</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Krishnamurthy <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Krishnamurthy, K. Harris, D. J. Foster, C. Zhang, and A. Slivkins</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Can large language models explore in-context?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2403.15371</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS1.p3.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib15" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lee <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Lee, A. Xie, A. Pacchiano, Y. Chandak, C. Finn, O. Nachum, and E. Brunskill</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Supervised pretraining can learn in-context reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 43057–43083</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib2" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lee <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Lee, R. Nair, Q. Zhang, K. Lee, O. Khattab, and C. Finn</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Meta-harness: end-to-end optimization of model harnesses</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2603.28052</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.F4" title="In 20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 20.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch20.F4.4" title="In 20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 20.4</span></a>,
+<a href="#Ch20.S2.SS3.p3.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib1" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Li, A. K. Hopkins, D. Bau, F. Viégas, H. Pfister, and M. Wattenberg</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Emergent world representations: exploring a sequence model trained on a synthetic task</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">The Eleventh International Conference on Learning Representations</span>,
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://openreview.net/forum?id=DeG07_TcZvT" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lin <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Lin, S. Liu, C. Pan, L. Lin, S. Dou, Z. Xi, X. Huang, H. Yan, Z. Han, T. Gui, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agentic harness engineering: observability-driven automatic evolution of coding-agent harnesses</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2604.25850</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS3.p4.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Luo <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Luo, H. Jiang, J. Zou, X. Huang, W. Yan, H. Li, Z. Yue, J. Li, X. Chen, X. Zhao, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">AutoDesign: meta-harness optimization for long-horizon agentic design</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2608.13560</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS3.p5.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Markeeva <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Markeeva, S. McLeish, B. Ibarz, W. Bounsi, O. Kozlova, A. Vitvitskyi, C. Blundell, T. Goldstein, A. Schwarzschild, and P. Veličković</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The clrs-text algorithmic reasoning language benchmark</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2406.04229</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib22" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Moeini <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Moeini, J. Wang, J. Beck, E. Blaser, S. Whiteson, R. Chandra, and S. Zhang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey of in-context reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.07978</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS1.p3.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib41" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Monea <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. Monea, A. Bosselut, K. Brantley, and Y. Artzi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Llms are in-context reinforcement learners</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS1.p3.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib5" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nguyen <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Nguyen, Q. Nguyen, and P. Vuong</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Recursive self-evolving agents via held-out selection</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2606.28374</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS3.p4.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib42" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nie <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Nie, Y. Su, B. Chang, J. N. Lee, E. H. Chi, Q. V. Le, and M. Chen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Evolve: evaluating and optimizing llms for exploration</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.06238</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS1.p3.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib40" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Pérez <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Pérez, P. Barceló, and J. Marinkovic</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Attention is turing-complete</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Machine Learning Research</span> <span class="ltx_text ltx_bib_volume">22</span> (<span class="ltx_text ltx_bib_number">75</span>), <span class="ltx_text ltx_bib_pages">pp. 1–35</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS1.p2.1" title="20.1.1 Transformers are Turing-complete ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.1</span></a>.
+</span></li>
+<li id="bibs.bib3" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ren <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Ren, Y. Chen, D. Guo, G. Rong, T. Li, R. Xiong, Q. Lan, W. Wang, L. Nanbo, Y. Yang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Self-improvements in modern agentic systems: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2607.13104</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS3.p7.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib8" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Robeyns <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Robeyns, M. Szummer, and L. Aitchison</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A self-improving coding agent</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2504.15228</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS3.p2.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Saunshi <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Saunshi, N. Dikkala, Z. Li, S. Kumar, and S. J. Reddi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reasoning with latent thoughts: on the power of looped transformers</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.17416</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS3.p3.1" title="20.1.3 LoopedLLM and Recursive Multi-Agent Systems ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.3</span></a>.
+</span></li>
+<li id="bibs.bib32" class="ltx_bibitem ltx_bib_incollection"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Schmidhuber (2007)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Schmidhuber</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Gödel machines: fully self-referential optimal universal self-improvers</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Artificial general intelligence</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 199–226</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p4.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib39" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Schultz <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Schultz, J. Adamek, M. Jusup, M. Lanctot, M. Kaisers, S. Perrin, D. Hennes, J. Shar, C. Lewis, A. Ruoss, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mastering board games by external and internal planning with language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2412.12119</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib21" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Song <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Song, A. Moeini, P. Wang, L. Gong, R. Chandra, Y. Qi, and S. Zhang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reward is enough: llms are in-context reinforcement learners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.06303</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS1.p2.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>,
+<a href="#Ch20.S2.SS1.p3.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>,
+<a href="#Ch20.S2.SS1.p8.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib38" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sutton and Barto (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. S. Sutton and A. G. Barto</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_edition">2 edition</span>, <span class="ltx_text ltx_bib_series">Adaptive Computation and Machine Learning series</span>,  <span class="ltx_text ltx_bib_publisher">Bradford Books</span>, <span class="ltx_text ltx_bib_place">Cambridge, MA</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.F2" title="In 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 20.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch20.F2.4" title="In 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 20.2</span></a>,
+<a href="#Ch20.S2.SS1.p1.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Turing (1936)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Turing</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">On computable numbers, with an application to the entscheidungsproblem</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">J. of Math</span> <span class="ltx_text ltx_bib_volume">58</span> (<span class="ltx_text ltx_bib_number">345-363</span>), <span class="ltx_text ltx_bib_pages">pp. 5</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS1.p1.1" title="20.1.1 Transformers are Turing-complete ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.1</span></a>.
+</span></li>
+<li id="bibs.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Wang, E. Blaser, H. Daneshmand, and S. Zhang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Transformers learn temporal difference methods for in-context reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.13861</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p2.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>,
+<a href="#Ch20.S2.SS1.p3.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>,
+<a href="#Ch20.S2.SS1.p9.1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.1</span></a>.
+</span></li>
+<li id="bibs.bib28" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Yang, K. Lee, R. Nowak, and D. Papailiopoulos</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Looped transformers are better at learning learning algorithms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2311.12424</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS3.p3.1" title="20.1.3 LoopedLLM and Recursive Multi-Agent Systems ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.3</span></a>.
+</span></li>
+<li id="bibs.bib23" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2026a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Yang, X. Zhu, D. Zhang, W. Wei, J. Shao, Z. Zhou, L. Guo, and Y. Li</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Step back to leap forward: self-backtracking for symbolic reasoning and planning in language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the AAAI Conference on Artificial Intelligence</span>,
+</span>
+<span class="ltx_bibblock">Vol. <span class="ltx_text ltx_bib_volume">40</span>, <span class="ltx_text ltx_bib_pages">pp. 27657–27665</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS2.p3.1" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.2</span></a>.
+</span></li>
+<li id="bibs.bib13" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2026b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Yang, J. Zou, R. Pan, R. Qiu, P. Lu, S. Diao, J. Jiang, H. Tong, T. Zhang, M. J. Buehler, J. He, and J. Zou</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Recursive multi-agent systems</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2604.25917</span>,
+<a href="https://arxiv.org/abs/2604.25917" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS3.p4.1" title="20.1.3 LoopedLLM and Recursive Multi-Agent Systems ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.3</span></a>.
+</span></li>
+<li id="bibs.bib4" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yu <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Yu, D. Chong, A. Nandi, D. Soylu, J. Sun, C. D. Manning, and W. Shi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Shepherd: enabling programmable meta-agents via reversible agentic execution traces</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2605.10913</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.F5" title="In 20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 20.5</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch20.F5.4" title="In 20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 20.5</span></a>,
+<a href="#Ch20.S2.SS3.p6.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2026a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Zhang, S. Zhang, K. Li, C. Zhang, Y. Chen, Y. Zhang, L. Bai, and S. Hu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Self-harness: harnesses that improve themselves</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2606.09498</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS3.p4.1" title="20.2.3 Meta Agents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.3</span></a>.
+</span></li>
+<li id="bibs.bib33" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2026b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Zhang, S. Hu, C. Lu, R. Lange, and J. Clune</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Darwin godel machine: open-ended evolution of self-improving agents</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2505.22954</span>,
+<a href="https://arxiv.org/abs/2505.22954" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p4.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib27" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2026c)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Zhang, B. Zhao, W. Yang, J. Foerster, J. Clune, M. Jiang, S. Devlin, and T. Shavrina</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Hyperagents</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2603.19461</span>,
+<a href="https://arxiv.org/abs/2603.19461" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p4.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+<li id="bibs.bib29" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhu <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Zhu, Z. Wang, K. Hua, T. Zhang, Z. Li, H. Que, B. Wei, Z. Wen, F. Yin, H. Xing, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Scaling latent reasoning via looped language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2510.25741</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S1.SS3.p3.1" title="20.1.3 LoopedLLM and Recursive Multi-Agent Systems ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.1.3</span></a>.
+</span></li>
+<li id="bibs.bib35" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhuge <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Zhuge, C. Zhao, D. Ashley, W. Wang, D. Khizbullin, Y. Xiong, Z. Liu, E. Chang, R. Krishnamoorthi, Y. Tian, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agent-as-a-judge: evaluate agents with agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.10934</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch20.S2.SS2.p2.1" title="20.2.2 Self-Modifying Hyperagents ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§20.2.2</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch19.html">← 第 19 章</a><a href="index.html">全书目录</a><a href="ch21.html">第 21 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

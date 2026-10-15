@@ -1,0 +1,643 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 16 章 多大语言模型系统中的角色交互 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html" aria-current="page"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html" aria-current="page"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">16 / 23 · 中文翻译</p><section id="Ch16" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch16-0001">第 16 章 多大语言模型系统中基于角色的交互</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch16.S1">16.1 从单智能体到多智能体</a></li><li class="level-h3"><a href="#Ch16.S1.SS1">16.1.1 多智能体模拟：历史与现状</a></li><li class="level-h3"><a href="#Ch16.S1.SS2">16.1.2 基于角色的交互与涌现交互</a></li><li class="level-h3"><a href="#Ch16.S1.SS3">16.1.3 多智能体协作的五个维度</a></li><li class="level-h3"><a href="#Ch16.S1.SS4">16.1.4 方法说明</a></li><li class="level-h2"><a href="#Ch16.S2">16.2 大语言模型智能体之间的策略交互</a></li><li class="level-h3"><a href="#Ch16.S2.SS1">16.2.1 跨游戏评测策略能力</a></li><li class="level-h3"><a href="#Ch16.S2.SS2">16.2.2 单场景平台中的策略交互</a></li><li class="level-h3"><a href="#Ch16.S2.SS3">16.2.3 小结</a></li><li class="level-h2"><a href="#Ch16.S3">16.3 基于角色的任务求解与团队协作</a></li><li class="level-h3"><a href="#Ch16.S3.SS1">16.3.1 互补配对</a></li><li class="level-h3"><a href="#Ch16.S3.SS2">16.3.2 辩论与讨论</a></li><li class="level-h3"><a href="#Ch16.S3.SS3">16.3.3 基于角色的软件团队</a></li><li class="level-h3"><a href="#Ch16.S3.SS4">16.3.4 社会角色扮演</a></li><li class="level-h3"><a href="#Ch16.S3.SS5">16.3.5 小结</a></li><li class="level-h2"><a href="#Ch16.S4">16.4 结语</a></li><li class="level-h2"><a href="#bibo">参考文献</a></li></ol></nav></details><div id="Ch16.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch16.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch16.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch16.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch16.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0127">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch16.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch16.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0128">本章将介绍：当多个大语言模型智能体被分配角色并在群体中互动时，它们会如何行动。具体而言，你将能够：</p>
+<ul id="Ch16.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch16.S0.I1.i1" class="ltx_item">
+<div id="Ch16.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch16.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0129">区分基于角色的多智能体交互（本章）与开放式涌现模拟（第 <a href="ch17.html#Ch17" title="Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17</span></a> 章）。</p>
+</div></li>
+<li id="Ch16.S0.I1.i2" class="ltx_item">
+<div id="Ch16.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch16.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0130">描述大语言模型智能体在博弈论场景中相互交互时的行为，并将其与单智能体策略研究的发现（第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章）联系起来。</p>
+</div></li>
+<li id="Ch16.S0.I1.i3" class="ltx_item">
+<div id="Ch16.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch16.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0131">解释基于角色的协作模式，并识别实现这些模式的框架。</p>
+</div></li>
+<li id="Ch16.S0.I1.i4" class="ltx_item">
+<div id="Ch16.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch16.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0132">批判性地评估：多智能体协作何时能提高表现、何时不能，以及多智能体交互引入了哪些新的失效模式与安全风险。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch16.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch16-0002">16.1 从单智能体到多智能体</h2>
+
+<div id="Ch16.S1.p1" class="ltx_para">
+<p id="Ch16.S1.p1.1" class="ltx_p" data-translation-id="ch16-0003">上一章从行为视角研究单个大语言模型及模型驱动智能体：单一模型如何理解交流、社会或道德情境，并在其中行动。本章转向多智能体场景，考察多个模型智能体互动时发生什么，例如在博弈竞赛中作为对手，在团队中作为合作者。分析单位从单模型行为画像，转向模型间的交互模式与集体结果。</p>
+</div>
+<section id="Ch16.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0004">16.1.1 多智能体模拟：历史与现状</h3>
+
+<div id="Ch16.S1.SS1.p1" class="ltx_para">
+<p id="Ch16.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch16-0005">使用人工智能体研究互动，在计算社会科学中历史悠久 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib25" title="" class="ltx_ref">Epstein and Axtell, 1996</a>, <a href="#bibo.bib7" title="" class="ltx_ref">Macal and North, 2010</a>]</cite>。传统上，具有基本感知、推理和决策能力的智能体群体，在虚拟实验环境，或机器人模拟的真实实验环境中互动 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib9" title="" class="ltx_ref">Steels, 1995</a>, <a href="#bibo.bib24" title="" class="ltx_ref">Shoham and Leyton-Brown, 2008</a>]</cite>。这类模拟通常旨在连接理论与实验，在现实实验困难或昂贵的领域，以人工行为作为检验人类行为假设的试验场。</p>
+</div>
+<div id="Ch16.S1.SS1.p2" class="ltx_para">
+<p id="Ch16.S1.SS1.p2.1" class="ltx_p" data-translation-id="ch16-0006">两项障碍长期限制这条路线：难以验证行为是否真实，以及模拟智能体社会计算成本高。智能体式大语言模型与模拟基础设施的进展 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib20" title="" class="ltx_ref">Rutherford et al., 2024</a>]</cite> 正在改变情况。模型智能体以自然语言交流，可处理丰富背景知识，可赋予不同人格设定，使模拟互动更有表现力，更直接地与人类互动比较。</p>
+</div>
+</section>
+<section id="Ch16.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0007">16.1.2 基于角色的交互与涌现交互</h3>
+
+<div id="Ch16.S1.SS2.p1" class="ltx_para">
+<p id="Ch16.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch16-0008">多模型研究可按研究者对模拟的控制程度分类。一端，每个智能体都被赋予人格、目标和交互协议形式的角色。研究通常询问智能体在指定结构中如何表现，以及相较其他结构与角色，系统整体性能如何。另一端，智能体处于无预先角色分配的开放环境，研究询问会涌现哪些社会结构：群体动态、惯例和规范。本章关注基于角色的一端，第 <a href="ch17.html#Ch17" title="Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17</span></a> 章讨论涌现一端。</p>
+</div>
+<div id="Ch16.S1.SS2.p2" class="ltx_para">
+<p id="Ch16.S1.SS2.p2.1" class="ltx_p" data-translation-id="ch16-0009">这一区分关系到方法选择和结果解释。基于角色的系统中，角色与交互协议是设计决策或实验变量，按系统设计目标评估和解释行为。涌现场景中，目标或任务处于背景，甚至完全缺席，分析更开放、更具探索性，比起基准评测更接近民族志。不过区别并非绝对：基于角色的系统经常表现出设计之外的行为。</p>
+</div>
+</section>
+<section id="Ch16.S1.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0010">16.1.3 多智能体协作的五个维度</h3>
+
+<div id="Ch16.S1.SS3.p1" class="ltx_para">
+<p id="Ch16.S1.SS3.p1.1" class="ltx_p" data-translation-id="ch16-0011">本章采用 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibo.bib26" title="" class="ltx_ref">Tran et al. [2025]</a></cite> 的分类作为组织原则，沿大语言模型协作的五个维度展开：</p>
+<ol id="Ch16.S1.I1" class="ltx_enumerate">
+<li id="Ch16.S1.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch16.S1.I1.i1.p1" class="ltx_para">
+<p id="Ch16.S1.I1.i1.p1.1" class="ltx_p" data-translation-id="ch16-0012">行动者：参与的智能体，以及它们同质（同一模型的实例）还是异质（不同模型或能力配置）</p>
+</div></li>
+<li id="Ch16.S1.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch16.S1.I1.i2.p1" class="ltx_para">
+<p id="Ch16.S1.I1.i2.p1.1" class="ltx_p" data-translation-id="ch16-0013">交互类型：合作、竞争，或二者混合（“竞合”）</p>
+</div></li>
+<li id="Ch16.S1.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch16.S1.I1.i3.p1" class="ltx_para">
+<p id="Ch16.S1.I1.i3.p1.1" class="ltx_p" data-translation-id="ch16-0014">结构：智能体如何组织，例如点对点、集中式或分布式</p>
+</div></li>
+<li id="Ch16.S1.I1.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">4.</span>
+<div id="Ch16.S1.I1.i4.p1" class="ltx_para">
+<p id="Ch16.S1.I1.i4.p1.1" class="ltx_p" data-translation-id="ch16-0015">策略：如何引发协作，例如通过角色分配或模型层机制</p>
+</div></li>
+<li id="Ch16.S1.I1.i5" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">5.</span>
+<div id="Ch16.S1.I1.i5.p1" class="ltx_para">
+<p id="Ch16.S1.I1.i5.p1.1" class="ltx_p" data-translation-id="ch16-0016">协调协议：连接智能体并规范其通信的机制</p>
+</div></li>
+</ol>
+<p id="Ch16.S1.SS3.p1.2" class="ltx_p" data-translation-id="ch16-0017">本章系统在这五条轴上采用不同选择，牢记这些维度有助于看清各框架的新意。</p>
+</div>
+</section>
+<section id="Ch16.S1.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0018">16.1.4 方法说明</h3>
+
+<div id="Ch16.S1.SS4.p1" class="ltx_para">
+<p id="Ch16.S1.SS4.p1.1" class="ltx_p" data-translation-id="ch16-0019">多智能体系统评估继承了单模型评估的所有方法困难：提示敏感性、测试材料可能泄漏进训练数据、采样波动，此外还增加新困难：</p>
+<ul id="Ch16.S1.I2" class="ltx_itemize">
+<li id="Ch16.S1.I2.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch16.S1.I2.i1.p1" class="ltx_para">
+<p id="Ch16.S1.I2.i1.p1.1" class="ltx_p" data-translation-id="ch16-0020">结果通常更难复现，因为一个智能体输出的微小变化会在后续交互中级联传播，增加运行间差异。</p>
+</div></li>
+<li id="Ch16.S1.I2.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch16.S1.I2.i2.p1" class="ltx_para">
+<p id="Ch16.S1.I2.i2.p1.1" class="ltx_p" data-translation-id="ch16-0021">性能差异成因可能不清楚：是多智能体协作本身、协调协议、角色分配中嵌入的提示工程，还是多个智能体累计消耗的额外推断预算？</p>
+</div></li>
+<li id="Ch16.S1.I2.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch16.S1.I2.i3.p1" class="ltx_para">
+<p id="Ch16.S1.I2.i3.p1.1" class="ltx_p" data-translation-id="ch16-0022">构念效度转到社会交互术语层面：团队工作、讨论、集体决策等概念带有丰富人类含义，实际模拟可能并不支持。</p>
+</div></li>
+</ul>
+<p id="Ch16.S1.SS4.p1.2" class="ltx_p" data-translation-id="ch16-0023">牢记这些注意事项，本章先介绍最简单的多智能体场景：模型智能体在策略场景中彼此对抗，除了游戏本身没有额外角色（第 <a href="#Ch16.S2" title="16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.2</span></a> 节）。随后考察通过定义协调协议和显式角色使交互更顺畅后，情况如何变化（第 <a href="#Ch16.S3" title="16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.3</span></a> 节）。</p>
+</div>
+</section>
+</section>
+<section id="Ch16.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch16-0024">16.2 大语言模型智能体之间的策略交互</h2>
+
+<div id="Ch16.S2.p1" class="ltx_para">
+<p id="Ch16.S2.p1.1" class="ltx_p" data-translation-id="ch16-0025">第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章考察模型被提示与脚本对手进行经济博弈时的行为。这里考察模型智能体在博弈论场景中彼此互动的研究。本节智能体是对称同伴，各自追求利益，没有协调或监督角色。先看跨多游戏评估的基准，再看围绕单一场景构建、更丰富模拟平台中的行为。</p>
+</div>
+<section id="Ch16.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0026">16.2.1 跨游戏评测策略能力</h3>
+
+<div id="Ch16.S2.SS1.p1" class="ltx_para">
+<p id="Ch16.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch16-0027">MAgIC 研究 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib16" title="" class="ltx_ref">Xu et al., 2024</a>]</cite> 使用社交推理游戏（Undercover 和 Chameleon），以及成本分摊、多玩家囚徒困境、公共物品博弈等场景。目标是提取理性、判断、推理、欺骗、自我意识、合作、协调七种能力，见图 <a href="#Ch16.F1" title="Figure 16.1 ‣ 16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.1</span></a>。研究在多智能体场景中评估现成和增强模型的这些能力。</p>
+</div>
+<div id="Ch16.S2.SS1.p2" class="ltx_para">
+<p id="Ch16.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch16-0028">GPT-o1 和 GPT-4 得分显著高于其他模型。模型通常在判断、理性和合作上得分高，有些欺骗能力也高，但推理较低，而且除一个外协调得分都低。例外是经概率图建模增强的 GPT-o1，该方法是受 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibo.bib15" title="" class="ltx_ref">Koller and Friedman [2009]</a></cite> 启发、类似心智理论能力的实现。作者表明概率图建模全面提升性能。这与第 <a href="ch15.html#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节关于人类在策略场景中高度依赖心智理论的一般证据一致。</p>
+</div>
+<figure id="Ch16.F1" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/radar.png" id="Ch16.F1.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/182;" width="476" height="182" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch16-0029">图 16.1：大语言模型在各项指标上的表现 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib16" title="" class="ltx_ref">Xu et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch16.S2.SS1.p3" class="ltx_para">
+<p id="Ch16.S2.SS1.p3.1" class="ltx_p" data-translation-id="ch16-0030">LLM-Coordination Benchmark <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib27" title="" class="ltx_ref">Agashe et al., 2025</a>]</cite> 将协调单独作为研究对象，而不是多种特质之一。它评估两种任务：纯合作游戏中的智能体协调，以及关于这些游戏的问答（见图 <a href="#Ch16.F2" title="Figure 16.2 ‣ 16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.2</span></a>）。实验发现，决策可依赖环境变量时表现好，成功需要主动推理伙伴信念和意图时表现差。环境变量具体包括游戏布局、对象位置、各智能体当前位置、哪些门开着等。最明显的例子是模型表现最好的 Overcooked-AI。该游戏完全可观察，行动包括“从洋葱分配器 1 取洋葱”“将洋葱放到盘子 0”。大多数场景和布局中，模型只需按环境状态考虑最佳下一步，不必考虑其他智能体视角。</p>
+</div>
+<div id="Ch16.S2.SS1.p4" class="ltx_para">
+<p id="Ch16.S2.SS1.p4.1" class="ltx_p" data-translation-id="ch16-0031">将 Overcooked 与 Hanabi 比较，这种不对称尤其明显；Hanabi 每个行动都需要推理伙伴信念。在 Overcooked 中，零样本模型智能体可匹敌或超过专门训练的强化学习基线。在 Hanabi 中，强化学习基线接近满分，多数模型智能体几乎不得分。最佳模型智能体（基于 GPT-4-turbo）即使增强显式心智理论推理和自验证，也只达到最高分约一半。没有增强时，GPT-4-turbo 等强模型几乎完全崩塌，说明测得能力部分属于智能体框架，而非模型本身。不过模型智能体在交叉对局中更稳健：强化学习方法遇到未见伙伴会急剧下降，而模型智能体的零样本特性，使其迁移到新伙伴时没有性能损失。</p>
+</div>
+<div id="Ch16.S2.SS1.p5" class="ltx_para">
+<p id="Ch16.S2.SS1.p5.1" class="ltx_p" data-translation-id="ch16-0032">研究的问答部分（见图 <a href="#Ch16.F2" title="Figure 16.2 ‣ 16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.2</span></a> 右列）分别针对环境理解、心智理论和联合规划分解问题。模型通常在第一类得分高（最佳模型 ¿80%），心智理论较低，联合规划最低（最佳模型 ¡40%，开源模型低于随机水平）。这符合 Overcooked（环境驱动）与 Hanabi（心智理论和规划驱动）之间的差异。 〔译注：此处“¿80%”与“¡40%”来自原始 HTML，比较符号疑似排版异常，未擅自改动。〕</p>
+</div>
+<figure id="Ch16.F2" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/llmcoordinationbank.jpg" id="Ch16.F2.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:550/308;" width="550" height="308" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch16-0033">图 16.2：LLM Coordination Benchmark 示意 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib27" title="" class="ltx_ref">Agashe et al., 2025</a>]</cite>，以两类测量评估智能体协调：必须合作最大化收益的纯协调游戏行为（中），以及关于游戏的详细问题（右）</figcaption>
+</figure>
+<div id="Ch16.S2.SS1.p6" class="ltx_para">
+<p id="Ch16.S2.SS1.p6.1" class="ltx_p" data-translation-id="ch16-0034">纯合作游戏的关键特点是没有竞争激励，智能体必须完全合作。相反，在囚徒困境或 MAgIC 等基准中的混合动机游戏里，个体与集体收益确实存在张力。此类游戏中，模型不合作的原因不明：可能不善协调，也可能在策略性考虑个人收益。纯合作游戏中从来没有背叛理由，因此任何合作失败都是真正的协调能力不足。</p>
+</div>
+</section>
+<section id="Ch16.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0035">16.2.2 单场景平台中的策略交互</h3>
+
+<div id="Ch16.S2.SS2.p1" class="ltx_para">
+<p id="Ch16.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch16-0036">基准汇总许多小型游戏；互补的研究路线构建单一场景，深入研究智能体行为。</p>
+</div>
+<div id="Ch16.S2.SS2.p2" class="ltx_para">
+<p id="Ch16.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch16-0037">Alympics <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib11" title="" class="ltx_ref">Mao et al., 2023</a>]</cite> 提供可控试验场，模拟模型驱动智能体间的策略互动，以多轮水资源分配挑战为例，要求随时间分配稀缺生存资源，见图 <a href="#Ch16.F3" title="Figure 16.3 ‣ 16.2.2 Strategic Interaction in Single-Scenario Platforms ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.3</span></a>。</p>
+</div>
+<figure id="Ch16.F3" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/water.png" id="Ch16.F3.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:510/276;" width="510" height="276" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch16-0038">图 16.3：Alympics 水资源分配挑战游戏 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib11" title="" class="ltx_ref">Mao et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch16.S2.SS2.p3" class="ltx_para">
+<p id="Ch16.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch16-0039">AucArena <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib18" title="" class="ltx_ref">Chen et al., 2023a</a>]</cite> 用 LLaMa 2.13b、Mistral 7b、Mixtral 8x7b、Gemini 1.0、GPT 3.5/4.0 模拟拍卖，发现 GPT-4 等最有能力的模型具备预算管理、目标聚焦等拍卖技能，但即便该模型表现也有波动，作者指出仍有很大改进空间。</p>
+</div>
+</section>
+<section id="Ch16.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0040">16.2.3 小结</h3>
+
+<div id="Ch16.S2.SS3.p1" class="ltx_para">
+<p id="Ch16.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch16-0041">无论跨游戏基准还是单场景平台，协调始终是模型智能体的弱点。更强模型在 MAgIC 理性与判断上得分好，在 AucArena 合理管理预算，在环境驱动合作中匹敌训练后的强化学习智能体。但成功若需要推理伙伴信念和意图，除最强且获得大量支架支持的模型外，其余都会失败。</p>
+</div>
+<div id="Ch16.S2.SS3.p2" class="ltx_para">
+<p id="Ch16.S2.SS3.p2.1" class="ltx_p" data-translation-id="ch16-0042">换言之，模型无法一致地将心智理论推理融入行为。第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章将此类失败称为知行或字面—功能差距：GPT-4 能准确预测“巴赫还是斯特拉文斯基”的交替模式，却在游戏中不执行。但这里的多智能体研究使诊断复杂化。协调基准问答部分的联合规划问题，恰好就是智能体每一步面对的决策。模型在这些问题上最差，心智理论问题也好不了多少。跨游戏问答分数与智能体表现正相关。因此，这里知与行一起变化：行动差时，直接提出行动问题，推理也差。纯协调任务中的缺陷，在于采取伙伴视角及联合规划本身，而非将推理转成行动。</p>
+</div>
+<div id="Ch16.S2.SS3.p3" class="ltx_para">
+<p id="Ch16.S2.SS3.p3.1" class="ltx_p" data-translation-id="ch16-0043">在另一层面，知行差距再次出现。Hanabi 中，GPT-4-turbo 只有在显式心智理论推理和自验证步骤支架支持下，才达到合理表现；缺少这些时，每次试验都犯致命错误。也就是说，最初行动错误，但被提示检查推理和验证步骤时，会识别并纠正。MAgIC 概率图建模及第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章策略行为研究的社会思维链，也产生类似提升。“模型不能推理他人”与“模型不会自发调用这种推理”之间的界线显然很薄，结构化推理和验证形式的智能体嵌入，可以显露后者。</p>
+</div>
+<div id="Ch16.S2.SS3.p4" class="ltx_para">
+<p id="Ch16.S2.SS3.p4.1" class="ltx_p" data-translation-id="ch16-0044">下一节考察同一问题的另一种互补回应：不升级智能体推理，而通过角色分配组织交互本身。</p>
+</div>
+</section>
+</section>
+<section id="Ch16.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch16-0045">16.3 基于角色的任务求解与团队协作</h2>
+
+<div id="Ch16.S3.p1" class="ltx_para">
+<p id="Ch16.S3.p1.1" class="ltx_p" data-translation-id="ch16-0046">上一节智能体是对称同伴，协调必须从自身策略推理中产生，成功有限。本节研究通过交互协议及具有不同目标的角色分配，将协调纳入设计。</p>
+</div>
+<div id="Ch16.S3.p2" class="ltx_para">
+<p id="Ch16.S3.p2.1" class="ltx_p" data-translation-id="ch16-0047">按照第 <a href="#Ch16.S1.SS3" title="16.1.3 Five Dimensions of Multi-Agent Collaboration ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.1.3</span></a> 节的五个维度，这些研究改变策略与结构，同时保持总体交互类型为合作。按结构从简到繁介绍：互补配对、多方辩论、团队，以及压力下的社会角色扮演。</p>
+</div>
+<section id="Ch16.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0048">16.3.1 互补配对</h3>
+
+<div id="Ch16.S3.SS1.p1" class="ltx_para">
+<p id="Ch16.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch16-0049">模型可成对执行任务，赋予创作者—批评者或经理—工作者等互补角色。每个模型智能体获得独特角色和目标，通过交流共同解决任务。</p>
+</div>
+<div id="Ch16.S3.SS1.p2" class="ltx_para">
+<p id="Ch16.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch16-0050">CAMEL 框架（用于“心智”探索的交流智能体）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib23" title="" class="ltx_ref">Li et al., 2023</a>]</cite> 为两个模型预定义角色，共同处理编程等目标（见图 <a href="#Ch16.F4" title="Figure 16.4 ‣ 16.3.1 Complementary Pairs ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.4</span></a>）。它们通过合作推进对话，无需持续显式人工提示。CAMEL 通过初始提示与角色描述，使智能体保持角色并朝目标协作。提示要求通过对话将复杂问题分解为可管理步骤。每个交互步骤中，模型智能体实际上生成自身推断时训练数据，让认知过程可供人类检查，同时增强自主任务表现。</p>
+</div>
+<figure id="Ch16.F4" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/CAMEL.png" id="Ch16.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/269;" width="476" height="269" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch16-0051">图 16.4：CAMEL 中的角色扮演 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib23" title="" class="ltx_ref">Li et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch16.S3.SS1.p3" class="ltx_para">
+<p id="Ch16.S3.SS1.p3.1" class="ltx_p" data-translation-id="ch16-0052">其他研究在自我反思场景中，将创作者（或生成器）模型与裁判（或批评者）模型配对。一方发挥生成能力，另一方确保遵守规则或质量指南。Constitutional AI <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib28" title="" class="ltx_ref">Bai et al., 2022</a>]</cite> 用一个模型依据伦理或质量准则批评另一个模型的回应，提出修改建议。作者表明，这种双智能体反馈可产生经过改进、符合预期原则的最终输出。</p>
+</div>
+<div id="Ch16.S3.SS1.p4" class="ltx_para">
+<p id="Ch16.S3.SS1.p4.1" class="ltx_p" data-translation-id="ch16-0053">第三种配对沿用人类辅导动态：教师—学习者或专家—新手。第 <a href="ch19.html#Ch19.S2" title="19.2 Distillation Loop ‣ Chapter 19 *Synthetic Data Generation for Training Agentic LLMs ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">19.2</span></a> 章在蒸馏背景下讨论多个此类例子。</p>
+</div>
+<div id="Ch16.S3.SS1.p5" class="ltx_para">
+<p id="Ch16.S3.SS1.p5.1" class="ltx_p" data-translation-id="ch16-0054">三种配对都利用同一思想：一个智能体的监督可纠正另一个的错误，使联合表现比任一单独表现更稳健。</p>
+</div>
+</section>
+<section id="Ch16.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0055">16.3.2 辩论与讨论</h3>
+
+<div id="Ch16.S3.SS2.p1" class="ltx_para">
+<p id="Ch16.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch16-0056">超越配对，基于角色交互的一个突出例子，是通过模型间辩论和讨论改善推理与任务表现。</p>
+</div>
+<div id="Ch16.S3.SS2.p2" class="ltx_para">
+<p id="Ch16.S3.SS2.p2.1" class="ltx_p" data-translation-id="ch16-0057"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibo.bib6" title="" class="ltx_ref">Du et al. [2024]</a></cite> 表明，多个模型实例提出答案，经过多轮辩论相互批评推理后，可以形成更准确、事实正确性更高的共识答案。该方法用 Minsky 的心智社会 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib13" title="" class="ltx_ref">Minsky, 1988</a>]</cite> 描述，在数学应用题、事实问答等任务中显著减少推理错误和幻觉。</p>
+</div>
+<div id="Ch16.S3.SS2.p3" class="ltx_para">
+<p id="Ch16.S3.SS2.p3.1" class="ltx_p" data-translation-id="ch16-0058"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibo.bib4" title="" class="ltx_ref">Liang et al. [2024]</a></cite> 提出多智能体辩论（MAD），例如让两个模型智能体在针锋相对的谈判中站在对立面（见第 <a href="ch15.html#Ch15.S4" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.4</span></a> 节），第三个担任裁判，引导讨论形成最终方案。结构化辩论鼓励发散思考，可让 MAD 增强的弱模型（例如 GPT-3.5）在困难基准上超过未增强的强模型（例如 GPT-4）。作者讨论该设置如何克服自我反思支架的已知问题。自我反思可能导致“思维退化”：模型一旦相信某解题方向，即便方向错误，自我反思也可能增强信心。MAD 中，另一智能体可推动不同方向，避免思维退化。</p>
+</div>
+<div id="Ch16.S3.SS2.p4" class="ltx_para">
+<p id="Ch16.S3.SS2.p4.1" class="ltx_p" data-translation-id="ch16-0059">ChatEval 将辩论模式用于文本评估 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib22" title="" class="ltx_ref">Chan et al., 2023</a>]</cite>。注意到多名标注者协作能提高人类文本评估质量，作者建立多智能体评审团队，包含辩论智能体、多样角色规格与不同通信策略（见图 <a href="#Ch16.F5" title="Figure 16.5 ‣ 16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.5</span></a>），超越单智能体提示策略。</p>
+</div>
+<figure id="Ch16.F5" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/chateval.png" id="Ch16.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:550/130;" width="550" height="130" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch16-0060">图 16.5：ChatEval 中三种不同通信策略 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib22" title="" class="ltx_ref">Chan et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch16.S3.SS2.p5" class="ltx_para">
+<p id="Ch16.S3.SS2.p5.1" class="ltx_p" data-translation-id="ch16-0061">同样受 Minsky 心智社会启发的另一方法是 ReConcile，将多样模型智能体组织为圆桌会议的多智能体框架 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib17" title="" class="ltx_ref">Chen et al., 2023b</a>]</cite>。它通过多轮讨论增强协作推理，要求智能体互相说服以改善答案。七项基准实验表明，置信度加权投票机制显著改善推理。作者还发现，多样性，即采用不同底层模型，对性能至关重要。</p>
+</div>
+<div id="Ch16.S3.SS2.p6" class="ltx_para">
+<p id="Ch16.S3.SS2.p6.1" class="ltx_p" data-translation-id="ch16-0062">MindStorms 在 CAMEL 框架 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib23" title="" class="ltx_ref">Li et al., 2023</a>]</cite> 上引入基于模型的实现 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib21" title="" class="ltx_ref">Zhuge et al., 2023</a>]</cite>。研究报告了多达 129 个智能体解决常见人工智能问题的大量实验：视觉问答、图像描述、文生图、三维生成、第一人称检索、具身人工智能及通用语言任务求解。作者发现，特定应用中，成员更多的心智风暴优于更少成员，持续更长的优于更短的。</p>
+</div>
+</section>
+<section id="Ch16.S3.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0063">16.3.3 基于角色的软件团队</h3>
+
+<div id="Ch16.S3.SS3.p1" class="ltx_para">
+<p id="Ch16.S3.SS3.p1.1" class="ltx_p" data-translation-id="ch16-0064">基于角色协作的一个有趣应用是软件开发，让完全由模型智能体组成的模拟团队开发软件。</p>
+</div>
+<div id="Ch16.S3.SS3.p2" class="ltx_para">
+<p id="Ch16.S3.SS3.p2.1" class="ltx_p" data-translation-id="ch16-0065">模型自动编程受到逻辑不一致和幻觉沿开发流水线级联传播等问题困扰。MetaGPT <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib3" title="" class="ltx_ref">Hong et al., 2024</a>]</cite> 借鉴人类软件团队已证明有效的工作流，将标准操作规程（SOP）转为提示序列，为智能体分配产品经理、架构师、工程师、质量测试员等公司角色。智能体沿装配线传递结构化中间产物：产品经理编写需求文档，架构师转成设计，工程师编码。复杂任务由此分为可管理子任务，智能体可逐步验证过程，显著减少错误。</p>
+</div>
+<div id="Ch16.S3.SS3.p3" class="ltx_para">
+<p id="Ch16.S3.SS3.p3.1" class="ltx_p" data-translation-id="ch16-0066">类似地，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibo.bib2" title="" class="ltx_ref">Qian et al. [2024]</a></cite> 引入 ChatDev 虚拟软件公司，让智能体在设计、编码、测试各阶段协作。协作以聊天链组织，每阶段分解为指导者与助手智能体之间的短对话（见图 <a href="#Ch16.F6" title="Figure 16.6 ‣ 16.3.3 Role-Based Software Teams ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.6</span></a>）。通信协议让智能体在回应前询问更多细节，产生作者所谓“去幻觉”，提高每一步可靠性。该框架展示结构化自然语言通信如何促进多智能体协作。</p>
+</div>
+<figure id="Ch16.F6" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/chatdev2.jpg" id="Ch16.F6.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:550/221;" width="550" height="221" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch16-0067">图 16.6：ChatDev 的链式工作流 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib2" title="" class="ltx_ref">Qian et al., 2024</a>]</cite>，基于 ChatGPT-3.5 驱动智能体间的多轮双人通信</figcaption>
+</figure>
+<div id="Ch16.S3.SS3.p4" class="ltx_para">
+<p id="Ch16.S3.SS3.p4.1" class="ltx_p" data-translation-id="ch16-0068">MetaGPT 与 ChatDev 固定特定组织结构，AutoGen <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib29" title="" class="ltx_ref">Wu et al., 2024</a>]</cite> 则提供灵活编程框架，基于可定制智能体之间的对话，组合模型、工具和人类输入。它被设计为开源平台，让开发者按应用定义智能体与交互结构。实验表明，它在数学、编程、问答、娱乐等领域任务中有效。</p>
+</div>
+</section>
+<section id="Ch16.S3.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0069">16.3.4 社会角色扮演</h3>
+
+<div id="Ch16.S3.SS4.p1" class="ltx_para">
+<p id="Ch16.S3.SS4.p1.1" class="ltx_p" data-translation-id="ch16-0070">上述系统分配角色以解决任务。最后一条路线则为研究社会行为本身分配角色：当模型智能体处于社会要求高或冲突情境时，会怎样做？</p>
+</div>
+<figure id="Ch16.F7" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/sotopia.jpg" id="Ch16.F7.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:550/339;" width="550" height="339" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch16-0071">图 16.7：SOTOPIA 中具有冲突社会目标的场景示意 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib5" title="" class="ltx_ref">Zhou et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch16.S3.SS4.p2" class="ltx_para">
+<p id="Ch16.S3.SS4.p2.1" class="ltx_p" data-translation-id="ch16-0072">SOTOPIA <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib5" title="" class="ltx_ref">Zhou et al., 2023</a>]</cite> 中，智能体协调、合作和竞争，实现复杂社会目标。环境从 90 个自动生成的社会场景中抽样交互片段，拥有 40 个具有独立个性、职业、秘密、背景故事及人物关系的角色，形成大而多样的任务空间（图 <a href="#Ch16.F7" title="Figure 16.7 ‣ 16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.7</span></a>）。作者比较不同模型智能体与人类参与者的社会智能，观察到若干趋势：</p>
+<ul id="Ch16.S3.I1" class="ltx_itemize">
+<li id="Ch16.S3.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch16.S3.I1.i1.p1" class="ltx_para">
+<p id="Ch16.S3.I1.i1.p1.1" class="ltx_p" data-translation-id="ch16-0073">在社会推理静态基准（例如 ToMBench，见第 <a href="ch15.html#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节）上表现好的模型，不一定在互动场景中成功，再次体现知行差距（第 <a href="ch15.html#Ch15.S4" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.4</span></a> 节）。</p>
+</div></li>
+<li id="Ch16.S3.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch16.S3.I1.i2.p1" class="ltx_para">
+<p id="Ch16.S3.I1.i2.p1.1" class="ltx_p" data-translation-id="ch16-0074">弱智能体会削弱对话伙伴，反转上述对话优势：那里智能体互相防止思维退化和其他错误。</p>
+</div></li>
+<li id="Ch16.S3.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch16.S3.I1.i3.p1" class="ltx_para">
+<p id="Ch16.S3.I1.i3.p1.1" class="ltx_p" data-translation-id="ch16-0075">所有模型都出现泄漏秘密和违反社会规范，与道德行为背景下的观察一致（第 <a href="ch15.html#Ch15.S6" title="15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.6</span></a> 节）。</p>
+</div></li>
+<li id="Ch16.S3.I1.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch16.S3.I1.i4.p1" class="ltx_para">
+<p id="Ch16.S3.I1.i4.p1.1" class="ltx_p" data-translation-id="ch16-0076">在最具挑战性的 SOTOPIA 任务中，人类显著优于表现最好的 GPT-4。</p>
+</div></li>
+</ul>
+<p id="Ch16.S3.SS4.p2.2" class="ltx_p" data-translation-id="ch16-0077">作者认为，SOTOPIA 的动态互动特性对模型智能体提出独特挑战，静态基准系统性地无法揭示。</p>
+</div>
+<div id="Ch16.S3.SS4.p3" class="ltx_para">
+<p id="Ch16.S3.SS4.p3.1" class="ltx_p" data-translation-id="ch16-0078"><cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib12" title="" class="ltx_ref">Campedelli et al., 2024</a>]</cite> 研究极端场景中的社会互动。受臭名昭著的斯坦福监狱实验 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib8" title="" class="ltx_ref">Zimbardo, 1972</a>]</cite> 启发，作者考察囚犯对狱警场景中说服与虐待行为的涌现。分配给囚犯、狱警的个性影响说服力与反社会行为出现。关键是，这表明通过角色分配和特定交互环境，模型智能体可能涌现反社会行为。这与原始人类实验形成鲜明平行，再次提醒模型判断情境（通常反映总体平均道德规范）与智能体置于特定行动情境后如何行为之间的差距（另见第 <a href="ch15.html#Ch15.S6" title="15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.6</span></a> 节）。研究也发现，角色分配并非中性工程工具，可能以不良方式塑造行为。</p>
+</div>
+<div id="Ch16.S3.SS4.p4" class="ltx_para">
+<p id="Ch16.S3.SS4.p4.1" class="ltx_p" data-translation-id="ch16-0079">为模拟合作场景中的策略决策，研究者引入 GovSim <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib19" title="" class="ltx_ref">Piatti et al., 2024</a>]</cite>，研究伦理考虑、策略规划和谈判技能如何影响合作结果。多数模型无法达到均衡，因为未理解行动对群体的长期影响。有趣的是，引入特殊普遍化推理语言 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib14" title="" class="ltx_ref">Levine et al., 2020</a>]</cite>，提示模型问康德式问题“如果人人都这样做会怎样？”，使更多模型实现可持续结果。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibo.bib10" title="" class="ltx_ref">Bianchi et al. [2024]</a></cite> 提出的 NegotiationArena 展示相关结果：模型智能体可通过灵活对话开展复杂谈判，不同行为策略使灵活对话显著改善谈判结果。</p>
+</div>
+</section>
+<section id="Ch16.S3.SS5" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch16-0080">16.3.5 小结</h3>
+
+<div id="Ch16.S3.SS5.p1" class="ltx_para">
+<p id="Ch16.S3.SS5.p1.1" class="ltx_p" data-translation-id="ch16-0081">本节研究应对第 <a href="ch15.html#Ch15.S4" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.4</span></a> 节协调弱点的方法，不是像 <a href="ch15.html#Ch15.S5.SS2" title="15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5.2</span></a> 那样改进单智能体推理，而是组织周围交互。互补角色告诉每个智能体应贡献什么，交互协议与 SOP 规范何时、以何种形式交流。有些设置中，裁判或投票机制可将分歧导向有效解决。</p>
+</div>
+<div id="Ch16.S3.SS5.p2" class="ltx_para">
+<p id="Ch16.S3.SS5.p2.1" class="ltx_p" data-translation-id="ch16-0082">当内部协调不足时，角色和交互协议提供关键支架。这可视为第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章结构化推理方案的多智能体对应，例如社会思维链、概率图或围绕道德规则的审议。这些方案在无约束推理无效时提升性能。单智能体和多智能体两种情况下，模型潜在的社会、道德等知识和行为确实存在，但需通过显式结构激活。</p>
+</div>
+</section>
+</section>
+<section id="Ch16.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch16-0083">16.4 结语</h2>
+
+<div id="Ch16.S4.p1" class="ltx_para">
+<p id="Ch16.S4.p1.1" class="ltx_p" data-translation-id="ch16-0084">本章从模型智能体在策略游戏中相互对抗，经过基于角色的协作模式及实际协调它们的多种设置，走向对多智能体系统何时有效、何时失败的批判性评估。</p>
+</div>
+<div id="Ch16.S4.p2" class="ltx_para">
+<p id="Ch16.S4.p2.1" class="ltx_p" data-translation-id="ch16-0085">第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章发现，单模型协调差，能够形式上预测伙伴行为，却在智能体实现中不据此行动。两种模式都迁移到多智能体场景。跨基准与平台（例如 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib16" title="" class="ltx_ref">Xu et al., 2024</a>, <a href="#bibo.bib27" title="" class="ltx_ref">Agashe et al., 2025</a>]</cite>），互动智能体能够推理自身利益，却无法协调行为，将推理转成策略优势。主要问题是根据伙伴视角调整行为的能力，第 <a href="ch15.html#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节心智理论的知行或字面—功能差距已预示这一点。这呼应系统性将智能体间失对齐识别为主要失败类别的研究 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib1" title="" class="ltx_ref">Cemri et al., 2025</a>]</cite>。</p>
+</div>
+<div id="Ch16.S4.p3" class="ltx_para">
+<p id="Ch16.S4.p3.1" class="ltx_p" data-translation-id="ch16-0086">字面—功能问题再次关联构念效度：正如通过心智理论测试不证明有人类级社会推理能力，多智能体设置超过单次模型查询，也不证明集体智能。强基线、匹配推断预算，以及协作结构和交互协议消融，相当于第 <a href="ch15.html#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节扰动心智理论测试的多智能体版本。该领域还需更多研究，建立关于智能体式模型交互现状的坚实实证图景。</p>
+</div>
+<div id="Ch16.S4.p4" class="ltx_para">
+<p id="Ch16.S4.p4.1" class="ltx_p" data-translation-id="ch16-0087">最后，多智能体场景增加新风险类别。在受斯坦福监狱实验启发的设置中，角色分配能激活反社会甚至虐待行为 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibo.bib12" title="" class="ltx_ref">Campedelli et al., 2024</a>]</cite>。其他研究中，协调失误、级联幻觉及弱点相互强化，触发规范违反、秘密泄漏和任务性能下降。角色与交互协议有时为行为提供支架并提升性能，另一些情况下却构成障碍或风险来源。</p>
+</div>
+<div id="Ch16.S4.p5" class="ltx_para">
+<p id="Ch16.S4.p5.1" class="ltx_p" data-translation-id="ch16-0088">下一章讨论不分配角色和协议、而让其从互动本身涌现的研究。</p>
+</div>
+</section>
+<section id="bibo" class="ltx_bibliography ltx_list_16_role-based">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibo.L1" class="ltx_biblist">
+<li id="bibo.bib27" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Agashe <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Agashe, Y. Fan, A. Reyna, and X. E. Wang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Llm-coordination: evaluating and analyzing multi-agent coordination abilities in large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Findings of the Association for Computational Linguistics: NAACL 2025</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 8038–8057</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.F2" title="In 16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch16.F2.4" title="In 16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.2</span></a>,
+<a href="#Ch16.S2.SS1.p3.1" title="16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.2.1</span></a>,
+<a href="#Ch16.S4.p2.1" title="16.4 Concluding Remarks ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.4</span></a>.
+</span></li>
+<li id="bibo.bib28" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bai <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Bai, S. Kadavath, S. Kundu, A. Askell, J. Kernion, A. Jones, A. Chen, A. Goldie, A. Mirhoseini, C. McKinnon, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Constitutional ai: harmlessness from ai feedback</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2212.08073</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS1.p3.1" title="16.3.1 Complementary Pairs ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.1</span></a>.
+</span></li>
+<li id="bibo.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bianchi <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">F. Bianchi, P. J. Chia, M. Yuksekgonul, J. Tagliabue, D. Jurafsky, and J. Zou</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">How well can llms negotiate? negotiationarena platform and analysis</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.05863</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS4.p4.1" title="16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.4</span></a>.
+</span></li>
+<li id="bibo.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Campedelli <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. M. Campedelli, N. Penzo, M. Stefan, R. Dessì, M. Guerini, B. Lepri, and J. Staiano</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">I want to break free! persuasion and anti-social behavior of llms in multi-agent settings with social hierarchy</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.07109</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS4.p3.1" title="16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.4</span></a>,
+<a href="#Ch16.S4.p4.1" title="16.4 Concluding Remarks ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.4</span></a>.
+</span></li>
+<li id="bibo.bib1" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Cemri <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Cemri, M. Z. Pan, S. Yang, L. A. Agrawal, B. Chopra, R. Tiwari, K. Keutzer, A. Parameswaran, D. Klein, K. Ramchandran, M. Zaharia, J. E. Gonzalez, and I. Stoica</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Why do multi-agent llm systems fail?</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2503.13657</span>,
+<a href="https://arxiv.org/abs/2503.13657" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S4.p2.1" title="16.4 Concluding Remarks ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.4</span></a>.
+</span></li>
+<li id="bibo.bib22" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chan <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Chan, W. Chen, Y. Su, J. Yu, W. Xue, S. Zhang, J. Fu, and Z. Liu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Chateval: towards better llm-based evaluators through multi-agent debate</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2308.07201</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.F5" title="In 16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.5</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch16.F5.4" title="In 16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.5</span></a>,
+<a href="#Ch16.S3.SS2.p4.1" title="16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.2</span></a>.
+</span></li>
+<li id="bibo.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2023a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Chen, S. Yuan, R. Ye, B. P. Majumder, and K. Richardson</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Put your money where your mouth is: evaluating strategic planning and execution of llm agents in an auction arena</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2310.05746</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S2.SS2.p3.1" title="16.2.2 Strategic Interaction in Single-Scenario Platforms ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.2.2</span></a>.
+</span></li>
+<li id="bibo.bib17" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2023b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. C. Chen, S. Saha, and M. Bansal</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reconcile: round-table conference improves reasoning via consensus among diverse llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2309.13007</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS2.p5.1" title="16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.2</span></a>.
+</span></li>
+<li id="bibo.bib6" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Du <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Du, S. Li, A. Torralba, J. B. Tenenbaum, and I. Mordatch</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Improving factuality and reasoning in language models through multiagent debate</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 41st International Conference on Machine Learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">ICML’24</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS2.p2.1" title="16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.2</span></a>.
+</span></li>
+<li id="bibo.bib25" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Epstein and Axtell (1996)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. M. Epstein and R. Axtell</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Growing artificial societies: social science from the bottom up</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Brookings Institution Press</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S1.SS1.p1.1" title="16.1.1 Mulit-Agent Simulations: History and Present ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.1.1</span></a>.
+</span></li>
+<li id="bibo.bib3" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hong <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Hong, M. Zhuge, J. Chen, X. Zheng, Y. Cheng, C. Zhang, J. Wang, Z. Wang, S. K. S. Yau, Z. Lin, L. Zhou, C. Ran, L. Xiao, C. Wu, and J. Schmidhuber</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MetaGPT: meta programming for a multi-agent collaborative framework</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2308.00352</span>,
+<a href="https://arxiv.org/abs/2308.00352" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS3.p2.1" title="16.3.3 Role-Based Software Teams ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.3</span></a>.
+</span></li>
+<li id="bibo.bib15" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Koller and Friedman (2009)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Koller and N. Friedman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Probabilistic graphical models: principles and techniques</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">MIT Press</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text isbn ltx_bib_external">ISBN 978-0-262-01319-2</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S2.SS1.p2.1" title="16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.2.1</span></a>.
+</span></li>
+<li id="bibo.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Levine <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Levine, M. Kleiman-Weiner, L. Schulz, J. Tenenbaum, and F. Cushman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The logic of universalization guides moral judgment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Proceedings of the National Academy of Sciences</span> <span class="ltx_text ltx_bib_volume">117</span> (<span class="ltx_text ltx_bib_number">42</span>), <span class="ltx_text ltx_bib_pages">pp. 26158–26169</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS4.p4.1" title="16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.4</span></a>.
+</span></li>
+<li id="bibo.bib23" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. Li, H. Hammoud, H. Itani, D. Khizbullin, and B. Ghanem</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Camel: communicative agents for” mind” exploration of large language model society</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 51991–52008</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.F4" title="In 16.3.1 Complementary Pairs ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch16.F4.4" title="In 16.3.1 Complementary Pairs ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.4</span></a>,
+<a href="#Ch16.S3.SS1.p2.1" title="16.3.1 Complementary Pairs ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.1</span></a>,
+<a href="#Ch16.S3.SS2.p6.1" title="16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.2</span></a>.
+</span></li>
+<li id="bibo.bib4" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Liang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Liang, Z. He, W. Jiao, X. Wang, Y. Wang, R. Wang, Y. Yang, S. Shi, and Z. Tu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Encouraging divergent thinking in large language models through multi-agent debate</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing</span>,  <span class="ltx_text ltx_bib_editor">Y. Al-Onaizan, M. Bansal, and Y. Chen (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Miami, Florida, USA</span>, <span class="ltx_text ltx_bib_pages">pp. 17889–17904</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.emnlp-main.992/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.emnlp-main.992" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS2.p3.1" title="16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.2</span></a>.
+</span></li>
+<li id="bibo.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Macal and North (2010)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. M. Macal and M. J. North</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tutorial on agent-based modelling and simulation</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Simulation</span> <span class="ltx_text ltx_bib_volume">4</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 151–162</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 1747-7786</span>,
+<a href="https://doi.org/10.1057/jos.2010.3" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1057/jos.2010.3" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S1.SS1.p1.1" title="16.1.1 Mulit-Agent Simulations: History and Present ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.1.1</span></a>.
+</span></li>
+<li id="bibo.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mao <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Mao, Y. Cai, Y. Xia, W. Wu, X. Wang, F. Wang, T. Ge, and F. Wei</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Alympics: language agents meet game theory</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2311.03220</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.F3" title="In 16.2.2 Strategic Interaction in Single-Scenario Platforms ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.3</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch16.F3.4" title="In 16.2.2 Strategic Interaction in Single-Scenario Platforms ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.3</span></a>,
+<a href="#Ch16.S2.SS2.p2.1" title="16.2.2 Strategic Interaction in Single-Scenario Platforms ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.2.2</span></a>.
+</span></li>
+<li id="bibo.bib13" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Minsky (1988)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Minsky</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Society of mind</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Simon and Schuster</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS2.p2.1" title="16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.2</span></a>.
+</span></li>
+<li id="bibo.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Piatti <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. Piatti, Z. Jin, M. Kleiman-Weiner, B. Schölkopf, M. Sachan, and R. Mihalcea</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Cooperate or collapse: emergence of sustainability behaviors in a society of llm agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2404.16698</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS4.p4.1" title="16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.4</span></a>.
+</span></li>
+<li id="bibo.bib2" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Qian <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Qian, W. Liu, H. Liu, N. Chen, Y. Dang, J. Li, C. Yang, W. Chen, Y. Su, X. Cong, J. Xu, D. Li, Z. Liu, and M. Sun</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">ChatDev: communicative agents for software development</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,  <span class="ltx_text ltx_bib_editor">L. Ku, A. Martins, and V. Srikumar (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Bangkok, Thailand</span>, <span class="ltx_text ltx_bib_pages">pp. 15174–15186</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.acl-long.810/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.acl-long.810" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.F6" title="In 16.3.3 Role-Based Software Teams ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.6</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch16.F6.4" title="In 16.3.3 Role-Based Software Teams ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.6</span></a>,
+<a href="#Ch16.S3.SS3.p3.1" title="16.3.3 Role-Based Software Teams ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.3</span></a>.
+</span></li>
+<li id="bibo.bib20" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rutherford <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Rutherford, B. Ellis, M. Gallici, J. Cook, A. Lupu, G. Ingvarsson, T. Willi, A. Khan, C. Schroeder de Witt, A. Souly, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">JaxMARL: multi-agent rl environments and algorithms in jax</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 23rd International Conference on Autonomous Agents and Multiagent Systems</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 2444–2446</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S1.SS1.p2.1" title="16.1.1 Mulit-Agent Simulations: History and Present ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.1.1</span></a>.
+</span></li>
+<li id="bibo.bib24" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shoham and Leyton-Brown (2008)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Shoham and K. Leyton-Brown</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Multiagent systems: algorithmic, game-theoretic, and logical foundations</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Cambridge University Press</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S1.SS1.p1.1" title="16.1.1 Mulit-Agent Simulations: History and Present ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.1.1</span></a>.
+</span></li>
+<li id="bibo.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Steels (1995)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Steels</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A self-organizing spatial vocabulary</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Artificial life</span> <span class="ltx_text ltx_bib_volume">2</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 319–332</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S1.SS1.p1.1" title="16.1.1 Mulit-Agent Simulations: History and Present ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.1.1</span></a>.
+</span></li>
+<li id="bibo.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Tran <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Tran, D. Dao, M. Nguyen, Q. Pham, B. O’Sullivan, and H. D. Nguyen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Multi-agent collaboration mechanisms: a survey of llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.06322</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S1.SS3.p1.1" title="16.1.3 Five Dimensions of Multi-Agent Collaboration ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.1.3</span></a>.
+</span></li>
+<li id="bibo.bib29" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Q. Wu, G. Bansal, J. Zhang, Y. Wu, B. Li, E. Zhu, L. Jiang, X. Zhang, S. Zhang, J. Liu, A. H. Awadallah, R. W. White, D. Burger, and C. Wang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">AutoGen: enabling next-gen LLM applications via multi-agent conversation</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">ICLR 2024 Workshop on Large Language Model (LLM) Agents</span>,
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://openreview.net/forum?id=uAjxFFing2" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS3.p4.1" title="16.3.3 Role-Based Software Teams ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.3</span></a>.
+</span></li>
+<li id="bibo.bib16" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Xu, Z. Hu, D. Zhou, H. Ren, Z. Dong, K. Keutzer, S. K. Ng, and J. Feng</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Magic: investigation of large language model powered multi-agent in cognition, adaptability, rationality and collaboration</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 7315–7332</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.F1" title="In 16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch16.F1.4" title="In 16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.1</span></a>,
+<a href="#Ch16.S2.SS1.p1.1" title="16.2.1 Benchmarking Strategic Ability Across Games ‣ 16.2 Strategic Interaction Among LLM Agents ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.2.1</span></a>,
+<a href="#Ch16.S4.p2.1" title="16.4 Concluding Remarks ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.4</span></a>.
+</span></li>
+<li id="bibo.bib5" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Zhou, H. Zhu, L. Mathur, R. Zhang, H. Yu, Z. Qi, L. Morency, Y. Bisk, D. Fried, G. Neubig, and M. Sap</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">SOTOPIA: interactive evaluation for social intelligence in language agents</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2310.11667</span>,
+<a href="https://arxiv.org/abs/2310.11667" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.F7" title="In 16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.7</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch16.F7.4" title="In 16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 16.7</span></a>,
+<a href="#Ch16.S3.SS4.p2.1" title="16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.4</span></a>.
+</span></li>
+<li id="bibo.bib21" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhuge <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Zhuge, H. Liu, F. Faccio, D. R. Ashley, R. Csordás, A. Gopalakrishnan, A. Hamdi, H. A. A. K. Hammoud, V. Herrmann, K. Irie, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mindstorms in natural language-based societies of mind</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2305.17066</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS2.p6.1" title="16.3.2 Debate and Discussion ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.2</span></a>.
+</span></li>
+<li id="bibo.bib8" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zimbardo (1972)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. G. Zimbardo</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Stanford prison experiment: a simulation study of the psychology of imprisonment</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Philip G. Zimbardo, Incorporated</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch16.S3.SS4.p3.1" title="16.3.4 Social Role-Play ‣ 16.3 Role-Based Task Solving and Teamwork ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§16.3.4</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch15.html">← 第 15 章</a><a href="index.html">全书目录</a><a href="ch17.html">第 17 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

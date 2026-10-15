@@ -1,0 +1,553 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 23 章 智能体式大语言模型的未来方向 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html" aria-current="page"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html" aria-current="page"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">23 / 23 · 中文翻译</p><section id="Ch23" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch23-0001">第 23 章 智能体式大语言模型的未来方向</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch23.S1">23.1 智能体式大语言模型的现状</a></li><li class="level-h3"><a href="#Ch23.S1.SS1">23.1.1 技术</a></li><li class="level-h3"><a href="#Ch23.S1.SS2">23.1.2 应用</a></li><li class="level-h3"><a href="#Ch23.S1.SS3">23.1.3 行为</a></li><li class="level-h2"><a href="#Ch23.S2">23.2 局限与未来工作</a></li><li class="level-h3"><a href="#Ch23.S2.SS1">23.2.1 记忆与自我反思</a></li><li class="level-h3"><a href="#Ch23.S2.SS2">23.2.2 规模</a></li><li class="level-h3"><a href="#Ch23.S2.SS3">23.2.3 幻觉与可解释性</a></li><li class="level-h3"><a href="#Ch23.S2.SS4">23.2.4 情绪行为与意识</a></li><li class="level-h3"><a href="#Ch23.S2.SS5">23.2.5 社会行为</a></li><li class="level-h3"><a href="#Ch23.S2.SS6">23.2.6 法律与伦理</a></li><li class="level-h3"><a href="#Ch23.S2.SS7">23.2.7 犯罪</a></li><li class="level-h3"><a href="#Ch23.S2.SS8">23.2.8 应用的局限</a></li><li class="level-h2"><a href="#Ch23.S3">23.3 结语</a></li><li class="level-h2"><a href="#bibv">参考文献</a></li></ol></nav></details><div id="Ch23.p1" class="ltx_para">
+<p id="Ch23.p1.1" class="ltx_p" data-translation-id="ch23-0002">来到本书结尾，我们先对讨论过的内容作一个简要的总体回顾。首先回顾有关如何构建智能体式大语言模型的章节，再总结它们的不同应用，以及单智能体和多智能体场景下的行为。最后，在第 <a href="#Ch23.S2" title="23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">23.2</span></a> 节中，我们讨论当前方法的局限，以及未来可能出现的发展。</p>
+</div>
+<section id="Ch23.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch23-0003">23.1 智能体式大语言模型的现状</h2>
+
+<div id="Ch23.S1.p1" class="ltx_para">
+<p id="Ch23.S1.p1.1" class="ltx_p" data-translation-id="ch23-0004">如第一、二、三部分所述，智能体式大语言模型的基础包括语言建模、推理、工具使用，以及不同程度的自主性。</p>
+</div>
+<section id="Ch23.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0005">23.1.1 技术</h3>
+
+<div id="Ch23.S1.SS1.p1" class="ltx_para">
+<p id="Ch23.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch23-0006">智能体式大语言模型是在世界中采取行动，并根据反馈调整行为的推理模型。经过预训练和微调（第 <a href="ch03.html#Ch3" title="Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3</span></a> 章）后，它们可以在推理时访问外部信息，即检索增强生成式人工智能（第 <a href="ch12.html#Ch12" title="Chapter 12 Search and Retrieval in Agentic LLMs ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">12</span></a> 章）。它们也可以在推理时向自己发出提示，以核验结果，由此产生自我反思和上下文强化学习，见第 <a href="ch06.html#Ch6" title="Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6</span></a> 章。智能体式大语言模型已发展为多模态系统，可以在语言、视觉和动作领域运行（第 <a href="ch07.html#Ch7" title="Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7</span></a> 章）。为了有效做到这一点，可以为其配备预训练的世界模型，使其对物理世界具有初步理解。通过与环境交互，这些世界模型还可以在测试时得到改进。</p>
+</div>
+<div id="Ch23.S1.SS1.p2" class="ltx_para">
+<p id="Ch23.S1.SS1.p2.1" class="ltx_p" data-translation-id="ch23-0007">当前主要采用的机器学习架构是 Transformer。模型通过自监督学习，即下一个词元预测，进行预训练，再通过监督学习与强化学习针对特定任务进行微调。</p>
+</div>
+<div id="Ch23.S1.SS1.p3" class="ltx_para">
+<p id="Ch23.S1.SS1.p3.1" class="ltx_p" data-translation-id="ch23-0008">上下文中的思维链提示显著提高了模型的推理能力。研究人员已开发出用于微调的推理时方法，例如 RLVR 和 GRPO，以及用于自我反思的方法，例如 ReAct 和 Reflexion，见第 <a href="ch06.html#Ch6" title="Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6</span></a> 章。此外，还发展出了多种智能体与环境交互的提示方式（第 <a href="ch09.html#Ch9" title="Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9</span></a> 章）。</p>
+</div>
+</section>
+<section id="Ch23.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0009">23.1.2 应用</h3>
+
+<div id="Ch23.S1.SS2.p1" class="ltx_para">
+<p id="Ch23.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch23-0010">第四部分介绍了便于构建智能体式大语言模型的各种工具（第 <a href="ch11.html#Ch11" title="Chapter 11 How Agents Use Tools to Act in the World ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">11</span></a> 章）。智能体式大语言模型已被设计用于许多不同应用。在电子商务中，它们可以帮助理解用户偏好，并根据推荐采取行动；在医学中，可以阅读和总结诊断文本；在金融中，可以分析财务报告，为交易者提供建议；在科学与教育中，可以协助文献研究、生成运行实验的脚本、分析结果、帮助撰写论文和开展评审（第 <a href="ch13.html#Ch13" title="Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">13</span></a> 章）。</p>
+</div>
+</section>
+<section id="Ch23.S1.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0011">23.1.3 行为</h3>
+
+<div id="Ch23.S1.SS3.p1" class="ltx_para">
+<p id="Ch23.S1.SS3.p1.1" class="ltx_p" data-translation-id="ch23-0012">第五部分将视角从技术转向行为，研究智能体式大语言模型在单智能体和多智能体场景中的表现。讨论大语言模型的基本行为特征之后，第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章介绍了由大语言模型驱动的智能体在两类任务中的表现：一类改编自人类行为研究方法，另一类来自专门为人工智能基准评估开发的框架。第 <a href="ch16.html#Ch16" title="Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16</span></a> 章详细考察了基于预定义角色和协议的多智能体交互。第 <a href="ch17.html#Ch17" title="Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17</span></a> 章则转向开放式场景，研究智能体之间的小规模交互如何在系统层面涌现出行为结构、规范与惯例。</p>
+</div>
+<div id="Ch23.S1.SS3.p2" class="ltx_para">
+<p id="Ch23.S1.SS3.p2.1" class="ltx_p" data-translation-id="ch23-0013">第五部分讨论的各类方法与研究中反复出现了一些模式，包括构念效度问题，即如何将观察结果推广到人类情境；提示敏感性与级联效应，尤其是在多智能体场景中；知行差距，即模型通过语言进行预测的能力往往难以有效转化为行动；结构化推理的积极作用，即按照受人类推理启发的方式组织推理时，增加推理预算特别有帮助；以及符合期望和不符合期望的涌现特性，前者表现为优于计算预算相同的基线，后者表现为违反规范。</p>
+</div>
+</section>
+</section>
+<section id="Ch23.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch23-0014">23.2 局限与未来工作</h2>
+
+<div id="Ch23.S2.p1" class="ltx_para">
+<p id="Ch23.S2.p1.1" class="ltx_p" data-translation-id="ch23-0015">智能体式大语言模型以大语言模型的能力为基础，显著扩展了其能力和用途。不过，它们仍有许多局限，下面将逐一讨论。我们先从记忆、规模、可解释性和认知架构等较为技术性的主题谈起，再讨论潜在的感知能力或意识，以及这些属性所引出的伦理问题等影响广泛的主题。前面各章已经讨论过其中一些问题的解决方向。</p>
+</div>
+<section id="Ch23.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0016">23.2.1 记忆与自我反思</h3>
+
+<div id="Ch23.S2.SS1.p1" class="ltx_para">
+<p id="Ch23.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch23-0017">语言模型是一种函数：它计算的输出仅取决于输入，在两次调用之间没有记忆。为了能够自然地在世界中行动、进行对话，以及通过自我反思从行动中学习，智能体必须能够记忆。对人类而言，身份认同依赖于记忆能力。智能体也需要某种形式的记忆。</p>
+</div>
+<div id="Ch23.S2.SS1.p2" class="ltx_para">
+<p id="Ch23.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch23-0018">实现初步记忆的一种简单方法，是将过去的交互历史重新放回提示中；当前聊天机器人已成功使用这种方法。然而，尽管长上下文模型研究取得了一些进展，上下文窗口的大小仍然有限。智能体记忆方法是一个活跃的研究领域。大语言模型应当学习如何最佳地压缩信息，并将其存入长期或短期记忆。</p>
+</div>
+<div id="Ch23.S2.SS1.p3" class="ltx_para">
+<p id="Ch23.S2.SS1.p3.1" class="ltx_p" data-translation-id="ch23-0019">智能体可以通过检索增强生成式人工智能方法（RAG）访问外部信息，例如企业数据库中的信息。研究人员正在开发更复杂的智能体记忆架构，为智能体提供长期记忆。这些记忆可以是文本，也可以是存储于向量数据库中的词元嵌入（第 <a href="ch09.html#Ch9.S3" title="9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.3</span></a> 节）。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0020">23.2.2 规模</h3>
+
+<div id="Ch23.S2.SS2.p1" class="ltx_para">
+<p id="Ch23.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch23-0021">随着智能体具备自我反思和从环境交互中学习的能力，我们有必要讨论其底层语言模型的规模扩展问题。</p>
+</div>
+<div id="Ch23.S2.SS2.p2" class="ltx_para">
+<p id="Ch23.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch23-0022">大语言模型开发的一项主要挑战，是如何进一步提高性能。最初，规模是主要决定因素，这也是“大语言模型”名称的由来：只有规模足够大、并在足够大的文本语料上训练的模型，才能获得合格的基准表现，也只有大型模型表现出了上下文学习能力。因此，扩大模型与数据的规模似乎就是前进方向。然而，进一步扩展正变得越来越困难，因为互联网上大部分可用的高质量数据已被用于训练当前模型。此外，对更大模型进行更长时间的训练成本高昂；时间、资金与能耗都限制了这一方向。当前方法正接近平台期 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib27" title="" class="ltx_ref">Sutskever, 2024</a>]</cite>。</p>
+</div>
+<div id="Ch23.S2.SS2.p3" class="ltx_para">
+<p id="Ch23.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch23-0023">要进一步提高大语言模型的性能，持续获取具有挑战性的训练数据十分重要（第 <a href="ch19.html#Ch19" title="Chapter 19 *Synthetic Data Generation for Training Agentic LLMs ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">19</span></a> 章）。一种方法是将智能体式大语言模型与环境的交互作为训练数据。如果这些交互数据是全新、多样且高质量的，就可以用于预训练（另见图 <a href="ch01.html#Ch1.F1" title="Figure 1.1 ‣ 1.2.4 Training Data ‣ 1.2 Concepts and Definitions ‣ Chapter 1 Introduction ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1.1</span></a>）。需要指出，GRPO 和 RLVR 等推理时方法已经利用推理时结果进行微调，并取得了良好效果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib6" title="" class="ltx_ref">Guo et al., 2025</a>]</cite>；VLA 也使用自行生成的动作数据进行训练 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib7" title="" class="ltx_ref">Black et al., 2024</a>, <a href="#bibv.bib26" title="" class="ltx_ref">Brohan et al., 2023</a>]</cite>，见第 <a href="ch07.html#Ch7" title="Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7</span></a> 章。</p>
+</div>
+<section id="Ch23.S2.SS2.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch23-0024">过度思考</h5>
+
+<div id="Ch23.S2.SS2.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch23.S2.SS2.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch23-0025">针对思维链的规模扩展研究也揭示了增加思考投入的局限。思维链在某些领域比在其他领域更有效 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib14" title="" class="ltx_ref">Sprague et al., 2024</a>]</cite>。此外，更深入的推理可能导致过度思考：投入越多，推理过程反而越低效 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib16" title="" class="ltx_ref">Liu et al., 2024</a>, <a href="#bibv.bib13" title="" class="ltx_ref">Wu et al., 2025</a>]</cite>。相关研究仍在继续，逐步揭示思维链的工作方式 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib34" title="" class="ltx_ref">Chen et al., 2026b</a>]</cite>，以及哪些机制是有效的 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib15" title="" class="ltx_ref">Chen et al., 2026a</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS2.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch23-0026">开放世界模型与课程学习</h5>
+
+<div id="Ch23.S2.SS2.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch23.S2.SS2.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch23-0027">为了让规模扩展方法奏效，合成训练数据必须具有多样性，并且不同于现有数据。开放世界模型研究的一个专门目标，就是生成多样化的训练环境。其设想是创造无限的数据集或环境，让智能体能够持续学习，不断提升智能水平 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib5" title="" class="ltx_ref">Bruce et al., 2024</a>]</cite>。开放世界模型受到进化算法、质量多样性方法和电子游戏的启发 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib31" title="" class="ltx_ref">Vinyals et al., 2019</a>, <a href="#bibv.bib4" title="" class="ltx_ref">Mouret and Clune, 2015</a>, <a href="#bibv.bib32" title="" class="ltx_ref">Bakhtin et al., 2022</a>]</cite>。</p>
+</div>
+<div id="Ch23.S2.SS2.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch23.S2.SS2.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch23-0028">进一步扩展模型性能的另一条路径，是设计更好的训练方法。课程学习源自这样一个观察：对于大多数学习过程，先让系统学习简单任务，再尝试较难任务，效果通常更好。这一规律既适用于人脑，也适用于人工神经网络。大多数领域都存在相互关联、层层递进的概念体系。例如，在学校里，我们先学习加法，然后才学习长除法，乃至对数。课程学习方法正在预训练与后训练中得到尝试 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib8" title="" class="ltx_ref">Chen et al., 2025</a>, <a href="#bibv.bib9" title="" class="ltx_ref">Elgaar and Amiri, 2026</a>]</cite>。</p>
+</div>
+</section>
+</section>
+<section id="Ch23.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0029">23.2.3 幻觉与可解释性</h3>
+
+<div id="Ch23.S2.SS3.p1" class="ltx_para">
+<p id="Ch23.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch23-0030">当前智能体式大语言模型的另一个局限是幻觉问题：模型经常给出听起来合理、但事实上错误的答案，而且其声称的推理过程未必是产生实际输出的因果原因。后一个问题涉及称为“忠实度”的属性。</p>
+</div>
+<div id="Ch23.S2.SS3.p2" class="ltx_para">
+<p id="Ch23.S2.SS3.p2.1" class="ltx_p" data-translation-id="ch23-0031">可解释人工智能（XAI）领域提供了一系列应对技术，从将模型视为黑箱的行为方法与归因方法，例如 SHAP 和 LIME，到探测内部表征中人类可理解特征的基于概念的可解释性。更进一步，如第 <a href="ch21.html#Ch21" title="Chapter 21 *Mechanistic Interpretability for LLM Agents ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">21</span></a> 章所述，机制可解释性（MI）旨在对 Transformer 模型内部的计算回路进行逆向分析。</p>
+</div>
+<div id="Ch23.S2.SS3.p3" class="ltx_para">
+<p id="Ch23.S2.SS3.p3.1" class="ltx_p" data-translation-id="ch23-0032">稀疏自编码器、神经透镜和激活修补等工具，已经被用于识别导致幻觉的特定回路，并提供实验证据，表明在足够大的架构中，思维链推理能够成为模型行为中具有忠实度和因果作用的组成部分。随着智能体式大语言模型越来越多地部署于高风险场景，机制可解释性提供了一条构建幻觉检测器的路径：当模型内部的置信度特征与外部输出不一致时，检测器便会触发。这是迈向可追责智能体系统的重要一步。</p>
+</div>
+<div id="Ch23.S2.SS3.p4" class="ltx_para">
+<p id="Ch23.S2.SS3.p4.1" class="ltx_p" data-translation-id="ch23-0033">再往前一步，是比较人类与 Transformer 的认知架构。语言模型产生自然语言的方式似乎与人类相似。这是因为产生话语的架构相似，是一种巧合，还是存在其他解释？第 <a href="ch22.html#Ch22" title="Chapter 22 *Cognitive Perspectives on Agentic LLMs ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">22</span></a> 章探讨了这一问题。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0034">23.2.4 情绪行为与意识</h3>
+
+<div id="Ch23.S2.SS4.p1" class="ltx_para">
+<p id="Ch23.S2.SS4.p1.1" class="ltx_p" data-translation-id="ch23-0035">人类有拟人化的倾向：当周围没有生命的物体表现出类似人类的行为时，我们会赋予其有目的的行为，有时即使其行为并不像人类也会如此。我们还可能在无意识中赋予这些物体意识。这使我们相信并说出“计算机在思考”“计算机想要什么”“计算机今天状态不好”之类的话，甚至说“这本书喜欢被阅读”。大语言模型同样难逃这种待遇，它们的话语有时甚至会让最理性的哲学家相信它们有目的。然而，它们显然不可能具有目的，因为它们只是由机械设备执行的算法，而人类则不同，因为我们是有机体。〔注 1：鸭子类型的观点对此并不认同。按照这种行为主义观点，如果某物走起来像鸭子、叫起来也像鸭子，我们就把它视为鸭子。〕</p>
+</div>
+<div id="Ch23.S2.SS4.p2" class="ltx_para">
+<p id="Ch23.S2.SS4.p2.1" class="ltx_p" data-translation-id="ch23-0036">已有报告描述聊天机器人与人类之间的情感关系，有时这类关系会导致危险行为，甚至更严重的后果。</p>
+</div>
+<div id="Ch23.S2.SS4.p3" class="ltx_para">
+<p id="Ch23.S2.SS4.p3.1" class="ltx_p" data-translation-id="ch23-0037">意识问题正受到人工智能哲学研究者的热烈讨论。通常认为，意识意味着觉察自身和环境，并具有主观体验、思想与感受 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib10" title="" class="ltx_ref">Velmans, 2009</a>, <a href="#bibv.bib1" title="" class="ltx_ref">Butlin et al., 2023</a>]</cite>。但我们应如何检验意识？一种务实观点认为，对社会而言，重要的是行为。如果某个实体采取行动，重要的是行动后果，而其是否有意识则相对次要。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibv.bib11" title="" class="ltx_ref">Bengio and Elmoznino [2025]</a></cite> 认为，仅仅通过行动制造出的意识幻象，也会带来后果，而且人类将越来越难以区分具有意识和不具有意识的实体。他们认为，无论在医学、金融还是科学中，社会都必须找到应对能够行动的智能体的方法。功劳与法律责任最终都必须得到公平归属，同时还必须找到处理具有自我保存倾向的人工智能系统的方法。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS5" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0038">23.2.5 社会行为</h3>
+
+<div id="Ch23.S2.SS5.p1" class="ltx_para">
+<p id="Ch23.S2.SS5.p1.1" class="ltx_p" data-translation-id="ch23-0039">我们讨论过大语言模型如何模拟人类推理（第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章），以及如何改进多智能体系统中的社会行为模拟。当前智能体社会行为模拟的一个局限，是其行为受到提示脚本的强烈影响。尽管一些研究发现了逼真的社会行为，许多研究也发现了大语言模型失效的边界。</p>
+</div>
+<div id="Ch23.S2.SS5.p2" class="ltx_para">
+<p id="Ch23.S2.SS5.p2.1" class="ltx_p" data-translation-id="ch23-0040">此外，大规模涌现行为的研究也面临挑战（第 <a href="ch17.html#Ch17" title="Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17</span></a> 章）。与所有多智能体模拟一样，验证涌现行为、判断模拟行为有多真实，是一项难题，尽管一些研究报告了令人印象深刻的结果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib30" title="" class="ltx_ref">Park et al., 2024</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS6" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0041">23.2.6 法律与伦理</h3>
+
+<div id="Ch23.S2.SS6.p1" class="ltx_para">
+<p id="Ch23.S2.SS6.p1.1" class="ltx_p" data-translation-id="ch23-0042">助手在现实世界中采取行动，会产生现实后果。当不完善模型的行动带来真实影响时，能够行动的智能体式大语言模型就面临许多法律与伦理挑战。例如，金融交易助手产生幻觉，或者自动驾驶机器人作出错误推断时，应当由谁负责、承担何种法律责任，这些问题都应在系统实际部署之前得到处理。</p>
+</div>
+<div id="Ch23.S2.SS6.p2" class="ltx_para">
+<p id="Ch23.S2.SS6.p2.1" class="ltx_p" data-translation-id="ch23-0043">从技术层面提高安全性，是一个主要研究方向。确保智能体式大语言模型的安全，需要超越基于提示的防御，转向集成式、多层次的保障措施。在安全强化学习领域，一个重要方向是在智能体行动及其推理、规划流程中加入明确的安全约束 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib2" title="" class="ltx_ref">Gu et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch23.S2.SS6.p3" class="ltx_para">
+<p id="Ch23.S2.SS6.p3.1" class="ltx_p" data-translation-id="ch23-0044">提高安全性的另一种方法，是采用持续对抗训练与自动化红队测试，增强系统抵抗操纵的鲁棒性。其他优先事项包括开发自我调节和风险意识机制，使智能体能够识别并避免不安全行动，以及建立严格、标准化的安全基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib28" title="" class="ltx_ref">Andriushchenko et al., 2024</a>]</cite>。这些措施共同勾勒出一条路线，使智能体式大语言模型能够以可追责、可信赖的方式部署于高风险领域。</p>
+</div>
+<div id="Ch23.S2.SS6.p4" class="ltx_para">
+<p id="Ch23.S2.SS6.p4.1" class="ltx_p" data-translation-id="ch23-0045">然而，谁应对智能体的行动负责，仍是尚未解决的法律与伦理问题。随着智能体开始在现实世界中投入使用，解决这些问题变得至关重要。显然，要充分实现智能体式大语言模型的广泛潜力，还必须解决许多安全、伦理和信任问题。安全与伦理将成为智能体式大语言模型研究议程中的重要主题，值得通过专门的综述与书籍讨论 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib21" title="" class="ltx_ref">Gan et al., 2024</a>, <a href="#bibv.bib22" title="" class="ltx_ref">Jiao et al., 2025</a>, <a href="#bibv.bib23" title="" class="ltx_ref">Raza et al., 2025</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS7" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0046">23.2.7 犯罪</h3>
+
+<div id="Ch23.S2.SS7.p1" class="ltx_para">
+<p id="Ch23.S2.SS7.p1.1" class="ltx_p" data-translation-id="ch23-0047">考虑犯罪行为时，伦理与意识的讨论就变得十分具体。技术发展既可以被守法者利用，也可以被违法者利用，还可以被用于目前尚无有效法律约束的不道德行为。随着智能体式大语言模型展现出越来越可信的行为，真实行为与人工生成行为将难以区分。这可能导致危险的伦理处境，例如犯罪者利用技术影响毫无戒心的受害者的行为。</p>
+</div>
+<div id="Ch23.S2.SS7.p2" class="ltx_para">
+<p id="Ch23.S2.SS7.p2.1" class="ltx_p" data-translation-id="ch23-0048">合法说服、滥用信任与诈骗之间的界线有时并不清晰。智能体式大语言模型将显著提高社会工程的复杂程度，使说服性算法被用于社交网络、营销、间谍活动与网络犯罪 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib24" title="" class="ltx_ref">Kshetri, 2025</a>, <a href="#bibv.bib12" title="" class="ltx_ref">Lupinacci et al., 2025</a>]</cite>。虽然智能体式大语言模型也可以用于打击犯罪 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib18" title="" class="ltx_ref">Challita and Parrend, 2025</a>, <a href="#bibv.bib28" title="" class="ltx_ref">Andriushchenko et al., 2024</a>]</cite>，但社会对风险的认识仍需要时间才能跟上。尤其是不熟悉社交网络与大语言模型的人，可能更容易受到信任骗局和智能体式大语言模型网络犯罪的侵害。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS8" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch23-0049">23.2.8 应用的局限</h3>
+
+<div id="Ch23.S2.SS8.p1" class="ltx_para">
+<p id="Ch23.S2.SS8.p1.1" class="ltx_p" data-translation-id="ch23-0050">智能体式大语言模型的应用范围十分广泛。已经出现许多概念验证，初看之下，其结果令人印象深刻。但深入考察结果后，会发现一些不易解决的局限；当智能体在现实世界中使用时，这些局限可能产生严重后果。</p>
+</div>
+<section id="Ch23.S2.SS8.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch23-0051">23.2.8.1 人工智能辅助科学研究</h4>
+
+<div id="Ch23.S2.SS8.SSS1.p1" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS1.p1.1" class="ltx_p" data-translation-id="ch23-0052">许多智能体式大语言模型旨在支持科学研究，研究流程的各个阶段都已有相应工具。文献总结工具支持构思阶段；在不同领域中，有工具可以生成运行实验的脚本；数据解读与图表绘制获得了支持；此外，还有写作工具与科学论文评审工具。的确，产出表面上文字流畅、外观精良的研究论文，正变得越来越容易。</p>
+</div>
+<div id="Ch23.S2.SS8.SSS1.p2" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS1.p2.1" class="ltx_p" data-translation-id="ch23-0053">在数学领域，已有报告称大语言模型智能体在几何 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib20" title="" class="ltx_ref">Trinh et al., 2024</a>]</cite> 和代数 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib19" title="" class="ltx_ref">Hubert et al., 2025</a>]</cite> 方面达到了数学奥林匹克竞赛水平。这些系统包含 Transformer 网络，但整体上被设计为数学求解器，采用 Lean 等专门的自动定理证明技术 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib17" title="" class="ltx_ref">De Moura et al., 2015</a>]</cite> 与强化学习 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib33" title="" class="ltx_ref">Silver et al., 2017</a>, <a href="#bibv.bib25" title="" class="ltx_ref">Browne et al., 2012</a>]</cite>。</p>
+</div>
+<div id="Ch23.S2.SS8.SSS1.p3" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS1.p3.1" class="ltx_p" data-translation-id="ch23-0054">2025 年，一项基准研究在机器学习的多个领域评估了人工智能科学工具 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib29" title="" class="ltx_ref">Nathani et al., 2025</a>]</cite>。使用当时的前沿模型，作者并未发现模型能够提出新颖的假设、算法或架构，或作出实质性的科学改进。作者特别指出，现代大语言模型智能体能够成功应对多种定量实验，体现出较高级的技能与领域适应能力；但科学新颖性这一概念能否成功实现自动化，甚至能否以适合智能体的形式进行正式定义，目前仍不清楚。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS8.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch23-0055">23.2.8.2 电子商务</h4>
+
+<div id="Ch23.S2.SS8.SSS2.p1" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS2.p1.1" class="ltx_p" data-translation-id="ch23-0056">行动的法律责任，是在电子商务中部署智能体式大语言模型的一项主要难题。安全与隐私顾虑会阻碍用户向可能泄露信息的计算机系统提供个人信息和偏好。这就形成了推荐系统的两难困境：当用户不愿详细提供真实偏好时，推荐质量就会下降；用户对系统的信任随之降低，从而更不愿意提供信息。只有当系统能够方便、安全地收集高质量偏好信息，而且模型能够提供有力、实用的推荐时，电子商务中的智能体式大语言模型才会被公众接受。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS8.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch23-0057">23.2.8.3 交易</h4>
+
+<div id="Ch23.S2.SS8.SSS3.p1" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS3.p1.1" class="ltx_p" data-translation-id="ch23-0058">在金融交易中，法律责任至关重要。研究报告称，大语言模型在总结大量财务报告时，可能优于人类分析师。然而，金融交易风险很高，错误的交易建议会直接导致经济损失。此外，由于金融市场具有不可预测性，识别一个错误模型可能需要时间，因为无法明确判断某一次亏损究竟源于模型缺陷，还是仅仅是一次运气不佳的交易。模型必须经过充分测试，才能获得足够信任并投入使用。除非可靠到万无一失，自动交易系统的作用仍将限于支持人类决策。</p>
+</div>
+<div id="Ch23.S2.SS8.SSS3.p2" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS3.p2.1" class="ltx_p" data-translation-id="ch23-0059">大语言模型在金融领域的成功主要集中于分析文本报告。金融数据的时间序列分析方面也已有一些结果发表，但要获得可靠、可验证的基准结果十分困难。尽管某些研究声称效果良好，另一些研究则报告称，智能体式大语言模型预测金融市场结果的能力仍然存疑 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibv.bib3" title="" class="ltx_ref">Li et al., 2026</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch23.S2.SS8.SSS4" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch23-0060">23.2.8.4 医学</h4>
+
+<div id="Ch23.S2.SS8.SSS4.p1" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS4.p1.1" class="ltx_p" data-translation-id="ch23-0061">在医学中，准确性，尤其是结果的可解释性，对可信度更加重要。模型预测直接关系到行动的法律责任与伦理。在医疗应用中，结果可解释性至关重要，因此智能体式大语言模型系统会让人类参与决策循环。</p>
+</div>
+<div id="Ch23.S2.SS8.SSS4.p2" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS4.p2.1" class="ltx_p" data-translation-id="ch23-0062">与交易领域类似，医学中最有前景的智能体式大语言模型成果，集中于分析和总结文本文件，例如会议记录或文献综述。在其他应用中，例如制定治疗方案或执行手术，成果仍然有限。</p>
+</div>
+<div id="Ch23.S2.SS8.SSS4.p3" class="ltx_para">
+<p id="Ch23.S2.SS8.SSS4.p3.1" class="ltx_p" data-translation-id="ch23-0063">医学很可能既是智能体式大语言模型最有价值的应用领域之一，也是最为保守的领域之一。面对生死攸关的问题，我们应当格外谨慎，同时也要认识到潜在收益十分巨大。</p>
+</div>
+</section>
+</section>
+</section>
+<section id="Ch23.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch23-0064">23.3 结语</h2>
+
+<div id="Ch23.S3.p1" class="ltx_para">
+<p id="Ch23.S3.p1.1" class="ltx_p" data-translation-id="ch23-0065">智能体式大语言模型技术正在迅速发展。本书围绕三个相互联系的支柱梳理了这一发展：推理、行动与交互。推理型大语言模型通过思维链、自我反思和检索增强提供认知基础，使模型能够完成多步问题求解、文献综合与复杂决策支持。能够行动的智能体则将这一基础扩展到现实世界，使用工具、API 和世界模型，在机器人、金融、医学等领域协助用户。能够交互的智能体更进一步，在多智能体模拟中彼此互动，表现出合作、信任和规范形成等社会性涌现行为，而这些行为并未在提示中得到明确编排。</p>
+</div>
+<div id="Ch23.S3.p2" class="ltx_para">
+<p id="Ch23.S3.p2.1" class="ltx_p" data-translation-id="ch23-0066">这三个支柱彼此相连。如图 <a href="ch01.html#Ch1.F1" title="Figure 1.1 ‣ 1.2.4 Training Data ‣ 1.2 Concepts and Definitions ‣ Chapter 1 Introduction ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1.1</span></a> 所示，它们形成一个循环：推理促成更好的行动与交互，而行动及交互中的智能体所生成的数据，又可以用于预训练和微调更好的推理模型。这一良性循环为突破大语言模型规模扩展的平台期提供了一条有前景的路径，因为来自智能体助手、机器人系统和多智能体模拟的推理时交互数据，能够持续补充高质量、多样化的训练信号。</p>
+</div>
+<div id="Ch23.S3.p3" class="ltx_para">
+<p id="Ch23.S3.p3.1" class="ltx_p" data-translation-id="ch23-0067">然而，这三个支柱仍面临重大挑战。幻觉削弱了人们对推理链的信任，并威胁自我改进系统的稳定性。高风险领域中能够行动的智能体，其安全、法律责任与伦理问责问题尚未解决。大规模多智能体系统中的涌现行为，仍然难以验证和控制。为克服这些挑战，机制可解释性、开放世界模型、可扩展模拟基础设施，以及稳健安全基准等领域还需要进一步研究。</p>
+</div>
+<div id="Ch23.S3.p4" class="ltx_para">
+<p id="Ch23.S3.p4.1" class="ltx_p" data-translation-id="ch23-0068">我们正处于一个早期而又影响深远的时刻。概念验证令人瞩目，现实部署正在起步，而记忆、元认知、意识与集体智能的理论基础，仍是连接人工智能、哲学、认知科学和法律的开放问题。本书旨在提供技术基础与概念词汇，帮助你参与这些问题的研究。这个领域需要既理解当今智能体式大语言模型的能力、也理解其局限的研究者，并共同塑造它们未来的发展。</p>
+</div>
+</section>
+<section id="bibv" class="ltx_bibliography ltx_list_23_concl">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibv.L1" class="ltx_biblist">
+<li id="bibv.bib28" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Andriushchenko <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Andriushchenko, A. Souly, M. Dziemian, D. Duenas, M. Lin, J. Wang, D. Hendrycks, A. Zou, Z. Kolter, M. Fredrikson, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agentharm: a benchmark for measuring harmfulness of llm agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.09024</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS6.p3.1" title="23.2.6 Legal and Ethical Aspects ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.6</span></a>,
+<a href="#Ch23.S2.SS7.p2.1" title="23.2.7 Crime ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.7</span></a>.
+</span></li>
+<li id="bibv.bib32" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bakhtin <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Bakhtin, N. Brown, E. Dinan, G. Farina, C. Flaherty, D. Fried, A. Goff, J. Gray, H. Hu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Human-level play in the game of diplomacy by combining language models with strategic reasoning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Science</span> <span class="ltx_text ltx_bib_volume">378</span> (<span class="ltx_text ltx_bib_number">6624</span>), <span class="ltx_text ltx_bib_pages">pp. 1067–1074</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px2.p1.1" title="Open World Models and Curriculum Learning ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bengio and Elmoznino (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Bengio and E. Elmoznino</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Illusions of ai consciousness</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Science</span> <span class="ltx_text ltx_bib_volume">389</span> (<span class="ltx_text ltx_bib_number">6765</span>), <span class="ltx_text ltx_bib_pages">pp. 1090–1091</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS4.p3.1" title="23.2.4 Emotional Behavior and Consciousness ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.4</span></a>.
+</span></li>
+<li id="bibv.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Black <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Black, N. Brown, D. Driess, A. Esmail, M. Equi, C. Finn, N. Fusai, L. Groom, K. Hausman, B. Ichter, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title"><math id="bib.bib7.m1" class="ltx_Math" alttext="\pi_{0}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_{0}</annotation></semantics></math>: A vision-language-action flow model for general robot control</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.24164</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.p3.1" title="23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brohan <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Brohan, N. Brown, J. Carbajal, Y. Chebotar, X. Chen, K. Choromanski, T. Ding, D. Driess, A. Dubey, C. Finn, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Rt-2: vision-language-action models transfer web knowledge to robotic control</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2307.15818</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.p3.1" title="23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib25" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Browne <span class="ltx_text ltx_bib_etal">et al.</span> (2012)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. B. Browne, E. Powley, D. Whitehouse, S. M. Lucas, P. I. Cowling, P. Rohlfshagen, S. Tavener, D. Perez, S. Samothrakis, and S. Colton</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey of monte carlo tree search methods</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">IEEE Transactions on Computational Intelligence and AI in games</span> <span class="ltx_text ltx_bib_volume">4</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 1–43</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS8.SSS1.p2.1" title="23.2.8.1 AI Science ‣ 23.2.8 Limitations of Applications ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.8.1</span></a>.
+</span></li>
+<li id="bibv.bib5" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bruce <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Bruce, M. D. Dennis, A. Edwards, J. Parker-Holder, Y. Shi, E. Hughes, M. Lai, A. Mavalankar, R. Steigerwald, C. Apps, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Genie: generative interactive environments</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Forty-first International Conference on Machine Learning</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px2.p1.1" title="Open World Models and Curriculum Learning ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib1" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Butlin <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Butlin, R. Long, E. Elmoznino, Y. Bengio, J. Birch, A. Constant, G. Deane, S. M. Fleming, C. Frith, X. Ji, R. Kanai, C. Klein, G. Lindsay, M. Michel, L. Mudrik, M. A. K. Peters, E. Schwitzgebel, J. Simon, and R. VanRullen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Consciousness in artificial intelligence: insights from the science of consciousness</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2308.08708</span>,
+<a href="https://dx.doi.org/10.48550/arXiv.2308.08708" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS4.p3.1" title="23.2.4 Emotional Behavior and Consciousness ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.4</span></a>.
+</span></li>
+<li id="bibv.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Challita and Parrend (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Challita and P. Parrend</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">RedTeamLLM: an agentic ai framework for offensive security</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2505.06913</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS7.p2.1" title="23.2.7 Crime ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.7</span></a>.
+</span></li>
+<li id="bibv.bib15" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2026a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Chen, L. Peng, T. Tan, C. Zhao, B. J. Chen, Z. Lin, A. Go, and Y. Meng</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Think deep, not just long: measuring llm reasoning effort via deep-thinking tokens</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2602.13517</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px1.p1.1" title="Overthinking ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib34" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2026b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Chen, A. Plaat, and N. van Stein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">How does chain of thought think? mechanistic interpretability of chain-of-thought reasoning with sparse autoencoding</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">AAAI2026, arXiv preprint arXiv:2507.22928</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px1.p1.1" title="Overthinking ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib8" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Chen, J. Lu, M. Kim, D. Zhang, J. Tang, A. Piché, N. Gontier, Y. Bengio, and E. Kamalloo</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Self-evolving curriculum for llm reasoning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2505.14970</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px2.p2.1" title="Open World Models and Curriculum Learning ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib17" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">De Moura <span class="ltx_text ltx_bib_etal">et al.</span> (2015)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. De Moura, S. Kong, J. Avigad, F. Van Doorn, and J. von Raumer</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The lean theorem prover (system description)</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Automated Deduction</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 378–388</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS8.SSS1.p2.1" title="23.2.8.1 AI Science ‣ 23.2.8 Limitations of Applications ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.8.1</span></a>.
+</span></li>
+<li id="bibv.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Elgaar and Amiri (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Elgaar and H. Amiri</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Curriculum learning for llm pretraining: an analysis of learning dynamics</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2601.21698</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px2.p2.1" title="Open World Models and Curriculum Learning ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib21" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gan <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Gan, Y. Yang, Z. Ma, P. He, R. Zeng, Y. Wang, Q. Li, C. Zhou, S. Li, T. Wang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Navigating the risks: a survey of security, privacy, and ethics threats in LLM-based agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.09523</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS6.p4.1" title="23.2.6 Legal and Ethical Aspects ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.6</span></a>.
+</span></li>
+<li id="bibv.bib2" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Gu, L. Yang, Y. Du, G. Chen, F. Walter, J. Wang, and A. Knoll</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A review of safe reinforcement learning: methods, theories, and applications</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">IEEE Transactions on Pattern Analysis and Machine Intelligence</span> <span class="ltx_text ltx_bib_volume">46</span> (<span class="ltx_text ltx_bib_number">12</span>), <span class="ltx_text ltx_bib_pages">pp. 11216–11235</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS6.p2.1" title="23.2.6 Legal and Ethical Aspects ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.6</span></a>.
+</span></li>
+<li id="bibv.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Guo <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Guo, D. Yang, H. Zhang, J. Song, R. Zhang, R. Xu, Q. Zhu, S. Ma, P. Wang, X. Bi, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deepseek-r1: incentivizing reasoning capability in llms via reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.12948</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.p3.1" title="23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hubert <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Hubert, R. Mehta, L. Sartran, M. Z. Horváth, G. Žužić, E. Wieser, A. Huang, J. Schrittwieser, Y. Schroecker, H. Masoom, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Olympiad-level formal mathematical reasoning with reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature</span>, <span class="ltx_text ltx_bib_pages">pp. 1–3</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS8.SSS1.p2.1" title="23.2.8.1 AI Science ‣ 23.2.8 Limitations of Applications ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.8.1</span></a>.
+</span></li>
+<li id="bibv.bib22" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jiao <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Jiao, S. Afroogh, Y. Xu, and C. Phillips</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Navigating LLM ethics: advancements, challenges, and future directions</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">AI and Ethics</span>, <span class="ltx_text ltx_bib_pages">pp. 1–25</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS6.p4.1" title="23.2.6 Legal and Ethical Aspects ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.6</span></a>.
+</span></li>
+<li id="bibv.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kshetri (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Kshetri</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Transforming cybersecurity with agentic ai to combat emerging cyber threats</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Telecommunications Policy</span> <span class="ltx_text ltx_bib_volume">49</span> (<span class="ltx_text ltx_bib_number">6</span>), <span class="ltx_text ltx_bib_pages">pp. 102976</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS7.p2.1" title="23.2.7 Crime ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.7</span></a>.
+</span></li>
+<li id="bibv.bib3" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. W. Li, H. Kim, M. Cucuringu, and T. Ma</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Can llm-based financial investing strategies outperform the market in long run?</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 1</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 2711–2722</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS8.SSS3.p2.1" title="23.2.8.3 Trading ‣ 23.2.8 Limitations of Applications ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.8.3</span></a>.
+</span></li>
+<li id="bibv.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Liu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Liu, J. Geng, A. J. Wu, I. Sucholutsky, T. Lombrozo, and T. L. Griffiths</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mind your step (by step): chain-of-thought can reduce performance on tasks where thinking makes humans worse</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.21333</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px1.p1.1" title="Overthinking ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lupinacci <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Lupinacci, F. A. Pironti, F. Blefari, F. Romeo, L. Arena, and A. Furfaro</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The dark side of llms: agent-based attacks for complete computer takeover</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2507.06850</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS7.p2.1" title="23.2.7 Crime ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.7</span></a>.
+</span></li>
+<li id="bibv.bib4" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mouret and Clune (2015)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Mouret and J. Clune</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Illuminating search spaces by mapping elites</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1504.04909</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px2.p1.1" title="Open World Models and Curriculum Learning ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib29" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nathani <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Nathani, L. Madaan, N. Roberts, N. Bashlykov, A. Menon, V. Moens, A. Budhiraja, D. Magka, V. Vorotilov, G. Chaurasia, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MLGym: a new framework and benchmark for advancing ai research agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.14499</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS8.SSS1.p3.1" title="23.2.8.1 AI Science ‣ 23.2.8 Limitations of Applications ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.8.1</span></a>.
+</span></li>
+<li id="bibv.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Park <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. S. Park, C. Q. Zou, A. Shaw, B. M. Hill, C. Cai, M. R. Morris, R. Willer, P. Liang, and M. S. Bernstein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Generative agent simulations of 1,000 people</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.10109</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS5.p2.1" title="23.2.5 Social Behavior ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.5</span></a>.
+</span></li>
+<li id="bibv.bib23" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Raza <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Raza, R. Sapkota, M. Karkee, and C. Emmanouilidis</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Responsible agentic reasoning and ai agents: a critical survey: proposal for safe agentic AI via responsible reasoning ai agents (r2a2)</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">SuperIntelligence-Robotics-Safety &amp; Alignment</span> <span class="ltx_text ltx_bib_volume">2</span> (<span class="ltx_text ltx_bib_number">6</span>).
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS6.p4.1" title="23.2.6 Legal and Ethical Aspects ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.6</span></a>.
+</span></li>
+<li id="bibv.bib33" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Silver <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Silver, J. Schrittwieser, K. Simonyan, I. Antonoglou, A. Huang, A. Guez, T. Hubert, L. Baker, M. Lai, A. Bolton, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mastering the game of go without human knowledge</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">nature</span> <span class="ltx_text ltx_bib_volume">550</span> (<span class="ltx_text ltx_bib_number">7676</span>), <span class="ltx_text ltx_bib_pages">pp. 354–359</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS8.SSS1.p2.1" title="23.2.8.1 AI Science ‣ 23.2.8 Limitations of Applications ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.8.1</span></a>.
+</span></li>
+<li id="bibv.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sprague <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Sprague, F. Yin, J. D. Rodriguez, D. Jiang, M. Wadhwa, P. Singhal, X. Zhao, X. Ye, K. Mahowald, and G. Durrett</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">To cot or not to cot? chain-of-thought helps mainly on math and symbolic reasoning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2409.12183</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px1.p1.1" title="Overthinking ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib27" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sutskever (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">I. Sutskever</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Acceptance speech for test of time award</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Advances in Neural Information Processing Systems</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Vancouver, British Columbia, Canada</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.p2.1" title="23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Trinh <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. H. Trinh, Y. Wu, Q. V. Le, H. He, and T. Luong</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Solving olympiad geometry without human demonstrations</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature</span> <span class="ltx_text ltx_bib_volume">625</span> (<span class="ltx_text ltx_bib_number">7995</span>), <span class="ltx_text ltx_bib_pages">pp. 476–482</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS8.SSS1.p2.1" title="23.2.8.1 AI Science ‣ 23.2.8 Limitations of Applications ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.8.1</span></a>.
+</span></li>
+<li id="bibv.bib10" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Velmans (2009)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Velmans</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Understanding consciousness</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Routledge</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS4.p3.1" title="23.2.4 Emotional Behavior and Consciousness ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.4</span></a>.
+</span></li>
+<li id="bibv.bib31" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Vinyals <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">O. Vinyals, I. Babuschkin, W. M. Czarnecki, M. Mathieu, A. Dudzik, J. Chung, D. H. Choi, R. Powell, T. Ewalds, P. Georgiev, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Grandmaster level in starcraft ii using multi-agent reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature</span> <span class="ltx_text ltx_bib_volume">575</span> (<span class="ltx_text ltx_bib_number">7782</span>), <span class="ltx_text ltx_bib_pages">pp. 350–354</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px2.p1.1" title="Open World Models and Curriculum Learning ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+<li id="bibv.bib13" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wu <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Wu, Y. Wang, Z. Ye, T. Du, S. Jegelka, and Y. Wang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">When more is less: understanding chain-of-thought length in llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.07266</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch23.S2.SS2.SSS0.Px1.p1.1" title="Overthinking ‣ 23.2.2 Scale ‣ 23.2 Limitations and Future Work ‣ Chapter 23 Future Directions for Agentic LLMs ‣ Part VII Conclusion ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§23.2.2</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch22.html">← 第 22 章</a><a href="index.html">全书目录</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

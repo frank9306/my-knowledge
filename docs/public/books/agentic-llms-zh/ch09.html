@@ -1,0 +1,882 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 9 章 智能体式大语言模型的交互方式 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html" aria-current="page"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html" aria-current="page"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">09 / 23 · 中文翻译</p><section id="Ch9" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch09-0001">第 9 章 智能体式大语言模型的交互方式</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch9.S1">9.1 人工智能中的智能体</a></li><li class="level-h3"><a href="#Ch9.S1.SS1">9.1.1 智能体在环境中行动并适应环境</a></li><li class="level-h3"><a href="#Ch9.S1.SS2">9.1.2 作为强化学习智能体的智能体式大语言模型</a></li><li class="level-h2"><a href="#Ch9.S2">9.2 智能体式大语言模型中的学习机制</a></li><li class="level-h3"><a href="#Ch9.S2.SS1">9.2.1 智能体交互方式</a></li><li class="level-h2"><a href="#Ch9.S3">9.3 智能体式大语言模型的记忆架构</a></li><li class="level-h3"><a href="#Ch9.S3.SS1">9.3.1 记忆的必要性</a></li><li class="level-h3"><a href="#Ch9.S3.SS2">9.3.2 记忆架构</a></li><li class="level-h2"><a href="#Ch9.S4">9.4 结语</a></li><li class="level-h2"><a href="#bibh">参考文献</a></li></ol></nav></details><div id="Ch9.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch9.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch9.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch9.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch9.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0056">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch9.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch9.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0057">本章将介绍不同的智能体交互方式与智能体记忆。具体而言，你将能够：</p>
+<ul id="Ch9.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch9.S0.I1.i1" class="ltx_item">
+<div id="Ch9.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch9.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0058">识别人工智能发展历史上的三类智能体，以及它们与当今智能体式大语言模型的联系。</p>
+</div></li>
+<li id="Ch9.S0.I1.i2" class="ltx_item">
+<div id="Ch9.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch9.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0059">识别智能体式大语言模型的五种交互方式。</p>
+</div></li>
+<li id="Ch9.S0.I1.i3" class="ltx_item">
+<div id="Ch9.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch9.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0060">理解记忆对智能体式大语言模型的重要性，并识别不同的智能体记忆架构。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch9.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch09-0002">9.1 人工智能中的智能体</h2>
+
+<div id="Ch9.S1.p1" class="ltx_para">
+<p id="Ch9.S1.p1.1" class="ltx_p" data-translation-id="ch09-0003">智能体在人工智能中占据核心地位，我们首先讨论人工智能中智能体的一些背景。</p>
+</div>
+<section id="Ch9.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch09-0004">9.1.1 智能体在环境中行动并适应环境</h3>
+
+<div id="Ch9.S1.SS1.p1" class="ltx_para">
+<p id="Ch9.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch09-0005">在人工智能中，在世界中行动的实体称为智能体。它们相当于人工智能领域中在世界上行动的人类。通过智能体这一概念，人工智能研究者试图捕捉他们眼中人类活动的本质，即通过构建智能来理解智能。</p>
+</div>
+<div id="Ch9.S1.SS1.p2" class="ltx_para">
+<p id="Ch9.S1.SS1.p2.1" class="ltx_p" data-translation-id="ch09-0006">智能体是在环境中行动的自主软件系统。它们（1）具有目标，（2）感知环境，（3）作出决策，（4）采取行动以实现目标，最重要的是（5）从经验中学习。智能体应适应新信息，以便更好地实现目标；用强化学习术语来说，就是改进行动策略。</p>
+</div>
+<div id="Ch9.S1.SS1.p3" class="ltx_para">
+<p id="Ch9.S1.SS1.p3.1" class="ltx_p" data-translation-id="ch09-0007">传统计算机程序具有确定性，会以可预测的方式遵循预设指令（正因为如此，计算机才适合会计、控制等可预测性至关重要的工作）。相较之下，大语言模型智能体的确定性和可预测性较低。它们会学习，并不时改变行为。它们能够自主推理、规划，并使用工具执行任务，为用户完成编程、客户服务、数据分析等领域的简单工作流。（它们也会产生幻觉、犯错，而且总体上不可预测、不够可靠。在这一点上，大语言模型智能体更像人类。）</p>
+</div>
+<div id="Ch9.S1.SS1.p4" class="ltx_para">
+<p id="Ch9.S1.SS1.p4.1" class="ltx_p" data-translation-id="ch09-0008">人工智能对智能体的研究已有相当长时间。区分三类智能体很有帮助：（1）机器人助手智能体，（2）信念—愿望—意图智能体，（3）群集智能体。</p>
+</div>
+<section id="Ch9.S1.SS1.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0009">9.1.1.1 机器人助手</h4>
+
+<div id="Ch9.S1.SS1.SSS1.p1" class="ltx_para">
+<p id="Ch9.S1.SS1.SSS1.p1.1" class="ltx_p" data-translation-id="ch09-0010">我们先讨论作为机器人助手的智能体。这种人工智能智能体观源于工程领域：智能体为人类执行类似人类的任务。智能体是一种帮助人们更轻松完成日常任务的工具。例如工厂中的焊接机器人、飞机的自动驾驶仪，或需要在不可预测的环境中找到安全路线的自动驾驶汽车。</p>
+</div>
+<div id="Ch9.S1.SS1.SSS1.p2" class="ltx_para">
+<p id="Ch9.S1.SS1.SSS1.p2.1" class="ltx_p" data-translation-id="ch09-0011">其他例子包括 Alexa、Siri 等虚拟助手，帮助软件开发者提高生产率的 CoPilot 等编程助手，以及帮助客户在公司繁杂规则中找到路径、完成投诉或退款等目标的客服机器人。机器人助手智能体可以拥有很强的推理能力 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib6" title="" class="ltx_ref">Dorri et al., 2018</a>]</cite>，而大语言模型越来越多地用于这类助手 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib11" title="" class="ltx_ref">Plaat et al., 2025</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch9.S1.SS1.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0012">9.1.1.2 具有信念、愿望和意图的智能体</h4>
+
+<div id="Ch9.S1.SS1.SSS2.p1" class="ltx_para">
+<p id="Ch9.S1.SS1.SSS2.p1.1" class="ltx_p" data-translation-id="ch09-0013">另一种人工智能智能体观扎根于认知科学。这里的目标是让智能体模拟人类认知过程，使其具有信念、愿望和意图（BDI）。认知科学研究人类思维过程。人工智能智能体可用于实现认知模型，并对思维模型开展实验：模型能否进行逻辑推理、在桥牌游戏中与人类玩家合作、解构莎士比亚戏剧、作曲，或拥有自我意识？认知可能呈现许多细微的形式，例如解释感官输入、指导身体动作，以及对他人产生共情。</p>
+</div>
+<div id="Ch9.S1.SS1.SSS2.p2" class="ltx_para">
+<p id="Ch9.S1.SS1.SSS2.p2.1" class="ltx_p" data-translation-id="ch09-0014">BDI 智能体最初来自逻辑推理传统。它们被赋予目标，并通过行动追求目标。该领域的文献将行动视为实现智能体目标的手段 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib8" title="" class="ltx_ref">Rao et al., 1995</a>, <a href="#bibh.bib5" title="" class="ltx_ref">Georgeff et al., 1998</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch9.S1.SS1.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0015">9.1.1.3 群集智能体</h4>
+
+<div id="Ch9.S1.SS1.SSS3.p1" class="ltx_para">
+<p id="Ch9.S1.SS1.SSS3.p1.1" class="ltx_p" data-translation-id="ch09-0016">第三种人工智能智能体观强调大量小型智能体之间的交互模式。前述多智能体系统由少量能够行动和思考的复杂智能体组成，包括助手型智能体或具有信念、愿望和意图（BDI）的智能体；而这种方法研究由许多简单智能体组成的群体与群集。其重点是涌现的协作行为，即在超越智能体自身推理的尺度上出现的行为。群集能否抵御捕食者？产生协作需要哪些前提？一个社会何时和平、何时战争？什么是超级有机体 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib16" title="" class="ltx_ref">Johnson and Linksvayer, 2010</a>, <a href="#bibh.bib17" title="" class="ltx_ref">Wilson and Sober, 1989</a>]</cite>？</p>
+</div>
+<div id="Ch9.S1.SS1.SSS3.p2" class="ltx_para">
+<p id="Ch9.S1.SS1.SSS3.p2.1" class="ltx_p" data-translation-id="ch09-0017">群集智能体来自具身人工智能的联结主义传统 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib14" title="" class="ltx_ref">Brooks, 1990</a>]</cite>。智能体彼此通信，研究者通常关注合作、交流等大规模行为模式的涌现。著名的群集算法是蚁群优化 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib13" title="" class="ltx_ref">Dorigo et al., 2007</a>]</cite>，研究这类模式的知名软件环境是 Netlogo <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib9" title="" class="ltx_ref">Wilensky and Rand, 2015</a>]</cite>。11 1 <a href="https://www.netlogo.org" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://www.netlogo.org</a></p>
+</div>
+<div id="Ch9.S1.SS1.SSS3.p3" class="ltx_para">
+<p id="Ch9.S1.SS1.SSS3.p3.1" class="ltx_p" data-translation-id="ch09-0018">多智能体系统与智能体式大语言模型适合研究上述三种方法：作为工具的智能体、作为认知实体的智能体，以及帮助我们研究如何实现和平社会（或如何征服其他社会）的智能体。本书第四部分专门讨论作为工具的智能体，第五部分专门讨论认知与智能体社会。</p>
+</div>
+</section>
+</section>
+<section id="Ch9.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch09-0019">9.1.2 作为强化学习智能体的智能体式大语言模型</h3>
+
+<div id="Ch9.S1.SS2.p1" class="ltx_para">
+<p id="Ch9.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch09-0020">研究智能体行为在人工智能中有悠久传统。智能体行为的一个核心方面是如何在环境中学习。强化学习 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib34" title="" class="ltx_ref">Sutton and Barto, 2018</a>]</cite> 和多智能体强化学习 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib15" title="" class="ltx_ref">Wong et al., 2021</a>]</cite> 研究智能体从反馈中学习的机制。</p>
+</div>
+<div id="Ch9.S1.SS2.p2" class="ltx_para">
+<p id="Ch9.S1.SS2.p2.1" class="ltx_p" data-translation-id="ch09-0021">下一节将讨论智能体式大语言模型中的五种交互方式。为这一概述作准备，我们将用强化学习的语言，为在世界中互动的智能体提供形式化基础。</p>
+</div>
+<div id="Ch9.S1.SS2.p3" class="ltx_para">
+<p id="Ch9.S1.SS2.p3.1" class="ltx_p" data-translation-id="ch09-0022">图 <a href="#Ch9.F1" title="Figure 9.1 ‣ 9.1.2 Agentic LLMs as Reinforcement Learning Agents ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.1</span></a> 展示了由智能体和环境组成的强化学习系统。在该系统中，智能体通过行动与环境交互，环境则返回系统的新状态与奖励值，说明新状态有多好。</p>
+</div>
+<div id="Ch9.S1.SS2.p4" class="ltx_para">
+<p id="Ch9.S1.SS2.p4.1" class="ltx_p" data-translation-id="ch09-0023">智能体可以从这些奖励值中学习，记录每种状态下哪些行动有利、哪些不利。智能体的目标是找到在环境中的最优行为，也就是每种状态下的最佳行动。智能体用奖励强化对每种状态下最佳行动的认识，从而学习一个最优行为函数。这个将每种状态映射到行动的函数称为行为策略，记作 <math id="Ch9.S1.SS2.p4.m1" class="ltx_Math" alttext="\pi" display="inline" intent=":literal"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>。最优策略记作 <math id="Ch9.S1.SS2.p4.m2" class="ltx_Math" alttext="\pi^{*}" display="inline" intent=":literal"><semantics><msup><mi>π</mi><mo>∗</mo></msup><annotation encoding="application/x-tex">\pi^{*}</annotation></semantics></math>。如果智能体通过深度学习进行学习，策略就由神经网络权重 <math id="Ch9.S1.SS2.p4.m3" class="ltx_Math" alttext="\theta" display="inline" intent=":literal"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> 参数化。</p>
+</div>
+<figure id="Ch9.F1" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F1.pic1" class="ltx_picture ltx_centering" height="83.23" overflow="visible" version="1.1" viewbox="0 0 361.75 83.23" width="361.75"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,83.23) matrix(1 0 0 -1 0 0) translate(189.17,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 104.84 31.5 L -104.84 31.5 C -107.9 31.5 -110.38 29.02 -110.38 25.96 L -110.38 13.41 C -110.38 10.35 -107.9 7.87 -104.84 7.87 L 104.84 7.87 C 107.9 7.87 110.38 10.35 110.38 13.41 L 110.38 25.96 C 110.38 29.02 107.9 31.5 104.84 31.5 Z M -110.38 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -105.77 16.21)"><foreignobject style="--ltx-fo-width:6.32em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="87.48" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0061">环境：<math id="Ch9.F1.pic1.m1" class="ltx_Math" alttext="T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><mo>,</mo><mrow><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 82.58 90.55 L -82.58 90.55 C -85.63 90.55 -88.11 88.07 -88.11 85.02 L -88.11 72.46 C -88.11 69.41 -85.63 66.93 -82.58 66.93 L 82.58 66.93 C 85.63 66.93 88.11 69.41 88.11 72.46 L 88.11 85.02 C 88.11 88.07 85.63 90.55 82.58 90.55 Z M -88.11 66.93"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -83.5 75.28)"><foreignobject style="--ltx-fo-width:7.84em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="108.51" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0062">智能体：<math id="Ch9.F1.pic1.m2" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 改进 <math id="Ch9.F1.pic1.m3" class="ltx_Math" alttext="\pi_{\theta}(s)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">\pi_{\theta}(s)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -110.65 19.69"></path><path style="fill:none" d="M -110.65 19.69 C -172.31 19.69 -150.04 78.74 -89.51 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -89.51 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -184.56 45.74)"><foreignobject style="--ltx-fo-width:2.45em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="33.91" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F1.pic1.m4" class="ltx_Math" alttext="(s^{\prime},r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s^{\prime},r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 88.39 78.74"></path><path style="fill:none" d="M 88.39 78.74 C 150.04 78.74 172.31 19.69 111.78 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 111.78 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 150.65 46.23)"><foreignobject style="--ltx-fo-width:0.53em;--ltx-fo-height:0.43em;--ltx-fo-depth:0em;font-size:10pt;" height="5.96" overflow="visible" transform="matrix(1 0 0 -1 0 5.96)" width="7.31" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F1.pic1.m5" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0024">图 9.1：强化学习循环：智能体采取行动 <math id="Ch9.F1.m10" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math> 后，从环境转移函数 <math id="Ch9.F1.m8" class="ltx_Math" alttext="T" display="inline" intent=":literal"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> 和奖励函数 <math id="Ch9.F1.m9" class="ltx_Math" alttext="R" display="inline" intent=":literal"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math> 给出的反馈奖励 <math id="Ch9.F1.m7" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 中，学习参数化策略 <math id="Ch9.F1.m6" class="ltx_Math" alttext="\pi_{\theta}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mi>θ</mi></msub><annotation encoding="application/x-tex">\pi_{\theta}</annotation></semantics></math> <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib34" title="" class="ltx_ref">Sutton and Barto, 2018</a>]</cite></figcaption>
+</figure>
+<div id="Ch9.S1.SS2.p5" class="ltx_para">
+<p id="Ch9.S1.SS2.p5.1" class="ltx_p" data-translation-id="ch09-0025">智能体运行于其中的世界由环境表示。智能体采取行动，改变环境状态。环境具有概率转移函数，每当智能体执行行动后，就计算新状态。环境还为新状态计算相应奖励。因此，环境通过两个函数建模：转移函数 <math id="Ch9.S1.SS2.p5.m1" class="ltx_Math" alttext="T" display="inline" intent=":literal"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> 和奖励函数 <math id="Ch9.S1.SS2.p5.m2" class="ltx_Math" alttext="R" display="inline" intent=":literal"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>。</p>
+</div>
+<div id="Ch9.S1.SS2.p6" class="ltx_para">
+<p id="Ch9.S1.SS2.p6.1" class="ltx_p" data-translation-id="ch09-0026">这个模型描述智能体在环境中行动、接受反馈，并学习哪些行动导致良好的状态转移、哪些没有。如下一节将看到的，它十分符合智能体式大语言模型的概念。</p>
+</div>
+<figure id="Ch9.F2" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F2.pic1" class="ltx_picture ltx_centering" height="83.23" overflow="visible" version="1.1" viewbox="0 0 364.1 83.23" width="364.1"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,83.23) matrix(1 0 0 -1 0 0) translate(187.12,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 104.84 31.5 L -104.84 31.5 C -107.9 31.5 -110.38 29.02 -110.38 25.96 L -110.38 13.41 C -110.38 10.35 -107.9 7.87 -104.84 7.87 L 104.84 7.87 C 107.9 7.87 110.38 10.35 110.38 13.41 L 110.38 25.96 C 110.38 29.02 107.9 31.5 104.84 31.5 Z M -110.38 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -105.77 16.21)"><foreignobject style="--ltx-fo-width:6.32em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="87.48" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0063">环境：<math id="Ch9.F2.pic1.m1" class="ltx_Math" alttext="T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><mo>,</mo><mrow><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 71.87 90.55 L -71.87 90.55 C -74.92 90.55 -77.4 88.07 -77.4 85.02 L -77.4 72.46 C -77.4 69.41 -74.92 66.93 -71.87 66.93 L 71.87 66.93 C 74.92 66.93 77.4 69.41 77.4 72.46 L 77.4 85.02 C 77.4 88.07 74.92 90.55 71.87 90.55 Z M -77.4 66.93"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -72.79 75.28)"><foreignobject style="--ltx-fo-width:3.25em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="44.97" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0064">智能体：<math id="Ch9.F2.pic1.m2" class="ltx_Math" alttext="\pi_{LLM_{P\pi}}(s,r)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><msub><mi>π</mi><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>π</mi></mrow></msub></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">\pi_{LLM_{P\pi}}(s,r)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -110.65 19.69"></path><path style="fill:none" d="M -110.65 19.69 C -176.71 19.69 -143.74 78.74 -78.8 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -78.8 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -182.5 45.74)"><foreignobject style="--ltx-fo-width:2.45em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="33.91" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F2.pic1.m3" class="ltx_Math" alttext="(s^{\prime},r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s^{\prime},r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 77.68 78.74"></path><path style="fill:none" d="M 77.68 78.74 C 143.74 78.74 176.71 19.69 111.78 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 111.78 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 148.6 46.23)"><foreignobject style="--ltx-fo-width:0.53em;--ltx-fo-height:0.43em;--ltx-fo-depth:0em;font-size:10pt;" height="5.96" overflow="visible" transform="matrix(1 0 0 -1 0 5.96)" width="7.31" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F2.pic1.m4" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0027">图 9.2：强化学习：智能体使用大语言模型参数化策略 <math id="Ch9.F2.m4" class="ltx_Math" alttext="\pi_{LLM_{P\pi}}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>π</mi></mrow></msub></mrow></msub><annotation encoding="application/x-tex">\pi_{LLM_{P\pi}}</annotation></semantics></math>，利用来自环境的反馈 <math id="Ch9.F2.m5" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 来选择行动 <math id="Ch9.F2.m6" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></figcaption>
+</figure>
+<div id="Ch9.S1.SS2.p7" class="ltx_para">
+<p id="Ch9.S1.SS2.p7.1" class="ltx_p" data-translation-id="ch09-0028">从强化学习角度看，我们可以把大语言模型用作智能体中的函数：<math id="Ch9.S1.SS2.p7.m1" class="ltx_Math" alttext="LLM(prompt)\rightarrow answer" display="inline" intent=":literal"><semantics><mrow><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>M</mi><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mrow><mi>p</mi><mo lspace="0em" rspace="0em">​</mo><mi>r</mi><mo lspace="0em" rspace="0em">​</mo><mi>o</mi><mo lspace="0em" rspace="0em">​</mo><mi>m</mi><mo lspace="0em" rspace="0em">​</mo><mi>p</mi><mo lspace="0em" rspace="0em">​</mo><mi>t</mi></mrow><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mrow><mi>a</mi><mo lspace="0em" rspace="0em">​</mo><mi>n</mi><mo lspace="0em" rspace="0em">​</mo><mi>s</mi><mo lspace="0em" rspace="0em">​</mo><mi>w</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">LLM(prompt)\rightarrow answer</annotation></semantics></math>。大语言模型可以用在强化学习的不同位置：智能体内，或环境中。例如，智能体可把大语言模型用作策略改进器，以特定提示调用大语言模型来实现策略函数 <math id="Ch9.S1.SS2.p7.m2" class="ltx_Math" alttext="\pi_{LLM_{P\pi}}(s,r)" display="inline" intent=":literal"><semantics><mrow><msub><mi>π</mi><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>π</mi></mrow></msub></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi_{LLM_{P\pi}}(s,r)</annotation></semantics></math>，该函数从环境反馈中学习在各种环境状态下应采取哪些行动（见图 <a href="#Ch9.F2" title="Figure 9.2 ‣ 9.1.2 Agentic LLMs as Reinforcement Learning Agents ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.2</span></a>）。给予大语言模型的提示 <math id="Ch9.S1.SS2.p7.m3" class="ltx_Math" alttext="P\pi" display="inline" intent=":literal"><semantics><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>π</mi></mrow><annotation encoding="application/x-tex">P\pi</annotation></semantics></math> 告诉它利用奖励 <math id="Ch9.S1.SS2.p7.m4" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 充当策略改进器，并为状态 <math id="Ch9.S1.SS2.p7.m6" class="ltx_Math" alttext="s" display="inline" intent=":literal"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math> 返回行动 <math id="Ch9.S1.SS2.p7.m5" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>。正如第 <a href="ch20.html#Ch20.S2.SS1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.2.1</span></a> 节将介绍的，上下文强化学习（ICRL）把大语言模型用作策略改进器，而思维树可用大语言模型生成后继行动。</p>
+</div>
+<figure id="Ch9.F3" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F3.pic1" class="ltx_picture ltx_centering" height="83.23" overflow="visible" version="1.1" viewbox="0 0 493.93 83.23" width="493.93"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,83.23) matrix(1 0 0 -1 0 0) translate(246.97,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 147.3 31.5 L -147.3 31.5 C -150.36 31.5 -152.84 29.02 -152.84 25.96 L -152.84 13.41 C -152.84 10.35 -150.36 7.87 -147.3 7.87 L 147.3 7.87 C 150.36 7.87 152.84 10.35 152.84 13.41 L 152.84 25.96 C 152.84 29.02 150.36 31.5 147.3 31.5 Z M -152.84 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -148.23 16.22)"><foreignobject style="--ltx-fo-width:6.32em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="87.48" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0065">环境：<math id="Ch9.F3.pic1.m1" class="ltx_Math" alttext="T_{LLM_{PT}}(s,a)\rightarrow s^{\prime},R_{LLM_{PR}}(s^{\prime})\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><msub><mi>T</mi><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>T</mi></mrow></msub></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><mo>,</mo><mrow><mrow><msub><mi>R</mi><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>R</mi></mrow></msub></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">T_{LLM_{PT}}(s,a)\rightarrow s^{\prime},R_{LLM_{PR}}(s^{\prime})\rightarrow r</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 71.87 90.55 L -71.87 90.55 C -74.92 90.55 -77.4 88.07 -77.4 85.02 L -77.4 72.46 C -77.4 69.41 -74.92 66.93 -71.87 66.93 L 71.87 66.93 C 74.92 66.93 77.4 69.41 77.4 72.46 L 77.4 85.02 C 77.4 88.07 74.92 90.55 71.87 90.55 Z M -77.4 66.93"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -72.79 75.28)"><foreignobject style="--ltx-fo-width:3.25em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="44.97" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0066">智能体：<math id="Ch9.F3.pic1.m2" class="ltx_Math" alttext="\pi_{LLM_{P\pi}}(s,r)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><msub><mi>π</mi><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>π</mi></mrow></msub></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">\pi_{LLM_{P\pi}}(s,r)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -153.12 19.69"></path><path style="fill:none" d="M -153.12 19.69 C -246.69 19.69 -171.25 78.74 -78.8 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -78.8 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -224.37 45.74)"><foreignobject style="--ltx-fo-width:2.45em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="33.91" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F3.pic1.m3" class="ltx_Math" alttext="(s^{\prime},r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s^{\prime},r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 77.68 78.74"></path><path style="fill:none" d="M 77.68 78.74 C 171.25 78.74 246.69 19.69 154.24 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 154.24 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 190.46 46.23)"><foreignobject style="--ltx-fo-width:0.53em;--ltx-fo-height:0.43em;--ltx-fo-depth:0em;font-size:10pt;" height="5.96" overflow="visible" transform="matrix(1 0 0 -1 0 5.96)" width="7.31" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F3.pic1.m4" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0029">图 9.3：强化学习：智能体和环境均使用大语言模型实现 <math id="Ch9.F3.m5" class="ltx_Math" alttext="\pi" display="inline" intent=":literal"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math>、<math id="Ch9.F3.m6" class="ltx_Math" alttext="T" display="inline" intent=":literal"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> 和 <math id="Ch9.F3.m7" class="ltx_Math" alttext="R" display="inline" intent=":literal"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>。每个大语言模型都获得提示 <math id="Ch9.F3.m8" class="ltx_Math" alttext="Px" display="inline" intent=":literal"><semantics><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">Px</annotation></semantics></math>，以返回行动、状态或奖励值</figcaption>
+</figure>
+<div id="Ch9.S1.SS2.p8" class="ltx_para">
+<p id="Ch9.S1.SS2.p8.1" class="ltx_p" data-translation-id="ch09-0030">大语言模型也可以用于环境，计算状态的奖励 <math id="Ch9.S1.SS2.p8.m1" class="ltx_Math" alttext="LLM_{R(s)}" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow></msub></mrow><annotation encoding="application/x-tex">LLM_{R(s)}</annotation></semantics></math>，或计算下一状态 <math id="Ch9.S1.SS2.p8.m2" class="ltx_Math" alttext="LLM_{T(s,a)}" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow></msub></mrow><annotation encoding="application/x-tex">LLM_{T(s,a)}</annotation></semantics></math>，见图 <a href="#Ch9.F3" title="Figure 9.3 ‣ 9.1.2 Agentic LLMs as Reinforcement Learning Agents ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.3</span></a>。图中同一大语言模型现在使用三种不同提示承担三种角色：实现策略函数、转移函数和奖励函数。例如，思维树可使用大语言模型评估状态奖励。如接下来所见，设计智能体式大语言模型时有许多选择。我们采用强化学习范式讨论和展示不同的智能体方式。</p>
+</div>
+</section>
+</section>
+<section id="Ch9.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch09-0031">9.2 智能体式大语言模型中的学习机制</h2>
+
+<div id="Ch9.S2.p1" class="ltx_para">
+<p id="Ch9.S2.p1.1" class="ltx_p" data-translation-id="ch09-0032">智能体式大语言模型是一个新领域，前面几章展示了将大语言模型用于智能体场景的许多不同方法。本节回顾本书迄今介绍的方法，并依据提示方法和训练方法加以区分。</p>
+</div>
+<div id="Ch9.S2.p2" class="ltx_para">
+<p id="Ch9.S2.p2.1" class="ltx_p" data-translation-id="ch09-0033">我们将描述适用于智能体式大语言模型的五种交互方式。表 <a href="#Ch9.T1" title="Table 9.1 ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.1</span></a> 汇总了这五种智能体方式。我们关注 Harness 在推断时如何提示大语言模型，以及模型如何训练。所有提示方式都可以在特定领域产生有用的智能体助手和交互伙伴，表现出符合现实的行动。更复杂的提示方式旨在追求更具挑战性领域中的更佳性能。</p>
+</div>
+<div id="Ch9.S2.p3" class="ltx_para">
+<p id="Ch9.S2.p3.1" class="ltx_p" data-translation-id="ch09-0034">表的第一列给出智能体交互方式的名称，从查询到强化微调。第二列列出提示类型，从不含任何示例的简单静态指令提示，到动态强化学习提示。第三列展示大语言模型的训练方法，即预训练、微调或两者兼有。第四列给出各交互方式的具体例子（附文献引用）。</p>
+</div>
+<figure id="Ch9.T1" class="ltx_table">
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch9.T1.3" class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<tbody class="ltx_tbody">
+<tr id="Ch9.T1.3.1" class="ltx_tr">
+<th id="Ch9.T1.3.1.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r" data-translation-id="ch09-0112">智能体类型</th>
+<td id="Ch9.T1.3.1.2" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0113">提示</td>
+<td id="Ch9.T1.3.1.3" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0114">大语言模型</td>
+<td id="Ch9.T1.3.1.4" class="ltx_td ltx_align_center" data-translation-id="ch09-0115">示例</td></tr>
+<tr id="Ch9.T1.3.2" class="ltx_tr">
+<th id="Ch9.T1.3.2.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r ltx_border_t" data-translation-id="ch09-0116">A：查询</th>
+<td id="Ch9.T1.3.2.2" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0117">用户编写的零样本</td>
+<td id="Ch9.T1.3.2.3" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0118">预训练</td>
+<td id="Ch9.T1.3.2.4" class="ltx_td ltx_align_center ltx_border_t" data-translation-id="ch09-0119">GPT-2 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib39" title="" class="ltx_ref">Vaswani et al., 2017</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.3" class="ltx_tr">
+<th id="Ch9.T1.3.3.1" class="ltx_td ltx_th ltx_th_row ltx_border_r"></th>
+<td id="Ch9.T1.3.3.2" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0120">查询或指令</td>
+<td id="Ch9.T1.3.3.3" class="ltx_td ltx_border_r"></td>
+<td id="Ch9.T1.3.3.4" class="ltx_td"></td></tr>
+<tr id="Ch9.T1.3.4" class="ltx_tr">
+<th id="Ch9.T1.3.4.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r ltx_border_t" data-translation-id="ch09-0121">B：上下文学习</th>
+<td id="Ch9.T1.3.4.2" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0122">少样本</td>
+<td id="Ch9.T1.3.4.3" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0123">预训练</td>
+<td id="Ch9.T1.3.4.4" class="ltx_td ltx_align_center ltx_border_t" data-translation-id="ch09-0124">GPT-3 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib38" title="" class="ltx_ref">Brown et al., 2020</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.5" class="ltx_tr">
+<th id="Ch9.T1.3.5.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r" data-translation-id="ch09-0125">（监督示例）</th>
+<td id="Ch9.T1.3.5.2" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0126">示例</td>
+<td id="Ch9.T1.3.5.3" class="ltx_td ltx_border_r"></td>
+<td id="Ch9.T1.3.5.4" class="ltx_td"></td></tr>
+<tr id="Ch9.T1.3.6" class="ltx_tr">
+<th id="Ch9.T1.3.6.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r ltx_border_t" data-translation-id="ch09-0127">C：上下文学习</th>
+<td id="Ch9.T1.3.6.2" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0128">思维链步骤</td>
+<td id="Ch9.T1.3.6.3" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0129">预训练</td>
+<td id="Ch9.T1.3.6.4" class="ltx_td ltx_align_center ltx_border_t" data-translation-id="ch09-0130">思维链 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib42" title="" class="ltx_ref">Wei et al., 2022</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.7" class="ltx_tr">
+<th id="Ch9.T1.3.7.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r" data-translation-id="ch09-0131">（推理步骤）</th>
+<td id="Ch9.T1.3.7.2" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0132">示例</td>
+<td id="Ch9.T1.3.7.3" class="ltx_td ltx_border_r"></td>
+<td id="Ch9.T1.3.7.4" class="ltx_td ltx_align_center" data-translation-id="ch09-0133">零样本思维链 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib37" title="" class="ltx_ref">Kojima et al., 2022</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.8" class="ltx_tr">
+<th id="Ch9.T1.3.8.1" class="ltx_td ltx_th ltx_th_row ltx_border_r ltx_border_t"></th>
+<td id="Ch9.T1.3.8.2" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0134">反馈 Harness</td>
+<td id="Ch9.T1.3.8.3" class="ltx_td ltx_border_r ltx_border_t"></td>
+<td id="Ch9.T1.3.8.4" class="ltx_td ltx_align_center ltx_border_t" data-translation-id="ch09-0135">思维树 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib36" title="" class="ltx_ref">Yao et al., 2024</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.9" class="ltx_tr">
+<th id="Ch9.T1.3.9.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r" data-translation-id="ch09-0136">D：自我反思</th>
+<td id="Ch9.T1.3.9.2" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0137">提示优化</td>
+<td id="Ch9.T1.3.9.3" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0138">预训练</td>
+<td id="Ch9.T1.3.9.4" class="ltx_td ltx_align_center" data-translation-id="ch09-0139">LLaMea <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib33" title="" class="ltx_ref">van Stein and Bäck, 2024</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.10" class="ltx_tr">
+<th id="Ch9.T1.3.10.1" class="ltx_td ltx_th ltx_th_row ltx_border_r"></th>
+<td id="Ch9.T1.3.10.2" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0140">搜索或强化学习</td>
+<td id="Ch9.T1.3.10.3" class="ltx_td ltx_border_r"></td>
+<td id="Ch9.T1.3.10.4" class="ltx_td ltx_align_center" data-translation-id="ch09-0141">ReAct <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib43" title="" class="ltx_ref">Yao et al., 2022</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.11" class="ltx_tr">
+<th id="Ch9.T1.3.11.1" class="ltx_td ltx_align_left ltx_th ltx_th_row ltx_border_r ltx_border_t" data-translation-id="ch09-0142">E：强化微调</th>
+<td id="Ch9.T1.3.11.2" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0143">强化学习提示</td>
+<td id="Ch9.T1.3.11.3" class="ltx_td ltx_align_center ltx_border_r ltx_border_t" data-translation-id="ch09-0144">预训练／</td>
+<td id="Ch9.T1.3.11.4" class="ltx_td ltx_align_center ltx_border_t" data-translation-id="ch09-0145">RLVR <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib10" title="" class="ltx_ref">Lambert et al., 2024</a>]</cite></td></tr>
+<tr id="Ch9.T1.3.12" class="ltx_tr">
+<th id="Ch9.T1.3.12.1" class="ltx_td ltx_th ltx_th_row ltx_border_r"></th>
+<td id="Ch9.T1.3.12.2" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0146">优化 Harness</td>
+<td id="Ch9.T1.3.12.3" class="ltx_td ltx_align_center ltx_border_r" data-translation-id="ch09-0147">微调</td>
+<td id="Ch9.T1.3.12.4" class="ltx_td"></td></tr>
+</tbody>
+</table>
+</div><figcaption class="ltx_caption ltx_centering" style="font-size:80%;" data-translation-id="ch09-0035">表 9.1：五种智能体方式</figcaption>
+</figure>
+<section id="Ch9.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch09-0036">9.2.1 智能体交互方式</h3>
+
+<div id="Ch9.S2.SS1.p1" class="ltx_para">
+<p id="Ch9.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch09-0037">下面讨论这些交互方式。在前三种智能体方式中，大语言模型的提示是静态的：由用户编写，并且不发生变化。</p>
+</div>
+<section id="Ch9.S2.SS1.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0038">9.2.1.1 A. 查询提示</h4>
+
+<div id="Ch9.S2.SS1.SSS1.p1" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS1.p1.1" class="ltx_p" data-translation-id="ch09-0039">第一种交互方式是通过给予简单指令来与大语言模型互动。图 <a href="#Ch9.F4" title="Figure 9.4 ‣ 9.2.1.1 A. Query Prompt ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.4</span></a> 展示了这种方式。它只包含用户编写的指令。例如：莉莉错过了火车。她感到非常……我们希望模型回答愤怒、悲伤之类的词语。提示纯粹是一条查询，不含任何训练示例。这种学习方式是零样本学习，只有指令。</p>
+</div>
+<figure id="Ch9.F4" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F4.pic1" class="ltx_picture ltx_centering" height="24.18" overflow="visible" version="1.1" viewbox="0 0 208.27 24.18" width="208.27"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,24.18) matrix(1 0 0 -1 0 0) translate(23.55,0) translate(0,12.09)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 17.74 11.81 L -17.74 11.81 C -20.79 11.81 -23.27 9.33 -23.27 6.28 L -23.27 -6.28 C -23.27 -9.33 -20.79 -11.81 -17.74 -11.81 L 17.74 -11.81 C 20.79 -11.81 23.27 -9.33 23.27 -6.28 L 23.27 6.28 C 23.27 9.33 20.79 11.81 17.74 11.81 Z M -23.27 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -18.66 -3.38)"><foreignobject style="--ltx-fo-width:2.7em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="37.32" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0067">查询</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 92.81 11.81 L 64.67 11.81 C 61.62 11.81 59.14 9.33 59.14 6.28 L 59.14 -6.28 C 59.14 -9.33 61.62 -11.81 64.67 -11.81 L 92.81 -11.81 C 95.86 -11.81 98.34 -9.33 98.34 -6.28 L 98.34 6.28 C 98.34 9.33 95.86 11.81 92.81 11.81 Z M 59.14 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 63.75 -4.73)"><foreignobject style="--ltx-fo-width:2.17em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="29.98" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0068">LLM</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 178.91 11.81 L 136.05 11.81 C 133 11.81 130.52 9.33 130.52 6.28 L 130.52 -6.28 C 130.52 -9.33 133 -11.81 136.05 -11.81 L 178.91 -11.81 C 181.96 -11.81 184.44 -9.33 184.44 -6.28 L 184.44 6.28 C 184.44 9.33 181.96 11.81 178.91 11.81 Z M 130.52 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 135.13 -4.73)"><foreignobject style="--ltx-fo-width:3.26em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="45.09" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0069">答案</span></span></foreignobject></g><path style="fill:none" d="M 23.55 0"></path><path style="fill:none" d="M 23.55 0 C 57.98 0 24.43 0 57.74 0"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 57.74 0)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><path style="fill:none" d="M 98.62 0"></path><path style="fill:none" d="M 98.62 0 C 129.45 0 99.41 0 129.12 0"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 129.12 0)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0040">图 9.4：方式 A：静态查询</figcaption>
+</figure>
+<div id="Ch9.S2.SS1.SSS1.p2" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS1.p2.1" class="ltx_p" data-translation-id="ch09-0041">大语言模型能正确回答许多这类查询，是因为它在大型文本语料上经过预训练，这些语料可能提供用户所提许多问题的答案。模型也经过了指令回答微调。这种交互方式的例子包括 GPT-2 等早期大语言模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib39" title="" class="ltx_ref">Vaswani et al., 2017</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch9.S2.SS1.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0042">9.2.1.2 B. 上下文学习</h4>
+
+<div id="Ch9.S2.SS1.SSS2.p1" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS2.p1.1" class="ltx_p" data-translation-id="ch09-0043">接下来转向上下文学习。在机器学习领域，上下文学习是监督学习和强化学习之外一种令人振奋的新学习类型。大语言模型中的上下文学习常常只凭几个示例就能取得良好结果，实现机器学习领域的一项主要挑战目标。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS2.p2" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS2.p2.1" class="ltx_p" data-translation-id="ch09-0044">与交互方式 A 相比，上下文少样本学习是一种更复杂的交互方式。</p>
+</div>
+<figure id="Ch9.F5" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F5.pic1" class="ltx_picture ltx_centering" height="24.18" overflow="visible" version="1.1" viewbox="0 0 296.65 24.18" width="296.65"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,24.18) matrix(1 0 0 -1 0 0) translate(72.56,0) translate(0,12.09)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 66.74 11.81 L -66.74 11.81 C -69.8 11.81 -72.28 9.33 -72.28 6.28 L -72.28 -6.28 C -72.28 -9.33 -69.8 -11.81 -66.74 -11.81 L 66.74 -11.81 C 69.8 -11.81 72.28 -9.33 72.28 -6.28 L 72.28 6.28 C 72.28 9.33 69.8 11.81 66.74 11.81 Z M -72.28 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -67.67 -3.38)"><foreignobject style="--ltx-fo-width:9.78em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="135.34" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0070">查询 + 示例1、示例2、示例3</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 132.18 11.81 L 104.04 11.81 C 100.99 11.81 98.51 9.33 98.51 6.28 L 98.51 -6.28 C 98.51 -9.33 100.99 -11.81 104.04 -11.81 L 132.18 -11.81 C 135.23 -11.81 137.71 -9.33 137.71 -6.28 L 137.71 6.28 C 137.71 9.33 135.23 11.81 132.18 11.81 Z M 98.51 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 103.12 -4.73)"><foreignobject style="--ltx-fo-width:2.17em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="29.98" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0071">LLM</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 218.28 11.81 L 175.42 11.81 C 172.37 11.81 169.89 9.33 169.89 6.28 L 169.89 -6.28 C 169.89 -9.33 172.37 -11.81 175.42 -11.81 L 218.28 -11.81 C 221.33 -11.81 223.81 -9.33 223.81 -6.28 L 223.81 6.28 C 223.81 9.33 221.33 11.81 218.28 11.81 Z M 169.89 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 174.5 -4.73)"><foreignobject style="--ltx-fo-width:3.26em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="45.09" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0072">答案</span></span></foreignobject></g><path style="fill:none" d="M 72.56 0"></path><path style="fill:none" d="M 72.56 0 C 97.59 0 73.2 0 97.11 0"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 97.11 0)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><path style="fill:none" d="M 137.99 0"></path><path style="fill:none" d="M 137.99 0 C 168.82 0 138.78 0 168.49 0"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 168.49 0)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0045">图 9.5：方式 B：上下文监督学习，提示基于少量示例</figcaption>
+</figure>
+<div id="Ch9.S2.SS1.SSS2.p3" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS2.p3.1" class="ltx_p" data-translation-id="ch09-0046">当用户在查询之外提供少量示例时，就会发生上下文学习。用户由此对解码器模型施加条件，引导其激活参数中所表示的大量知识的正确部分。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS2.p4" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS2.p4.1" class="ltx_p" data-translation-id="ch09-0047">图 <a href="#Ch9.F5" title="Figure 9.5 ‣ 9.2.1.2 B. In-Context Learning ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.5</span></a> 展示了符合这种交互方式的提示。文献中的一个例子是 GPT-3。提出上下文学习的论文为 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibh.bib38" title="" class="ltx_ref">Brown et al. [2020]</a></cite>。少样本提示的一个例子是：填空：the sea-la mer，oysters-huitre，the window-la fenetre，cheese-……我们希望模型回答 fromage。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS2.p5" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS2.p5.1" class="ltx_p" data-translation-id="ch09-0048">注意，上下文学习只有在模型足够大时才会涌现。最初，它出现在约有 1000 亿参数的模型中。在这一规模下，模型足够丰富，少量提示示例便能激活模型中的正确部分。随着大语言模型方法改进，这个规模门槛不断降低。</p>
+</div>
+</section>
+<section id="Ch9.S2.SS1.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0049">9.2.1.3 C. 思维链</h4>
+
+<div id="Ch9.S2.SS1.SSS3.p1" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS3.p1.1" class="ltx_p" data-translation-id="ch09-0050">接下来讨论另一种著名方法：思维链学习 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib42" title="" class="ltx_ref">Wei et al., 2022</a>]</cite>，见图 <a href="#Ch9.F6" title="Figure 9.6 ‣ 9.2.1.3 C. Chain of Thought ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.6</span></a> 上部。正如第 <a href="ch06.html#Ch6" title="Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6</span></a> 章所述，这一方法是为解决大语言模型在简单数学应用推理题上的弱点而开发的。原始思维链方法的一个缺点是，用户必须为每个新推理任务编写新的提示。随后发展出了零样本思维链提示，见图 <a href="#Ch9.F6" title="Figure 9.6 ‣ 9.2.1.3 C. Chain of Thought ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.6</span></a> 下部。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibh.bib37" title="" class="ltx_ref">Kojima et al. [2022]</a></cite> 发现，在提示中加入通用句子“让我们一步一步思考”，就能改善许多基准上的性能，尽管改善幅度往往不及手工编写的任务专用提示。</p>
+</div>
+<figure id="Ch9.F6" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F6.pic1" class="ltx_picture ltx_centering" height="63.55" overflow="visible" version="1.1" viewbox="0 0 435.36 63.55" width="435.36"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,63.55) matrix(1 0 0 -1 0 0) translate(132.54,0) translate(0,12.09)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 103.76 51.18 L -103.76 51.18 C -106.81 51.18 -109.29 48.7 -109.29 45.65 L -109.29 33.09 C -109.29 30.04 -106.81 27.56 -103.76 27.56 L 103.76 27.56 C 106.81 27.56 109.29 30.04 109.29 33.09 L 109.29 45.65 C 109.29 48.7 106.81 51.18 103.76 51.18 Z M -109.29 27.56"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -104.68 35.99)"><foreignobject style="--ltx-fo-width:15.13em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="209.36"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0073">查询 + 步骤1、步骤2、步骤3 = 示例1</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 171.55 51.18 L 143.41 51.18 C 140.36 51.18 137.88 48.7 137.88 45.65 L 137.88 33.09 C 137.88 30.04 140.36 27.56 143.41 27.56 L 171.55 27.56 C 174.6 27.56 177.08 30.04 177.08 33.09 L 177.08 45.65 C 177.08 48.7 174.6 51.18 171.55 51.18 Z M 137.88 27.56"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 142.49 34.64)"><foreignobject style="--ltx-fo-width:2.17em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="29.98" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0074">LLM</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 257.65 51.18 L 214.79 51.18 C 211.74 51.18 209.26 48.7 209.26 45.65 L 209.26 33.09 C 209.26 30.04 211.74 27.56 214.79 27.56 L 257.65 27.56 C 260.71 27.56 263.18 30.04 263.18 33.09 L 263.18 45.65 C 263.18 48.7 260.71 51.18 257.65 51.18 Z M 209.26 27.56"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 213.87 34.64)"><foreignobject style="--ltx-fo-width:3.26em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="45.09" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0075">答案</span></span></foreignobject></g><path style="fill:none" d="M 109.57 39.37"></path><path style="fill:none" d="M 109.57 39.37 C 136.9 39.37 110.27 39.37 136.48 39.37"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 136.48 39.37)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><path style="fill:none" d="M 177.36 39.37"></path><path style="fill:none" d="M 177.36 39.37 C 208.19 39.37 178.15 39.37 207.86 39.37"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 207.86 39.37)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 126.72 11.81 L -126.72 11.81 C -129.78 11.81 -132.26 9.33 -132.26 6.28 L -132.26 -6.28 C -132.26 -9.33 -129.78 -11.81 -126.72 -11.81 L 126.72 -11.81 C 129.78 -11.81 132.26 -9.33 132.26 -6.28 L 132.26 6.28 C 132.26 9.33 129.78 11.81 126.72 11.81 Z M -132.26 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -127.65 -3.46)"><foreignobject style="--ltx-fo-width:18.48em;--ltx-fo-height:0.69em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.3" overflow="visible" transform="matrix(1 0 0 -1 0 9.61)" width="255.68"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0076">查询 + “让我们逐步思考” = 示例1</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 210.92 11.81 L 182.78 11.81 C 179.73 11.81 177.25 9.33 177.25 6.28 L 177.25 -6.28 C 177.25 -9.33 179.73 -11.81 182.78 -11.81 L 210.92 -11.81 C 213.97 -11.81 216.45 -9.33 216.45 -6.28 L 216.45 6.28 C 216.45 9.33 213.97 11.81 210.92 11.81 Z M 177.25 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 181.86 -4.73)"><foreignobject style="--ltx-fo-width:2.17em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="29.98" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0077">LLM</span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 297.02 11.81 L 254.16 11.81 C 251.11 11.81 248.63 9.33 248.63 6.28 L 248.63 -6.28 C 248.63 -9.33 251.11 -11.81 254.16 -11.81 L 297.02 -11.81 C 300.08 -11.81 302.55 -9.33 302.55 -6.28 L 302.55 6.28 C 302.55 9.33 300.08 11.81 297.02 11.81 Z M 248.63 -11.81"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 253.24 -4.73)"><foreignobject style="--ltx-fo-width:3.26em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="45.09" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0078">答案</span></span></foreignobject></g><path style="fill:none" d="M 132.54 0"></path><path style="fill:none" d="M 132.54 0 C 175.86 0 133.65 0 175.85 0"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 175.85 0)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><path style="fill:none" d="M 216.73 0"></path><path style="fill:none" d="M 216.73 0 C 247.56 0 217.52 0 247.23 0"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 247.23 0)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0051">图 9.6：方式 C。上：思维链，基于推理步骤示例的大语言模型上下文学习；下：零样本思维链，使用一种经常奏效的指令</figcaption>
+</figure>
+<div id="Ch9.S2.SS1.SSS3.p2" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS3.p2.1" class="ltx_p" data-translation-id="ch09-0052">与上一种交互方式一样，思维链也是上下文少样本学习方法，但现在提示中的示例，是模型给出答案前应执行步骤的少量示例，而先前提供的是事实示例。这些步骤帮助模型沿多步推理链得出正确答案。这些示例不是用来激活模型各部分的答案示例，而是如何得到答案的步骤示例。少样本和零样本思维链的提示示例已在第 <a href="ch06.html#Ch6.F1" title="Figure 6.1 ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.1</span></a> 页图 <a href="ch06.html#Ch6.F1" title="Figure 6.1 ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.1</span></a> 中展示。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS3.p3" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS3.p3.1" class="ltx_p" data-translation-id="ch09-0053">同上下文学习一样，思维链也只在足够大的模型中奏效；随着我们对大语言模型方法的理解加深、模型针对思维链进行微调，这一所需规模也在减小。此外，还可以通过蒸馏，将大模型学得的推理方法迁移到参数量小几个数量级的模型中 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib4" title="" class="ltx_ref">Li et al., 2023</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch9.S2.SS1.SSS4" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0054">9.2.1.4 D. 自我反思 Harness</h4>
+
+<div id="Ch9.S2.SS1.SSS4.p1" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS4.p1.1" class="ltx_p" data-translation-id="ch09-0055">前述智能体交互方式都使用单一静态提示，在许多基准上取得了令人鼓舞的性能。要在规划问题或其他需要跟踪状态的问题上表现良好，就需要一种能优化提示、在可能性构成的树中搜索选项的推理方式。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS4.p2" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS4.p2.1" class="ltx_p" data-translation-id="ch09-0056">下面讨论两种交互方式，其中大语言模型提示由模型外部的一个小型算法动态调整。这个算法称为 Harness。第一种方式属于上下文方法（不改变大语言模型参数），第二种方式（下一小节）还会微调模型。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS4.p3" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS4.p3.1" class="ltx_p" data-translation-id="ch09-0057">这些交互方式是动态的。如上一章元学习所述，动态方法的一项挑战是实现稳定的学习过程。训练目标变化时，学习算法可能发散，需要额外谨慎才能实现收敛。通过自我反思获得可预测的高性能，仍是一个活跃的研究领域。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS4.p4" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS4.p4.1" class="ltx_p" data-translation-id="ch09-0058">我们讨论的第一批动态提示方法源于对更复杂推理结构建模的需求，这些结构超越了思维链的直线式步骤序列。首先引入了简单搜索算法（思维树）。随后又引入完整的动态提示方法，来管理提示的发展过程（ReAct、reflexion、self refine）。这些方法的 Harness 常会引入短期和长期记忆，以记住各次大语言模型调用之间的状态。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS4.p5" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS4.p5.1" class="ltx_p" data-translation-id="ch09-0059">这些方法的一个有趣之处在于，同一大语言模型承担不同角色，通过不同类型的提示调用。在思维链任务中，大语言模型最初的角色是在每个推理步骤中评估答案。现在，评估提示之外又加入一种不同的提示，用来生成新的推理步骤。有时还会加入第三种提示，其任务是改进提示本身。因此，在外部 Harness 管理下，一个模型通过不同提示对自身进行反思。</p>
+</div>
+<figure id="Ch9.F7" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F7.pic1" class="ltx_picture ltx_centering" height="347.29" overflow="visible" version="1.1" viewbox="0 0 482.74 347.29" width="482.74"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,347.29) matrix(1 0 0 -1 0 0) translate(237.44,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 129.41 326.77 L 28.07 326.77 C 25.01 326.77 22.53 324.29 22.53 321.24 L 22.53 308.68 C 22.53 305.63 25.01 303.15 28.07 303.15 L 129.41 303.15 C 132.47 303.15 134.95 305.63 134.95 308.68 L 134.95 321.24 C 134.95 324.29 132.47 326.77 129.41 326.77 Z M 22.53 303.15"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 27.14 310.16)"><foreignobject style="--ltx-fo-width:6.99em;--ltx-fo-height:0.69em;--ltx-fo-depth:0em;font-size:10pt;" height="9.61" overflow="visible" transform="matrix(1 0 0 -1 0 9.61)" width="96.71" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0079">初始问题 <math id="Ch9.F7.pic1.m1" class="ltx_Math" alttext="s" display="inline" intent=":literal"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 129.91 267.72 L 27.57 267.72 C 24.51 267.72 22.03 265.24 22.03 262.18 L 22.03 249.63 C 22.03 246.57 24.51 244.09 27.57 244.09 L 129.91 244.09 C 132.97 244.09 135.45 246.57 135.45 249.63 L 135.45 262.18 C 135.45 265.24 132.97 267.72 129.91 267.72 Z M 22.03 244.09"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 26.64 252.7)"><foreignobject style="--ltx-fo-width:7.53em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.29em;font-size:10pt;" height="14.34" overflow="visible" transform="matrix(1 0 0 -1 0 10.38)" width="104.19" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F7.pic1.m2" class="ltx_Math" alttext="LLM_{Pgenerate}(s)" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>g</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>n</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>r</mi><mo lspace="0em" rspace="0em">​</mo><mi>a</mi><mo lspace="0em" rspace="0em">​</mo><mi>t</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">LLM_{Pgenerate}(s)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 78.74 302.87"></path><path style="fill:none" d="M 78.74 302.87 C 78.74 289.27 78.74 281.6 78.74 269.12"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(0.0 -1.0 1.0 0.0 78.74 269.12)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 3.28 208.66 L -82.02 208.66 C -85.07 208.66 -87.55 206.18 -87.55 203.13 L -87.55 190.57 C -87.55 187.52 -85.07 185.04 -82.02 185.04 L 3.28 185.04 C 6.33 185.04 8.81 187.52 8.81 190.57 L 8.81 203.13 C 8.81 206.18 6.33 208.66 3.28 208.66 Z M -87.55 185.04"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -82.94 193.39)"><foreignobject style="--ltx-fo-width:6.3em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.84" overflow="visible" transform="matrix(1 0 0 -1 0 10.38)" width="87.14" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F7.pic1.m3" class="ltx_Math" alttext="LLM_{Peval}(s_{1})" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>v</mi><mo lspace="0em" rspace="0em">​</mo><mi>a</mi><mo lspace="0em" rspace="0em">​</mo><mi>l</mi></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><msub><mi>s</mi><mn>1</mn></msub><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">LLM_{Peval}(s_{1})</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 78.74 243.82"></path><path style="fill:none" d="M 78.74 243.82 C 78.74 195.7 -15.31 250.61 -38.81 209.91"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-0.5 -0.86603 0.86603 -0.5 -38.81 209.91)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 121.39 208.66 L 36.09 208.66 C 33.04 208.66 30.56 206.18 30.56 203.13 L 30.56 190.57 C 30.56 187.52 33.04 185.04 36.09 185.04 L 121.39 185.04 C 124.44 185.04 126.92 187.52 126.92 190.57 L 126.92 203.13 C 126.92 206.18 124.44 208.66 121.39 208.66 Z M 30.56 185.04"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 35.17 193.39)"><foreignobject style="--ltx-fo-width:6.3em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.84" overflow="visible" transform="matrix(1 0 0 -1 0 10.38)" width="87.14" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F7.pic1.m4" class="ltx_Math" alttext="LLM_{Peval}(s_{2})" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>v</mi><mo lspace="0em" rspace="0em">​</mo><mi>a</mi><mo lspace="0em" rspace="0em">​</mo><mi>l</mi></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><msub><mi>s</mi><mn>2</mn></msub><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">LLM_{Peval}(s_{2})</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 78.74 243.82"></path><path style="fill:none" d="M 78.74 243.82 C 78.74 230.22 78.74 222.54 78.74 210.06"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(0.0 -1.0 1.0 0.0 78.74 210.06)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 239.5 208.66 L 154.2 208.66 C 151.15 208.66 148.67 206.18 148.67 203.13 L 148.67 190.57 C 148.67 187.52 151.15 185.04 154.2 185.04 L 239.5 185.04 C 242.55 185.04 245.03 187.52 245.03 190.57 L 245.03 203.13 C 245.03 206.18 242.55 208.66 239.5 208.66 Z M 148.67 185.04"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 153.28 193.39)"><foreignobject style="--ltx-fo-width:6.3em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.84" overflow="visible" transform="matrix(1 0 0 -1 0 10.38)" width="87.14" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F7.pic1.m5" class="ltx_Math" alttext="LLM_{Peval}(s_{3})" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>v</mi><mo lspace="0em" rspace="0em">​</mo><mi>a</mi><mo lspace="0em" rspace="0em">​</mo><mi>l</mi></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><msub><mi>s</mi><mn>3</mn></msub><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">LLM_{Peval}(s_{3})</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 78.74 243.82"></path><path style="fill:none" d="M 78.74 243.82 C 78.74 195.7 172.79 250.61 196.29 209.91"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(0.5 -0.86603 0.86603 0.5 196.29 209.91)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g stroke-width="1.6pt"><path style="fill:none" d="M -39.37 177.17 M -39.37 177.17 C -38.85 176.13 -37.64 175.44 -35.91 175.44 L 75.28 175.44 C 77.01 175.44 78.22 174.74 78.74 173.71 C 79.26 174.74 80.47 175.44 82.2 175.44 L 193.39 175.44 C 195.12 175.44 196.33 176.13 196.85 177.17"></path></g><g stroke-width="0.8pt"><path style="fill:none" d="M 78.74 173.23 L 78.74 157.48 L -118.11 157.48 L -118.11 354.33 L 78.74 354.33"></path><path style="fill:none" d="M 78.74 354.33 L 78.74 340.48"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(0.0 -1.0 1.0 0.0 78.74 340.48)"><path d="M -8.43 3.78 L 0.48 0 L -8.43 -3.78 Z"></path></g></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 66.32 90.55 L -66.32 90.55 C -69.38 90.55 -71.85 88.07 -71.85 85.02 L -71.85 72.46 C -71.85 69.41 -69.38 66.93 -66.32 66.93 L 66.32 66.93 C 69.38 66.93 71.85 69.41 71.85 72.46 L 71.85 85.02 C 71.85 88.07 69.38 90.55 66.32 90.55 Z M -71.85 66.93"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -67.24 75.28)"><foreignobject style="--ltx-fo-width:9.72em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.84" overflow="visible" transform="matrix(1 0 0 -1 0 10.38)" width="134.49" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F7.pic1.m6" class="ltx_Math" alttext="LLM_{P\pi}(s,\mbox{history})\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>π</mi></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mtext>history</mtext><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">LLM_{P\pi}(s,\mbox{history})\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 77.26 31.5 L -77.26 31.5 C -80.32 31.5 -82.8 29.02 -82.8 25.96 L -82.8 13.41 C -82.8 10.35 -80.32 7.87 -77.26 7.87 L 77.26 7.87 C 80.32 7.87 82.8 10.35 82.8 13.41 L 82.8 25.96 C 82.8 29.02 80.32 31.5 77.26 31.5 Z M -82.8 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -78.19 16.21)"><foreignobject style="--ltx-fo-width:11.3em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="156.37" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F7.pic1.m7" class="ltx_Math" alttext="LLM_{Peval}(s,a)\rightarrow(s^{\prime},a,r)" display="inline" intent=":literal"><semantics><mrow><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msub><mi>M</mi><mrow><mi>P</mi><mo lspace="0em" rspace="0em">​</mo><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>v</mi><mo lspace="0em" rspace="0em">​</mo><mi>a</mi><mo lspace="0em" rspace="0em">​</mo><mi>l</mi></mrow></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">LLM_{Peval}(s,a)\rightarrow(s^{\prime},a,r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -83.07 19.69"></path><path style="fill:none" d="M -83.07 19.69 C -141.79 19.69 -130.85 78.74 -73.25 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -73.25 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -232.82 45.74)"><foreignobject style="--ltx-fo-width:3.37em;--ltx-fo-height:0.69em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.3" overflow="visible" transform="matrix(1 0 0 -1 0 9.61)" width="46.62" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0080">历史 <math id="Ch9.F7.pic1.m8" class="ltx_Math" alttext="\cup(s^{\prime},a,r)" display="inline" intent=":literal"><semantics><mrow><mo rspace="0em">∪</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\cup(s^{\prime},a,r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 72.13 78.74"></path><path style="fill:none" d="M 72.13 78.74 C 130.85 78.74 141.79 19.69 84.2 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 84.2 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 126.53 45.75)"><foreignobject style="--ltx-fo-width:2.22em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.84" overflow="visible" transform="matrix(1 0 0 -1 0 10.38)" width="30.71" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F7.pic1.m9" class="ltx_Math" alttext="(s,a)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s,a)</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0060">图 9.7：方式 D：利用大语言模型进行自我反思；根据大语言模型的回答在上下文中优化提示，先生成子问题，再进行评估；由搜索（上）或强化学习（下）控制</figcaption>
+</figure>
+<div id="Ch9.S2.SS1.SSS4.p6" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS4.p6.1" class="ltx_p" data-translation-id="ch09-0061">图 <a href="#Ch9.F7" title="Figure 9.7 ‣ 9.2.1.4 D. Self-Reflection Harness ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.7</span></a> 展示了这些思想。上部由标准树搜索算法控制自我反思，例如思维树 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib36" title="" class="ltx_ref">Yao et al., 2024</a>]</cite>。下部由强化学习循环控制自我反思，其中策略 <math id="Ch9.S2.SS1.SSS4.p6.m1" class="ltx_Math" alttext="\pi" display="inline" intent=":literal"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math> 的提示利用（状态、行动、奖励）三元组的历史记录更新（另见第 <a href="ch20.html#Ch20.S2.SS1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.2.1</span></a> 节）。</p>
+</div>
+</section>
+<section id="Ch9.S2.SS1.SSS5" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0062">9.2.1.5 E. 强化微调 Harness</h4>
+
+<div id="Ch9.S2.SS1.SSS5.p1" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS5.p1.1" class="ltx_p" data-translation-id="ch09-0063">到目前为止，所有学习都在上下文中进行，模型依据上下文提供的示例回答问题。大语言模型的参数没有变化。尽管上下文学习易于使用，但它限制了学习。如果希望模型更深入地适应某种环境，记住推断时学到的内容，那么允许参数变化就会有所帮助。我们将使用这种方法的方案称为强化微调。RLVR 是一个著名例子。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS5.p2" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS5.p2.1" class="ltx_p" data-translation-id="ch09-0064">图 <a href="#Ch9.F8" title="Figure 9.8 ‣ 9.2.1.5 E. Reinforcement Finetuning Harness ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.8</span></a> 给出了示意，其中可训练模型参数表示为 <math id="Ch9.S2.SS1.SSS5.p2.m1" class="ltx_Math" alttext="\psi" display="inline" intent=":literal"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>。注意，它与图 <a href="#Ch9.F7" title="Figure 9.7 ‣ 9.2.1.4 D. Self-Reflection Harness ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">9.7</span></a> 下部的唯一区别是引入了 <math id="Ch9.S2.SS1.SSS5.p2.m2" class="ltx_Math" alttext="\psi" display="inline" intent=":literal"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math> 参数。在 ReFT 中，大语言模型参数 <math id="Ch9.S2.SS1.SSS5.p2.m3" class="ltx_Math" alttext="\psi" display="inline" intent=":literal"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math> 会发生变化，依据数据集的奖励进行微调。应这样理解这些图：以前推断时的学习是在上下文中进行的，现在情况发生了变化，因为允许微调参数 <math id="Ch9.S2.SS1.SSS5.p2.m4" class="ltx_Math" alttext="\psi" display="inline" intent=":literal"><semantics><mi>ψ</mi><annotation encoding="application/x-tex">\psi</annotation></semantics></math>。传统大语言模型训练流水线中，微调是推断之前的一个阶段。然而，在数学推理或编程等许多重要应用中，推断时思维链的多步展开产生准确的奖励，可用于微调。因此，强化微调使用模型在推断时产生训练目标，再用这些目标微调同一模型的参数，即推断时微调。强化微调模糊了推断与微调的界线，而监督微调则明确区分训练与推断。</p>
+</div>
+<figure id="Ch9.F8" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch9.F8.pic1" class="ltx_picture ltx_centering" height="84.77" overflow="visible" version="1.1" viewbox="0 0 325.97 84.77" width="325.97"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,84.77) matrix(1 0 0 -1 0 0) translate(171.32,0) translate(0,-7.19)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 52.93 91.69 L -52.93 91.69 C -55.99 91.69 -58.47 89.21 -58.47 86.15 L -58.47 71.33 C -58.47 68.27 -55.99 65.79 -52.93 65.79 L 52.93 65.79 C 55.99 65.79 58.47 68.27 58.47 71.33 L 58.47 86.15 C 58.47 89.21 55.99 91.69 52.93 91.69 Z M -58.47 65.79"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -53.86 75.33)"><foreignobject style="--ltx-fo-width:7.78em;--ltx-fo-height:0.85em;--ltx-fo-depth:0.36em;font-size:10pt;" height="16.67" overflow="visible" transform="matrix(1 0 0 -1 0 11.75)" width="107.72" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F8.pic1.m1" class="ltx_Math" alttext="LLM_{\pi/CoT}^{\psi}(s)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msubsup><mi>M</mi><mrow><mrow><mi>π</mi><mo>/</mo><mi>C</mi></mrow><mo lspace="0em" rspace="0em">​</mo><mi>o</mi><mo lspace="0em" rspace="0em">​</mo><mi>T</mi></mrow><mi>ψ</mi></msubsup><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">LLM_{\pi/CoT}^{\psi}(s)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 73 31.9 L -73 31.9 C -76.05 31.9 -78.53 29.42 -78.53 26.37 L -78.53 13 C -78.53 9.95 -76.05 7.47 -73 7.47 L 73 7.47 C 76.05 7.47 78.53 9.95 78.53 13 L 78.53 26.37 C 78.53 29.42 76.05 31.9 73 31.9 Z M -78.53 7.47"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -73.92 15.54)"><foreignobject style="--ltx-fo-width:10.68em;--ltx-fo-height:0.85em;--ltx-fo-depth:0.25em;font-size:10pt;" height="15.21" overflow="visible" transform="matrix(1 0 0 -1 0 11.75)" width="147.84" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F8.pic1.m2" class="ltx_Math" alttext="LLM_{eval}^{\psi}(s,a)\rightarrow(s^{\prime},a,r)" display="inline" intent=":literal"><semantics><mrow><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msubsup><mi>M</mi><mrow><mi>e</mi><mo lspace="0em" rspace="0em">​</mo><mi>v</mi><mo lspace="0em" rspace="0em">​</mo><mi>a</mi><mo lspace="0em" rspace="0em">​</mo><mi>l</mi></mrow><mi>ψ</mi></msubsup><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">LLM_{eval}^{\psi}(s,a)\rightarrow(s^{\prime},a,r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -78.81 19.69"></path><path style="fill:none" d="M -78.81 19.69 C -139.7 19.69 -119.64 78.74 -59.87 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -59.87 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -166.7 45.74)"><foreignobject style="--ltx-fo-width:3.42em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="47.37" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F8.pic1.m3" class="ltx_Math" alttext="(s^{\prime},a,r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s^{\prime},a,r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 58.75 78.74"></path><path style="fill:none" d="M 58.75 78.74 C 119.64 78.74 139.7 19.69 79.93 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 79.93 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 119.33 45.75)"><foreignobject style="--ltx-fo-width:2.22em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.84" overflow="visible" transform="matrix(1 0 0 -1 0 10.38)" width="30.71" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch9.F8.pic1.m4" class="ltx_Math" alttext="(s,a)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s,a)</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch09-0065">图 9.8：方式 E：除对策略 <math id="Ch9.F8.m5" class="ltx_Math" alttext="\pi" display="inline" intent=":literal"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math> 的参数 <math id="Ch9.F8.m6" class="ltx_Math" alttext="\pi_{\theta}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mi>θ</mi></msub><annotation encoding="application/x-tex">\pi_{\theta}</annotation></semantics></math> 进行强化学习之外，还对大语言模型参数 <math id="Ch9.F8.m4" class="ltx_Math" alttext="LLM^{\psi}" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><mi>L</mi><mo lspace="0em" rspace="0em">​</mo><msup><mi>M</mi><mi>ψ</mi></msup></mrow><annotation encoding="application/x-tex">LLM^{\psi}</annotation></semantics></math> 进行强化微调 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib12" title="" class="ltx_ref">Luong et al., 2024</a>]</cite>。</figcaption>
+</figure>
+<div id="Ch9.S2.SS1.SSS5.p3" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS5.p3.1" class="ltx_p" data-translation-id="ch09-0066">大语言模型训练包含三个主要的训练或推断时点：（1）预训练，（2）微调，（3）测试（推断）。自我反思（方式 D）在推断时进行强化学习。方式 E，即强化微调，是在微调时（2）而非测试时（3）进行强化学习。在智能体式大语言模型中，这种交互方式使大语言模型能够从智能体与世界的互动中学习。</p>
+</div>
+<div id="Ch9.S2.SS1.SSS5.p4" class="ltx_para">
+<p id="Ch9.S2.SS1.SSS5.p4.1" class="ltx_p" data-translation-id="ch09-0067">对于动态智能体方式 D 和 E，必须谨慎才能实现稳定收敛。截至撰写时，报告这类结果的研究还很少。</p>
+</div>
+</section>
+</section>
+</section>
+<section id="Ch9.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch09-0068">9.3 智能体式大语言模型的记忆架构</h2>
+
+<div id="Ch9.S3.p1" class="ltx_para">
+<p id="Ch9.S3.p1.1" class="ltx_p" data-translation-id="ch09-0069">人类（以及其他生命形式）具有记忆。记忆使我们拥有身份。我们能记住自己的名字、朋友和家人。记忆使我们学会什么对自己有益、什么有害，也使我们能够调整行为。当因受伤、疾病或衰老而失忆时，我们的人格会改变。严重失忆导致身份丧失，使人在世界上漫无目的地游荡。</p>
+</div>
+<div id="Ch9.S3.p2" class="ltx_para">
+<p id="Ch9.S3.p2.1" class="ltx_p" data-translation-id="ch09-0070">智能体也需要记忆。本节讨论智能体式大语言模型为什么需要记忆，并简要概述为其开发的不同记忆类型。</p>
+</div>
+<section id="Ch9.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch09-0071">9.3.1 记忆的必要性</h3>
+
+<div id="Ch9.S3.SS1.p1" class="ltx_para">
+<p id="Ch9.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch09-0072">统计模型 <math id="Ch9.S3.SS1.p1.m1" class="ltx_Math" alttext="f(x)\rightarrow\hat{y}" display="inline" intent=":literal"><semantics><mrow><mrow><mi>f</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mover accent="true"><mi>y</mi><mo>^</mo></mover></mrow><annotation encoding="application/x-tex">f(x)\rightarrow\hat{y}</annotation></semantics></math> 根据训练时为输入 <math id="Ch9.S3.SS1.p1.m4" class="ltx_Math" alttext="x" display="inline" intent=":literal"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> 学得的关系 <math id="Ch9.S3.SS1.p1.m3" class="ltx_Math" alttext="f" display="inline" intent=":literal"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>，估计输出 <math id="Ch9.S3.SS1.p1.m2" class="ltx_Math" alttext="\hat{y}" display="inline" intent=":literal"><semantics><mover accent="true"><mi>y</mi><mo>^</mo></mover><annotation encoding="application/x-tex">\hat{y}</annotation></semantics></math>。这种函数式行为不具有记忆。任何训练后的新信息，都必须通过输入参数 <math id="Ch9.S3.SS1.p1.m5" class="ltx_Math" alttext="x" display="inline" intent=":literal"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> 提供给模型。大语言模型也不例外，甚至最早的聊天机器人也有特殊的隐藏系统提示，将对话历史提供给模型，让它能保持连贯对话。</p>
+</div>
+<div id="Ch9.S3.SS1.p2" class="ltx_para">
+<p id="Ch9.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch09-0073">随着智能体式大语言模型的使用场景增多，需要超越系统提示方法的更先进技术。为更好理解智能体式大语言模型中记忆的用途，我们现在讨论记忆的不同使用场景。</p>
+</div>
+<section id="Ch9.S3.SS1.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0074">9.3.1.1 连贯对话</h4>
+
+<div id="Ch9.S3.SS1.SSS1.p1" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS1.p1.1" class="ltx_p" data-translation-id="ch09-0075">许多大语言模型机器学习基准采用挑战与回答的形式，很适合统计模型的函数式输入输出行为。然而，大语言模型在现实世界中的主要用途是聊天机器人，需要与用户进行有意义的对话。为了保持交谈双方相互反应和回应的连贯对话，聊天机器人必须能够知道之前说过什么。</p>
+</div>
+<div id="Ch9.S3.SS1.SSS1.p2" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS1.p2.1" class="ltx_p" data-translation-id="ch09-0076">因此，智能体式大语言模型的第一项要求，是能够知道对话中此前说过的内容。</p>
+</div>
+</section>
+<section id="Ch9.S3.SS1.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0077">9.3.1.2 适应</h4>
+
+<div id="Ch9.S3.SS1.SSS2.p1" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS2.p1.1" class="ltx_p" data-translation-id="ch09-0078">按照第 <a href="ch01.html#Ch1" title="Chapter 1 Introduction ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1</span></a> 章的定义，智能体式大语言模型应能学习。机器人在厨房执行任务，例如切洋葱时，如果刀的位置变了，就应调整行动：开始切之前，先从新位置取刀。智能体与环境互动，环境发生变化时，智能体就应适应。</p>
+</div>
+<div id="Ch9.S3.SS1.SSS2.p2" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS2.p2.1" class="ltx_p" data-translation-id="ch09-0079">要么智能体的预训练策略具有很强的通用性，能够适应特定领域内的所有新情况；要么智能体架构必须灵活，能够识别预训练策略何时需要调整、微调甚至重新训练。为此，它们需要记忆。</p>
+</div>
+<div id="Ch9.S3.SS1.SSS2.p3" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS2.p3.1" class="ltx_p" data-translation-id="ch09-0080">如第 <a href="ch06.html#Ch6.S2.SS4" title="6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.4</span></a> 节所见，自我反思智能体架构使用的外部提示改进 Harness，需要缓冲区和其他记忆类型来显式改进提示。</p>
+</div>
+</section>
+<section id="Ch9.S3.SS1.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0081">9.3.1.3 身份</h4>
+
+<div id="Ch9.S3.SS1.SSS3.p1" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS3.p1.1" class="ltx_p" data-translation-id="ch09-0082">经历塑造我们的人格和身份。如果大语言模型智能体要建立自身身份，就必须将经历收集并保存在记忆中以供自我反思，或者用其他方式处理和使用这些经历来调整行为策略。</p>
+</div>
+<div id="Ch9.S3.SS1.SSS3.p2" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS3.p2.1" class="ltx_p" data-translation-id="ch09-0083">随着智能体 Harness 的记忆架构改进，智能体将能更好地记住自己的经历。届时，我们可能发现，智能体可以通过自身经历形成独特的人格。</p>
+</div>
+</section>
+<section id="Ch9.S3.SS1.SSS4" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0084">9.3.1.4 持续学习</h4>
+
+<div id="Ch9.S3.SS1.SSS4.p1" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS4.p1.1" class="ltx_p" data-translation-id="ch09-0085">传统机器学习为特定任务在特定数据集上训练模型。人类的学习则不同，会在一生中持续演化。在机器学习中，持续学习研究如何在保留已学任务的同时，针对一系列新任务训练模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib32" title="" class="ltx_ref">Wang et al., 2024</a>, <a href="#bibh.bib3" title="" class="ltx_ref">Li et al., 2025a</a>]</cite>。与元学习一样，它研究相关任务之间的泛化。持续学习的主要挑战是克服灾难性遗忘，以及应对变化的数据分布。</p>
+</div>
+<div id="Ch9.S3.SS1.SSS4.p2" class="ltx_para">
+<p id="Ch9.S3.SS1.SSS4.p2.1" class="ltx_p" data-translation-id="ch09-0086">持续学习领域提供了多种支持这类训练的架构。</p>
+</div>
+</section>
+</section>
+<section id="Ch9.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch09-0087">9.3.2 记忆架构</h3>
+
+<div id="Ch9.S3.SS2.p1" class="ltx_para">
+<p id="Ch9.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch09-0088">智能体式大语言模型领域仍很年轻。直到最近，大语言模型智能体的记忆架构才开始受到关注。我们将讨论迄今出现的不同方法。</p>
+</div>
+<section id="Ch9.S3.SS2.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0089">9.3.2.1 微调</h4>
+
+<div id="Ch9.S3.SS2.SSS1.p1" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS1.p1.1" class="ltx_p" data-translation-id="ch09-0090">满足记忆需求的一种务实方法，是在新信息到来时将它纳入模型。与其开发外部记忆管理算法，我们可以利用模型参数本身是一种记忆这一事实，在新样例到来时微调模型。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS1.p2" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS1.p2.1" class="ltx_p" data-translation-id="ch09-0091">要在智能体场景中实现这种方法，微调必须足够快，在用户察觉延迟之前完成。LoRA 等参数高效微调方法是一种选择 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib18" title="" class="ltx_ref">Yang et al., 2024</a>]</cite>。虽然这种方法很优雅，不需要外部算法或记忆结构，但对于大多数应用，微调速度仍然不够快，应开发上下文或 Harness 解决方案。</p>
+</div>
+</section>
+<section id="Ch9.S3.SS2.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0092">9.3.2.2 长上下文窗口与压缩</h4>
+
+<div id="Ch9.S3.SS2.SSS2.p1" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS2.p1.1" class="ltx_p" data-translation-id="ch09-0093">第二种方法是进行提示管理。聊天机器人的标准方法，是在用户文本之外将截断后的聊天历史注入提示，提供给大语言模型。这种方法在实践中效果相当好。局限在于上下文窗口大小有限，而且注意力机制的平方时间复杂度使大上下文的处理代价高昂。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS2.p2" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS2.p2.1" class="ltx_p" data-translation-id="ch09-0094">研究者探索了两类解决方案。第一，开发特定的长上下文架构，以不同方式跟踪注意力 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib2" title="" class="ltx_ref">Smith et al., 2022</a>]</cite>。这是一个活跃研究领域，近期方法的综述见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibh.bib40" title="" class="ltx_ref">Liu et al. [2025]</a></cite>。第二，开发压缩方案，将提示在语义上压缩成更小的信息流。综述见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibh.bib31" title="" class="ltx_ref">Li et al. [2025b]</a></cite>。提示可以分块 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib41" title="" class="ltx_ref">Sheng et al., 2025</a>]</cite>，以处理大型提示。一种相关方法使用大语言模型生成代码，递归处理长提示 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib35" title="" class="ltx_ref">Zhang et al., 2025a</a>]</cite>。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS2.p3" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS2.p3.1" class="ltx_p" data-translation-id="ch09-0095">还可以通过过滤不必要的词元压缩提示（例如本句可缩为“提示 压缩 过滤 不必要 词元”）。另一种方法是软提示 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib25" title="" class="ltx_ref">Lester et al., 2021</a>]</cite>。软提示不采用离散词元，而是通过反向传播学习嵌入，可直接送入 Transformer，无需映射到实际语言词元。这种上下文可以替代纯文本上下文。已有研究报告了惊人的压缩率，从十倍 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib27" title="" class="ltx_ref">Mu et al., 2023</a>]</cite> 到百倍 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib26" title="" class="ltx_ref">Li et al., 2025c</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch9.S3.SS2.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch09-0096">9.3.2.3 显式记忆管理</h4>
+
+<div id="Ch9.S3.SS2.SSS3.p1" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.p1.1" class="ltx_p" data-translation-id="ch09-0097">如果需要在大语言模型调用之间保存状态，直接的解决方案是由智能体 Harness 将存储作为提示管理的一部分提供。在第 <a href="ch06.html#Ch6.S2.SS4" title="6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.4</span></a> 节中，我们看到自我反思的外部提示改进算法如何添加不同存储类型，例如 reflexion 方法和思维缓冲区方法（图 <a href="ch06.html#Ch6.F8" title="Figure 6.8 ‣ Reflexion ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.8</span></a> 和 <a href="ch06.html#Ch6.F6" title="Figure 6.6 ‣ 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.6</span></a>）。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS3.p2" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.p2.1" class="ltx_p" data-translation-id="ch09-0098">智能体对存储可能有不同要求（综述见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibh.bib29" title="" class="ltx_ref">Zhang et al. [2025b]</a>, <a href="#bibh.bib24" title="" class="ltx_ref">Chhikara et al. [2025]</a></cite>）。我们将讨论这一活跃研究领域中的一些近期研究。提示可按文本形式或参数化形式存储，相关操作包括读写记忆。此外，记忆管理操作也很重要，例如压缩和遗忘信息。记忆系统还可以提供附加服务。例如，MemoryBank <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib28" title="" class="ltx_ref">Zhong et al., 2024</a>]</cite> 添加分层摘要，并用大语言模型提示，根据用户的交互事件持续维护人格描述。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS3.p3" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.p3.1" class="ltx_p" data-translation-id="ch09-0099">可以为智能体添加存储与检索条目的操作。MemGPT <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib21" title="" class="ltx_ref">Packer et al., 2023</a>]</cite> 研究大语言模型如何利用函数调用读写外部记忆（将记忆作为工具）。A-mem <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib19" title="" class="ltx_ref">Xu et al., 2025</a>]</cite> 基于信箱原则，引入记忆的上下文描述。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS3.p4" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.p4.1" class="ltx_p" data-translation-id="ch09-0100">显式记忆管理方法的一个缺点是，大语言模型必须显式执行记忆管理，却没有接受过如何有效完成这项工作的训练。如果能预见所有可能的需求，另一种解决方案是手工编写记忆管理代码。模型上下文协议（MCP）是一组为上下文管理设计的策略。第 <a href="ch11.html#Ch11.S4" title="11.4 Model Context Protocol and Context Management ‣ Chapter 11 How Agents Use Tools to Act in the World ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">11.4</span></a> 节将更深入介绍该协议。</p>
+</div>
+<section id="Ch9.S3.SS2.SSS3.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch09-0101">学习使用记忆</h5>
+
+<div id="Ch9.S3.SS2.SSS3.Px1.p1" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.Px1.p1.1" class="ltx_p" data-translation-id="ch09-0102">Mem1 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib7" title="" class="ltx_ref">Zhou et al., 2025</a>]</cite> 采用另一种方法：每次大语言模型交互后，智能体更新一个紧凑状态，与后续模型调用共享。所需记忆大小恒定，因此状态不会超出上下文窗口。通过在提示中插入推理风格标签来建立共享状态，并使用强化学习进行训练，以激励状态整合。Mem-<math id="Ch9.S3.SS2.SSS3.Px1.p1.m1" class="ltx_Math" alttext="\alpha" display="inline" intent=":literal"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math> 是另一种用强化学习训练智能体有效使用记忆的方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib20" title="" class="ltx_ref">Wang et al., 2025</a>]</cite>。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS3.Px1.p2" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.Px1.p2.1" class="ltx_p" data-translation-id="ch09-0103">AgeMem <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib30" title="" class="ltx_ref">Yu et al., 2026</a>]</cite> 将记忆管理操作纳入智能体策略，进行端到端优化。它区分长期记忆和短期记忆，并采用三阶段强化学习方案，训练智能体使用这两类记忆。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS3.Px1.p3" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.Px1.p3.1" class="ltx_p" data-translation-id="ch09-0104">这同样是一个活跃研究领域，可以期待新的研究和框架。概述见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibh.bib1" title="" class="ltx_ref">Zhou et al. [2026]</a></cite>。</p>
+</div>
+</section>
+<section id="Ch9.S3.SS2.SSS3.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch09-0105">向量数据库</h5>
+
+<div id="Ch9.S3.SS2.SSS3.Px2.p1" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.Px2.p1.1" class="ltx_p" data-translation-id="ch09-0106">除将提示存为人类可读文本之外，也可直接存储其词元化嵌入。在需要精确文本匹配时，将提示存成文本有利于检索数据。嵌入编码语义信息，即哪些词元在含义上彼此接近。因此，当希望检索语义相近的条目时，存储嵌入很有用。</p>
+</div>
+<div id="Ch9.S3.SS2.SSS3.Px2.p2" class="ltx_para">
+<p id="Ch9.S3.SS2.SSS3.Px2.p2.1" class="ltx_p" data-translation-id="ch09-0107">嵌入可存储在向量数据库中。传统关系数据库按行列存储数据。向量数据库存储高维数值列表，并提供低延迟访问，因此非常适合大语言模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibh.bib23" title="" class="ltx_ref">Xie et al., 2023</a>, <a href="#bibh.bib22" title="" class="ltx_ref">Ma et al., 2023</a>]</cite>。</p>
+</div>
+</section>
+</section>
+</section>
+</section>
+<section id="Ch9.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch09-0108">9.4 结语</h2>
+
+<div id="Ch9.S4.p1" class="ltx_para">
+<p id="Ch9.S4.p1.1" class="ltx_p" data-translation-id="ch09-0109">智能体概念是人工智能的核心概念。大语言模型大幅提高了智能体的交流与推理能力。本章讨论了不同智能体类型，并将其与人工智能的不同传统联系起来。</p>
+</div>
+<div id="Ch9.S4.p2" class="ltx_para">
+<p id="Ch9.S4.p2.1" class="ltx_p" data-translation-id="ch09-0110">智能体会行动。基于前面各章，我们讨论了五种主要交互方式。智能体需要记忆，才能与环境进行有意义的互动，我们也讨论了这一新的研究领域。</p>
+</div>
+<div id="Ch9.S4.p3" class="ltx_para">
+<p id="Ch9.S4.p3.1" class="ltx_p" data-translation-id="ch09-0111">介绍了这么多理论之后，是时候动手实践了。下一章将研究一个实际案例，以便更深入体验使用我们已见到的一些理论概念。</p>
+</div>
+</section>
+<section id="bibh" class="ltx_bibliography ltx_list_09_agents">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibh.L1" class="ltx_biblist">
+<li id="bibh.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brooks (1990)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. A. Brooks</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Elephants don’t play chess</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Robotics and autonomous systems</span> <span class="ltx_text ltx_bib_volume">6</span> (<span class="ltx_text ltx_bib_number">1-2</span>), <span class="ltx_text ltx_bib_pages">pp. 3–15</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS3.p2.1" title="9.1.1.3 Swarm Agents ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.3</span></a>.
+</span></li>
+<li id="bibh.bib38" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brown <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language models are few-shot learners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">33</span>, <span class="ltx_text ltx_bib_pages">pp. 1877–1901</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S2.SS1.SSS2.p4.1" title="9.2.1.2 B. In-Context Learning ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.2.1.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.4.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chhikara <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Chhikara, D. Khant, S. Aryan, T. Singh, and D. Yadav</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mem0: building production-ready ai agents with scalable long-term memory</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2504.19413</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.p2.1" title="9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib13" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dorigo <span class="ltx_text ltx_bib_etal">et al.</span> (2007)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Dorigo, M. Birattari, and T. Stutzle</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Ant colony optimization</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">IEEE computational intelligence magazine</span> <span class="ltx_text ltx_bib_volume">1</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 28–39</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS3.p2.1" title="9.1.1.3 Swarm Agents ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.3</span></a>.
+</span></li>
+<li id="bibh.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dorri <span class="ltx_text ltx_bib_etal">et al.</span> (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Dorri, S. S. Kanhere, and R. Jurdak</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Multi-agent systems: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Ieee Access</span> <span class="ltx_text ltx_bib_volume">6</span>, <span class="ltx_text ltx_bib_pages">pp. 28573–28593</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS1.p2.1" title="9.1.1.1 Robotic Assistants ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.1</span></a>.
+</span></li>
+<li id="bibh.bib5" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Georgeff <span class="ltx_text ltx_bib_etal">et al.</span> (1998)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Georgeff, B. Pell, M. Pollack, M. Tambe, and M. Wooldridge</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The belief-desire-intention model of agency</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International workshop on agent theories, architectures, and languages</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–10</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS2.p2.1" title="9.1.1.2 Agents with Beliefs, Desires, and Intentions ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.2</span></a>.
+</span></li>
+<li id="bibh.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Johnson and Linksvayer (2010)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. R. Johnson and T. A. Linksvayer</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deconstructing the superorganism: social physiology, groundplans, and sociogenomics</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">The Quarterly Review of Biology</span> <span class="ltx_text ltx_bib_volume">85</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 57–79</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS3.p1.1" title="9.1.1.3 Swarm Agents ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.3</span></a>.
+</span></li>
+<li id="bibh.bib37" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kojima <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Kojima, S. S. Gu, M. Reid, Y. Matsuo, and Y. Iwasawa</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models are zero-shot reasoners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 22199–22213</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S2.SS1.SSS3.p1.1" title="9.2.1.3 C. Chain of Thought ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.2.1.3</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.7.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lambert <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Lambert, J. Morrison, V. Pyatkin, S. Huang, H. Ivison, F. Brahman, L. J. V. Miranda, A. Liu, N. Dziri, S. Lyu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tulu 3: pushing frontiers in open language model post-training</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.15124</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.11.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib25" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lester <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Lester, R. Al-Rfou, and N. Constant</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The power of scale for parameter-efficient prompt tuning</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2021 conference on empirical methods in natural language processing</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 3045–3059</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p3.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib4" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. H. Li, J. Hessel, Y. Yu, X. Ren, K. Chang, and Y. Choi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Symbolic chain-of-thought distillation: small models can also “think” step-by-step</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,  <span class="ltx_text ltx_bib_editor">A. Rogers, J. Boyd-Graber, and N. Okazaki (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Toronto, Canada</span>, <span class="ltx_text ltx_bib_pages">pp. 2665–2679</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2023.acl-long.150/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2023.acl-long.150" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S2.SS1.SSS3.p3.1" title="9.2.1.3 C. Chain of Thought ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.2.1.3</span></a>.
+</span></li>
+<li id="bibh.bib3" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2025a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Li, X. Wang, X. Yang, M. Bonsangue, J. Zhang, and T. Li</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Improving open-world continual learning under the constraints of scarce labeled data</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 2</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1647–1658</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS1.SSS4.p1.1" title="9.3.1.4 Continual Learning ‣ 9.3.1 The Need for Memory ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.1.4</span></a>.
+</span></li>
+<li id="bibh.bib31" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2025b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Li, Y. Liu, Y. Su, and N. Collier</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Prompt compression for large language models: a survey</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 7182–7195</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p2.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib26" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2025c)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Li, Y. Su, and N. Collier</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">500xcompressor: generalized prompt compression for large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 25081–25091</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p3.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib40" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Liu <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Liu, D. Zhu, Z. Bai, Y. He, H. Liao, H. Que, Z. Wang, C. Zhang, G. Zhang, J. Zhang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A comprehensive survey on long context language modeling</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2503.17407</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p2.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Luong <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Q. Luong, X. Zhang, Z. Jie, P. Sun, X. Jin, and H. Li</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reft: reasoning with reinforced fine-tuning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2401.08967</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.F8" title="In 9.2.1.5 E. Reinforcement Finetuning Harness ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 9.8</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch9.F8.4" title="In 9.2.1.5 E. Reinforcement Finetuning Harness ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 9.8</span></a>.
+</span></li>
+<li id="bibh.bib22" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ma <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Ma, R. Zhang, Y. Han, S. Yu, Z. Wang, Z. Ning, J. Zhang, P. Xu, P. Li, W. Ju, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A comprehensive survey on vector database: storage and retrieval technique, challenge</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2310.11703</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.Px2.p2.1" title="Vector Databases ‣ 9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib27" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mu <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Mu, X. Li, and N. Goodman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Learning to compress prompts with gist tokens</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 19327–19352</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p3.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib21" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Packer <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Packer, V. Fang, S. Patil, K. Lin, S. Wooders, and J. Gonzalez</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MemGPT: towards llms as operating systems.</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">ArXiv</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.p3.1" title="9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Plaat <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Plaat, M. van Duijn, N. van Stein, M. Preuss, P. van der Putten, and K. J. Batenburg</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agentic large language models, a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Artificial Intelligence Research, arXiv preprint arXiv:2503.23037</span> <span class="ltx_text ltx_bib_volume">84</span>, <span class="ltx_text ltx_bib_pages">pp. 29:1–29:74</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS1.p2.1" title="9.1.1.1 Robotic Assistants ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.1</span></a>.
+</span></li>
+<li id="bibh.bib8" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rao <span class="ltx_text ltx_bib_etal">et al.</span> (1995)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. S. Rao M. P. Georgeff <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">BDI agents: from theory to practice.</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Icmas</span>,
+</span>
+<span class="ltx_bibblock">Vol. <span class="ltx_text ltx_bib_volume">95</span>, <span class="ltx_text ltx_bib_pages">pp. 312–319</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS2.p2.1" title="9.1.1.2 Agents with Beliefs, Desires, and Intentions ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.2</span></a>.
+</span></li>
+<li id="bibh.bib41" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sheng <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Sheng, J. Yao, M. Zhang, and G. He</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Dynamic chunking and selection for reading comprehension of ultra-long context in large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.00773</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p2.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib2" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Smith <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. T. Smith, A. Warrington, and S. W. Linderman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Simplified state space layers for sequence modeling</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2208.04933</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p2.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib34" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sutton and Barto (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. S. Sutton and A. G. Barto</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_edition">2 edition</span>, <span class="ltx_text ltx_bib_series">Adaptive Computation and Machine Learning series</span>,  <span class="ltx_text ltx_bib_publisher">Bradford Books</span>, <span class="ltx_text ltx_bib_place">Cambridge, MA</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.F1" title="In 9.1.2 Agentic LLMs as Reinforcement Learning Agents ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 9.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch9.F1.4" title="In 9.1.2 Agentic LLMs as Reinforcement Learning Agents ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 9.1</span></a>,
+<a href="#Ch9.S1.SS2.p1.1" title="9.1.2 Agentic LLMs as Reinforcement Learning Agents ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.2</span></a>.
+</span></li>
+<li id="bibh.bib33" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">van Stein and Bäck (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. van Stein and T. Bäck</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">LLaMEA: a large language model evolutionary algorithm for automatically generating metaheuristics</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.20132</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.9.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib39" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Vaswani <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Attention is all you need</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">30</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S2.SS1.SSS1.p2.1" title="9.2.1.1 A. Query Prompt ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.2.1.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.2.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib32" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Wang, X. Zhang, H. Su, and J. Zhu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A comprehensive survey of continual learning: theory, method and application</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">IEEE transactions on pattern analysis and machine intelligence</span> <span class="ltx_text ltx_bib_volume">46</span> (<span class="ltx_text ltx_bib_number">8</span>), <span class="ltx_text ltx_bib_pages">pp. 5362–5383</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS1.SSS4.p1.1" title="9.3.1.4 Continual Learning ‣ 9.3.1 The Need for Memory ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.1.4</span></a>.
+</span></li>
+<li id="bibh.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Wang, R. Takanobu, Z. Liang, Y. Mao, Y. Hu, J. McAuley, and X. Wu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mem-<math id="bib.bib20.m1" class="ltx_Math" alttext="\{" display="inline" intent=":literal"><semantics><mo stretchy="false">{</mo><annotation encoding="application/x-tex">\{</annotation></semantics></math><math id="bib.bib20.m2" class="ltx_Math" alttext="\backslash" display="inline" intent=":literal"><semantics><mo>\</mo><annotation encoding="application/x-tex">\backslash</annotation></semantics></math>alpha<math id="bib.bib20.m3" class="ltx_Math" alttext="\}" display="inline" intent=":literal"><semantics><mo stretchy="false">}</mo><annotation encoding="application/x-tex">\}</annotation></semantics></math>: learning memory construction via reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2509.25911</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.Px1.p1.1" title="Learning to use memory ‣ 9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib42" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wei <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Wei, X. Wang, D. Schuurmans, M. Bosma, F. Xia, E. Chi, Q. V. Le, D. Zhou, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Chain-of-thought prompting elicits reasoning in large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 24824–24837</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S2.SS1.SSS3.p1.1" title="9.2.1.3 C. Chain of Thought ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.2.1.3</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.6.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib9" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wilensky and Rand (2015)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">U. Wilensky and W. Rand</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">An introduction to agent-based modeling: modeling natural, social, and engineered complex systems with netlogo</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">The MIT Press</span>,  <span class="ltx_text ltx_bib_publisher">MIT Press</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text isbn ltx_bib_external">ISBN 9780262731898</span>,
+<span class="ltx_text lccn ltx_bib_external">LCCN 2014023747</span>,
+<a href="https://books.google.nl/books?id=LQrhBwAAQBAJ" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS3.p2.1" title="9.1.1.3 Swarm Agents ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.3</span></a>.
+</span></li>
+<li id="bibh.bib17" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wilson and Sober (1989)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. S. Wilson and E. Sober</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reviving the superorganism</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of theoretical Biology</span> <span class="ltx_text ltx_bib_volume">136</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 337–356</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS1.SSS3.p1.1" title="9.1.1.3 Swarm Agents ‣ 9.1.1 Agents Act and Adapt in their Environment ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.1.3</span></a>.
+</span></li>
+<li id="bibh.bib15" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wong <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Wong, T. Bäck, A. V. Kononova, and A. Plaat</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Multiagent deep reinforcement learning: challenges and directions towards human-like approaches</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2106.15691</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S1.SS2.p1.1" title="9.1.2 Agentic LLMs as Reinforcement Learning Agents ‣ 9.1 Agents in AI ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.1.2</span></a>.
+</span></li>
+<li id="bibh.bib23" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xie <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Xie, H. Liu, W. Hou, and H. Huang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A brief survey of vector databases</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2023 9th international conference on big data and information analytics (BigDIA)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 364–371</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.Px2.p2.1" title="Vector Databases ‣ 9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xu <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Xu, Z. Liang, K. Mei, H. Gao, J. Tan, and Y. Zhang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A-mem: agentic memory for llm agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.12110</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.p3.1" title="9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Yang, J. Chen, J. Tao, Y. Zhang, J. Liu, J. Zhang, Q. Ma, H. Verma, R. Zhang, M. Zhou, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Low-rank adaptation for foundation models: a comprehensive review</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.00365</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS1.p2.1" title="9.3.2.1 Finetuning ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.1</span></a>.
+</span></li>
+<li id="bibh.bib36" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Yao, D. Yu, J. Zhao, I. Shafran, T. Griffiths, Y. Cao, and K. Narasimhan</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tree of thoughts: deliberate problem solving with large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S2.SS1.SSS4.p6.1" title="9.2.1.4 D. Self-Reflection Harness ‣ 9.2.1 Agentic Interaction Styles ‣ 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.2.1.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.8.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib43" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yao <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, and Y. Cao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">React: synergizing reasoning and acting in language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2210.03629</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="https://arxiv.org/html/2610.13455v1#Ch9.T1.3.10.4.1" title="In 9.2 Learning Mechanisms in Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">表 9.1</span></a>.
+</span></li>
+<li id="bibh.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yu <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Yu, L. Yao, Y. Xie, Q. Tan, J. Feng, Y. Li, and L. Wu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agentic memory: learning unified long-term and short-term memory management for large language model agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2601.01885</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.Px1.p2.1" title="Learning to use memory ‣ 9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib35" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2025a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. L. Zhang, T. Kraska, and O. Khattab</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Recursive language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2512.24601</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS2.p2.1" title="9.3.2.2 Long Context Windows and Compression ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.2</span></a>.
+</span></li>
+<li id="bibh.bib29" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2025b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Zhang, Q. Dai, X. Bo, C. Ma, R. Li, X. Chen, J. Zhu, Z. Dong, and J. Wen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey on the memory mechanism of large language model-based agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">ACM Transactions on Information Systems</span> <span class="ltx_text ltx_bib_volume">43</span> (<span class="ltx_text ltx_bib_number">6</span>), <span class="ltx_text ltx_bib_pages">pp. 1–47</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.p2.1" title="9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib28" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhong <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Zhong, L. Guo, Q. Gao, H. Ye, and Y. Wang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Memorybank: enhancing large language models with long-term memory</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the AAAI conference on artificial intelligence</span>,
+</span>
+<span class="ltx_bibblock">Vol. <span class="ltx_text ltx_bib_volume">38</span>, <span class="ltx_text ltx_bib_pages">pp. 19724–19731</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.p2.1" title="9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib1" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Zhou, X. Zhou, S. Han, H. Xu, G. Li, Z. Li, F. Xiong, and F. Wu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Are we ready for an agent-native memory system?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2606.24775</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.Px1.p3.1" title="Learning to use memory ‣ 9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+<li id="bibh.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Zhou, A. Qu, Z. Wu, S. Kim, A. Prakash, D. Rus, J. Zhao, B. K. H. Low, and P. P. Liang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MEM1: learning to synergize memory and reasoning for efficient long-horizon agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.15841</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch9.S3.SS2.SSS3.Px1.p1.1" title="Learning to use memory ‣ 9.3.2.3 Explicit Memory Management ‣ 9.3.2 Memory Architectures ‣ 9.3 Memory Architectures for Agentic LLMs ‣ Chapter 9 Interaction Styles for Agentic LLMs ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§9.3.2.3</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch08.html">← 第 8 章</a><a href="index.html">全书目录</a><a href="ch10.html">第 10 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

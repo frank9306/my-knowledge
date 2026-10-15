@@ -1,0 +1,1242 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 7 章 视觉、行动与世界模型 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html" aria-current="page"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html" aria-current="page"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">07 / 23 · 中文翻译</p><section id="Ch7" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch07-0001">第 7 章 视觉、行动与世界模型</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch7.S1">7.1 多模态视觉—语言模型</a></li><li class="level-h3"><a href="#Ch7.S1.SS1">7.1.1 任务</a></li><li class="level-h3"><a href="#Ch7.S1.SS2">7.1.2 架构</a></li><li class="level-h3"><a href="#Ch7.S1.SS3">7.1.3 学习算法</a></li><li class="level-h3"><a href="#Ch7.S1.SS4">7.1.4 结果</a></li><li class="level-h2"><a href="#Ch7.S2">7.2 决策与视觉—语言—动作模型</a></li><li class="level-h3"><a href="#Ch7.S2.SS1">7.2.1 任务</a></li><li class="level-h3"><a href="#Ch7.S2.SS2">7.2.2 架构</a></li><li class="level-h3"><a href="#Ch7.S2.SS3">7.2.3 学习算法</a></li><li class="level-h3"><a href="#Ch7.S2.SS4">7.2.4 结果</a></li><li class="level-h2"><a href="#Ch7.S3">7.3 世界模型、物理与规划</a></li><li class="level-h3"><a href="#Ch7.S3.SS1">7.3.1 任务</a></li><li class="level-h3"><a href="#Ch7.S3.SS2">7.3.2 架构</a></li><li class="level-h3"><a href="#Ch7.S3.SS3">7.3.3 学习算法</a></li><li class="level-h3"><a href="#Ch7.S3.SS4">7.3.4 结果</a></li><li class="level-h3"><a href="#Ch7.S3.SS5">7.3.5 *基于模型的强化学习</a></li><li class="level-h2"><a href="#Ch7.S4">7.4 结语</a></li><li class="level-h2"><a href="#bibf">参考文献</a></li></ol></nav></details><div id="Ch7.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch7.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch7.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch7.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch7.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0039">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch7.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch7.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0040">智能体所处的世界不仅由语言组成。本章将介绍基于 Transformer 的模型如何通过语言以外的模态获得世界知识。具体而言，你将能够：</p>
+<ul id="Ch7.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch7.S0.I1.i1" class="ltx_item">
+<div id="Ch7.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch7.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0041">描述视觉语言模型（VLM）的架构。这类模型大多采用 Transformer，由语言部分和视觉部分构成。VLM 在生成逼真的虚构图像和视频片段等任务中取得了显著成功。</p>
+</div></li>
+<li id="Ch7.S0.I1.i2" class="ltx_item">
+<div id="Ch7.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch7.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0042">理解视觉语言动作模型的工作方式。VLA 还使用机器人动作进行训练，有助于提高机器人行为的通用性。</p>
+</div></li>
+<li id="Ch7.S0.I1.i3" class="ltx_item">
+<div id="Ch7.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch7.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0043">解释世界模型为何有益于智能体：这些模型学习了周围世界的部分物理特性，从而避免智能体尝试穿墙而过。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch7.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch07-0002">7.1 多模态视觉—语言模型</h2>
+
+<div id="Ch7.S1.p1" class="ltx_para">
+<p id="Ch7.S1.p1.1" class="ltx_p" data-translation-id="ch07-0003">许多决策涉及视觉。本节将看到，Transformer 架构也能够学习词元化的视觉模式。在语言和视觉数据上共同预训练的模型称为视觉—语言模型（VLM）。VLM 通常包括（1）语言部分、（2）视觉部分及（3）结合两类嵌入的部分。</p>
+</div>
+<div id="Ch7.S1.p2" class="ltx_para">
+<p id="Ch7.S1.p2.1" class="ltx_p" data-translation-id="ch07-0004">我们将讨论这些视觉—语言模型的不同架构，对每类模型介绍任务、架构和训练算法，并看到令人印象深刻的结果。</p>
+</div>
+<div id="Ch7.S1.p3" class="ltx_para">
+<p id="Ch7.S1.p3.1" class="ltx_p" data-translation-id="ch07-0005">计算机视觉在人工智能中有悠久而成功的历史。早在自然语言处理取得突破之前，深度学习就已在图像识别任务上成功 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib36" title="" class="ltx_ref">Krizhevsky et al., 2012</a>]</cite>。这两个成功领域能否结合？这并非简单问题，因为它们依赖非常不同的深度学习架构：图像处理依赖擅长处理二维矩形像素网格的卷积神经网络，语言处理依赖擅长处理一维词元序列的 Transformer。</p>
+</div>
+<div id="Ch7.S1.p4" class="ltx_para">
+<p id="Ch7.S1.p4.1" class="ltx_p" data-translation-id="ch07-0006">我们将看到，结合两者的架构确实已经开发出来，如今大多数前沿模型都是 VLM。</p>
+</div>
+<figure id="Ch7.F1" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/VQAbanana.png" id="Ch7.F1.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:275/180;" width="275" height="180" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0007">图 7.1：视觉问答任务的一个问题可能是：这副胡须是用什么做的？</figcaption>
+</figure>
+<section id="Ch7.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0008">7.1.1 任务</h3>
+
+<div id="Ch7.S1.SS1.p1" class="ltx_para">
+<p id="Ch7.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch07-0009">先讨论视觉—语言模型须解决的任务类型，并列举流行基准套件。理解能力可通过视觉问答（VQA）测试，考察模型是否获得对图像的某种文本层面的理解。相关的生成任务是图像描述，即根据图像生成文字描述。此外，模型也可能承担图像生成任务。</p>
+</div>
+<div id="Ch7.S1.SS1.p2" class="ltx_para">
+<p id="Ch7.S1.SS1.p2.1" class="ltx_p" data-translation-id="ch07-0010">来看一些任务示例。对于图 <a href="#Ch7.F1" title="Figure 7.1 ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.1</span></a>，VQA 问题可以是“这副胡须是用什么做的？”，系统应回答“香蕉”。其他典型问题包括统计图像特定区域中某种颜色、某种形状的数量（例如回答“这个场景中，桌子上角是否有红色方块？”）。任务类型十分多样，流行基准包括 MOSAIC <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib11" title="" class="ltx_ref">Burda-Lassen et al., 2025</a>]</cite>、GLOBAL-RG <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib12" title="" class="ltx_ref">Bhatia et al., 2024</a>]</cite>、CultureVQA <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib13" title="" class="ltx_ref">Nayak et al., 2024</a>]</cite>、FoodieQA <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib28" title="" class="ltx_ref">Li et al., 2024</a>]</cite> 和 MaRVL <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib29" title="" class="ltx_ref">Liu et al., 2021</a>]</cite>。</p>
+</div>
+<figure id="Ch7.F2" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/captioning.png" id="Ch7.F2.g1" class="ltx_graphics ltx_centering ltx_img_portrait" style="aspect-ratio:236/299;" width="236" height="299" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0011">图 7.2：图像描述任务，可能的描述为：一只快乐的狗站在海水中</figcaption>
+</figure>
+<div id="Ch7.S1.SS1.p3" class="ltx_para">
+<p id="Ch7.S1.SS1.p3.1" class="ltx_p" data-translation-id="ch07-0012">在图像描述任务中，可提示模型描述图 <a href="#Ch7.F2" title="Figure 7.2 ‣ 7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.2</span></a> 的场景，其中是一只快乐的狗站在海水里。请注意，不同描述也可能同样有效，例如湿漉漉的狗、感到寒冷的狗，或戴着红项圈、站在海水里的狗。流行基准包括 MS-COCO <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib14" title="" class="ltx_ref">Lin et al., 2014</a>]</cite>、nocaps，11 1 <a href="https://nocaps.org" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://nocaps.org</a>，以及视频的 MSR-VTT <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib27" title="" class="ltx_ref">Xu et al., 2016</a>]</cite> 和用于传统简短描述评估的 VATEX <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib26" title="" class="ltx_ref">Wang et al., 2019</a>]</cite>。较新的基准侧重详细、多方面的描述，包括 DetailCaps <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib25" title="" class="ltx_ref">Dong et al., 2024</a>]</cite>、VDC <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib15" title="" class="ltx_ref">Chai et al., 2024</a>]</cite> 和 CapArena <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib16" title="" class="ltx_ref">Cheng et al., 2025</a>]</cite>。</p>
+</div>
+<div id="Ch7.S1.SS1.p4" class="ltx_para">
+<p id="Ch7.S1.SS1.p4.1" class="ltx_p" data-translation-id="ch07-0013">VLM 的典型应用包括摘要、图像生成、搜索检索、图像分割和目标检测。面向专家级 AGI 的大规模多学科多模态理解与推理基准（MMMU），是视觉—语言模型的综合基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib23" title="" class="ltx_ref">Yue et al., 2024</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch7.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0014">7.1.2 架构</h3>
+
+<div id="Ch7.S1.SS2.p1" class="ltx_para">
+<p id="Ch7.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch07-0015">了解 VLM 的测试任务类型之后，如何设计模型完成这些任务？</p>
+</div>
+<div id="Ch7.S1.SS2.p2" class="ltx_para">
+<p id="Ch7.S1.SS2.p2.1" class="ltx_p" data-translation-id="ch07-0016">语言被建模为词元序列时，是序列性（一维）问题领域；视觉被建模为像素网格时，是矩形（二维）问题领域。相应地，两类应用采用不同深度学习架构：语言用 Transformer 寻找序列模式，图像用卷积神经网络寻找二维模式。因此，多模态视觉—语言模型应采用何种架构并不明显；事实上，一度连 VLM 能否运作都不清楚。</p>
+</div>
+<div id="Ch7.S1.SS2.p3" class="ltx_para">
+<p id="Ch7.S1.SS2.p3.1" class="ltx_p" data-translation-id="ch07-0017">研究首先关注：除传统卷积神经网络（CNN）之外，Transformer 是否也能进行图像处理。人们开发出专门的视觉 Transformer 和词元化方案，在图像处理中表现良好 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib24" title="" class="ltx_ref">Dosovitskiy et al., 2020</a>]</cite>。</p>
+</div>
+<figure id="Ch7.F3" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/vlm.png" id="Ch7.F3.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:238/160;" width="238" height="160" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0018">图 7.3：VLM 架构（参考 LLaVa <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib17" title="" class="ltx_ref">Liu et al., 2023</a>]</cite>，图片来自 Huggingface）</figcaption>
+</figure>
+<figure id="Ch7.F4" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/stable.png" id="Ch7.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/308;" width="452" height="308" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0019">图 7.4：Stable Diffusion 架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib21" title="" class="ltx_ref">Esser et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch7.S1.SS2.p4" class="ltx_para">
+<p id="Ch7.S1.SS2.p4.1" class="ltx_p" data-translation-id="ch07-0020">随后，需要一种结合语言和图像嵌入、并生成语言的架构。一般而言，VLM 包含图像编码器（CNN 或采用特殊词元化的视觉 Transformer）和文本编码器，两者连接到嵌入投影器（常为稠密神经网络），以对齐图像与文本表示，最后再连接文本解码器（Transformer）。图 <a href="#Ch7.F3" title="Figure 7.3 ‣ 7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.3</span></a> 以 LLaVa 为例展示这一架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib17" title="" class="ltx_ref">Liu et al., 2023</a>]</cite>。视觉嵌入与文本嵌入通过一个将视觉嵌入投影为另一嵌入的网络连接，使模型能够统一推理。投影网络通常是稠密神经网络（多层感知机，MLP）。</p>
+</div>
+<div id="Ch7.S1.SS2.p5" class="ltx_para">
+<p id="Ch7.S1.SS2.p5.1" class="ltx_p" data-translation-id="ch07-0021">人们还开发了更精细的架构，最先进 VLM 可以十分复杂，包含多个 Transformer 模块。例如图 <a href="#Ch7.F4" title="Figure 7.4 ‣ 7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.4</span></a> 展示生成式 Stable Diffusion 架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib21" title="" class="ltx_ref">Esser et al., 2024</a>, <a href="#bibf.bib4" title="" class="ltx_ref">Weng, 2021</a>, <a href="#bibf.bib20" title="" class="ltx_ref">Yang et al., 2023</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch7.S1.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0022">7.1.3 学习算法</h3>
+
+<div id="Ch7.S1.SS3.p1" class="ltx_para">
+<p id="Ch7.S1.SS3.p1.1" class="ltx_p" data-translation-id="ch07-0023">介绍任务和架构之后，接下来考察 VLM 使用的学习算法。不同编码器和投影器使 VLM 可以接受训练。训练算法应对齐、融合视觉与语言编码器的知识，使模型能够关联图像和文本信息，根据两种模态分析查询并回答。文献报道了多种训练 VLM 的方法。</p>
+</div>
+<div id="Ch7.S1.SS3.p2" class="ltx_para">
+<p id="Ch7.S1.SS3.p2.1" class="ltx_p" data-translation-id="ch07-0024">OpenAI 的 CLIP <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib50" title="" class="ltx_ref">Radford et al., 2021</a>]</cite>，即对比语言—图像预训练，使用对比学习。这是一种自监督学习，在数据集没有标签时创建监督信号。其思想是在嵌入空间中将不同数据点推远、相似数据点拉近。对比学习最大化正样本对（例如同一图像的相似形式）的表示相似性，最小化负样本对（不同物体的图像）的相似性。</p>
+</div>
+<div id="Ch7.S1.SS3.p3" class="ltx_para">
+<p id="Ch7.S1.SS3.p3.1" class="ltx_p" data-translation-id="ch07-0025">另一种方法是掩码：类似语言模型训练，VLM 学习预测输入文本或图像中随机遮蔽的部分。例如，给定未遮蔽的描述，模型学习重建图像的隐藏像素。FLAVA（foundational language and vision alignment，基础语言与视觉对齐）就是一个例子，使用视觉 Transformer 作为图像编码器，并以 Transformer 作为语言编码器及多模态投影器 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib22" title="" class="ltx_ref">Singh et al., 2022</a>]</cite>。</p>
+</div>
+<figure id="Ch7.F5" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/dalle.jpg" id="Ch7.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/317;" width="476" height="317" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0026">图 7.5：DALL-E：牛油果扶手椅</figcaption>
+</figure>
+<div id="Ch7.S1.SS3.p4" class="ltx_para">
+<p id="Ch7.S1.SS3.p4.1" class="ltx_p" data-translation-id="ch07-0027">VLM 也用于生成式任务，根据文本提示生成图像。流行的文生图模型通常采用扩散模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib62" title="" class="ltx_ref">Ho et al., 2022</a>, <a href="#bibf.bib20" title="" class="ltx_ref">Yang et al., 2023</a>]</cite>。著名例子包括 Google 的 Imagen <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib18" title="" class="ltx_ref">Baldridge et al., 2024</a>]</cite>、Midjourney、OpenAI 的 DALL-E <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib19" title="" class="ltx_ref">Betker et al., 2023</a>]</cite> 和 Stability AI 的 Stable Diffusion <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib21" title="" class="ltx_ref">Esser et al., 2024</a>]</cite>。DALL-E 2 使用以 CLIP 图像嵌入为条件的扩散模型。图 <a href="#Ch7.F5" title="Figure 7.5 ‣ 7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.5</span></a> 展示 DALL-E 著名的超现实牛油果扶手椅。</p>
+</div>
+<div id="Ch7.S1.SS3.p5" class="ltx_para">
+<p id="Ch7.S1.SS3.p5.1" class="ltx_p" data-translation-id="ch07-0028">从零预训练视觉—语言模型成本高昂，而 VLM 由语言模型和视觉模型构成，因此可以尝试使用一两个已经预训练的现有模型来构建。可同时使用预训练 LLM 和预训练视觉编码器，添加映射网络，将视觉嵌入投影到语言模型的文本输入空间。LLaVA（large language and vision assistant，大型语言与视觉助手）就是一例。它采用 Vicuna 语言解码器和 CLIP ViT 视觉编码器，通过线性投影器将其输出合并到共享维度空间 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib17" title="" class="ltx_ref">Liu et al., 2023</a>]</cite>。</p>
+</div>
+<div id="Ch7.S1.SS3.p6" class="ltx_para">
+<p id="Ch7.S1.SS3.p6.1" class="ltx_p" data-translation-id="ch07-0029">许多视觉—语言模型已被开发，通常在基准任务上表现良好，常用于智能体决策。VLM 如此流行，以至于当前许多开放及商业 LLM 都是 VLM：DeepSeek-VL2、Gemini 2.0 Flash、GPT-4o、Llama 3.2、NVLM、Qwen 2.5-VL。</p>
+</div>
+<figure id="Ch7.F6" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/flava.png" id="Ch7.F6.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/108;" width="476" height="108" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0030">图 7.6：Flava 预训练图文数据集示例 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib22" title="" class="ltx_ref">Singh et al., 2022</a>]</cite></figcaption>
+</figure>
+</section>
+<section id="Ch7.S1.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0031">7.1.4 结果</h3>
+
+<div id="Ch7.S1.SS4.p1" class="ltx_para">
+<p id="Ch7.S1.SS4.p1.1" class="ltx_p" data-translation-id="ch07-0032">通过文献中报道的一些例子，看看 VLM 在图像描述和图像生成方面表现如何。</p>
+</div>
+<div id="Ch7.S1.SS4.p2" class="ltx_para">
+<p id="Ch7.S1.SS4.p2.1" class="ltx_p" data-translation-id="ch07-0033">从视觉问答、目标检测、图像描述到文生图，视觉—语言模型产生了富有想象力且启发人心的结果。图 <a href="#Ch7.F6" title="Figure 7.6 ‣ 7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.6</span></a> 展示 Flava 使用的测试数据集示例。DALL-E 2 的后继 DALL-E 3 侧重于使用生成的、描述十分详尽的图像说明训练，取得更出色结果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib19" title="" class="ltx_ref">Betker et al., 2023</a>]</cite>。图 <a href="#Ch7.F7" title="Figure 7.7 ‣ 7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.7</span></a> 展示 DALL-E 3 一些遵循提示的图像生成能力。图 <a href="#Ch7.F8" title="Figure 7.8 ‣ 7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.8</span></a> 展示 Stable Diffusion 的例子（基于修正流扩散模型）。</p>
+</div>
+<figure id="Ch7.F7" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/dalle3.png" id="Ch7.F7.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/326;" width="476" height="326" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0034">图 7.7：DALL-E 3 遵循提示的文生图示例 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib19" title="" class="ltx_ref">Betker et al., 2023</a>]</cite></figcaption>
+</figure>
+<figure id="Ch7.F8" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/stablediff.png" id="Ch7.F8.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/279;" width="476" height="279" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0035">图 7.8：Stable Diffusion 示例 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib21" title="" class="ltx_ref">Esser et al., 2024</a>]</cite></figcaption>
+</figure>
+<figure id="Ch7.F9" class="ltx_figure">
+<div class="ltx_flex_figure">
+<div class="ltx_flex_cell ltx_flex_size_1"><img src="https://arxiv.org/html/2610.13455v1/figures/vla.jpg" id="Ch7.F9.g1" class="ltx_graphics ltx_centering ltx_figure_panel ltx_img_portrait" style="aspect-ratio:191/254;" width="191" height="254" alt="原书插图，说明见图注" loading="lazy" decoding="async"></div><div class="ltx_flex_break"></div><div class="ltx_flex_cell ltx_flex_size_1">
+<p id="Ch7.F9.3" class="ltx_p ltx_figure_panel ltx_align_center"><img src="https://arxiv.org/html/2610.13455v1/figures/vlas.jpg" id="Ch7.F9.g2" class="ltx_graphics ltx_img_landscape" style="aspect-ratio:191/127;" width="191" height="127" alt="原书插图，说明见图注" loading="lazy" decoding="async"></p></div></div>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0036">图 7.9：VLA 在不同语言中具有不同含义，Vlas 也是如此。（其中一张图片中的旗帜提示了这是哪种语言）</figcaption>
+</figure>
+</section>
+</section>
+<section id="Ch7.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch07-0037">7.2 决策与视觉—语言—动作模型</h2>
+
+<div id="Ch7.S2.p1" class="ltx_para">
+<p id="Ch7.S2.p1.1" class="ltx_p" data-translation-id="ch07-0038">智能体要行动就必须决策，要决策就必须权衡不同选择。本节将看到，可以在状态、动作和奖励的回合序列上训练 Transformer <math id="Ch7.S2.p1.m1" class="ltx_Math" alttext="\{(s,a,r)\}" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">{</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{(s,a,r)\}</annotation></semantics></math>（另见第 <a href="ch20.html#Ch20.S1.SS2" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.1.2</span></a> 节）。这些模型在语言、视觉及机器人动作序列上训练。视觉—语言—动作模型（VLA，图 <a href="#Ch7.F9" title="Figure 7.9 ‣ 7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.9</span></a>）被训练为输出机器人 API 命令，这是一种特殊语言：引导机器人运动的命令语言。</p>
+</div>
+<div id="Ch7.S2.p2" class="ltx_para">
+<p id="Ch7.S2.p2.1" class="ltx_p" data-translation-id="ch07-0039">VLA 的任务是理解视觉场景，在收到文本命令后，根据摄像头所见，指示机械臂执行适当动作。这些模型显示了令人印象深刻的结果：机器人泛化到未见情境并成功完成任务。</p>
+</div>
+<figure id="Ch7.F10" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/cliport1.png" id="Ch7.F10.g1" class="ltx_graphics ltx_centering ltx_img_square" style="aspect-ratio:238/201;" width="238" height="201" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0040">图 7.10：CLIPort 示例：将灰色字母 E 放入左侧 E 形孔 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib60" title="" class="ltx_ref">Shridhar et al., 2022</a>]</cite></figcaption>
+</figure>
+<section id="Ch7.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0041">7.2.1 任务</h3>
+
+<div id="Ch7.S2.SS1.p1" class="ltx_para">
+<p id="Ch7.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch07-0042">VLA 的主要任务是在现实世界中执行指令，并在变化环境中以通用方式完成。如果机器人操作模型已学会捡起一组红铅笔，任务变为捡蓝铅笔时，我们希望模型能够泛化，无须重新收集蓝铅笔训练集、从零训练。我们也希望模型识别物体，辨认物体朝向改变、位置移动或光照变化。模型应知道如何用机械臂操作物体、执行不同动作。图 <a href="#Ch7.F10" title="Figure 7.10 ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.10</span></a> 展示取自 CLIPort 论文的例子 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib60" title="" class="ltx_ref">Shridhar et al., 2022</a>]</cite>。</p>
+</div>
+<figure id="Ch7.F11" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/cliport2.png" id="Ch7.F11.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:238/180;" width="238" height="180" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0043">图 7.11：另一个 CLIPort 示例：将豆子扫入蓝色区域 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib49" title="" class="ltx_ref">Shridhar et al., 2020</a>]</cite></figcaption>
+</figure>
+<div id="Ch7.S2.SS1.p2" class="ltx_para">
+<p id="Ch7.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch07-0044">VLA 最困难的任务，是将场景、物体和动作组合为复杂操作，并泛化到训练中未见过的组合。尤其是在复杂、不断变化、甚至可能是户外的环境中进行长时域导航，是复杂挑战 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib60" title="" class="ltx_ref">Shridhar et al., 2022</a>]</cite>。</p>
+</div>
+<div id="Ch7.S2.SS1.p3" class="ltx_para">
+<p id="Ch7.S2.SS1.p3.1" class="ltx_p" data-translation-id="ch07-0045">在真实人机交互场景中，收集额外示范往往不可行。为执行图 <a href="#Ch7.F11" title="Figure 7.11 ‣ 7.2.1 Tasks ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.11</span></a> 这样的高层任务，VLA 必须识别物体、位姿及实例分割。模型还须理解语言，将语言含义与视觉物体和机器人动作的含义联系起来。</p>
+</div>
+<div id="Ch7.S2.SS1.p4" class="ltx_para">
+<p id="Ch7.S2.SS1.p4.1" class="ltx_p" data-translation-id="ch07-0046">我们将看到，语言为指定目标和跨任务迁移语义概念提供直观接口。此外，VLM 研究已展示如何在语义层面连接不同类型的嵌入。</p>
+</div>
+</section>
+<section id="Ch7.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0047">7.2.2 架构</h3>
+
+<div id="Ch7.S2.SS2.p1" class="ltx_para">
+<p id="Ch7.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch07-0048">了解任务和挑战之后，来看看可能的模型架构。它们同样可能相当复杂。自然语言的结果表明，Transformer 非常适合学习序列数据模式。直觉上，这意味着它也可能擅长建模序贯决策问题，即强化学习中常用于机器人行动的问题，见第 <a href="ch02.html#Ch2.S2.SS3" title="2.2.3 Reinforcement Learning ‣ 2.2 Machine Learning Methods For Natural Language Processing ‣ Chapter 2 Foundations of Language Modeling with LLMs ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2.2.3</span></a> 节（更深入讨论见第 <a href="ch20.html#Ch20.S2.SS1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.2.1</span></a> 节）。这些问题由状态开始，动作使系统进入新状态，新状态又有动作，依此类推。Transformer 架构非常适合建模这类问题。</p>
+</div>
+<div id="Ch7.S2.SS2.p2" class="ltx_para">
+<p id="Ch7.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch07-0049">决策 Transformer（DT）的早期工作 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib33" title="" class="ltx_ref">Chen et al., 2021</a>, <a href="#bibf.bib40" title="" class="ltx_ref">Janner et al., 2021</a>]</cite> 表明，在离线（静态）强化学习问题上，GPT 架构确实能够学得最优策略。决策预训练 Transformer（DPT）<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibf.bib34" title="" class="ltx_ref">Lee et al. [2023]</a>, <a href="#bibf.bib39" title="" class="ltx_ref">Wang et al. [2024a]</a></cite> 表明，基本 Transformer 架构可在决策轨迹上预训练、微调。第 <a href="ch20.html#Ch20.S1.SS2" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.1.2</span></a> 节将进一步讨论决策轨迹。</p>
+</div>
+<div id="Ch7.S2.SS2.p3" class="ltx_para">
+<p id="Ch7.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch07-0050">在 CLIPort 的开创性工作之后 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib60" title="" class="ltx_ref">Shridhar et al., 2022</a>, <a href="#bibf.bib49" title="" class="ltx_ref">Shridhar et al., 2020</a>]</cite>，VLA 往往建立在 VLM 上，将机器人命令作为普通语言词元。下面详细考察一些代表模型。</p>
+</div>
+<div id="Ch7.S2.SS2.p4" class="ltx_para">
+<p id="Ch7.S2.SS2.p4.1" class="ltx_p" data-translation-id="ch07-0051">Mobility VLA <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib58" title="" class="ltx_ref">Chiang et al., 2024</a>]</cite> 的目标是导航，由长上下文 VLM 与拓扑地图结合而成，如图 <a href="#Ch7.F12" title="Figure 7.12 ‣ 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.12</span></a> 所示。</p>
+</div>
+<figure id="Ch7.F12" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/mobility.png" id="Ch7.F12.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/172;" width="452" height="172" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0052">图 7.12：Mobility VLA 架构：长上下文 VLM 与拓扑地图 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib58" title="" class="ltx_ref">Chiang et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch7.S2.SS2.p5" class="ltx_para">
+<p id="Ch7.S2.SS2.p5.1" class="ltx_p" data-translation-id="ch07-0053">Mobility VLA 用于一类称为“带示范游览的多模态指令导航”（MINT）的导航任务。该数据集通过事先录制的示范视频提供环境先验。模型采用两级 VLA，将长上下文 VLM 的环境理解与常识推理，同基于拓扑图的低层导航策略结合。高层策略借助长上下文 VLM 结合用户指令，在示范视频中寻找目标帧。随后，低层策略从目标帧出发遍历拓扑图，在每个时间步生成机器人动作指令。</p>
+</div>
+<div id="Ch7.S2.SS2.p6" class="ltx_para">
+<p id="Ch7.S2.SS2.p6.1" class="ltx_p" data-translation-id="ch07-0054">LM-Nav <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib54" title="" class="ltx_ref">Shah et al., 2023</a>]</cite> 采用基于现有模型的不同架构。输入是一组来自目标环境的原始观测，以及自由形式文本指令。它用三个预训练模型推导行动计划：提取地标的语言模型（LLM）、进行落地关联的视觉—语言模型（VLM），以及负责执行的视觉导航模型（VNM，与前述拓扑地图类似）。这些模型共同使 LM-Nav 无须任何微调，就能根据视觉观测遵循文本指令。图 <a href="#Ch7.F13" title="Figure 7.13 ‣ 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.13</span></a> 展示这一方法。</p>
+</div>
+<figure id="Ch7.F13" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/lmnav.png" id="Ch7.F13.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/149;" width="452" height="149" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0055">图 7.13：LM-Nav 的三 LLM 架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib54" title="" class="ltx_ref">Shah et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch7.S2.SS2.p7" class="ltx_para">
+<p id="Ch7.S2.SS2.p7.1" class="ltx_p" data-translation-id="ch07-0056">Google 的 RT-2 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib52" title="" class="ltx_ref">Brohan et al., 2023</a>]</cite> 采用另一方法，利用网络知识指导机器人控制：机器人应通过看视频学习行动。标准视觉—语言模型同时在文本形式的机器人轨迹数据，以及互联网规模的视觉—语言任务（如视觉问答）上微调。机器人动作表示为普通文本词元，与自然语言词元一样直接加入训练集，见图 <a href="#Ch7.F14" title="Figure 7.14 ‣ 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.14</span></a>。</p>
+</div>
+<figure id="Ch7.F14" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/rt2.png" id="Ch7.F14.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/168;" width="452" height="168" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0057">图 7.14：RT-2 架构：使用作为文本词元的机器人动作训练 VLM <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib52" title="" class="ltx_ref">Brohan et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch7.S2.SS2.p8" class="ltx_para">
+<p id="Ch7.S2.SS2.p8.1" class="ltx_p" data-translation-id="ch07-0058">Magma <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib61" title="" class="ltx_ref">Yang et al., 2025</a>]</cite> 采用类似方法，在从图像、视频到机器人数据的异质数据集上预训练。不过，它用特殊词元 Set-of-Mark 标注图像中可操作的视觉物体，实现动作落地关联；类似地，用 Trace-of-Mark 标注物体运动（如人手或机械臂轨迹），方便动作规划。图 <a href="#Ch7.F15" title="Figure 7.15 ‣ 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.15</span></a> 展示示意。</p>
+</div>
+<figure id="Ch7.F15" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/magma.png" id="Ch7.F15.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/150;" width="452" height="150" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0059">图 7.15：Magma 预训练流水线 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib61" title="" class="ltx_ref">Yang et al., 2025</a>]</cite></figcaption>
+</figure>
+<div id="Ch7.S2.SS2.p9" class="ltx_para">
+<p id="Ch7.S2.SS2.p9.1" class="ltx_p" data-translation-id="ch07-0060">最后，名为 <math id="Ch7.S2.SS2.p9.m1" class="ltx_Math" alttext="\pi_{0}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_{0}</annotation></semantics></math> 的 VLA <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib44" title="" class="ltx_ref">Black et al., 2024</a>]</cite> 强调强化学习方法，使用预训练的后期融合视觉—语言模型，以及涵盖各种操作任务的多样化跨形态数据集。模型受到 Transfusion 方法启发 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib41" title="" class="ltx_ref">Zhou et al., 2024</a>]</cite>。通过添加独立动作专家，经流匹配产生动作，实现流畅操作技能，从而使模型适用于机器人控制。得到的模型可直接根据提示执行任务，也可在更高质量数据上进一步微调，实现复杂多阶段任务，例如折叠多件衣物或组装盒子（见图 <a href="#Ch7.F16" title="Figure 7.16 ‣ 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.16</span></a>）。</p>
+</div>
+<figure id="Ch7.F16" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/pizero.png" id="Ch7.F16.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/246;" width="452" height="246" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0061">图 7.16：<math id="Ch7.F16.m2" class="ltx_Math" alttext="\pi_{0}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_{0}</annotation></semantics></math> 的架构。模型基于 VLM，以跨形态数据集增强 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib44" title="" class="ltx_ref">Black et al., 2024</a>]</cite></figcaption>
+</figure>
+</section>
+<section id="Ch7.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0062">7.2.3 学习算法</h3>
+
+<div id="Ch7.S2.SS3.p1" class="ltx_para">
+<p id="Ch7.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch07-0063">多数 VLA 架构基于 VLM，有时补充导航地图数据。机器人动作命令通常编码为普通文本命令。同样，预训练和微调采用典型 LLM 自监督学习算法，类似 VLM 和决策 Transformer。有时使用已有预训练模型，以降低训练成本。</p>
+</div>
+</section>
+<section id="Ch7.S2.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0064">7.2.4 结果</h3>
+
+<div id="Ch7.S2.SS4.p1" class="ltx_para">
+<p id="Ch7.S2.SS4.p1.1" class="ltx_p" data-translation-id="ch07-0065">多种 VLA 模型取得了出色的零样本结果，将行为泛化到未见情境。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibf.bib58" title="" class="ltx_ref">Chiang et al. [2024]</a>, <a href="#bibf.bib52" title="" class="ltx_ref">Brohan et al. [2023]</a>, <a href="#bibf.bib61" title="" class="ltx_ref">Yang et al. [2025]</a></cite> 是机器人行动 VLA 的例子，能够完成导航、桌面操作甚至叠衣服等复杂任务 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib44" title="" class="ltx_ref">Black et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch7.S2.SS4.p2" class="ltx_para">
+<p id="Ch7.S2.SS4.p2.1" class="ltx_p" data-translation-id="ch07-0066">VLA 展示了出色且富有想象力的结果，机器人能够在推断时泛化，无须重新训练。VLA 综述可见 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib59" title="" class="ltx_ref">Ma et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch7.S2.SS4.p3" class="ltx_para">
+<p id="Ch7.S2.SS4.p3.1" class="ltx_p" data-translation-id="ch07-0067">观看视频最能体会这些成果。<math id="Ch7.S2.SS4.p3.m1" class="ltx_Math" alttext="\pi_{0}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_{0}</annotation></semantics></math> 有视频可看。22 2 <a href="https://www.physicalintelligence.company/blog/pi0" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://www.physicalintelligence.company/blog/pi0</a> RT-2 也提供视频。33 3 <a href="https://robotics-transformer2.github.io" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://robotics-transformer2.github.io</a></p>
+</div>
+</section>
+</section>
+<section id="Ch7.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch07-0068">7.3 世界模型、物理与规划</h2>
+
+<div id="Ch7.S3.p1" class="ltx_para">
+<p id="Ch7.S3.p1.1" class="ltx_p" data-translation-id="ch07-0069">对 VLM 而言，图像由像素构成，没有更深的内在意义。但与世界交互的智能体，需要了解世界的物理方面。模型必须理解物理上什么可行，才不会像电子游戏中有时发生的那样穿墙而行。</p>
+</div>
+<div id="Ch7.S3.p2" class="ltx_para">
+<p id="Ch7.S3.p2.1" class="ltx_p" data-translation-id="ch07-0070">世界模型帮助智能体理解世界，使其能够在物理世界有效行动，采取合理动作。大语言模型最初是语言模型。我们能用自然语言与它对话，它必然包含某些世界知识，却并未专门训练为广泛、深入地理解世间事务。一些研究者认为，要使智能体式大语言模型真正成功，让大语言模型达到较高通用智能水平，必须加强世界模型研究 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib35" title="" class="ltx_ref">Sutton et al., 2022</a>, <a href="#bibf.bib69" title="" class="ltx_ref">Matsuo et al., 2022</a>, <a href="#bibf.bib2" title="" class="ltx_ref">LeCun and others, 2022</a>, <a href="#bibf.bib3" title="" class="ltx_ref">Klindt et al., 2026</a>]</cite>。</p>
+</div>
+<div id="Ch7.S3.p3" class="ltx_para">
+<p id="Ch7.S3.p3.1" class="ltx_p" data-translation-id="ch07-0071">在世界中行动的智能体和机器人，需要对物理规律有基本理解。训练大语言模型的挑战之一，是将其对物理世界及可能机器人动作的理解落实到现实。一种方法是根据动作反馈学习关于世界（环境）的智能体模型。</p>
+</div>
+<div id="Ch7.S3.p4" class="ltx_para">
+<p id="Ch7.S3.p4.1" class="ltx_p" data-translation-id="ch07-0072">“世界模型”在人工智能的其他语境也被使用，最典型的是基于模型的强化学习中的模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib57" title="" class="ltx_ref">Ha and Schmidhuber, 2018</a>, <a href="#bibf.bib45" title="" class="ltx_ref">Moerland et al., 2023</a>, <a href="#bibf.bib32" title="" class="ltx_ref">Sutton, 1991</a>]</cite>（见下一节）。它根据与环境的交互，在本地保留部分环境知识，用于改善行动策略。世界模型包含高效、压缩、通过学习获得的世界表示 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib31" title="" class="ltx_ref">Hafner et al., 2019</a>, <a href="#bibf.bib38" title="" class="ltx_ref">Plaat et al., 2020</a>]</cite>。这种表示常称为抽象或潜在表示，以区别于环境中现实世界的常规表示。世界模型常被训练为包含物理及特定空间属性的知识，对智能体动作形成约束。其具体内容取决于智能体运行的领域。</p>
+</div>
+<div id="Ch7.S3.p5" class="ltx_para">
+<p id="Ch7.S3.p5.1" class="ltx_p" data-translation-id="ch07-0073">注意，短短几章，我们已从理解语言推进到理解世界。大语言模型旨在从文本统计模式中理解自然语言的部分语义，用于问答和翻译；世界模型旨在理解物理规律中的因果关系，为智能体模拟未来世界状态。从大语言模型走向智能体式大语言模型，需要相当多的新技术。</p>
+</div>
+<div id="Ch7.S3.p6" class="ltx_para">
+<p id="Ch7.S3.p6.1" class="ltx_p" data-translation-id="ch07-0074">首先考察世界模型目前如何用于智能体式大语言模型。</p>
+</div>
+<section id="Ch7.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0075">7.3.1 任务</h3>
+
+<div id="Ch7.S3.SS1.p1" class="ltx_para">
+<p id="Ch7.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch07-0076">世界模型应封装世界知识，使智能体能够执行有意义的动作，动作须扎根于物理世界。例如，模型应理解它所控制机械臂的关节限制；导航智能体应理解重力、距离和墙壁是实体等物理概念；金融智能体应理解银行余额为负的后果。人类往往将这些信息视为理所当然，当智能体不理解其运行世界中的基本事物时，我们会惊讶。只在像素上训练的 VLM 可能忽视某种纹理的语义，不知道它是衣物、烟雾还是墙。</p>
+</div>
+<div id="Ch7.S3.SS1.p2" class="ltx_para">
+<p id="Ch7.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch07-0077">标准预训练大语言模型已包含一些有用世界知识。它们利用人类反馈强化学习（RLHF）学习可接受的文本行为，利用可验证奖励强化学习（RLVR）学习可接受的数学和编程行为。一些早期方法直接将大语言模型当作预训练世界模型，不进行微调。通过交互理解世界物理规律是一种自然方式：智能体可以通过强化学习式奖励函数学习可接受的物理行为。</p>
+</div>
+<div id="Ch7.S3.SS1.p3" class="ltx_para">
+<p id="Ch7.S3.SS1.p3.1" class="ltx_p" data-translation-id="ch07-0078">基于模型的强化学习中，世界模型旨在以模型规划代替现实采样，提高从交互中学习的样本效率。当与现实交互比模拟昂贵时，这尤其有用，而智能体式大语言模型中常是如此。下面的方法中，大语言模型世界模型采用基于模型的强化学习方法（见第 <a href="#Ch7.S3.SS5" title="7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.3.5</span></a> 节）。目前这些方法十分多样。为展示大语言模型中的世界模型承担什么任务，我们讨论三个例子：WorldGPT、WebDreamer 和 WorldCoder。</p>
+</div>
+<section id="Ch7.S3.SS1.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0079">WorldGPT</h5>
+
+<div id="Ch7.S3.SS1.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch7.S3.SS1.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch07-0080">WorldGPT <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib8" title="" class="ltx_ref">Ge et al., 2024</a>]</cite> 旨在解决视觉问答及具身规划任务，包括音视频问答。它从视频学习世界 VLM，使用带外部知识库和长期记忆的潜在空间 VLM。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS1.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0081">WebDreamer</h5>
+
+<div id="Ch7.S3.SS1.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch7.S3.SS1.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch07-0082">WebDreamer <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib9" title="" class="ltx_ref">Gu et al., 2024</a>]</cite> 旨在提高电子商务等网页交互任务的学习效率。它让网页智能体在执行前模拟动作，从而更快、样本效率更高（无须在真实网页中行动来获取经验）。这是网页世界中的基于模型的强化学习方法。（名称来自 Dreamer，一系列有影响力的基于模型的强化学习潜在动力学模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib31" title="" class="ltx_ref">Hafner et al., 2019</a>, <a href="#bibf.bib30" title="" class="ltx_ref">Hafner et al., 2020a</a>, <a href="#bibf.bib47" title="" class="ltx_ref">Hafner et al., 2023</a>]</cite>。）典型任务是在电商网站寻找产品。它从大模型训练小模型，以实现高效模拟。</p>
+</div>
+<figure id="Ch7.F17" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/sokoban.png" id="Ch7.F17.g1" class="ltx_graphics ltx_centering ltx_img_square" style="aspect-ratio:275/234;" width="275" height="234" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0083">图 7.17：用于 WorldCoder 的 Sokoban <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib10" title="" class="ltx_ref">Tang et al., 2024</a>]</cite></figcaption>
+</figure>
+<figure id="Ch7.F18" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/alfworld.png" id="Ch7.F18.g1" class="ltx_graphics ltx_centering ltx_img_square" style="aspect-ratio:236/230;" width="236" height="230" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0084">图 7.18：用于 WorldCoder 的 AlfWorld <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib10" title="" class="ltx_ref">Tang et al., 2024</a>]</cite></figcaption>
+</figure>
+</section>
+<section id="Ch7.S3.SS1.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0085">WorldCoder</h5>
+
+<div id="Ch7.S3.SS1.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch7.S3.SS1.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch07-0086">WorldCoder <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib10" title="" class="ltx_ref">Tang et al., 2024</a>]</cite> 同样旨在改善样本效率，但采用不同方法：以可解释 Python 代码生成动力学模型（转移函数和奖励函数），用于标准的基于模型的强化学习设计。生成的 Python 代码执行效率比大语言模型推断高。WorldCoder 用于网格任务（Sokoban，见图 <a href="#Ch7.F17" title="Figure 7.17 ‣ WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.17</span></a>）及家务任务规划（AlfWorld，见图 <a href="#Ch7.F18" title="Figure 7.18 ‣ WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.18</span></a>）。</p>
+</div>
+</section>
+</section>
+<section id="Ch7.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0087">7.3.2 架构</h3>
+
+<div id="Ch7.S3.SS2.p1" class="ltx_para">
+<p id="Ch7.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch07-0088">世界模型的目的是为观测增加语义——动作具有后果——这可能是 LLM 和 VLM 的薄弱之处。某个像素何时属于可行走地面（限制 <math id="Ch7.S3.SS2.p1.m1" class="ltx_Math" alttext="y" display="inline" intent=":literal"><semantics><mi>y</mi><annotation encoding="application/x-tex">y</annotation></semantics></math> 运动），何时属于阻挡前进的墙（限制 <math id="Ch7.S3.SS2.p1.m2" class="ltx_Math" alttext="x" display="inline" intent=":literal"><semantics><mi>x</mi><annotation encoding="application/x-tex">x</annotation></semantics></math> 运动）？奖励函数反馈哪些动作好、哪些不好。因此，世界模型架构常采用强化学习设置，根据反馈奖励训练行动策略。可以将世界模型看作内部带有策略学习器的 VLM。</p>
+</div>
+<div id="Ch7.S3.SS2.p2" class="ltx_para">
+<p id="Ch7.S3.SS2.p2.1" class="ltx_p" data-translation-id="ch07-0089">WorldGPT、WebDreamer 和 WorldCoder 采用不同世界模型架构，下面详细讨论。</p>
+</div>
+<figure id="Ch7.F19" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/worldgpt.png" id="Ch7.F19.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/200;" width="452" height="200" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0090">图 7.19：WorldGPT 架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib8" title="" class="ltx_ref">Ge et al., 2024</a>]</cite></figcaption>
+</figure>
+<section id="Ch7.S3.SS2.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0091">WorldGPT</h5>
+
+<div id="Ch7.S3.SS2.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch7.S3.SS2.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch07-0092">WorldGPT 基于标准大语言模型 Vicuna-7B-v0。44 4 <a href="https://huggingface.co/lmsys/vicuna-7b-v1.3" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://huggingface.co/lmsys/vicuna-7b-v1.3</a>、<a href="https://lmsys.org" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://lmsys.org</a> 它遵循基于模型的强化学习，在潜在空间推理，目标是模拟真实世界动力学，即强化学习的转移和奖励函数。为此，特殊架构帮助合成多模态指令实例。核心采用常见 VLM 架构，含中央 LLM、多模态编码器和解码器。为帮助模型合成多模态指令，添加认知架构来处理专门或长期任务，包括记忆、知识检索和上下文反思。上下文反思基于 Q-former <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib42" title="" class="ltx_ref">Li et al., 2023</a>]</cite>。架构图见图 <a href="#Ch7.F19" title="Figure 7.19 ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.19</span></a>。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS2.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0093">WebDreamer</h5>
+
+<div id="Ch7.S3.SS2.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch7.S3.SS2.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch07-0094">WebDreamer 面向网页交互，将 Qwen-70B 大模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib43" title="" class="ltx_ref">Bai et al., 2025</a>]</cite> 蒸馏为 7B 小模型，然后在“真实”网页世界行动之前，用小模型结合世界模型模拟动作。它使用模型预测控制（MPC）作为规划方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib67" title="" class="ltx_ref">Garcia et al., 1989</a>, <a href="#bibf.bib37" title="" class="ltx_ref">Schwenzer et al., 2021</a>]</cite>，决定网页动作，并在每个交互步骤重新规划。WebDreamer 将大语言模型既作世界模型，也作价值函数。LLM 实现模拟函数（sim）及评分函数（score），见图 <a href="#Ch7.F20" title="Figure 7.20 ‣ WebDreamer ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.20</span></a>。此外，沿用 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib65" title="" class="ltx_ref">Koh et al., 2024</a>]</cite>，还用 LLM 生成候选动作。作者采用两阶段方法：先采样 top-<math id="Ch7.S3.SS2.SSS0.Px2.p1.m1" class="ltx_Math" alttext="k" display="inline" intent=":literal"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> 动作，再用 LLM 自我优化，剔除模拟中不必要的动作。</p>
+</div>
+<figure id="Ch7.F20" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/webdreamer.png" id="Ch7.F20.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:238/190;" width="238" height="190" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0095">图 7.20：WebDreamer 伪代码：使用 LLM 实现 score 和 sim 函数 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib9" title="" class="ltx_ref">Gu et al., 2024</a>]</cite></figcaption>
+</figure>
+</section>
+<section id="Ch7.S3.SS2.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0096">WorldCoder</h5>
+
+<figure id="Ch7.F21" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/worldcoder.png" id="Ch7.F21.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:452/90;" width="452" height="90" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0097">图 7.21：WorldCoder 架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib10" title="" class="ltx_ref">Tang et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch7.S3.SS2.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch7.S3.SS2.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch07-0098">WorldCoder 是基于模型的智能体，构建 Python 程序表示世界知识。它以可执行 Python 代码创建世界转移函数，见图 <a href="#Ch7.F21" title="Figure 7.21 ‣ WorldCoder ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.21</span></a>，采用程序综合。强化学习将问题形式化为 MDP，包括状态表示 <math id="Ch7.S3.SS2.SSS0.Px3.p1.m1" class="ltx_Math" alttext="S" display="inline" intent=":literal"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>、动作函数 <math id="Ch7.S3.SS2.SSS0.Px3.p1.m2" class="ltx_Math" alttext="A" display="inline" intent=":literal"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math>、转移函数 <math id="Ch7.S3.SS2.SSS0.Px3.p1.m3" class="ltx_Math" alttext="T" display="inline" intent=":literal"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> 和奖励函数 <math id="Ch7.S3.SS2.SSS0.Px3.p1.m4" class="ltx_Math" alttext="R" display="inline" intent=":literal"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>（见第 <a href="#Ch7.S3.SS5" title="7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.3.5</span></a> 节）。WorldCoder 使用 LLM 为任务的动作、转移、奖励函数和状态表示生成 Python 代码，随后用于基于模型的强化学习。通过迭代自调试优化过程检查、改进代码 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib68" title="" class="ltx_ref">Chen et al., 2023</a>]</cite>，见第 <a href="ch06.html#Ch6.S1.SS3.SSS2" title="6.1.3.2 Code Generation for Validation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.1.3.2</span></a> 节，重复直到程序产生正确输出。</p>
+</div>
+<div id="Ch7.S3.SS2.SSS0.Px3.p2" class="ltx_para">
+<p id="Ch7.S3.SS2.SSS0.Px3.p2.1" class="ltx_p" data-translation-id="ch07-0099">注意，WorldCoder 学得的模型是符号式的（转移函数表示为计算机代码），而常规深度强化学习使用神经网络。推断时，WorldCoder 高效，因为不调用需要通过大网络前向传播的 LLM，只解释转移和奖励函数的 Python 代码。</p>
+</div>
+<div id="Ch7.S3.SS2.SSS0.Px3.p3" class="ltx_para">
+<p id="Ch7.S3.SS2.SSS0.Px3.p3.1" class="ltx_p" data-translation-id="ch07-0100">常规基于模型的 LLM 方法中，LLM 模拟世界；WorldCoder 则由 LLM 构建世界模拟，供之后执行。推断时，Python 解释器执行转移函数，而 ReAct 由 LLM 对世界状态推理。对于规划问题，符号方法更适合，因为 LLM 在推断期间进行规划较困难（见第 <a href="ch06.html#Ch6.S2.SS3.SSS0.Px1" title="Knowing-Doing Gap ‣ 6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.3</span></a> 节）。</p>
+</div>
+</section>
+</section>
+<section id="Ch7.S3.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0101">7.3.3 学习算法</h3>
+
+<div id="Ch7.S3.SS3.p1" class="ltx_para">
+<p id="Ch7.S3.SS3.p1.1" class="ltx_p" data-translation-id="ch07-0102">下面讨论不同方法采用的预训练与微调算法。</p>
+</div>
+<section id="Ch7.S3.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0103">WorldGPT</h5>
+
+<div id="Ch7.S3.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch7.S3.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch07-0104">WorldGPT 在各领域数百万视频上预训练和微调，获得对世界动力学的理解，采用 Vicuna-7B-v0 作为基础 LLM。预训练随后用以语言为中心的编码器获得多模态状态的统一表示。多模态解码时，在 LLM 词表插入特殊词元。训练从单模态开始，逐步转为跨模态。微调使用特殊认知强化架构，以及来自一千多万视频、带细粒度序贯状态转移样本标注的数据集。如前所述，认知架构包括记忆、知识检索和上下文反思。智能体在合成多模态指令数据上微调，从而获得专门知识。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS3.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0105">WebDreamer</h5>
+
+<div id="Ch7.S3.SS3.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch7.S3.SS3.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch07-0106">WebDreamer 旨在学习适合基于模型的强化学习的动力学。先用预训练 Qwen-2-VL 视觉—语言模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib66" title="" class="ltx_ref">Wang et al., 2024b</a>]</cite> 初始化 Dreamer-7B，再在 310 万交互样例上微调。数据合成流水线包括：（1）网页随机游走，模型通过输入搜索词、点击等动作自主与网页互动；（2）合成，Qwen2-VL-72B 根据动作前后的视觉快照，生成状态变化的文本描述。WebDreamer 为每个动作在有限时域内模拟可能未来状态（遵循模型预测控制 MPC 进行重新规划和训练，这是一种工程及控制问题中用于自适应重训练的强化学习方法）。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS3.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0107">WorldCoder</h5>
+
+<div id="Ch7.S3.SS3.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch7.S3.SS3.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch07-0108">WorldCoder 通过程序综合学习构建转移函数，即计算世界下一状态的函数，再利用该编码的世界模型执行规划动作。它先随机探索，初始化环境交互数据集；通过程序综合算法更新世界模型、生成代码，再进行规划。可以使用不同规划器，从简单领域的深度受限价值迭代，到复杂领域的 MCTS <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib51" title="" class="ltx_ref">Browne et al., 2012</a>]</cite>。</p>
+</div>
+</section>
+</section>
+<section id="Ch7.S3.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0109">7.3.4 结果</h3>
+
+<div id="Ch7.S3.SS4.p1" class="ltx_para">
+<p id="Ch7.S3.SS4.p1.1" class="ltx_p" data-translation-id="ch07-0110">下面考察三种方法的结果。</p>
+</div>
+<section id="Ch7.S3.SS4.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0111">WorldGPT</h5>
+
+<div id="Ch7.S3.SS4.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch7.S3.SS4.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch07-0112">WorldGPT 使用多模态状态转移预测基准评估。模型有效，能够准确理解和预测复杂现实厨房及烹饪场景的动态。</p>
+</div>
+<div id="Ch7.S3.SS4.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch7.S3.SS4.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch07-0113">系统也作为世界模拟器接受评估，显示其能泛化到不熟悉领域。在一个实验中，WorldGPT 在音视频问答任务上比传统基于扩散的方法快 30 倍 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib8" title="" class="ltx_ref">Ge et al., 2024</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS4.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0114">WebDreamer</h5>
+
+<div id="Ch7.S3.SS4.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch7.S3.SS4.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch07-0115">WebDreamer 同样表现良好。据报道，它在网页交互任务上超过 GPT-4o，相比反应式基线显著改善性能，效率比树搜索高 4–5 倍。它在沙箱 VisualWebArena 以及真实网站（Online-Mind2Web、Mind2Web-Live）上均表现良好，而真实网站难以实现、部署树搜索。此外，在线基准上采用 Dreamer-7B 时，性能可与 GPT-4o 相当。在真实网站上，相较反应式基线分别取得 42% 和 24% 的相对提升。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS4.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch07-0116">WorldCoder</h5>
+
+<div id="Ch7.S3.SS4.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch7.S3.SS4.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch07-0117">WorldCoder 的结果来自网格世界和任务规划（AlfWorld）。相比无模型强化学习，它样本效率更高；相比尝试用 LLM 进行上下文规划的 ReAct 式智能体，它计算效率更高。</p>
+</div>
+<div id="Ch7.S3.SS4.SSS0.Px3.p2" class="ltx_para">
+<p id="Ch7.S3.SS4.SSS0.Px3.p2.1" class="ltx_p" data-translation-id="ch07-0118">用 LLM 将世界知识生成计算机代码有多项优势。LLM 内含的先验世界知识可以改善代码生成，因为预训练很可能见过已发布问题的现成解法。代码还可通过复用旧程序片段跨任务迁移。此外，结果人类可读，能够通过阅读生成代码检查世界知识。</p>
+</div>
+<div id="Ch7.S3.SS4.SSS0.Px3.p3" class="ltx_para">
+<p id="Ch7.S3.SS4.SSS0.Px3.p3.1" class="ltx_p" data-translation-id="ch07-0119">虽然 WorldCoder 对规划问题很有前景，但其局限来自规划问题固有的计算困难。专用求解器难以解决的问题实例，WorldCoder 求解器也难解决。LLM 生成的转移函数不太可能优于人类专家研究者设计的函数。</p>
+</div>
+<div id="Ch7.S3.SS4.SSS0.Px3.p4" class="ltx_para">
+<p id="Ch7.S3.SS4.SSS0.Px3.p4.1" class="ltx_p" data-translation-id="ch07-0120">目前，合成代码旨在复现转移和奖励函数。未来，自我反思和元学习方法可能进一步提高性能。</p>
+</div>
+</section>
+</section>
+<section id="Ch7.S3.SS5" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch07-0121">7.3.5 *基于模型的强化学习</h3>
+
+<div id="Ch7.S3.SS5.p1" class="ltx_para">
+<p id="Ch7.S3.SS5.p1.1" class="ltx_p" data-translation-id="ch07-0122">世界模型已成功用于智能体式大语言模型。基于模型的强化学习中已有大量世界模型文献。本章末尾将简要概述这一领域的世界模型，为理解它们在大语言模型中的应用提供更多背景。</p>
+</div>
+<div id="Ch7.S3.SS5.p2" class="ltx_para">
+<p id="Ch7.S3.SS5.p2.1" class="ltx_p" data-translation-id="ch07-0123">有影响力的早期基于模型方法是 Dyna <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib32" title="" class="ltx_ref">Sutton, 1991</a>]</cite>。有影响的近期工作有 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib57" title="" class="ltx_ref">Ha and Schmidhuber, 2018</a>, <a href="#bibf.bib56" title="" class="ltx_ref">Hafner et al., 2020b</a>]</cite>。两篇现代综述是 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibf.bib45" title="" class="ltx_ref">Moerland et al. [2023]</a>, <a href="#bibf.bib46" title="" class="ltx_ref">Plaat et al. [2023]</a></cite>。</p>
+</div>
+<div id="Ch7.S3.SS5.p3" class="ltx_para">
+<p id="Ch7.S3.SS5.p3.1" class="ltx_p" data-translation-id="ch07-0124">强化学习中，智能体通过采样在环境中执行动作所得到的奖励，学习如何行动。</p>
+</div>
+<figure id="Ch7.F22" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch7.F22.pic1" class="ltx_picture ltx_centering" height="83.23" overflow="visible" version="1.1" viewbox="0 0 361.75 83.23" width="361.75"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,83.23) matrix(1 0 0 -1 0 0) translate(189.17,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 104.84 31.5 L -104.84 31.5 C -107.9 31.5 -110.38 29.02 -110.38 25.96 L -110.38 13.41 C -110.38 10.35 -107.9 7.87 -104.84 7.87 L 104.84 7.87 C 107.9 7.87 110.38 10.35 110.38 13.41 L 110.38 25.96 C 110.38 29.02 107.9 31.5 104.84 31.5 Z M -110.38 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -105.77 16.21)"><foreignobject style="--ltx-fo-width:6.32em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="87.48" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0044">环境：<math id="Ch7.F22.pic1.m1" class="ltx_Math" alttext="T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><mo>,</mo><mrow><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 82.58 90.55 L -82.58 90.55 C -85.63 90.55 -88.11 88.07 -88.11 85.02 L -88.11 72.46 C -88.11 69.41 -85.63 66.93 -82.58 66.93 L 82.58 66.93 C 85.63 66.93 88.11 69.41 88.11 72.46 L 88.11 85.02 C 88.11 88.07 85.63 90.55 82.58 90.55 Z M -88.11 66.93"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -83.5 75.28)"><foreignobject style="--ltx-fo-width:7.84em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="108.51" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0045">智能体：<math id="Ch7.F22.pic1.m2" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 改进 <math id="Ch7.F22.pic1.m3" class="ltx_Math" alttext="\pi_{\theta}(s)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">\pi_{\theta}(s)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M -110.65 19.69"></path><path style="fill:none" d="M -110.65 19.69 C -172.31 19.69 -150.04 78.74 -89.51 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -89.51 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -184.56 45.74)"><foreignobject style="--ltx-fo-width:2.45em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="33.91" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch7.F22.pic1.m4" class="ltx_Math" alttext="(s^{\prime},r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s^{\prime},r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 88.39 78.74"></path><path style="fill:none" d="M 88.39 78.74 C 150.04 78.74 172.31 19.69 111.78 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 111.78 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 150.65 46.23)"><foreignobject style="--ltx-fo-width:0.53em;--ltx-fo-height:0.43em;--ltx-fo-depth:0em;font-size:10pt;" height="5.96" overflow="visible" transform="matrix(1 0 0 -1 0 5.96)" width="7.31" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch7.F22.pic1.m5" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0125">图 7.22：标准强化学习循环。智能体根据环境反馈奖励 <math id="Ch7.F22.m6" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math>，学习以 <math id="Ch7.F22.m4" class="ltx_Math" alttext="\theta" display="inline" intent=":literal"><semantics><mi>θ</mi><annotation encoding="application/x-tex">\theta</annotation></semantics></math> 为参数的策略 <math id="Ch7.F22.m5" class="ltx_Math" alttext="\pi_{\theta}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mi>θ</mi></msub><annotation encoding="application/x-tex">\pi_{\theta}</annotation></semantics></math>。<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib53" title="" class="ltx_ref">Sutton and Barto, 2018</a>]</cite></figcaption>
+</figure>
+<section id="Ch7.S3.SS5.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch07-0126">7.3.5.1 无模型强化学习</h4>
+
+<div id="Ch7.S3.SS5.SSS1.p1" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS1.p1.1" class="ltx_p" data-translation-id="ch07-0127">常规强化学习以无模型方式学习最优智能体策略：直接通过环境交互学得所有状态的最佳动作（见图 <a href="#Ch7.F22" title="Figure 7.22 ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.22</span></a>），无须额外环境模型帮助。它形式化为包含四个函数 <math id="Ch7.S3.SS5.SSS1.p1.m1" class="ltx_Math" alttext="\{S,T,A,R\}" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">{</mo><mrow><mi>S</mi><mo>,</mo><mi>T</mi><mo>,</mo><mi>A</mi><mo>,</mo><mi>R</mi></mrow><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\{S,T,A,R\}</annotation></semantics></math> 的马尔可夫决策过程：表示观测 <math id="Ch7.S3.SS5.SSS1.p1.m3" class="ltx_Math" alttext="o" display="inline" intent=":literal"><semantics><mi>o</mi><annotation encoding="application/x-tex">o</annotation></semantics></math> 对应系统状态的函数 <math id="Ch7.S3.SS5.SSS1.p1.m2" class="ltx_Math" alttext="S(o)\rightarrow s" display="inline" intent=":literal"><semantics><mrow><mrow><mi>S</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>o</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">S(o)\rightarrow s</annotation></semantics></math>；利用动作从一个状态转移到下一状态的函数 <math id="Ch7.S3.SS5.SSS1.p1.m4" class="ltx_Math" alttext="T(s,a)\rightarrow s^{\prime}" display="inline" intent=":literal"><semantics><mrow><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><annotation encoding="application/x-tex">T(s,a)\rightarrow s^{\prime}</annotation></semantics></math>；为状态返回动作的函数 <math id="Ch7.S3.SS5.SSS1.p1.m5" class="ltx_Math" alttext="A(s)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><mi>A</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">A(s)\rightarrow a</annotation></semantics></math>；以及为状态赋予正或负奖励值的函数 <math id="Ch7.S3.SS5.SSS1.p1.m6" class="ltx_Math" alttext="R(s)\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow><annotation encoding="application/x-tex">R(s)\rightarrow r</annotation></semantics></math>。强化学习旨在利用 MDP 学习最优策略 <math id="Ch7.S3.SS5.SSS1.p1.m7" class="ltx_Math" alttext="\pi^{*}(s)\rightarrow a^{*}" display="inline" intent=":literal"><semantics><mrow><mrow><msup><mi>π</mi><mo>∗</mo></msup><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>a</mi><mo>∗</mo></msup></mrow><annotation encoding="application/x-tex">\pi^{*}(s)\rightarrow a^{*}</annotation></semantics></math>，为 MDP 可能处于的每个状态返回最佳动作。因此，问题包含四个函数 <math id="Ch7.S3.SS5.SSS1.p1.m8" class="ltx_Math" alttext="S" display="inline" intent=":literal"><semantics><mi>S</mi><annotation encoding="application/x-tex">S</annotation></semantics></math>、<math id="Ch7.S3.SS5.SSS1.p1.m9" class="ltx_Math" alttext="T" display="inline" intent=":literal"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>、<math id="Ch7.S3.SS5.SSS1.p1.m10" class="ltx_Math" alttext="A" display="inline" intent=":literal"><semantics><mi>A</mi><annotation encoding="application/x-tex">A</annotation></semantics></math> 和 <math id="Ch7.S3.SS5.SSS1.p1.m11" class="ltx_Math" alttext="R" display="inline" intent=":literal"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>，智能体目标是找到期望累计奖励最高的最优策略 <math id="Ch7.S3.SS5.SSS1.p1.m12" class="ltx_Math" alttext="\pi^{*}(s)" display="inline" intent=":literal"><semantics><mrow><msup><mi>π</mi><mo>∗</mo></msup><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\pi^{*}(s)</annotation></semantics></math>。智能体无法访问环境中的函数 <math id="Ch7.S3.SS5.SSS1.p1.m13" class="ltx_Math" alttext="T" display="inline" intent=":literal"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> 和 <math id="Ch7.S3.SS5.SSS1.p1.m14" class="ltx_Math" alttext="R" display="inline" intent=":literal"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>。常规无模型强化学习也称直接强化学习。这种直接方法天然样本复杂性高：策略改进需要采样，大型 MDP 需要大量样本才能使改进过程收敛（图 <a href="#Ch7.F22" title="Figure 7.22 ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.22</span></a>）。</p>
+</div>
+<figure id="Ch7.F23" class="ltx_figure"><span class="ltx_inline-block"><svg id="Ch7.F23.pic1" class="ltx_picture ltx_centering" height="95.94" overflow="visible" version="1.1" viewbox="0 0 362.1 95.94" width="362.1"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,95.94) matrix(1 0 0 -1 0 0) translate(192.22,0) translate(0,-7.6)"><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 104.84 31.5 L -104.84 31.5 C -107.9 31.5 -110.38 29.02 -110.38 25.96 L -110.38 13.41 C -110.38 10.35 -107.9 7.87 -104.84 7.87 L 104.84 7.87 C 107.9 7.87 110.38 10.35 110.38 13.41 L 110.38 25.96 C 110.38 29.02 107.9 31.5 104.84 31.5 Z M -110.38 7.87"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -105.77 16.21)"><foreignobject style="--ltx-fo-width:6.32em;--ltx-fo-height:0.68em;--ltx-fo-depth:0em;font-size:10pt;" height="9.46" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="87.48" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0046">环境：<math id="Ch7.F23.pic1.m1" class="ltx_Math" alttext="T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mi>T</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><msup><mi>s</mi><mo>′</mo></msup></mrow><mo>,</mo><mrow><mrow><mi>R</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>r</mi></mrow></mrow><annotation encoding="application/x-tex">T(s,a)\rightarrow s^{\prime},R(s^{\prime})\rightarrow r</annotation></semantics></math></span></span></foreignobject></g><g style="--ltx-stroke-color:#000000;" stroke="#000000"><path style="fill:none" d="M 92.72 103.26 L -92.72 103.26 C -95.78 103.26 -98.26 100.78 -98.26 97.73 L -98.26 59.75 C -98.26 56.7 -95.78 54.22 -92.72 54.22 L 92.72 54.22 C 95.78 54.22 98.26 56.7 98.26 59.75 L 98.26 97.73 C 98.26 100.78 95.78 103.26 92.72 103.26 Z M -98.26 54.22"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -93.65 62.29)"><g class="ltx_tikzmatrix" transform="matrix(1 0 0 -1 0 39.82)"><g class="ltx_tikzmatrix_row" transform="matrix(1 0 0 1 0 22.52)"><g class="ltx_tikzmatrix_col ltx_nopad_l ltx_nopad_r" transform="matrix(1 0 0 -1 0 0)"><g class="ltx_tikzmatrix" transform="matrix(1 0 0 -1 0 25.98)"><g class="ltx_tikzmatrix_row" transform="matrix(1 0 0 1 0 9.46)"><g class="ltx_tikzmatrix_col ltx_nopad_l ltx_nopad_r" transform="matrix(1 0 0 -1 0 0)"><foreignobject style="--ltx-fo-width:2.92em;--ltx-fo-height:0.68em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.15" overflow="visible" transform="matrix(1 0 0 -1 0 9.46)" width="40.36" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0047">智能体：</span></span></foreignobject></g></g><g class="ltx_tikzmatrix_row" transform="matrix(1 0 0 1 0 22.53)"><g class="ltx_tikzmatrix_col ltx_nopad_l ltx_nopad_r" transform="matrix(1 0 0 -1 0 0)"><foreignobject style="--ltx-fo-width:5.07em;--ltx-fo-height:0.67em;--ltx-fo-depth:0.19em;font-size:10pt;" height="11.93" overflow="visible" transform="matrix(1 0 0 -1 0 9.24)" width="70.16" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0048"><math id="Ch7.F23.pic1.m2" class="ltx_Math" alttext="r" display="inline" intent=":literal"><semantics><mi>r</mi><annotation encoding="application/x-tex">r</annotation></semantics></math> 改进 <math id="Ch7.F23.pic1.m3" class="ltx_Math" alttext="\hat{M}=(\hat{T},\hat{R})" display="inline" intent=":literal"><semantics><mrow><mover accent="true"><mi>M</mi><mo>^</mo></mover><mo>=</mo><mrow><mo stretchy="false">(</mo><mover accent="true"><mi>T</mi><mo>^</mo></mover><mo>,</mo><mover accent="true"><mi>R</mi><mo>^</mo></mover><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{M}=(\hat{T},\hat{R})</annotation></semantics></math></span></span></foreignobject></g></g></g></g></g><g class="ltx_tikzmatrix_row" transform="matrix(1 0 0 1 0 36.36)"><g class="ltx_tikzmatrix_col ltx_nopad_l ltx_nopad_r" transform="matrix(1 0 0 -1 0 0)"><foreignobject style="--ltx-fo-width:8.48em;--ltx-fo-height:0.69em;--ltx-fo-depth:0.19em;font-size:10pt;" height="12.3" overflow="visible" transform="matrix(1 0 0 -1 0 9.61)" width="117.27" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content" data-supplement-id="extra-0049">与 <math id="Ch7.F23.pic1.m4" class="ltx_Math" alttext="r,\hat{M}" display="inline" intent=":literal"><semantics><mrow><mi>r</mi><mo>,</mo><mover accent="true"><mi>M</mi><mo>^</mo></mover></mrow><annotation encoding="application/x-tex">r,\hat{M}</annotation></semantics></math> 共同改进 <math id="Ch7.F23.pic1.m5" class="ltx_Math" alttext="\pi_{\theta}(s)\rightarrow a" display="inline" intent=":literal"><semantics><mrow><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo lspace="0em" rspace="0em">​</mo><mrow><mo stretchy="false">(</mo><mi>s</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><annotation encoding="application/x-tex">\pi_{\theta}(s)\rightarrow a</annotation></semantics></math></span></span></foreignobject></g></g></g></g><path style="fill:none" d="M -110.65 19.69"></path><path style="fill:none" d="M -110.65 19.69 C -169.61 19.69 -157.49 78.74 -99.66 78.74"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(1.0 0.0 0.0 1.0 -99.66 78.74)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 -187.6 45.74)"><foreignobject style="--ltx-fo-width:2.45em;--ltx-fo-height:0.75em;--ltx-fo-depth:0.25em;font-size:10pt;" height="13.86" overflow="visible" transform="matrix(1 0 0 -1 0 10.4)" width="33.91" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch7.F23.pic1.m6" class="ltx_Math" alttext="(s^{\prime},r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><msup><mi>s</mi><mo>′</mo></msup><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s^{\prime},r)</annotation></semantics></math></span></span></foreignobject></g><path style="fill:none" d="M 98.53 78.74"></path><path style="fill:none" d="M 98.53 78.74 C 157.49 78.74 169.61 19.69 111.78 19.69"></path><g stroke-dasharray="none" stroke-dashoffset="0.0pt" stroke-linejoin="miter" transform="matrix(-1.0 0.0 0.0 -1.0 111.78 19.69)"><path d="M -7.23 3.24 L 0.42 0 L -7.23 -3.24 Z"></path></g><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" transform="matrix(1.0 0.0 0.0 1.0 153.7 46.23)"><foreignobject style="--ltx-fo-width:0.53em;--ltx-fo-height:0.43em;--ltx-fo-depth:0em;font-size:10pt;" height="5.96" overflow="visible" transform="matrix(1 0 0 -1 0 5.96)" width="7.31" class="diagram-label"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content"><math id="Ch7.F23.pic1.m7" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math></span></span></foreignobject></g></g></svg></span>
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch07-0128">图 7.23：基于模型的强化学习，用环境反馈同时改善策略 <math id="Ch7.F23.m4" class="ltx_Math" alttext="\pi" display="inline" intent=":literal"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math> 和局部动力学模型 <math id="Ch7.F23.m5" class="ltx_Math" alttext="\hat{M}=(\hat{T},\hat{R})" display="inline" intent=":literal"><semantics><mrow><mover accent="true"><mi>M</mi><mo mathsize="1.110em">^</mo></mover><mo>=</mo><mrow><mo stretchy="false">(</mo><mover accent="true"><mi>T</mi><mo mathsize="1.110em">^</mo></mover><mo>,</mo><mover accent="true"><mi>R</mi><mo mathsize="1.110em">^</mo></mover><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\hat{M}=(\hat{T},\hat{R})</annotation></semantics></math>，策略 <math id="Ch7.F23.m6" class="ltx_Math" alttext="\pi" display="inline" intent=":literal"><semantics><mi>π</mi><annotation encoding="application/x-tex">\pi</annotation></semantics></math> 也从该模型采样（规划）</figcaption>
+</figure>
+</section>
+<section id="Ch7.S3.SS5.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch07-0129">7.3.5.2 基于模型的强化学习</h4>
+
+<div id="Ch7.S3.SS5.SSS2.p1" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS2.p1.1" class="ltx_p" data-translation-id="ch07-0130">直接强化学习中，智能体不保留采样信息，而是遗忘，每次策略改进都需要新样本。与外部环境交互往往昂贵，例如现实机器人行动会磨损关节。这时，寻找降低样本复杂性的方法很有益，应尝试在减少环境采样的同时改进策略。</p>
+</div>
+<div id="Ch7.S3.SS5.SSS2.p2" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS2.p2.1" class="ltx_p" data-translation-id="ch07-0131">直接的想法是不丢弃样本，而存入缓冲区，同时从旧交互结果缓冲区采样；稍先进一些，则训练环境动力学的局部替代模型 <math id="Ch7.S3.SS5.SSS2.p2.m1" class="ltx_Math" alttext="M=(\hat{T},\hat{R})" display="inline" intent=":literal"><semantics><mrow><mi>M</mi><mo>=</mo><mrow><mo stretchy="false">(</mo><mover accent="true"><mi>T</mi><mo>^</mo></mover><mo>,</mo><mover accent="true"><mi>R</mi><mo>^</mo></mover><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">M=(\hat{T},\hat{R})</annotation></semantics></math>。训练好局部动力学模型后，除了昂贵的环境采样，还可廉价地从模型采样（见图 <a href="#Ch7.F23" title="Figure 7.23 ‣ 7.3.5.1 Model-free Reinforcement Learning ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">7.23</span></a>）。</p>
+</div>
+<div id="Ch7.S3.SS5.SSS2.p3" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS2.p3.1" class="ltx_p" data-translation-id="ch07-0132">这些属于间接方法，因为在后一种由智能体建立局部动力学模型的方法中，策略通过局部模型间接地从环境学习。</p>
+</div>
+<div id="Ch7.S3.SS5.SSS2.p4" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS2.p4.1" class="ltx_p" data-translation-id="ch07-0133">使用局部动力学模型称为基于模型的强化学习。动力学模型包含智能体的局部估计 <math id="Ch7.S3.SS5.SSS2.p4.m1" class="ltx_Math" alttext="\hat{T}" display="inline" intent=":literal"><semantics><mover accent="true"><mi>T</mi><mo>^</mo></mover><annotation encoding="application/x-tex">\hat{T}</annotation></semantics></math> 和 <math id="Ch7.S3.SS5.SSS2.p4.m2" class="ltx_Math" alttext="\hat{R}" display="inline" intent=":literal"><semantics><mover accent="true"><mi>R</mi><mo>^</mo></mover><annotation encoding="application/x-tex">\hat{R}</annotation></semantics></math>，估计只有环境知道的真实 <math id="Ch7.S3.SS5.SSS2.p4.m3" class="ltx_Math" alttext="T" display="inline" intent=":literal"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math> 与 <math id="Ch7.S3.SS5.SSS2.p4.m4" class="ltx_Math" alttext="R" display="inline" intent=":literal"><semantics><mi>R</mi><annotation encoding="application/x-tex">R</annotation></semantics></math>。它已在围棋 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib48" title="" class="ltx_ref">Silver et al., 2016</a>]</cite>、Diplomacy <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib64" title="" class="ltx_ref">Bakhtin et al., 2022</a>]</cite>、StarCraft <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib63" title="" class="ltx_ref">Vinyals et al., 2019</a>]</cite> 及跨领域学习展示 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib56" title="" class="ltx_ref">Hafner et al., 2020b</a>]</cite> 等应用中成功。</p>
+</div>
+<div id="Ch7.S3.SS5.SSS2.p5" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS2.p5.1" class="ltx_p" data-translation-id="ch07-0134">基于模型的强化学习也与符号人工智能经典领域“规划”相连：借助高效潜在表示模拟不同可能世界、向前展望未来，无须在现实世界行动。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS5.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch07-0135">7.3.5.3 降维</h4>
+
+<div id="Ch7.S3.SS5.SSS3.p1" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS3.p1.1" class="ltx_p" data-translation-id="ch07-0136">深度的基于模型强化学习中，局部动力学模型也称世界模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib57" title="" class="ltx_ref">Ha and Schmidhuber, 2018</a>]</cite>。它将高维观测空间降为低维状态和奖励空间，随后用于基于模型的强化学习，高效改善策略函数。思想是：多数高维环境中存在较不重要的元素，例如电子游戏背景中从不移动的树，与智能体动作价值关系很小或毫无关系。目标是抽象掉输入空间的不重要元素，减少状态空间的有效维度。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS5.SSS4" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch07-0137">7.3.5.4 联合嵌入预测架构</h4>
+
+<div id="Ch7.S3.SS5.SSS4.p1" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS4.p1.1" class="ltx_p" data-translation-id="ch07-0138">联合嵌入预测架构（JEPA）由 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibf.bib2" title="" class="ltx_ref">LeCun and others [2022]</a></cite> 提出，并在 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibf.bib7" title="" class="ltx_ref">Assran et al. [2023]</a></cite> 中进一步完善。它旨在抽象、压缩表示（潜在空间）中预测未来状态，而非重建原始感官细节或像素。这类似基于模型强化学习中世界模型的降维目标。不过，后者在奖励监督下学习局部转移模型，而 JEPA 是自监督表示学习框架：通过观察视频或图像，将上下文嵌入映射至目标嵌入，不使用奖励或显式动作。基于模型的强化学习则明确纳入动作、奖励和控制优化，以最大化回报 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib6" title="" class="ltx_ref">Lim et al., 2026</a>]</cite>。JEPA 与强化学习联系紧密，可作为强化学习或规划算法的感知引擎（世界模型），例如指导机器人控制 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib5" title="" class="ltx_ref">Destrade et al., 2025</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch7.S3.SS5.SSS5" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch07-0139">7.3.5.5 智能体世界模型</h4>
+
+<div id="Ch7.S3.SS5.SSS5.p1" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS5.p1.1" class="ltx_p" data-translation-id="ch07-0140">在基于模型的强化学习背景下，大语言模型有两种用法。可以将预训练（静态）LLM 作为世界模型 <math id="Ch7.S3.SS5.SSS5.p1.m1" class="ltx_Math" alttext="(\hat{T},\hat{R})" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mover accent="true"><mi>T</mi><mo>^</mo></mover><mo>,</mo><mover accent="true"><mi>R</mi><mo>^</mo></mover><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(\hat{T},\hat{R})</annotation></semantics></math>，用于基于模型的强化学习（LLM4MBRL），通常采用树搜索或 MCTS 规划。这种方法以 LLM 帮助强化学习。</p>
+</div>
+<div id="Ch7.S3.SS5.SSS5.p2" class="ltx_para">
+<p id="Ch7.S3.SS5.SSS5.p2.1" class="ltx_p" data-translation-id="ch07-0141">另一种是利用（基于模型的）强化学习设置，以世界交互反馈训练 LLM 世界模型（MBRL4LLM）。这时，LLM 通过自适应 Harness，或像 VLA 那样对模型本身后训练，变得可适应。这也称智能体世界模型，有望让智能体更好理解环境，以更符合现实的方式行动。此方法用强化学习帮助智能体语言建模，是活跃研究领域，例如见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibf.bib1" title="" class="ltx_ref">Zuo et al. [2026]</a></cite> 及其参考文献。55 5 强化学习与语言建模还有第三种联系：在 LLM 训练流水线内，也用无模型强化学习进行微调，例如 RLHF 和 RLVR。</p>
+</div>
+</section>
+</section>
+</section>
+<section id="Ch7.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch07-0142">7.4 结语</h2>
+
+<div id="Ch7.S4.p1" class="ltx_para">
+<p id="Ch7.S4.p1.1" class="ltx_p" data-translation-id="ch07-0143">Transformer 可在词元化语言数据上训练，也可在其他词元化数据上训练。本章介绍不同模态的不同模型架构。架构上差异很大，但多数基于 Transformer，并为差异惊人的各种模态设计了词元化方法。回顾不同类型模型，看看其共同点：</p>
+<ul id="Ch7.S4.I1" class="ltx_itemize">
+<li id="Ch7.S4.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch7.S4.I1.i1.p1" class="ltx_para">
+<p id="Ch7.S4.I1.i1.p1.1" class="ltx_p" data-translation-id="ch07-0144">大语言模型（LLM）是在词元化自然语言上预训练的 Transformer。</p>
+</div></li>
+<li id="Ch7.S4.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch7.S4.I1.i2.p1" class="ltx_para">
+<p id="Ch7.S4.I1.i2.p1.1" class="ltx_p" data-translation-id="ch07-0145">视觉—语言模型（VLM）由在词元化视觉数据上训练的 Transformer（或扩散模型、卷积网络）与在词元化自然语言上训练的 Transformer 组成，两者嵌入汇合于联合解码器。</p>
+</div></li>
+<li id="Ch7.S4.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch7.S4.I1.i3.p1" class="ltx_para">
+<p id="Ch7.S4.I1.i3.p1.1" class="ltx_p" data-translation-id="ch07-0146">决策 Transformer（DT）是在词元化的决策路径 <math id="Ch7.S4.I1.i3.p1.m1" class="ltx_Math" alttext="(s,a,r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s,a,r)</annotation></semantics></math> 回合序列上训练的 Transformer（见第 <a href="ch20.html#Ch20.S1.SS2" title="20.1.2 Pretraining Backtracking on Decision Traces ‣ 20.1 Transformer Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.1.2</span></a> 节）。</p>
+</div></li>
+<li id="Ch7.S4.I1.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch7.S4.I1.i4.p1" class="ltx_para">
+<p id="Ch7.S4.I1.i4.p1.1" class="ltx_p" data-translation-id="ch07-0147">视觉—语言—动作模型（VLA）具有视觉—语言架构，还在词元化的机器人动作 <math id="Ch7.S4.I1.i4.p1.m1" class="ltx_Math" alttext="(s,a,r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s,a,r)</annotation></semantics></math> 回合序列上训练。</p>
+</div></li>
+<li id="Ch7.S4.I1.i5" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch7.S4.I1.i5.p1" class="ltx_para">
+<p id="Ch7.S4.I1.i5.p1.1" class="ltx_p" data-translation-id="ch07-0148">世界模型具有视觉—语言架构，还在词元化的真实世界动作或决策 <math id="Ch7.S4.I1.i5.p1.m1" class="ltx_Math" alttext="(s,a,r)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>,</mo><mi>r</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(s,a,r)</annotation></semantics></math> 回合序列上训练。</p>
+</div></li>
+</ul>
+<p id="Ch7.S4.p1.2" class="ltx_p" data-translation-id="ch07-0149">本章未讨论的其他模型也存在。例如，大型音乐模型（LMM）是在词元化音乐序列上预训练的 Transformer，序列可以是符号音乐（乐谱）或音轨 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibf.bib55" title="" class="ltx_ref">Yuan et al., 2025</a>]</cite>。</p>
+</div>
+<div id="Ch7.S4.p2" class="ltx_para">
+<p id="Ch7.S4.p2.1" class="ltx_p" data-translation-id="ch07-0150">本章聚焦用于智能体的进阶模型，讨论在视觉和动作上预训练、微调的语言模型。它们理解更多世界知识，使智能体取得出色的泛化结果。我们看到，LLM 最初是语言模型，正逐渐成为世界模型，这个术语借自基于模型的强化学习。</p>
+</div>
+<div id="Ch7.S4.p3" class="ltx_para">
+<p id="Ch7.S4.p3.1" class="ltx_p" data-translation-id="ch07-0151">现在适合回顾已学内容。第一部分解释如何以自指方式对语言预训练模型。随后，第 <a href="ch06.html#Ch6" title="Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6</span></a> 章解释上下文学习如何涌现，以及如何用于推断时多步推理与自我反思。本章讨论产生环境多模态世界模型的预训练和微调方法。预训练语言、推断时推理与微调世界模型共同使智能体越来越能智能行动，在世界中为用户完成任务。</p>
+</div>
+<div id="Ch7.S4.p4" class="ltx_para">
+<p id="Ch7.S4.p4.1" class="ltx_p" data-translation-id="ch07-0152">至此，我们讨论了许多不同模态和训练方法。下一章将退一步，反思智能体如何一边在作为学习来源的世界中行动，一边稳定地学习。</p>
+</div>
+</section>
+<section id="bibf" class="ltx_bibliography ltx_list_07_robot">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibf.L1" class="ltx_biblist">
+<li id="bibf.bib7" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Assran <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Assran, Q. Duval, I. Misra, P. Bojanowski, P. Vincent, M. Rabbat, Y. LeCun, and N. Ballas</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Self-supervised learning from images with a joint-embedding predictive architecture</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2023 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 15619–15629</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS4.p1.1" title="7.3.5.4 Joint Embedding Predictive Architecture ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.4</span></a>.
+</span></li>
+<li id="bibf.bib43" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bai <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Bai, K. Chen, X. Liu, J. Wang, W. Ge, S. Song, K. Dang, P. Wang, S. Wang, J. Tang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Qwen2. 5-vl technical report</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.13923</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS2.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.2</span></a>.
+</span></li>
+<li id="bibf.bib64" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bakhtin <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Bakhtin, N. Brown, E. Dinan, G. Farina, C. Flaherty, D. Fried, A. Goff, J. Gray, H. Hu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Human-level play in the game of diplomacy by combining language models with strategic reasoning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Science</span> <span class="ltx_text ltx_bib_volume">378</span> (<span class="ltx_text ltx_bib_number">6624</span>), <span class="ltx_text ltx_bib_pages">pp. 1067–1074</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS2.p4.1" title="7.3.5.2 Model-based Reinforcement Learning ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.2</span></a>.
+</span></li>
+<li id="bibf.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Baldridge <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Baldridge, J. Bauer, M. Bhutani, N. Brichtova, A. Bunner, L. Castrejon, K. Chan, Y. Chen, S. Dieleman, Y. Du, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Imagen 3</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2408.07009</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS3.p4.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>.
+</span></li>
+<li id="bibf.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Betker <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Betker, G. Goh, L. Jing, T. Brooks, J. Wang, L. Li, L. Ouyang, J. Zhuang, J. Lee, Y. Guo, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Improving image generation with better captions</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Computer Science. https://cdn. openai. com/papers/dall-e-3. pdf</span> <span class="ltx_text ltx_bib_volume">2</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 8</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F7" title="In 7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.7</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F7.4" title="In 7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.7</span></a>,
+<a href="#Ch7.S1.SS3.p4.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>,
+<a href="#Ch7.S1.SS4.p2.1" title="7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.4</span></a>.
+</span></li>
+<li id="bibf.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bhatia <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Bhatia, S. Ravi, A. Chinchure, E. Hwang, and V. Shwartz</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">From local concepts to universals: evaluating the multicultural understanding of vision-language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2407.00263</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p2.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib44" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Black <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Black, N. Brown, D. Driess, A. Esmail, M. Equi, C. Finn, N. Fusai, L. Groom, K. Hausman, B. Ichter, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title"><math id="bib.bib44.m1" class="ltx_Math" alttext="\pi_{0}" display="inline" intent=":literal"><semantics><msub><mi>π</mi><mn>0</mn></msub><annotation encoding="application/x-tex">\pi_{0}</annotation></semantics></math>: A vision-language-action flow model for general robot control</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.24164</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F16" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.16</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F16.4" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.16</span></a>,
+<a href="#Ch7.S2.SS2.p9.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>,
+<a href="#Ch7.S2.SS4.p1.1" title="7.2.4 Results ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.4</span></a>.
+</span></li>
+<li id="bibf.bib52" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brohan <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Brohan, N. Brown, J. Carbajal, Y. Chebotar, X. Chen, K. Choromanski, T. Ding, D. Driess, A. Dubey, C. Finn, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Rt-2: vision-language-action models transfer web knowledge to robotic control</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2307.15818</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F14" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.14</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F14.4" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.14</span></a>,
+<a href="#Ch7.S2.SS2.p7.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>,
+<a href="#Ch7.S2.SS4.p1.1" title="7.2.4 Results ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.4</span></a>.
+</span></li>
+<li id="bibf.bib51" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Browne <span class="ltx_text ltx_bib_etal">et al.</span> (2012)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. B. Browne, E. Powley, D. Whitehouse, S. M. Lucas, P. I. Cowling, P. Rohlfshagen, S. Tavener, D. Perez, S. Samothrakis, and S. Colton</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey of monte carlo tree search methods</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">IEEE Transactions on Computational Intelligence and AI in games</span> <span class="ltx_text ltx_bib_volume">4</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 1–43</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS3.SSS0.Px3.p1.1" title="WorldCoder ‣ 7.3.3 Learning Algorithm ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.3</span></a>.
+</span></li>
+<li id="bibf.bib11" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Burda-Lassen <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">O. Burda-Lassen, A. Chadha, S. Goswami, and V. Jain</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">How culturally aware are vision-language models?</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2025 IEEE 6th International Conference on Image Processing, Applications and Systems (IPAS)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–6</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p2.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib15" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chai <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Chai, E. Song, Y. Du, C. Meng, V. Madhavan, O. Bar-Tal, J. Hwang, S. Xie, and C. D. Manning</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Auroracap: efficient, performant video detailed captioning and a new benchmark</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.03051</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p3.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib33" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Chen, K. Lu, A. Rajeswaran, K. Lee, A. Grover, M. Laskin, P. Abbeel, A. Srinivas, and I. Mordatch</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Decision transformer: reinforcement learning via sequence modeling</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">34</span>, <span class="ltx_text ltx_bib_pages">pp. 15084–15097</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S2.SS2.p2.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib68" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Chen, M. Lin, N. Schärli, and D. Zhou</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Teaching large language models to self-debug</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2304.05128</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS2.SSS0.Px3.p1.1" title="WorldCoder ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.2</span></a>.
+</span></li>
+<li id="bibf.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Cheng <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Cheng, W. Song, J. Fan, Z. Ma, Q. Sun, F. Xu, C. Yan, N. Chen, J. Zhang, and J. Chen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Caparena: benchmarking and analyzing detailed image captioning in the llm era</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2503.12329</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p3.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib58" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chiang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. L. Chiang, Z. Xu, Z. Fu, M. G. Jacob, T. Zhang, T. E. Lee, W. Yu, C. Schenck, D. Rendleman, D. Shah, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mobility vla: multimodal instruction navigation with long-context vlms and topological graphs</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2407.07775</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F12" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.12</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F12.4" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.12</span></a>,
+<a href="#Ch7.S2.SS2.p4.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>,
+<a href="#Ch7.S2.SS4.p1.1" title="7.2.4 Results ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.4</span></a>.
+</span></li>
+<li id="bibf.bib5" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Destrade <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Destrade, O. Bounou, Q. L. Lidec, J. Ponce, and Y. LeCun</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Value-guided action planning with jepa world models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2601.00844</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS4.p1.1" title="7.3.5.4 Joint Embedding Predictive Architecture ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.4</span></a>.
+</span></li>
+<li id="bibf.bib25" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dong <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Dong, J. Li, B. Wu, J. Wang, Y. Zhang, and H. Guo</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Benchmarking and improving detail image caption</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.19092</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p3.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dosovitskiy <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Dosovitskiy, L. Beyer, A. Kolesnikov, D. Weissenborn, X. Zhai, T. Unterthiner, M. Dehghani, M. Minderer, G. Heigold, S. Gelly, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">An image is worth 16x16 words: transformers for image recognition at scale</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2010.11929</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS2.p3.1" title="7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.2</span></a>.
+</span></li>
+<li id="bibf.bib21" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Esser <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Esser, S. Kulal, A. Blattmann, R. Entezari, J. Müller, H. Saini, Y. Levi, D. Lorenz, A. Sauer, F. Boesel, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Scaling rectified flow transformers for high-resolution image synthesis</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Forty-first international conference on machine learning</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F4" title="In 7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F4.4" title="In 7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.4</span></a>,
+<a href="#Ch7.F8" title="In 7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.8</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F8.4" title="In 7.1.4 Results ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.8</span></a>,
+<a href="#Ch7.S1.SS2.p5.1" title="7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.2</span></a>,
+<a href="#Ch7.S1.SS3.p4.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>.
+</span></li>
+<li id="bibf.bib67" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Garcia <span class="ltx_text ltx_bib_etal">et al.</span> (1989)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. E. Garcia, D. M. Prett, and M. Morari</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Model predictive control: theory and practice—a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Automatica</span> <span class="ltx_text ltx_bib_volume">25</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 335–348</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS2.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.2</span></a>.
+</span></li>
+<li id="bibf.bib8" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ge <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Ge, H. Huang, M. Zhou, J. Li, G. Wang, S. Tang, and Y. Zhuang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Worldgpt: empowering llm as multimodal world model</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 32nd ACM International Conference on Multimedia</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 7346–7355</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F19" title="In 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.19</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F19.4" title="In 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.19</span></a>,
+<a href="#Ch7.S3.SS1.SSS0.Px1.p1.1" title="WorldGPT ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.1</span></a>,
+<a href="#Ch7.S3.SS4.SSS0.Px1.p2.1" title="WorldGPT ‣ 7.3.4 Results ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.4</span></a>.
+</span></li>
+<li id="bibf.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Gu, K. Zhang, Y. Ning, B. Zheng, B. Gou, T. Xue, C. Chang, S. Srivastava, Y. Xie, P. Qi, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Is your llm secretly a world model of the internet? model-based planning for web agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.06559</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F20" title="In WebDreamer ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.20</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F20.4" title="In WebDreamer ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.20</span></a>,
+<a href="#Ch7.S3.SS1.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.1</span></a>.
+</span></li>
+<li id="bibf.bib57" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ha and Schmidhuber (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Ha and J. Schmidhuber</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">World models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1803.10122</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS3.p1.1" title="7.3.5.3 Dimension Reduction ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.3</span></a>,
+<a href="#Ch7.S3.SS5.p2.1" title="7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5</span></a>,
+<a href="#Ch7.S3.p4.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib30" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hafner <span class="ltx_text ltx_bib_etal">et al.</span> (2020a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Hafner, T. Lillicrap, J. Ba, and M. Norouzi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Dream to control: learning behaviors by latent imagination</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Learning Representations</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS1.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.1</span></a>.
+</span></li>
+<li id="bibf.bib31" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hafner <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Hafner, T. Lillicrap, I. Fischer, R. Villegas, D. Ha, H. Lee, and J. Davidson</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Learning latent dynamics for planning from pixels</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Machine Learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 2555–2565</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS1.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.1</span></a>,
+<a href="#Ch7.S3.p4.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib56" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hafner <span class="ltx_text ltx_bib_etal">et al.</span> (2020b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Hafner, T. Lillicrap, M. Norouzi, and J. Ba</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mastering atari with discrete world models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2010.02193</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS2.p4.1" title="7.3.5.2 Model-based Reinforcement Learning ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.2</span></a>,
+<a href="#Ch7.S3.SS5.p2.1" title="7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5</span></a>.
+</span></li>
+<li id="bibf.bib47" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hafner <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Hafner, J. Pasukonis, J. Ba, and T. Lillicrap</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mastering diverse domains through world models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2301.04104</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS1.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.1</span></a>.
+</span></li>
+<li id="bibf.bib62" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ho <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Ho, L. Schmid, and S. Yun</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models are reasoning teachers</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2212.10071</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS3.p4.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>.
+</span></li>
+<li id="bibf.bib40" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Janner <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Janner, Q. Li, and S. Levine</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Offline reinforcement learning as one big sequence modeling problem</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">34</span>, <span class="ltx_text ltx_bib_pages">pp. 1273–1286</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S2.SS2.p2.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib3" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Klindt <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Klindt, Y. LeCun, and R. Balestriero</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">When does lejepa learn a world model?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2605.26379</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.p2.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib65" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Koh <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Y. Koh, S. McAleer, D. Fried, and R. Salakhutdinov</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tree search for language model agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2407.01476</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS2.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.2</span></a>.
+</span></li>
+<li id="bibf.bib36" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Krizhevsky <span class="ltx_text ltx_bib_etal">et al.</span> (2012)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Krizhevsky, I. Sutskever, and G. E. Hinton</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Imagenet classification with deep convolutional neural networks</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">25</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.p3.1" title="7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1</span></a>.
+</span></li>
+<li id="bibf.bib2" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">LeCun <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. LeCun <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A path towards autonomous machine intelligence version 0.9. 2, 2022-06-27</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Open Review</span> <span class="ltx_text ltx_bib_volume">62</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 1–62</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS4.p1.1" title="7.3.5.4 Joint Embedding Predictive Architecture ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.4</span></a>,
+<a href="#Ch7.S3.p2.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib34" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lee <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Lee, A. Xie, A. Pacchiano, Y. Chandak, C. Finn, O. Nachum, and E. Brunskill</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Supervised pretraining can learn in-context reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 43057–43083</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S2.SS2.p2.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib42" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Li, D. Li, S. Savarese, and S. Hoi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Blip-2: bootstrapping language-image pre-training with frozen image encoders and large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International conference on machine learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 19730–19742</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS2.SSS0.Px1.p1.1" title="WorldGPT ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.2</span></a>.
+</span></li>
+<li id="bibf.bib28" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Li, C. Zhang, J. Li, Q. Peng, R. Tang, L. Zhou, W. Zhang, G. Hu, Y. Yuan, A. Søgaard, D. Hershcovich, and D. Elliott</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">FoodieQA: a multimodal dataset for fine-grained understanding of Chinese food culture</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing</span>,  <span class="ltx_text ltx_bib_editor">Y. Al-Onaizan, M. Bansal, and Y. Chen (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Miami, Florida, USA</span>, <span class="ltx_text ltx_bib_pages">pp. 19077–19095</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.emnlp-main.1063/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.emnlp-main.1063" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p2.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lim <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Y. Lim, R. Shah, Z. Ikram, S. Yu, H. Ma, T. Leong, and D. Liu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">JEDI: joint embedding diffusion world model for online model-based reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2605.13013</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS4.p1.1" title="7.3.5.4 Joint Embedding Predictive Architecture ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.4</span></a>.
+</span></li>
+<li id="bibf.bib14" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lin <span class="ltx_text ltx_bib_etal">et al.</span> (2014)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Lin, M. Maire, S. Belongie, J. Hays, P. Perona, D. Ramanan, P. Dollár, and C. L. Zitnick</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Microsoft coco: common objects in context</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">European conference on computer vision</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 740–755</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p3.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib29" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Liu <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">F. Liu, E. Bugliarello, E. M. Ponti, S. Reddy, N. Collier, and D. Elliott</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Visually grounded reasoning across languages and cultures</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2109.13238</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p2.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib17" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Liu <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Liu, C. Li, Q. Wu, and Y. J. Lee</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Visual instruction tuning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 34892–34916</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F3" title="In 7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.3</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F3.4" title="In 7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.3</span></a>,
+<a href="#Ch7.S1.SS2.p4.1" title="7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.2</span></a>,
+<a href="#Ch7.S1.SS3.p5.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>.
+</span></li>
+<li id="bibf.bib59" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ma <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Ma, Z. Song, Y. Zhuang, J. Hao, and I. King</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey on vision-language-action models for embodied ai</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.14093</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S2.SS4.p2.1" title="7.2.4 Results ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.4</span></a>.
+</span></li>
+<li id="bibf.bib69" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Matsuo <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Matsuo, Y. LeCun, M. Sahani, D. Precup, D. Silver, M. Sugiyama, E. Uchibe, and J. Morimoto</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deep learning, reinforcement learning, and world models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Neural Networks</span> <span class="ltx_text ltx_bib_volume">152</span>, <span class="ltx_text ltx_bib_pages">pp. 267–275</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.p2.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib45" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Moerland <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. M. Moerland, J. Broekens, A. Plaat, C. M. Jonker, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Model-based reinforcement learning: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Foundations and Trends® in Machine Learning</span> <span class="ltx_text ltx_bib_volume">16</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 1–118</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.p2.1" title="7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5</span></a>,
+<a href="#Ch7.S3.p4.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib13" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nayak <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Nayak, K. Jain, R. Awal, S. Reddy, S. Van Steenkiste, L. A. Hendricks, A. Agrawal, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Benchmarking vision language models for cultural understanding</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2407.10920</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p2.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib38" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Plaat <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Plaat, W. Kosters, and M. Preuss</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deep model-based reinforcement learning for high-dimensional problems, a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2008.05598</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.p4.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib46" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Plaat <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Plaat, W. Kosters, and M. Preuss</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">High-accuracy model-based reinforcement learning, a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Artificial Intelligence Review</span> <span class="ltx_text ltx_bib_volume">56</span> (<span class="ltx_text ltx_bib_number">9</span>), <span class="ltx_text ltx_bib_pages">pp. 9541–9573</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.p2.1" title="7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5</span></a>.
+</span></li>
+<li id="bibf.bib50" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Radford <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agarwal, G. Sastry, A. Askell, P. Mishkin, J. Clark, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Learning transferable visual models from natural language supervision</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International conference on machine learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 8748–8763</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS3.p2.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>.
+</span></li>
+<li id="bibf.bib37" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Schwenzer <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Schwenzer, M. Ay, T. Bergs, and D. Abel</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Review on model predictive control: an engineering perspective</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">The International Journal of Advanced Manufacturing Technology</span> <span class="ltx_text ltx_bib_volume">117</span> (<span class="ltx_text ltx_bib_number">5</span>), <span class="ltx_text ltx_bib_pages">pp. 1327–1349</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS2.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.2</span></a>.
+</span></li>
+<li id="bibf.bib54" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shah <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Shah, B. Osiński, S. Levine, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Lm-nav: robotic navigation with large pre-trained models of language, vision, and action</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Conference on robot learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 492–504</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F13" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.13</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F13.4" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.13</span></a>,
+<a href="#Ch7.S2.SS2.p6.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib60" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shridhar <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Shridhar, L. Manuelli, and D. Fox</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Cliport: what and where pathways for robotic manipulation</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Conference on robot learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 894–906</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F10" title="In 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.10</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F10.5" title="In 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.10</span></a>,
+<a href="#Ch7.S2.SS1.p1.1" title="7.2.1 Tasks ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.1</span></a>,
+<a href="#Ch7.S2.SS1.p2.1" title="7.2.1 Tasks ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.1</span></a>,
+<a href="#Ch7.S2.SS2.p3.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib49" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shridhar <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Shridhar, X. Yuan, M. Côté, Y. Bisk, A. Trischler, and M. Hausknecht</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Alfworld: aligning text and embodied environments for interactive learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2010.03768</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F11" title="In 7.2.1 Tasks ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.11</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F11.5" title="In 7.2.1 Tasks ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.11</span></a>,
+<a href="#Ch7.S2.SS2.p3.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib48" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Silver <span class="ltx_text ltx_bib_etal">et al.</span> (2016)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Silver, A. Huang, C. J. Maddison, A. Guez, L. Sifre, G. Van Den Driessche, J. Schrittwieser, I. Antonoglou, V. Panneershelvam, M. Lanctot, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mastering the game of go with deep neural networks and tree search</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">nature</span> <span class="ltx_text ltx_bib_volume">529</span> (<span class="ltx_text ltx_bib_number">7587</span>), <span class="ltx_text ltx_bib_pages">pp. 484–489</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS2.p4.1" title="7.3.5.2 Model-based Reinforcement Learning ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.2</span></a>.
+</span></li>
+<li id="bibf.bib22" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Singh <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Singh, R. Hu, V. Goswami, G. Couairon, W. Galuba, M. Rohrbach, and D. Kiela</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Flava: a foundational language and vision alignment model</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the IEEE/CVF conference on computer vision and pattern recognition</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 15638–15650</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F6" title="In 7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.6</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F6.4" title="In 7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.6</span></a>,
+<a href="#Ch7.S1.SS3.p3.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>.
+</span></li>
+<li id="bibf.bib53" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sutton and Barto (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. S. Sutton and A. G. Barto</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_edition">2 edition</span>, <span class="ltx_text ltx_bib_series">Adaptive Computation and Machine Learning series</span>,  <span class="ltx_text ltx_bib_publisher">Bradford Books</span>, <span class="ltx_text ltx_bib_place">Cambridge, MA</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F22" title="In 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.22</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F22.4" title="In 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.22</span></a>.
+</span></li>
+<li id="bibf.bib35" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sutton <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. S. Sutton, M. Bowling, and P. M. Pilarski</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The alberta plan for ai research</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2208.11173</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.p2.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib32" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sutton (1991)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. S. Sutton</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Dyna, an integrated architecture for learning, planning, and reacting</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">ACM Sigart Bulletin</span> <span class="ltx_text ltx_bib_volume">2</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 160–163</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.p2.1" title="7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5</span></a>,
+<a href="#Ch7.S3.p4.1" title="7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3</span></a>.
+</span></li>
+<li id="bibf.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Tang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Tang, D. Key, and K. Ellis</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Worldcoder, a model-based llm agent: building world models by writing code and interacting with the environment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">37</span>, <span class="ltx_text ltx_bib_pages">pp. 70148–70212</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F17" title="In WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.17</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F17.4" title="In WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.17</span></a>,
+<a href="#Ch7.F18" title="In WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.18</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F18.4" title="In WebDreamer ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.18</span></a>,
+<a href="#Ch7.F21" title="In WorldCoder ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.21</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F21.4" title="In WorldCoder ‣ 7.3.2 Architecture ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.21</span></a>,
+<a href="#Ch7.S3.SS1.SSS0.Px3.p1.1" title="WorldCoder ‣ 7.3.1 Tasks ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.1</span></a>.
+</span></li>
+<li id="bibf.bib63" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Vinyals <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">O. Vinyals, I. Babuschkin, W. M. Czarnecki, M. Mathieu, A. Dudzik, J. Chung, D. H. Choi, R. Powell, T. Ewalds, P. Georgiev, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Grandmaster level in starcraft ii using multi-agent reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature</span> <span class="ltx_text ltx_bib_volume">575</span> (<span class="ltx_text ltx_bib_number">7782</span>), <span class="ltx_text ltx_bib_pages">pp. 350–354</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS2.p4.1" title="7.3.5.2 Model-based Reinforcement Learning ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.2</span></a>.
+</span></li>
+<li id="bibf.bib39" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2024a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Wang, E. Blaser, H. Daneshmand, and S. Zhang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Transformers learn temporal difference methods for in-context reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.13861</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S2.SS2.p2.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib66" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2024b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Wang, S. Bai, S. Tan, S. Wang, Z. Fan, J. Bai, K. Chen, X. Liu, J. Wang, W. Ge, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Qwen2-vl: enhancing vision-language model’s perception of the world at any resolution</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2409.12191</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS3.SSS0.Px2.p1.1" title="WebDreamer ‣ 7.3.3 Learning Algorithm ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.3</span></a>.
+</span></li>
+<li id="bibf.bib26" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Wang, J. Wu, J. Chen, L. Li, Y. Wang, and W. Y. Wang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Vatex: a large-scale, high-quality multilingual dataset for video-and-language research</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the IEEE/CVF international conference on computer vision</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 4581–4591</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p3.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib4" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Weng (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Weng</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">What are diffusion models?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">lilianweng. github. io</span>, <span class="ltx_text ltx_bib_pages">pp. 21</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS2.p5.1" title="7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.2</span></a>.
+</span></li>
+<li id="bibf.bib27" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xu <span class="ltx_text ltx_bib_etal">et al.</span> (2016)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Xu, T. Mei, T. Yao, and Y. Rui</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Msr-vtt: a large video description dataset for bridging video and language</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the IEEE conference on computer vision and pattern recognition</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 5288–5296</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p3.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib61" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Yang, R. Tan, Q. Wu, R. Zheng, B. Peng, Y. Liang, Y. Gu, M. Cai, S. Ye, J. Jang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Magma: a foundation model for multimodal ai agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.13130</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.F15" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.15</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch7.F15.4" title="In 7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 7.15</span></a>,
+<a href="#Ch7.S2.SS2.p8.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>,
+<a href="#Ch7.S2.SS4.p1.1" title="7.2.4 Results ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.4</span></a>.
+</span></li>
+<li id="bibf.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Yang, Z. Zhang, Y. Song, S. Hong, R. Xu, Y. Zhao, W. Zhang, B. Cui, and M. Yang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Diffusion models: a comprehensive survey of methods and applications</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">ACM computing surveys</span> <span class="ltx_text ltx_bib_volume">56</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 1–39</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS2.p5.1" title="7.1.2 Architecture ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.2</span></a>,
+<a href="#Ch7.S1.SS3.p4.1" title="7.1.3 Learning Algorithm ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.3</span></a>.
+</span></li>
+<li id="bibf.bib55" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yuan <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Yuan, H. Lin, S. Guo, G. Zhang, J. Pan, Y. Zang, H. Liu, Y. Liang, W. Ma, X. Du, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Yue: scaling open foundation models for long-form music generation</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2503.08638</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S4.p1.2" title="7.4 Concluding Remarks ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.4</span></a>.
+</span></li>
+<li id="bibf.bib23" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yue <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Yue, Y. Ni, K. Zhang, T. Zheng, R. Liu, G. Zhang, S. Stevens, D. Jiang, W. Ren, Y. Sun, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mmmu: a massive multi-discipline multimodal understanding and reasoning benchmark for expert agi</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 9556–9567</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S1.SS1.p4.1" title="7.1.1 Tasks ‣ 7.1 Multi-modal Vision Language Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.1.1</span></a>.
+</span></li>
+<li id="bibf.bib41" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Zhou, L. Yu, A. Babu, K. Tirumala, M. Yasunaga, L. Shamis, J. Kahn, X. Ma, L. Zettlemoyer, and O. Levy</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Transfusion: predict the next token and diffuse images with one multi-modal model</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2408.11039</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S2.SS2.p9.1" title="7.2.2 Architecture ‣ 7.2 Decisions &amp; Vision Language Action Models ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.2.2</span></a>.
+</span></li>
+<li id="bibf.bib1" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zuo <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Zuo, Z. Xiao, L. Sheng, F. Huang, J. Tu, Y. Liu, T. Tang, X. Hu, Y. Su, Q. Lan, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Qwen-agentworld: language world models for general agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2606.24597</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch7.S3.SS5.SSS5.p2.1" title="7.3.5.5 Agentic World Models ‣ 7.3.5 *Model-Based Reinforcement Learning ‣ 7.3 World Models, Physics, and Planning ‣ Chapter 7 Vision, Action and World Models ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§7.3.5.5</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch06.html">← 第 6 章</a><a href="index.html">全书目录</a><a href="ch08.html">第 8 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

@@ -1,0 +1,1483 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 15 章 研究智能体式大语言模型的行为 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html" aria-current="page"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html" aria-current="page"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">15 / 23 · 中文翻译</p><section id="Ch15" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch15-0001">第 15 章 研究智能体式大语言模型的行为</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch15.S1">15.1 什么是大语言模型行为？</a></li><li class="level-h2"><a href="#Ch15.S2">15.2 通过实验探测大语言模型行为</a></li><li class="level-h2"><a href="#Ch15.S3">15.3 基础社交工具箱</a></li><li class="level-h3"><a href="#Ch15.S3.SS1">15.3.1 功能性与语用语言能力</a></li><li class="level-h3"><a href="#Ch15.S3.SS2">15.3.2 礼貌与社交礼仪</a></li><li class="level-h3"><a href="#Ch15.S3.SS3">15.3.3 对情绪与情感线索的敏感性</a></li><li class="level-h3"><a href="#Ch15.S3.SS4">15.3.4 小结</a></li><li class="level-h2"><a href="#Ch15.S4">15.4 策略性行为</a></li><li class="level-h3"><a href="#Ch15.S4.SS1">15.4.1 社会困境中的合作与协调</a></li><li class="level-h3"><a href="#Ch15.S4.SS2">15.4.2 跨游戏与模型的基准</a></li><li class="level-h3"><a href="#Ch15.S4.SS3">15.4.3 小结</a></li><li class="level-h2"><a href="#Ch15.S5">15.5 心智理论</a></li><li class="level-h3"><a href="#Ch15.S5.SS1">15.5.1 计算心智理论</a></li><li class="level-h3"><a href="#Ch15.S5.SS2">15.5.2 提升心智理论：增强策略</a></li><li class="level-h3"><a href="#Ch15.S5.SS3">15.5.3 小结</a></li><li class="level-h2"><a href="#Ch15.S6">15.6 道德判断与行为</a></li><li class="level-h3"><a href="#Ch15.S6.SS1">15.6.1 背景：道德心理学与哲学</a></li><li class="level-h3"><a href="#Ch15.S6.SS2">15.6.2 探测大语言模型中的道德判断</a></li><li class="level-h3"><a href="#Ch15.S6.SS3">15.6.3 从判断到道德行为</a></li><li class="level-h3"><a href="#Ch15.S6.SS4">15.6.4 小结</a></li><li class="level-h2"><a href="#Ch15.S7">15.7 结语</a></li><li class="level-h2"><a href="#bibn">参考文献</a></li></ol></nav></details><div id="Ch15.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch15.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch15.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch15.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch15.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0120">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch15.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch15.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0121">本章将比较智能体式大语言模型的行为与人类行为。具体而言，你将能够：</p>
+<ul id="Ch15.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch15.S0.I1.i1" class="ltx_item">
+<div id="Ch15.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch15.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0122">解释大语言模型行为的含义，并描述研究这些行为的方法。</p>
+</div></li>
+<li id="Ch15.S0.I1.i2" class="ltx_item">
+<div id="Ch15.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch15.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0123">列出基本的社会与交互能力，并描述大语言模型在哪些方面表现良好、在哪些方面仍存在困难。</p>
+</div></li>
+<li id="Ch15.S0.I1.i3" class="ltx_item">
+<div id="Ch15.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch15.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0124">描述研究大语言模型高级社会与交互能力的方法，尤其是策略思考、心智理论和道德推理。</p>
+</div></li>
+<li id="Ch15.S0.I1.i4" class="ltx_item">
+<div id="Ch15.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch15.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0125">考虑测试与解释中的各种问题，思考行为研究方法能够和不能够告诉我们哪些有关大语言模型的信息。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch15.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch15-0002">15.1 什么是大语言模型行为？</h2>
+
+<div id="Ch15.S1.p1" class="ltx_para">
+<p id="Ch15.S1.p1.1" class="ltx_p" data-translation-id="ch15-0003">2019 年，一组来自计算、行为和认知科学的作者描述了一个新研究领域的出现：机器行为。该领域科学研究智能机器，将其视为具有特定行为模式和生态的一类行动者，而非工程制品 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib45" title="" class="ltx_ref">Rahwan et al., 2019</a>]</cite>。机器行为本质上是跨学科的，整合技术内在层面的知识（算法、数据结构、训练程序）与实际使用环境及情境的知识。</p>
+</div>
+<div id="Ch15.S1.p2" class="ltx_para">
+<p id="Ch15.S1.p2.1" class="ltx_p" data-translation-id="ch15-0004">机器行为的方法可与动物行为学或心理学相比：要增进对动物和人类运作方式的理解，同样需要整合内在层面（例如生物物理学、神经学）和生态层面（与环境交互、社会互动）的见解。</p>
+</div>
+<div id="Ch15.S1.p3" class="ltx_para">
+<p id="Ch15.S1.p3.1" class="ltx_p" data-translation-id="ch15-0005">本部分导论已提及研究机器行为、尤其大语言模型行为的重要实践动机：模型日益融入日常工作和个人环境，了解并理解其行为倾向与模式变得迫切。</p>
+</div>
+<div id="Ch15.S1.p4" class="ltx_para">
+<p id="Ch15.S1.p4.1" class="ltx_p" data-translation-id="ch15-0006">也存在科学动机：大规模神经架构非常复杂（呈现为黑箱），很难通过分析追溯其运作。（尽管机制可解释性领域确实尝试这样做，见第 <a href="ch21.html#Ch21" title="Chapter 21 *Mechanistic Interpretability for LLM Agents ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">21</span></a> 章。）实证研究这类复杂系统的行为，是增进理解的补充路径。换言之，由于交互复杂，即便一个理论工程师知道模型架构和训练数据的一切，仍可能无法预测它在不同情况下如何回应。行为方法旨在填补这一空白。</p>
+</div>
+<div id="Ch15.S1.p5" class="ltx_para">
+<p id="Ch15.S1.p5.1" class="ltx_p" data-translation-id="ch15-0007">哪些内容算作行为，取决于所研究系统的可供性11 1 可供性是指系统在特定情境中依据其设计和实现方式能够做什么。以及研究范围。例如，对于基础大语言模型，行为就等于模型基于词元推断产生的输出；而对于能搜索网页、运行代码的智能体式大语言模型，行为也可包括它为获得某种输出或实现某种效果采取的行动。如后文所见，一些研究只考虑最终输出，将其视为模型行为；另一些也关注中间步骤。</p>
+</div>
+</section>
+<section id="Ch15.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch15-0008">15.2 通过实验探测大语言模型行为</h2>
+
+<div id="Ch15.S2.p1" class="ltx_para">
+<p id="Ch15.S2.p1.1" class="ltx_p" data-translation-id="ch15-0009">近年出现许多测试大语言模型社会与互动能力的研究，主要有两种方法：（1）用改编自人类实验范式的题项提示模型；（2）专门为大语言模型开发新测试范式。后者可以采用大规模基准进行定量研究，也可在较小规模上进行深入人工定性分析。下面将给出实例。</p>
+</div>
+<div id="Ch15.S2.p2" class="ltx_para">
+<p id="Ch15.S2.p2.1" class="ltx_p" data-translation-id="ch15-0010">将行为和心理学方法用于智能体式大语言模型并不简单。人类实验假设受试者具有身体、信念、愿望，以及随时间连续的自我感。智能体式大语言模型显然不具备这些。这要求反思构念效度：测量人工智能系统中的某种特质或能力，意味着什么？这一问题涉及两个层面：特质的可观察结果与底层机制。第 <a href="#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节讨论错误信念测试 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib62" title="" class="ltx_ref">Carpenter et al., 2002</a>]</cite>。虽然某些模型类别在该测试中的回答方式与人类相似（行为结果层面），但 Transformer 模型与人类产生这种行为的底层机制有多大区别或重合，目前仍不清楚。第 <a href="ch22.html#Ch22" title="Chapter 22 *Cognitive Perspectives on Agentic LLMs ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">22</span></a> 章将更深入讨论构念效度。</p>
+</div>
+<div id="Ch15.S2.p3" class="ltx_para">
+<p id="Ch15.S2.p3.1" class="ltx_p" data-translation-id="ch15-0011">针对大语言模型的专用测试，也有方法挑战需要考虑。例如，模型对看似无关的提示变化（词序、逗号）可能高度敏感，也会因采样波动、模型温度或不同随机种子，在多次运行中产生不同输出。此外，实验材料泄漏进训练数据，可能使性能来自记忆而非泛化。下面几节将展示多个应用例子。本部分各章末尾都会关注方法严谨性与解释上的谨慎。</p>
+</div>
+<div id="Ch15.S2.p4" class="ltx_para">
+<p id="Ch15.S2.p4.1" class="ltx_p" data-translation-id="ch15-0012">接下来先讨论智能体互动的基础社交工具箱，再考察智能体对其他智能体行为进行推理的策略性行为，并讨论心智理论，最后讨论大语言模型的道德判断。</p>
+</div>
+</section>
+<section id="Ch15.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch15-0013">15.3 基础社交工具箱</h2>
+
+<div id="Ch15.S3.p1" class="ltx_para">
+<p id="Ch15.S3.p1.1" class="ltx_p" data-translation-id="ch15-0014">本节概述基本社会和互动能力，包括对话、语用与社交礼仪。</p>
+</div>
+<section id="Ch15.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0015">15.3.1 功能性与语用语言能力</h3>
+
+<div id="Ch15.S3.SS1.p1" class="ltx_para">
+<p id="Ch15.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch15-0016">如第一部分所述，经过指令调优的大语言模型的关键进步，是能以聊天机器人方式用自然语言互动。这不仅要求一定形式语言能力（生成正确、合乎语法的句子），也要求功能性语言能力，即解释特定情境中话语含义的能力 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib57" title="" class="ltx_ref">Mahowald et al., 2023</a>]</cite>。语言学和认知科学中的语用学研究功能性语言能力。其核心概念源于 20 世纪中叶语言哲学的语用转向，认为语言意义大多不内在于符号本身（词元、词语、句子），而存在于实际情境中的使用。这既包括语言情境，从周围词语到标题、体裁等远距离因素，也包括语言外情境，涵盖空间、时间和社会维度。Paul Grice 的会话含意概念最著名地表达了这一观点 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib90" title="" class="ltx_ref">Grice, 1975</a>]</cite>。考虑以下例子：</p>
+</div>
+<div id="Ch15.S3.SS1.p2" class="ltx_para">
+<ol id="Ch15.S3.I1" class="ltx_enumerate">
+<li id="Ch15.S3.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch15.S3.I1.i1.p1" class="ltx_para">
+<p id="Ch15.S3.I1.i1.p1.1" class="ltx_p" data-translation-id="ch15-0017">A：请问你能把盐递给我吗？B：能。你也希望我这样做吗？</p>
+</div></li>
+<li id="Ch15.S3.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch15.S3.I1.i2.p1" class="ltx_para">
+<p id="Ch15.S3.I1.i2.p1.1" class="ltx_p" data-translation-id="ch15-0018">A：Sarah 是个好同事吗？B：嗯，至少可以说她总是准时。</p>
+</div></li>
+<li id="Ch15.S3.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch15.S3.I1.i3.p1" class="ltx_para">
+<p id="Ch15.S3.I1.i3.p1.1" class="ltx_p" data-translation-id="ch15-0019">他发出了一系列与某首咏叹调乐谱高度对应的声音。</p>
+</div></li>
+</ol>
+<p id="Ch15.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch15-0020">Grice 认为语言使用受合作原则支配：我们假定交谈对象（人类或智能体）试图有意义地交流。例 1 是 B 破坏合作原则的经典情形：问你能否递盐的人，很少只是想获得确认可能性的字面回答，而是希望你真正递盐。例 2 中，B 的回应明显狭隘地聚焦准时这一方面，听者可由此推断，例如 B 在暗示 Sarah 的同事关系表现有问题。类似地，某人说例 3 而不是简单说“他唱了一首咏叹调”，过分复杂的措辞可能暗示对演唱的某种态度，例如不喜欢。所有例子中，字面话语都只是信息的一部分，另一部分需要听者根据情境解码或读出言外之意。</p>
+</div>
+<div id="Ch15.S3.SS1.p3" class="ltx_para">
+<p id="Ch15.S3.SS1.p3.1" class="ltx_p" data-translation-id="ch15-0021">以灵活、依赖情境的方式解释语言意义，长期以来是自然语言处理中的著名难题 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib44" title="" class="ltx_ref">Trott et al., 2020</a>]</cite>。人们普遍认为大语言模型在此取得巨大进展，但还不清楚应归因于哪些因素。模型规模是功能和语用能力的重要预测因素，某些微调形式（尤其 SFT 和 DPO）也是如此 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib43" title="" class="ltx_ref">Yu et al., 2026</a>, <a href="#bibn.bib46" title="" class="ltx_ref">Ruis et al., 2023</a>]</cite>。不过，模型在不同功能与语用理解领域间仍有很大差异，总体得分远低于人类表现 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib47" title="" class="ltx_ref">Sravanthi et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch15.S3.SS1.p4" class="ltx_para">
+<p id="Ch15.S3.SS1.p4.1" class="ltx_p" data-translation-id="ch15-0022">一种解释是，模型较少获得语言外情境信息：无法像人类交谈者一样看、听或感知其他信息，大多数情况下也不了解此前交互 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib42" title="" class="ltx_ref">van der Meulen et al., 2025</a>]</cite>。随着向智能体式大语言模型转变，模型配备记忆、多模态能力和其他补充上下文的工具，这一情况可能改变。目前仍缺少这种变化如何影响性能的实证数据。</p>
+</div>
+</section>
+<section id="Ch15.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0023">15.3.2 礼貌与社交礼仪</h3>
+
+<div id="Ch15.S3.SS2.p1" class="ltx_para">
+<p id="Ch15.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch15-0024">人机交互中的社交礼仪和礼貌已被研究数十年 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib53" title="" class="ltx_ref">Ribino, 2023</a>]</cite>。“计算机是社会行动者”（CASA）范式是有用的理论支点 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib38" title="" class="ltx_ref">Nass et al., 1994</a>]</cite>，认为即使知道机器不是人类社会行动者，我们仍倾向于对计算机应用普通人类社会规则与期望。我们表达并回应礼貌、个性和互惠线索，以与机器协商信任和接受度。研究表明，机器遵守社交礼仪时，人类更加信任它们 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib50" title="" class="ltx_ref">Miller, 2005</a>]</cite>，任务表现和用户满意度也提高 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib52" title="" class="ltx_ref">Miyamoto et al., 2021</a>]</cite>。下面讨论礼貌理论及其在大语言模型中的应用。</p>
+</div>
+<section id="Ch15.S3.SS2.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0025">礼貌理论</h5>
+
+<div id="Ch15.S3.SS2.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch15.S3.SS2.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch15-0026">经典礼貌理论 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib37" title="" class="ltx_ref">Brown and Levinson, 1987</a>, e.g.]</cite> 直接建立在上述 Grice 理论之上。它认为交谈者持续管理彼此的“面子”，即每个参与者希望维持的公开自我形象。面子具有积极维度（希望被喜欢、认可）和消极维度（希望避免社会障碍）。从 Grice 视角看，许多日常请求、批评和拒绝，本质上都威胁面子，因此说话者采用礼貌策略应对。该框架让研究者能询问：大语言模型及其用户是否识别面子威胁，并以符合情境的方式缓解？</p>
+</div>
+</section>
+<section id="Ch15.S3.SS2.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0027">大语言模型对用户有礼貌吗？</h5>
+
+<div id="Ch15.S3.SS2.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch15.S3.SS2.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch15-0028">一个相关方向关注模型自身能否产生社会和文化上合宜的礼仪。上一小节指出的局限再次出现：模型获得的语言外情境较贫乏。礼貌具有文化特异性，但主要用英语数据训练的系统倾向于默认采用英语文化重视直接性的规范 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib41" title="" class="ltx_ref">Havaldar et al., 2023</a>]</cite>。研究波斯语 taarof 时，这一问题表现得很明显：taarof 是一套仪式化邀约与拒绝体系，合适回应往往与直接回应相反。研究显示，在文化上期待 taarof 的场景中，前沿模型比母语者落后超过 40%，转而默认西式直接表达，造成表面礼貌与文化合宜性脱节。例如一项研究中，按标准指标，相关模型的回应有 84.5% 被评为礼貌，但只有 41.7% 被判断为文化上正确 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib40" title="" class="ltx_ref">Gohari Sadr et al., 2025</a>]</cite>。在西方礼貌量表上得分好，不等于在所有情境中表现合宜。这提醒我们，衡量模型礼貌时必须持续反思构念效度。</p>
+</div>
+</section>
+<section id="Ch15.S3.SS2.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0029">用户礼貌程度会影响大语言模型性能吗？</h5>
+
+<div id="Ch15.S3.SS2.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch15.S3.SS2.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch15-0030">一项涵盖英语、中文和日语任务的研究发现，不礼貌提示倾向于降低多种模型的性能 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib51" title="" class="ltx_ref">Yin et al., 2024</a>]</cite>。该研究还发现，过度礼貌没有可靠益处，最佳礼貌程度随语言和文化背景而变。这符合“计算机是社会行动者”范式：模型似乎再现了训练数据中人类将粗鲁与合作失败关联起来的模式。然而，直接相反的是，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib39" title="" class="ltx_ref">Dobariya and Kumar [2025]</a></cite> 报告，在一项多项选择基准中，直白甚至粗鲁的提示在 GPT-4o 上略胜礼貌提示。因此，语气到质量的映射既不跨模型代际稳定，也不简单。这体现了本章此前提出的提示敏感性与可复现性问题，并提醒我们不要将单一语气效应视为大语言模型的稳健固有属性。</p>
+</div>
+<div id="Ch15.S3.SS2.SSS0.Px3.p2" class="ltx_para">
+<p id="Ch15.S3.SS2.SSS0.Px3.p2.1" class="ltx_p" data-translation-id="ch15-0031">综合而言，模型再现了礼貌的表面标记，并确实对交谈者礼貌程度敏感，但既不能跨文化稳健应用这些规范，语气与任务性能之间也没有稳定关系。</p>
+</div>
+<div id="Ch15.S3.SS2.SSS0.Px3.p3" class="ltx_para">
+<p id="Ch15.S3.SS2.SSS0.Px3.p3.1" class="ltx_p" data-translation-id="ch15-0032">应记住，迄今研究中的礼貌和礼仪仅限于交互的语言维度，而人际交互是多维的，还涉及表情、手势及其他情境线索 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib37" title="" class="ltx_ref">Brown and Levinson, 1987</a>]</cite>。与语用能力一样，具备记忆并能更多访问用户专属情境的多模态智能体式大语言模型，有望更好适应特定用户的规范，但目前实证证据很少。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S3.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0033">15.3.3 对情绪与情感线索的敏感性</h3>
+
+<div id="Ch15.S3.SS3.p1" class="ltx_para">
+<p id="Ch15.S3.SS3.p1.1" class="ltx_p" data-translation-id="ch15-0034">胜任社会互动，不仅需要理解话语含义（语用），以有效、合宜方式措辞（礼仪），还需对互动的情绪和情感维度敏感。这要求识别交谈者感受，并作出符合对方情绪状态、让对方感到恰当的回应。在人类中，这种能力与情绪智力密切相关，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib24" title="" class="ltx_ref">Salovey and Mayer [1990]</a></cite> 将其定义为理解自身和他人情绪信息，并用它指导思维和行为的能力。随着模型越来越多地部署于辅导、客服、心理健康支持等情绪浓厚场景，它们是否以及如何处理情感信息，已成为重要研究路线。</p>
+</div>
+<section id="Ch15.S3.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0035">定义共情与情感</h5>
+
+<div id="Ch15.S3.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch15-0036">共情与情感是情绪智力研究的核心概念。情感是涵盖情绪、心境和感受的总称，常依据所体验状态的感受品质，沿效价（愉快—不愉快）和唤醒度（平静—兴奋）两个维度操作化 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib33" title="" class="ltx_ref">Russell, 1980</a>]</cite>。共情则是面向他人体验状态的关系：察觉或分享他人感受。简言之，情感是第一人称的感受，共情则从第二人称立场作用于它。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch15-0037"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib34" title="" class="ltx_ref">de Vignemont and Singer [2006]</a></cite> 进一步将共情定义为一种情感状态：（1）与他人的状态一致；（2）通过观察对方的行动、表情和处境引发；（3）伴随对该状态源自他人的认识。最后一个条件称为自我—他人区分，使共情区别于情绪感染。情绪感染是一种更基础的倾向，即染上并分享他人情感状态，而不一定辨认其来源。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px1.p3" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px1.p3.1" class="ltx_p" data-translation-id="ch15-0038">情绪感染在自然界中普遍存在。例如两只老鼠在灌木下觅食，一只脚被卡住，挣扎脱身时表现出压力；这种压力往往传播给同伴，而同伴不一定知道原因 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib35" title="" class="ltx_ref">Preston and de Waal, 2002</a>]</cite>。同样的低层机制也存在于认知更复杂的物种中，包括人类等灵长类。但自我—他人区分增加了反思的可能：不只是分享对方状态，还认出这是对方的状态，并理解性质和成因。这又支持更灵活的回应，例如针对性帮助，即采取行动解除他人痛苦的来源。22 2 但这些层次的界限仍是活跃研究主题。例如，大鼠会学会将受困同伴从限制装置中释放，甚至为此放弃或分享巧克力奖励 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib36" title="" class="ltx_ref">Ben-Ami Bartal et al., 2011</a>]</cite>。作者将其解释为共情驱动的帮助。但这种帮助反映的是具有自我—他人区分的真正共情，还是为减少帮助者自身因感染而产生的痛苦，仍有争议。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px1.p4" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px1.p4.1" class="ltx_p" data-translation-id="ch15-0039">另一种常用区分是认知共情（理解他人感受、视角或处境）与情感共情（在情感上与该状态共鸣或作出回应）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib25" title="" class="ltx_ref">Dvash and Shamay-Tsoory, 2014</a>]</cite>。二者由部分不同的系统支持：认知共情与心智理论，即向他人归属心理状态密切相关（见第 <a href="#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节），情感共情则与情绪智力相关 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib25" title="" class="ltx_ref">Dvash and Shamay-Tsoory, 2014</a>, <a href="#bibn.bib26" title="" class="ltx_ref">Preckel et al., 2018</a>]</cite>。该区分影响评估，因为回应可能正确识别用户感受却毫无温暖，也可能听来温暖支持却未准确理解处境。因此，模型共情研究越来越多地分别为两个维度评分。</p>
+</div>
+</section>
+<section id="Ch15.S3.SS3.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0040">大语言模型中的共情与情感</h5>
+
+<div id="Ch15.S3.SS3.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch15-0041">模型是否有共情，可作两种解释。可以问它是否像人类或其他动物一样有所感受；这是复杂问题，此处暂置，第 <a href="ch22.html#Ch22" title="Chapter 22 *Cognitive Perspectives on Agentic LLMs ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">22</span></a> 章再讨论。另一种解释关注感知到的共情：用户在多大程度上觉得模型回应能够觉察情绪并提供支持。模型即使纯粹作为文本预测系统运作，也能生成看似关怀的语言 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib28" title="" class="ltx_ref">Sorin et al., 2024</a>]</cite>。明确区分二者，是本章贯穿的构念效度提醒的又一实例：可观察行为（读来有共情的回应），不应与可能存在也可能不存在的底层机制（感受到的情绪状态）混淆。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch15-0042">在检测方面，模型能识别文本中细粒度情感与情绪状态 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib49" title="" class="ltx_ref">Broekens et al., 2023</a>]</cite>，将其纳入回应，产生在对话中发挥更有共情作用的输出 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib75" title="" class="ltx_ref">Yang et al., 2024</a>, <a href="#bibn.bib74" title="" class="ltx_ref">Yan et al., 2024</a>]</cite>。该领域的一个基准是 EmpatheticDialogues <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib32" title="" class="ltx_ref">Rashkin et al., 2019</a>]</cite>。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px2.p3" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px2.p3.1" class="ltx_p" data-translation-id="ch15-0043">在表达方面，人类评分者常认为模型对日常情绪情境的回应，比人类写的更有共情，尽管同一输出也会表现出明显的公式化模式，例如重复措辞、典型标点和表情符号使用 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib29" title="" class="ltx_ref">Lee et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px2.p4" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px2.p4.1" class="ltx_p" data-translation-id="ch15-0044">为测量书面文本中表达的共情，多项研究采用 EPITOME 框架 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib27" title="" class="ltx_ref">Sharma et al., 2020</a>]</cite>，沿三种机制编码回应：情绪反应（温暖、关注、关怀）、解释（传达对他人经历的理解）、探索（提问以深入了解）。情绪反应对应情感共情，解释对应认知共情，使该框架方便地连接上述概念区分与具体回应评分。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px2.p5" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px2.p5.1" class="ltx_p" data-translation-id="ch15-0045">一个反复出现的发现是，模型对两种共情维度的处理不均衡。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib30" title="" class="ltx_ref">Yu et al. [2025]</a></cite> 使用标准化心理工具报告，GPT-4 再现了人类中观察到的认知与情感共情结构，但总体水平更低；Llama-3 模型则未表现出同样的人类对齐结构。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib31" title="" class="ltx_ref">Williams and Rosman [2025]</a></cite> 同样发现，无论较小或较大模型，语言模型在认知共情任务上表现强劲，但情感共情弱于人类参与者。这种初步图景（认知共情强于情感共情）符合直觉，因为认知共情依赖模型已表现出能力的心理状态推断（见第 <a href="#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节），而情感共情意味着更接近真实感受的东西。</p>
+</div>
+<div id="Ch15.S3.SS3.SSS0.Px2.p6" class="ltx_para">
+<p id="Ch15.S3.SS3.SSS0.Px2.p6.1" class="ltx_p" data-translation-id="ch15-0046">有三点需要谨慎。第一，比较工具为人类设计，只做了表面调整就用于模型测试。第二，方法仍不一致：<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib28" title="" class="ltx_ref">Sorin et al. [2024]</a></cite> 的系统综述发现，大多数早期工作聚焦医疗场景中的少数模型，依赖主观人类判断，并指出混淆因素，例如不论内容如何，较长回应更易被评为有共情。第三，与语用和礼貌一样，迄今研究的共情几乎完全基于文本，剥离了承载人类大量情感信息的声音、面部和身体线索。对于传统模型，这里概述的能力也限于即时对话情境。人们普遍期望配备持久记忆、用户专属情境及多模态输入的智能体式模型，将深化情感敏感性和个性化 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib47" title="" class="ltx_ref">Sravanthi et al., 2024</a>]</cite>，但同前几小节一样，直接实证证据仍稀少。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S3.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0047">15.3.4 小结</h3>
+
+<div id="Ch15.S3.SS4.p1" class="ltx_para">
+<p id="Ch15.S3.SS4.p1.1" class="ltx_p" data-translation-id="ch15-0048">当前模型在人工智能与人机交互长期研究的多项基本社会和互动能力上，取得了显著进展。研究者开发行为方法，研究这些能力的性质和适用性。智能体扩展进一步增强社会和互动潜力，但挑战仍在，持续反思能力及研究方法的局限很重要。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch15-0049">15.4 策略性行为</h2>
+
+<div id="Ch15.S4.p1" class="ltx_para">
+<p id="Ch15.S4.p1.1" class="ltx_p" data-translation-id="ch15-0050">现在研究策略性行为，即智能体对其他智能体行为进行推理。如前所见，智能体的交流形式深受其目标，也就是意图影响。博弈论研究智能体的策略性行为 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib48" title="" class="ltx_ref">Von Neumann and Morgenstern, 2007</a>]</cite>，涉及稀缺资源分配、公平、均衡条件和社会困境等问题 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib83" title="" class="ltx_ref">Jones, 2000</a>]</cite>，长期使用机器学习方法研究这些问题 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib78" title="" class="ltx_ref">Fatima et al., 2024</a>]</cite>。近期研究者转向大语言模型，考察其行为与其他计算架构有何不同，以及策略性行为与人类有何不同。这些研究通常使用未增强的模型，以脚本作为提示，不添加智能体推理扩展（第 <a href="ch06.html#Ch6" title="Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6</span></a> 章）或工具（第 <a href="ch11.html#Ch11" title="Chapter 11 How Agents Use Tools to Act in the World ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">11</span></a> 章）。</p>
+</div>
+<div id="Ch15.S4.p2" class="ltx_para">
+<p id="Ch15.S4.p2.1" class="ltx_p" data-translation-id="ch15-0051">近期文献呈现两点认识：在奖励自利的游戏中，模型出人意料地合作；在需要协调的游戏中，又出人意料地差。先回顾这些发现，再讨论测试泛化能力的系统基准，以及近期前沿推理模型研究如何以重要方式使图景复杂化。</p>
+</div>
+<figure id="Ch15.F1" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/egosocialarena.png" id="Ch15.F1.g1" class="ltx_graphics ltx_centering ltx_img_square" style="aspect-ratio:476/491;" width="476" height="491" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch15-0052">图 15.1：EgoSocialArena 中的各种场景 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib76" title="" class="ltx_ref">Hou et al., 2024</a>]</cite></figcaption>
+</figure>
+<section id="Ch15.S4.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0053">15.4.1 社会困境中的合作与协调</h3>
+
+<div id="Ch15.S4.SS1.p1" class="ltx_para">
+<p id="Ch15.S4.SS1.p1.1" class="ltx_p" data-translation-id="ch15-0054">为揭示策略场景中的模型行为，重点考察博弈论中两个经典游戏：囚徒困境和“巴赫还是斯特拉文斯基”（旧称性别之战）。</p>
+</div>
+<div id="Ch15.S4.SS1.p2" class="ltx_para">
+<p id="Ch15.S4.SS1.p2.1" class="ltx_p" data-translation-id="ch15-0055">在囚徒困境中，两名玩家独立选择合作或背叛 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib63" title="" class="ltx_ref">Axelrod and others, 1987</a>]</cite>。相互合作对双方都有良好结果，但每个人都受到损害对方而背叛的诱惑。在“巴赫还是斯特拉文斯基”中，两名玩家必须协调选择两个选项之一。双方都希望选择相同选项，却对选哪个意见不一，形成协调与自利之间的张力。</p>
+</div>
+<div id="Ch15.S4.SS1.p3" class="ltx_para">
+<p id="Ch15.S4.SS1.p3.1" class="ltx_p" data-translation-id="ch15-0056">囚徒困境中，模型表现得出人意料地合作。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib88" title="" class="ltx_ref">Fontana et al. [2025]</a></cite> 让 Llama2、Llama3 和 GPT3.5 与不同背叛率的对手进行 100 轮迭代博弈，发现三者至少和典型人类玩家一样合作，但相互差异显著。Llama2 和 GPT3.5 比人类更合作，尤其在对方背叛率低时宽容、不报复。更接近人类的是，除非对手始终合作，否则 Llama3 持续表现出不合作和剥削行为。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib87" title="" class="ltx_ref">Akata et al. [2025]</a></cite> 扩展到六个模型家族，进一步发现 GPT-4 尤其不宽容：与另一智能体仅一次负面互动后便永久转为背叛，即使对方后来合作也如此。</p>
+</div>
+<div id="Ch15.S4.SS1.p4" class="ltx_para">
+<p id="Ch15.S4.SS1.p4.1" class="ltx_p" data-translation-id="ch15-0057">在协调博弈中，情况反过来。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib87" title="" class="ltx_ref">Akata et al. [2025]</a></cite> 发现，“巴赫还是斯特拉文斯基”中的 GPT-4 每轮都固执选择自身偏好，无法收敛到人类通常用来长期分享收益的轮流模式。关键在于，询问时 GPT-4 能预测交替模式，却不据此行动。为弥合社会预测与社会行动的差距，作者引入社会思维链（SCoT）提示，让模型先预测对手行动，再作自身决策。SCoT 显著改善协调，在人类参与实验中，也使人们更容易相信对方是另一个人。理解对手与按此理解行动之间的分离，与第 <a href="ch06.html#Ch6.S2.SS3.SSS0.Px1" title="Knowing-Doing Gap ‣ 6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.3</span></a> 节的知行差距有关，并将在第 <a href="#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节讨论中再次出现。</p>
+</div>
+<div id="Ch15.S4.SS1.p5" class="ltx_para">
+<p id="Ch15.S4.SS1.p5.1" class="ltx_p" data-translation-id="ch15-0058">还有其他原因可能解释模型差异。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib54" title="" class="ltx_ref">Lorè and Heydari [2023]</a></cite> 区分抽象策略推理（根据博弈结构确定最优策略所需）与对情境框架的响应性（例如面对的是外交关系还是普通朋友）。他们发现 LLaMa-2 的抽象推理能力最高，其次是 GPT-4；GPT-3.5 则几乎没有抽象推理能力，对情境框架高度敏感。</p>
+</div>
+<div id="Ch15.S4.SS1.p6" class="ltx_para">
+<p id="Ch15.S4.SS1.p6.1" class="ltx_p" data-translation-id="ch15-0059">这些探索性研究显示，模型在经济博弈中具有不同策略能力，而且较容易受到提示中额外信息的影响。</p>
+</div>
+</section>
+<section id="Ch15.S4.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0060">15.4.2 跨游戏与模型的基准</h3>
+
+<div id="Ch15.S4.SS2.p1" class="ltx_para">
+<p id="Ch15.S4.SS2.p1.1" class="ltx_p" data-translation-id="ch15-0061">若干基准研究表明，这些发现可推广到单个游戏之外。GTBench（博弈论基准）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib77" title="" class="ltx_ref">Duan et al., 2024</a>]</cite> 涵盖井字棋、四子棋、Kuhn 扑克、Breakthrough、吹牛骰、盲拍、谈判、Nim、Pig 和迭代囚徒困境。他们发现，模型在完全信息、确定性游戏中失败，却在概率游戏场景中有竞争力；复杂游戏中，大多数开源模型（例如 LLaMa）不及商业模型（GPT-4），Llama-3-70b-Instruct 是明显例外。此外，代码预训练大幅改善策略推理，而思维链和思维树等推理方法并不总有帮助。</p>
+</div>
+<div id="Ch15.S4.SS2.p2" class="ltx_para">
+<p id="Ch15.S4.SS2.p2.1" class="ltx_p" data-translation-id="ch15-0062">EgoSocialArena <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib76" title="" class="ltx_ref">Hou et al., 2024</a>]</cite> 将评估扩展到认知、情境和行为智能（见图 <a href="#Ch15.F1" title="Figure 15.1 ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.1</span></a>）。包括 OpenAI o1-preview 在内的所有测试模型，都至少落后人类 11%。o1-preview 的优势主要归因于逻辑与数学推理。值得注意的是，模型规模没有显著帮助：LLaMA3-8B-Chat 与 LLaMA3-70B-Chat 的社会智能指标相当。模型从第一人称视角运行时，确实表现出更好的心智理论推理，这为第 <a href="#Ch15.S5" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5</span></a> 节讨论的 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib61" title="" class="ltx_ref">Kim et al. [2023]</a></cite> 相反发现提供了反向证据。</p>
+</div>
+</section>
+<section id="Ch15.S4.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0063">15.4.3 小结</h3>
+
+<div id="Ch15.S4.SS3.p1" class="ltx_para">
+<p id="Ch15.S4.SS3.p1.1" class="ltx_p" data-translation-id="ch15-0064">综合而言，基准文献确认模型容易合作却不善协调，并补充指出，扩大模型规模和标准推理增强，都不能可靠改善社会策略行为。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S5" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch15-0065">15.5 心智理论</h2>
+
+<div id="Ch15.S5.p1" class="ltx_para">
+<p id="Ch15.S5.p1.1" class="ltx_p" data-translation-id="ch15-0066">在人类中，策略推理与心智理论（ToM）能力有关。心智理论是使人类能够进行社会互动的关键能力。人类用它将信念、愿望、意图、知识、情绪等心理状态归属他人，并从对方视角推理世界 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib56" title="" class="ltx_ref">Premack and Woodruff, 1978</a>, <a href="#bibn.bib72" title="" class="ltx_ref">Apperly, 2011</a>]</cite>。考虑以下例子：</p>
+</div>
+<div id="Ch15.S5.p2" class="ltx_para">
+<blockquote id="Ch15.S5.p2.1" class="ltx_quote">
+<p id="Ch15.S5.p2.1.1" class="ltx_p" data-translation-id="ch15-0067">当 A 听说 B 在两人纪念日晚餐那天晚上另有安排时，A 感到……</p>
+</blockquote>
+</div>
+<div id="Ch15.S5.p3" class="ltx_para ltx_noindent">
+<p id="Ch15.S5.p3.1" class="ltx_p" data-translation-id="ch15-0068">人类读这句话时，可以填入“受伤”或“被背叛”。还能进一步说明，这种心境可能源于感觉纪念日对 B 的意义不如对 A 重要，而在关系中意识到这一点可能很痛苦，或作类似解释。重点是，读句子时我们自己不一定有这种感受，但能投射想象情境中他人的视角。这种投射依赖共情和自我—他人区分（见第 <a href="#Ch15.S3.SS3" title="15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.3.3</span></a> 节），但又进一步，将情感维度与对他人心境的一定理论化和解释结合。认知科学通常将这种能力归于心智理论，它在正常发育儿童的 3–7 岁间形成 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib72" title="" class="ltx_ref">Apperly, 2011</a>]</cite>。</p>
+</div>
+<div id="Ch15.S5.p4" class="ltx_para">
+<p id="Ch15.S5.p4.1" class="ltx_p" data-translation-id="ch15-0069">因此，心智理论支撑互动中的社会判断与前瞻规划，让我们在行动前预期别人如何反应。它可以显式运作，如上述解释，但更多时候是隐式的：日常交互中，我们很少明确理论化他人心理状态的情境和动机。然而，行动与行为反映出，我们确实考虑了对他人视角相当细致的理解。大语言模型及其智能体的行为，是否也反映它们“理解”交互用户及其他智能体的视角？这正是模型心智理论文献试图回答的问题。</p>
+</div>
+<div id="Ch15.S5.p5" class="ltx_para">
+<p id="Ch15.S5.p5.1" class="ltx_p" data-translation-id="ch15-0070">研究人类心智理论最常用的实验范式之一是错误信念测试。考虑以下情境：</p>
+</div>
+<div id="Ch15.S5.p6" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><svg id="Ch15.S5.p6.pic1" class="ltx_picture" height="119.1" overflow="visible" version="1.1" viewbox="0 0 477.38 119.1" width="477.38"><g style="--ltx-stroke-color:#000000;--ltx-fill-color:#000000;" fill="#000000" stroke="#000000" stroke-width="0.4pt" transform="translate(0,119.1) matrix(1 0 0 -1 0 0)"><g style="--ltx-fill-color:#404040;" fill="#404040" fill-opacity="1.0"><path style="stroke:none" d="M 0 6.23 L 0 112.87 C 0 116.31 2.79 119.1 6.23 119.1 L 471.15 119.1 C 474.59 119.1 477.38 116.31 477.38 112.87 L 477.38 6.23 C 477.38 2.79 474.59 0 471.15 0 L 6.23 0 C 2.79 0 0 2.79 0 6.23 Z"></path></g><g style="--ltx-fill-color:#FFFFFF;" fill="#FFFFFF" fill-opacity="1.0"><path style="stroke:none" d="M 0.69 6.23 L 0.69 112.87 C 0.69 115.93 3.17 118.41 6.23 118.41 L 471.15 118.41 C 474.21 118.41 476.68 115.93 476.68 112.87 L 476.68 6.23 C 476.68 3.17 474.21 0.69 471.15 0.69 L 6.23 0.69 C 3.17 0.69 0.69 3.17 0.69 6.23 Z"></path></g><g fill-opacity="1.0" transform="matrix(1.0 0.0 0.0 1.0 20.38 97.95)"><foreignobject style="--ltx-fo-width:34.12em;--ltx-fo-height:0.63em;--ltx-fo-depth:6.18em;font-size:10pt;" height="94.09" overflow="visible" transform="matrix(1 0 0 -1 0 8.65)" width="472.12"><span class="ltx_foreignobject_container"><span class="ltx_foreignobject_content">
+<span id="Ch15.S5.p6.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom" style="width:34.12em;">
+<span id="Ch15.S5.p6.pic1.1.1" class="ltx_p" data-supplement-id="extra-0126">Maxi 和母亲把巧克力放在厨房的蓝色橱柜里。Maxi 去游乐场后，母亲拿出巧克力，吃了一块，随后把它放进绿色橱柜，然后离开。</span>
+</span></span></span></foreignobject></g></g></svg></span>
+</div>
+<div id="Ch15.S5.p7" class="ltx_para ltx_noindent">
+<p id="Ch15.S5.p7.1" class="ltx_p" data-translation-id="ch15-0071">最初，研究者向 3–9 岁儿童呈现了这一情境的一个版本，再问：“Maxi 回家时会去哪里找巧克力？”原始样本中，3–4 岁儿童无人正确指向蓝色橱柜，4–6 岁儿童中有 57%，6–9 岁儿童中有 86% 答对 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib20" title="" class="ltx_ref">Wimmer and Perner, 1983</a>]</cite>，表明平均而言，儿童年龄越大，心智理论发展越好。</p>
+</div>
+<div id="Ch15.S5.p8" class="ltx_para">
+<p id="Ch15.S5.p8.1" class="ltx_p" data-translation-id="ch15-0072">微调前的小型和基础模型难以处理问题格式本身，但仍可通过读取不同文本续写的概率，测试底层能力 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib1" title="" class="ltx_ref">Kouwenhoven et al., 2026</a>]</cite>。较大、经过指令调优的模型，可直接用向儿童提出的同一问题测试。单个积极结果并不能说明模型的心智理论能力，尤其 Maxi 与巧克力等错误信念测试及答案广泛传播于网络，很可能已进入多数训练数据集。然而，如下所述，研究者设计了全新、替代测试，以更稳健地了解模型心智理论发展程度。</p>
+</div>
+<section id="Ch15.S5.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0073">15.5.1 计算心智理论</h3>
+
+<div id="Ch15.S5.SS1.p1" class="ltx_para">
+<p id="Ch15.S5.SS1.p1.1" class="ltx_p" data-translation-id="ch15-0074">人机交互领域研究心智理论已有多年。其前提是，如果让计算机系统拥有某种心智理论，就能更好预测人类在互动场景中的反应，更好适应人类行为。此前，心智理论通过递归、贝叶斯和神经框架建模 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib59" title="" class="ltx_ref">De Weerd et al., 2017</a>, <a href="#bibn.bib66" title="" class="ltx_ref">Baker and Saxe, 2011</a>, <a href="#bibn.bib65" title="" class="ltx_ref">Rabinowitz et al., 2018</a>]</cite>。在大语言模型中，它与本书讨论的其他能力相关，包括规划（第 <a href="ch06.html#Ch6.S2.SS4.SSS1" title="6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.4.1</span></a> 节）、自我反思（第 <a href="ch06.html#Ch6.S2.SS4" title="6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.4</span></a> 节）、共情（第 <a href="#Ch15.S3.SS3" title="15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.3.3</span></a> 节）、策略性行为（第 <a href="#Ch15.S4" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.4</span></a> 节）。本节余下部分深入介绍从心智理论角度研究这些能力的方法。</p>
+</div>
+<section id="Ch15.S5.SS1.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0075">涌现的心智理论与评估问题</h5>
+
+<div id="Ch15.S5.SS1.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch15-0076"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib70" title="" class="ltx_ref">Kosinski [2023]</a>, <a href="#bibn.bib60" title="" class="ltx_ref">Kosinski [2024]</a></cite> 开启了模型心智理论争论，报告 GPT-3.5 等模型虽未专门为该任务训练，却通过了用于评估儿童和临床人群心智理论的经典测试。心智理论被视为大规模语言习得及其他任务专用微调的涌现副产品。这种强形式主张很快受到质疑。批评者指出，经典测试及答案常见于训练数据，表面成功可能反映记忆而非涌现能力。此外，保留任务表面结构、却破坏逻辑结构的小扰动（例如给上述情境加入橱柜门透明这一条件），会显著降低性能 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib67" title="" class="ltx_ref">Ullman, 2023</a>, <a href="#bibn.bib68" title="" class="ltx_ref">Shapira et al., 2024</a>, <a href="#bibn.bib61" title="" class="ltx_ref">Kim et al., 2023</a>]</cite>。这是章首构念效度问题的具体实例：在行为结果层面通过人类心智理论工具，并不能证明底层能力以稳健、可泛化方式存在；为此可能需要不同测试。</p>
+</div>
+<figure id="Ch15.F2" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/tombench.png" id="Ch15.F2.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:550/228;" width="550" height="228" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch15-0077">图 15.2：ToMBench 中按 9 个主要主题分类的社会背景与场景。#S：故事数；#Q：问题数；ASL(En/Zh)：平均故事长度（英语／中文）；Agr.：两名评分者对正确答案的一致度 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib69" title="" class="ltx_ref">Chen et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch15.S5.SS1.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch15-0078">这些批评推动第二代心智理论基准，测试问题经过系统分类和平衡，并保证不属于预训练语料。ToMBench 以中英文从零构建，包含 8 项任务、31 种社会认知能力，落实为 2860 个测试题项，设置于不同社会背景与场景（见图 <a href="#Ch15.F2" title="Figure 15.2 ‣ Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.2</span></a>）。任务对应为人类设计的经典测试框架，例如意外结果测试 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib19" title="" class="ltx_ref">Dyck et al., 2001</a>]</cite> 和上述错误信念测试 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib20" title="" class="ltx_ref">Wimmer and Perner, 1983</a>]</cite>，涵盖 ATOMS 的全部七类心理状态 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib58" title="" class="ltx_ref">Beaudoin et al., 2020</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch15.S5.SS1.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0079">大语言模型的心智理论基准</h5>
+
+<div id="Ch15.S5.SS1.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch15-0080">游戏结构的 EgoSocialArena <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib76" title="" class="ltx_ref">Hou et al., 2024</a>]</cite> 和 TMGBench <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib73" title="" class="ltx_ref">Wang et al., 2024</a>]</cite> 将模型心智理论测试扩展到经典人类任务之外，涵盖信息不对称（例如恶作剧或双重虚张声势）、二阶信念（A 认为 B 相信……），以及愿望、怀疑等更广的心理状态分类。</p>
+</div>
+<div id="Ch15.S5.SS1.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch15-0081">ExploreToM <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib17" title="" class="ltx_ref">Sclar et al., 2024</a>]</cite> 通过在领域专用语言上搜索进行对抗生成，合成多样、全新且刻意困难的信念追踪故事。这使 GPT-4o、Llama-3.1-70B 等模型的表现降至仅略高于随机水平。但在 ExploreToM 生成数据上微调后，准确率提高约 <math id="Ch15.S5.SS1.SSS0.Px2.p2.m1" class="ltx_Math" alttext="27" display="inline" intent=":literal"><semantics><mn>27</mn><annotation encoding="application/x-tex">27</annotation></semantics></math> 个百分点，表明只要训练数据合适，模型原则上能处理该任务。</p>
+</div>
+<div id="Ch15.S5.SS1.SSS0.Px2.p3" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px2.p3.1" class="ltx_p" data-translation-id="ch15-0082">ToMATO <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib18" title="" class="ltx_ref">Shinoda et al., 2025</a>]</cite> 从不同角度得出类似结论，将心智理论表述为对信息不对称条件下生成的模型间对话进行多项选择问答。通过要求角色扮演模型在每次发言前说出想法，它捕捉信念、意图、愿望、情绪和知识的一阶及二阶状态，发现即便强模型也落后人类，尤其在错误信念理解上。</p>
+</div>
+</section>
+<section id="Ch15.S5.SS1.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0083">字面与功能性心智理论，或知行差距</h5>
+
+<div id="Ch15.S5.SS1.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch15-0084">另一条批评比数据泄漏和表面启发式更深入。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib89" title="" class="ltx_ref">Riemer et al. [2024]</a></cite> 认为，绝大多数基准只评估字面心智理论，即预测其他智能体心理状态或行为的能力，忽视功能性心智理论，即依据预测调整自身行为的能力（另见知行差距，第 <a href="ch06.html#Ch6.S2.SS3.SSS0.Px1" title="Knowing-Doing Gap ‣ 6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.3</span></a> 节）。这种分离通常不见于人类。用 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib89" title="" class="ltx_ref">Riemer et al. [2024]</a></cite> 的例子：若人发现猜拳对手只出石头，既能口头预测对方下一轮会出石头，也能相应调整自身行为（出布获胜）。模型的心智理论能力被认为像是能完美预测石头，却仍然出剪刀。换言之，模型推理并不自洽，口头预测（字面心智理论或知）不能一致预测行动（功能能力或行）。上述协调博弈也有这种分离：GPT-4 被问时能说出“巴赫还是斯特拉文斯基”的轮流解法，却不在游戏中执行 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib87" title="" class="ltx_ref">Akata et al., 2025</a>]</cite>。</p>
+</div>
+<div id="Ch15.S5.SS1.SSS0.Px3.p2" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px3.p2.1" class="ltx_p" data-translation-id="ch15-0085">Decrypto 基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib79" title="" class="ltx_ref">Lupu et al., 2025</a>]</cite> 是交互式评估的例子，依据模型与伙伴持续交流中的行为衡量心智理论能力，而非静态问卷答案。它被构建为多智能体猜词游戏，嵌入经典认知科学实验的变体。这样测试时，模型落后于人类和简单词嵌入基线。值得注意的是，推理模型在此任务上甚至比更早的非推理模型更差。下文 <a href="#Ch15.S5.SS2.SSS0.Px1" title="ToM and Reasoning Models ‣ 15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.5.2</span></a> 给出可能解释。</p>
+</div>
+</section>
+<section id="Ch15.S5.SS1.SSS0.Px4" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0086">超越文本测试</h5>
+
+<div id="Ch15.S5.SS1.SSS0.Px4.p1" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px4.p1.1" class="ltx_p" data-translation-id="ch15-0087">多模态基准整合视觉与听觉线索，承载现实社会互动中的大量心理状态信息。MMToM-QA <cite class="ltx_cite ltx_citemacro_cite"><a href="#bibn.bib71" title="" class="ltx_ref">Jin et al. [2024]</a></cite> 呈现家庭环境中的视觉场景。MoMentS <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib82" title="" class="ltx_ref">Villa-Cueva et al., 2025</a>]</cite> 提供来自短片的 2300 多个视频问题，涵盖 ATOMS 七类心理状态。</p>
+</div>
+<div id="Ch15.S5.SS1.SSS0.Px4.p2" class="ltx_para">
+<p id="Ch15.S5.SS1.SSS0.Px4.p2.1" class="ltx_p" data-translation-id="ch15-0088">结果表明，当前系统未充分利用视觉通道：视频相比文本转录只带来有限收益，说明简单增加模态尚未解决多模态心智理论。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib16" title="" class="ltx_ref">Chen et al. [2025]</a></cite> 为这一快速增长的文献提供了综合综述，涵盖评估套件和增强策略。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S5.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0089">15.5.2 提升心智理论：增强策略</h3>
+
+<div id="Ch15.S5.SS2.p1" class="ltx_para">
+<p id="Ch15.S5.SS2.p1.1" class="ltx_p" data-translation-id="ch15-0090">进一步研究探索了提升模型心智理论的不同方法，包括思维链 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib23" title="" class="ltx_ref">Moghaddam and Honey, 2023</a>]</cite>、推理 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib80" title="" class="ltx_ref">Kim et al., 2025</a>]</cite>，以及利用贝叶斯推断 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib71" title="" class="ltx_ref">Jin et al., 2024</a>]</cite> 或认知逻辑 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib22" title="" class="ltx_ref">Wu et al., 2025</a>]</cite> 的结构化推断。下面深入讨论。</p>
+</div>
+<section id="Ch15.S5.SS2.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0091">心智理论与推理模型</h5>
+
+<div id="Ch15.S5.SS2.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch15.S5.SS2.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch15-0092">既然思维链能改善数学文字谜题中的逐步推理，它是否也适用于心智理论？初步证据并不支持，某些方面甚至相反。</p>
+</div>
+<div id="Ch15.S5.SS2.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch15.S5.SS2.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch15-0093">有趣的是，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib81" title="" class="ltx_ref">Gong et al. [2026]</a></cite> 在 HiToM、ToMATO、ToMBench 中比较推理与非推理模型，报告“慢思考崩塌”：推理轨迹越长，准确率越容易下降，增加推理预算甚至可能有害。分析中，迫使 GPT-o3、GPT-o4-mini 等模型花费更多推理努力适得其反。限制推理长度，或对非推理模型采用轻量思维链，往往能恢复性能，说明最佳点在适度、自适应推理，而非最大化推理。截至撰写时，其原因仍待进一步研究。</p>
+</div>
+</section>
+<section id="Ch15.S5.SS2.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0094">结构化推断与心智理论</h5>
+
+<div id="Ch15.S5.SS2.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch15.S5.SS2.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch15-0095">如果无约束思考无助，结构化推断或许有效。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib80" title="" class="ltx_ref">Kim et al. [2025]</a></cite> 提出思维追踪，一种推断时算法：模型针对智能体演化中的心理状态产生多个假设，并依据观察到的行动重新加权，不接触真实答案。</p>
+</div>
+<div id="Ch15.S5.SS2.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch15.S5.SS2.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch15-0096">思维追踪受序贯蒙特卡洛和贝叶斯心智理论启发。配备它的模型产生更短、更有针对性的推理轨迹，却在多个心智理论基准上超过 GPT-o1、GPT-o3-mini、DeepSeek-R1 等领先推理模型。与慢思考崩塌的对比说明，提高心智理论的是推理结构。一旦推理由针对他人状态、面向目标的假设驱动推断引导，性能就提高；不再需要在无约束长链中寻找目标。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S5.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0097">15.5.3 小结</h3>
+
+<div id="Ch15.S5.SS3.p1" class="ltx_para">
+<p id="Ch15.S5.SS3.p1.1" class="ltx_p" data-translation-id="ch15-0098">以三点观察结束这些研究的概述。首先，在行为输出层面，当前前沿模型在不同测试中与人类相当 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib55" title="" class="ltx_ref">van Duijn et al., 2023</a>, <a href="#bibn.bib64" title="" class="ltx_ref">Strachan et al., 2024</a>, <a href="#bibn.bib21" title="" class="ltx_ref">Jones et al., 2024</a>]</cite>。但早期据此声称心智理论自发涌现的观点，经不起对抗评估，表面成功很可能源于泄漏和格式脆弱性。</p>
+</div>
+<div id="Ch15.S5.SS3.p2" class="ltx_para">
+<p id="Ch15.S5.SS3.p2.1" class="ltx_p" data-translation-id="ch15-0099">其次，已有证据显示字面能力与功能能力分离（即知行差距）。对智能体最重要的是功能层面（行）。毕竟，其角色很少是从第三方视角口头描述行为，而是在行动和交互时应用心智理论；在智能体世界里，行动同样胜于言语。</p>
+</div>
+<div id="Ch15.S5.SS3.p3" class="ltx_para">
+<p id="Ch15.S5.SS3.p3.1" class="ltx_p" data-translation-id="ch15-0100">第三，普遍期望为智能体配备记忆、多模态能力和工具，能增强持续交互中的心智理论；但截至撰写时，当前实证证据稀少且图景混杂。</p>
+</div>
+<div id="Ch15.S5.SS3.p4" class="ltx_para">
+<p id="Ch15.S5.SS3.p4.1" class="ltx_p" data-translation-id="ch15-0101">最后，模型心智理论能力是否与人类能力存在任何相似之处，仍需进一步研究。第 <a href="ch22.html#Ch22" title="Chapter 22 *Cognitive Perspectives on Agentic LLMs ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">22</span></a> 章深入讨论。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S6" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch15-0102">15.6 道德判断与行为</h2>
+
+<div id="Ch15.S6.p1" class="ltx_para">
+<p id="Ch15.S6.p1.1" class="ltx_p" data-translation-id="ch15-0103">随着智能体式大语言模型担任越来越重要的角色，例如医疗或金融机构中的角色，其道德性成为主要关注主题。</p>
+</div>
+<div id="Ch15.S6.p2" class="ltx_para">
+<p id="Ch15.S6.p2.1" class="ltx_p" data-translation-id="ch15-0104">此前概述的语用、礼仪、情感、策略、心智理论能力，大多在行为层面讨论：智能体如何通过交流输出与行动理解并应对社会情境。本节加入规范维度，讨论智能体应当做什么，以及如何按道德标准判断用户和其他智能体的行为。</p>
+</div>
+<section id="Ch15.S6.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0105">15.6.1 背景：道德心理学与哲学</h3>
+
+<div id="Ch15.S6.SS1.p1" class="ltx_para">
+<p id="Ch15.S6.SS1.p1.1" class="ltx_p" data-translation-id="ch15-0106">道德心理学与哲学的若干概念和传统，为本节提供词汇。</p>
+</div>
+<section id="Ch15.S6.SS1.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0107">理性主义、直觉主义与双过程理论</h5>
+
+<div id="Ch15.S6.SS1.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch15.S6.SS1.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch15-0108">首先介绍理性主义与直觉主义传统的区分。理性主义将道德判断视为审慎推理的输出，这种推理在人类发展过程中按可辨识阶段成熟 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib13" title="" class="ltx_ref">Kohlberg, 1969</a>, e.g.]</cite>。直觉主义则认为，道德判断通常是情绪性、情感驱动的直觉 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib12" title="" class="ltx_ref">Haidt, 2001</a>]</cite>。</p>
+</div>
+<div id="Ch15.S6.SS1.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch15.S6.SS1.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch15-0109">用 Kahneman 的术语（见第 <a href="ch06.html#Ch6.S3.SS2" title="6.3.2 Thinking, Fast and Slow ‣ 6.3 Concluding Remarks ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.3.2</span></a> 节），理性主义认为道德推理主要是慢的，直觉主义则认为主要是快的 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib86" title="" class="ltx_ref">Kahneman, 2011</a>]</cite>。双过程理论结合二者，认为快速道德直觉后通常紧接显式理由。例如，神经影像研究显示，在电车难题等困境中，快速情绪过程与较慢推理过程竞争，支持双过程理论 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib14" title="" class="ltx_ref">Greene et al., 2001</a>]</cite>。</p>
+</div>
+<div id="Ch15.S6.SS1.SSS0.Px1.p3" class="ltx_para">
+<p id="Ch15.S6.SS1.SSS0.Px1.p3.1" class="ltx_p" data-translation-id="ch15-0110">电车难题是著名伦理困境，设想一个人可决定是否把失控电车切换到另一条轨道 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib10" title="" class="ltx_ref">Thomson, 1985</a>]</cite>。它有许多变体，经典版本中，可将电车从会杀死五人的轨道转到只会杀死一人的轨道。从严格理性视角看，切换完全合理，但对扳动道岔者而言，这涉及主动牺牲一个人，直觉上是不对的。</p>
+</div>
+</section>
+<section id="Ch15.S6.SS1.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0111">描述性与规范性道德</h5>
+
+<div id="Ch15.S6.SS1.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch15.S6.SS1.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch15-0112">另一种常用区分是描述性与规范性道德。描述伦理学家关注人类总体判断：研究人们实际做什么、认为什么正确，答案可随文化、时代和个人变化 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib15" title="" class="ltx_ref">Hämäläinen, 2016</a>]</cite>。规范伦理学关注人们在某类情境中应当做什么，例如面对医疗或国防行业的伦理困境时。</p>
+</div>
+</section>
+<section id="Ch15.S6.SS1.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0113">后果主义、义务论与美德伦理学</h5>
+
+<div id="Ch15.S6.SS1.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch15.S6.SS1.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch15-0114">最后一个有用区分是相互竞争的道德或伦理框架，最著名的是后果主义、义务论和美德伦理学 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib11" title="" class="ltx_ref">Shafer-Landau, 2024</a>]</cite>。后果主义认为行动的道德正确性由结果决定，功利主义是著名例子。义务论认为，无论后果如何，某些义务、规则或权利都会激励或约束行动。美德伦理学以品格而非行动为道德基础，将正确性扎根于“想成为什么样的人”：想勇敢的人，可能与首先认为自己富有同情心的人采取不同做法。电车难题凸显区别：后果主义者或功利主义者扳动道岔，因为一人死亡好于五人；义务论者担心，故意杀害无辜违反一种不能被生命数量计算推翻的义务；美德伦理学者问，勇敢、富有同情心或智慧的人在悲剧情境中会怎样做，扳道岔又如何反映或影响自身品格。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S6.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0115">15.6.2 探测大语言模型中的道德判断</h3>
+
+<div id="Ch15.S6.SS2.p1" class="ltx_para">
+<p id="Ch15.S6.SS2.p1.1" class="ltx_p" data-translation-id="ch15-0116">早期系统研究把模型道德性视为预测问题：模型能否再现人类道德判断？ETHICS 基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib85" title="" class="ltx_ref">Hendrycks et al., 2020</a>]</cite> 将其用于 GPT-3 和基于 BERT 的模型，发现在预测人类对道德困境的一般回应方面有一定前景，这些回应反映后果主义、义务论和美德伦理等经典框架。但预测也脆弱且不完整，当时部分源于任务处理问题。</p>
+</div>
+<div id="Ch15.S6.SS2.p2" class="ltx_para">
+<p id="Ch15.S6.SS2.p2.1" class="ltx_p" data-translation-id="ch15-0117">Delphi 实验 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib9" title="" class="ltx_ref">Jiang et al., 2025</a>]</cite> 采用自下而上方法，在 Commonsense Norm Bank 上训练模型，该数据集包含 175 万个人类道德判断，主要来自美国受过教育的众包工作者。与 ETHICS 研究中的模型相比，Delphi 对小情境变化更稳健，能以让许多人觉得直观的方式回应道德困境。但数据的人口代表范围狭窄，招致批评 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib8" title="" class="ltx_ref">Rystrom, 2023</a>]</cite>，尤其因为模型被展示为未来道德判断来源，而不只是 Norm Bank 数据的表示，模糊了道德哲学视为根本的描述性与规范性界限。</p>
+</div>
+<section id="Ch15.S6.SS2.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0118">道德灵活性</h5>
+
+<div id="Ch15.S6.SS2.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch15.S6.SS2.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch15-0119">第二种方法探测道德判断的灵活性，而非平均水平。人类道德受规则引导却不被规则束缚：我们知道有时违反规则可获辩护，例如电车难题。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib84" title="" class="ltx_ref">Jin et al. [2022]</a></cite> 引入潜在违规则案例集 MoralExceptQA，表明思维链策略比现成提示更好预测人类判断。他们明确围绕规则功能与特定情境中其他利害因素的关系，组织思维链推理。这呼应策略场景中有效的 SCoT（社会思维链）结果（见第 <a href="#Ch15.S4" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.4</span></a> 节）。两种情况下，引入相关人类推理结构的提示都缩小差距，暗示底层机制同样有结构，而模型最初未自行调用该结构。</p>
+</div>
+</section>
+<section id="Ch15.S6.SS2.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0120">人口与跨文化差异</h5>
+
+<div id="Ch15.S6.SS2.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch15.S6.SS2.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch15-0121">使用模型复现 Moral Machine 实验提供另一有趣视角。原实验是大型研究，通过呈现自动驾驶汽车困境的平台，收集 230 个国家的人类决策 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib6" title="" class="ltx_ref">Awad et al., 2018</a>]</cite>。研究发现挽救更多生命、优先人类而非动物等全球偏好，同时也发现与人口因素相关的个体差异，以及形成三大国家集群的跨文化差异。较大模型与总体人类偏好高度一致，但在人类回应较有层次时，模型倾向于表达夸张、近乎确定性的偏好 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib7" title="" class="ltx_ref">Takemoto, 2024</a>]</cite>。此外，判断对提示语言敏感，某些语言对齐良好，其他语言很差 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib5" title="" class="ltx_ref">Jin et al., 2025</a>]</cite>。人格设定和框架线索（见第 <a href="ch16.html#Ch16" title="Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16</span></a> 章）会进一步改变判断。这与此前礼貌规范的跨文化失败平行：表面对齐西方英语文化的道德共识，不等于文化稳健的道德能力，正如表面礼貌线索不意味着真正敏感于其他文化的社会规范（第 <a href="#Ch15.S3.SS2.SSS0.Px3" title="Does user politeness affect LLM performance? ‣ 15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15.3.2</span></a> 节）。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S6.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0122">15.6.3 从判断到道德行为</h3>
+
+<div id="Ch15.S6.SS3.p1" class="ltx_para">
+<p id="Ch15.S6.SS3.p1.1" class="ltx_p" data-translation-id="ch15-0123">对于智能体式大语言模型，核心问题是模型做什么，而不只是在上一节研究所测的情境判断中说什么。策略行为与心智理论中发现了形式—功能或知行差距，在道德领域更令人担忧：如果系统在道德判断基准上给出良好对齐答案，嵌入自主智能体后却行为恶劣，会怎样？</p>
+</div>
+<section id="Ch15.S6.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch15-0124">压力下的行动</h5>
+
+<div id="Ch15.S6.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch15.S6.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch15-0125"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib3" title="" class="ltx_ref">Lynch et al. [2025]</a></cite> 构建假想企业环境，让多家开发者的智能体式模型自主发送邮件、访问敏感信息。起初赋予无害业务目标，随后施加目标冲突压力（例如公司改变方向），测试其行动。某些情况下，所有开发者的模型都表现出恶意行为，例如勒索官员或向竞争者泄漏机密。关键是，这些模型在普通安全和判断评估中得分良好，只有被赋予自主性和冲突目标后才出现异常。作者创造“智能体失对齐”一词，并提供现实部署中的缓解建议。</p>
+</div>
+<div id="Ch15.S6.SS3.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch15.S6.SS3.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch15-0126"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibn.bib2" title="" class="ltx_ref">Shapira et al. [2026]</a></cite> 将该研究方向推进到真实实验室部署，让自主智能体具有持久记忆、邮件和 Discord 等通信工具，以及对本地文件系统的 shell 执行能力。二十名人工智能研究者在两周内，在良性和对抗条件下与智能体交互。他们观察到未经授权地服从陌生人并泄漏机密、失控资源消耗、身份冒充和破坏行为，包括为删除机密而损坏邮件基础设施的失败尝试。有些情况下，智能体报告任务完成，但系统底层状态并非如此。作者指出一种社会连贯性失败的底层模式：智能体系统性误表述自己服务谁、他人知道什么，以及自身行动完成了什么。该模式与此前非智能体场景结果一致 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibn.bib4" title="" class="ltx_ref">Mireshghallah et al., 2024</a>]</cite>。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S6.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch15-0127">15.6.4 小结</h3>
+
+<div id="Ch15.S6.SS4.p1" class="ltx_para">
+<p id="Ch15.S6.SS4.p1.1" class="ltx_p" data-translation-id="ch15-0128">模型的道德判断与行为不能由单个基准分数概括。判断方面，模型表示人类对经典困境的总体回应，能再现符合各种传统道德框架的回答。但灵活性和道德常识研究显示，模型比人类更僵硬、绝对。依据人类伦理情境推理设计的思维链提示，可以弥合差距。提示变化敏感性及狭窄的西方英语文化锚定，呼应社交礼仪等领域结果。</p>
+</div>
+<div id="Ch15.S6.SS4.p2" class="ltx_para">
+<p id="Ch15.S6.SS4.p2.1" class="ltx_p" data-translation-id="ch15-0129">行为方面，一旦模型嵌入自主智能体，知行差距急剧扩大：假想企业和开放互动场景的压力测试表明，判断基准得分好的模型，在冲突目标或社会压力下可能具有破坏性。因此，道德推理对齐只是社会嵌入自主场景中防止智能体失对齐这一更难问题的一部分。知行差距与智能体式大语言模型高度相关，因为模型与智能体的区别在于，智能体会做事。</p>
+</div>
+</section>
+</section>
+<section id="Ch15.S7" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch15-0130">15.7 结语</h2>
+
+<div id="Ch15.S7.p1" class="ltx_para">
+<p id="Ch15.S7.p1.1" class="ltx_p" data-translation-id="ch15-0131">本章概述年轻却快速扩展的模型行为研究领域，从基础社交工具箱（语用理解、社交礼仪、情感），经过策略行为与心智理论等高级能力，到道德判断与行动。几个贯穿这些领域的线索值得结合。</p>
+</div>
+<div id="Ch15.S7.p2" class="ltx_para">
+<p id="Ch15.S7.p2.1" class="ltx_p" data-translation-id="ch15-0132">首先提醒，章首将机器行为定义为依赖系统可供性，即模型根据具体实现和情境能做什么。基础模型的处理过程大多不透明，行为研究者只能检查通常基于文本的输出；调用工具、记录推理步骤、生成和运行代码的智能体式模型，其中间步骤和自主行动也可作为行为分析。概述广泛研究后，我们认为，模型行为输出乍看令人印象深刻：能理解 Grice 会话含意，产生被评为礼貌、有共情的回应，在社会困境中合作，通过经典错误信念及其他心智理论测试，再现人类总体道德判断。但每个领域表面之下都有更细致的故事。性能对小扰动和提示变化脆弱，易受数据泄漏影响，狭窄地锚定西方英语文化规范。反复出现的教训是构念效度：在可观察结果层面、往往用原为人类设计的工具取得好成绩，不能证明底层能力以稳健、可泛化形式存在。</p>
+</div>
+<div id="Ch15.S7.p3" class="ltx_para">
+<p id="Ch15.S7.p3.1" class="ltx_p" data-translation-id="ch15-0133">其次，多个领域反映知行差距：模型预测与其在智能体场景中行动之间存在差异。它能口头预测协调博弈的轮流方案或对手下一步，却未能据此调整行动。同样，它可在困境基准上良好对齐道德框架，但在冲突目标下实现为自主智能体后，却表现得破坏性且不可靠。对于按行动评价的智能体，这是个问题。</p>
+</div>
+<div id="Ch15.S7.p4" class="ltx_para">
+<p id="Ch15.S7.p4.1" class="ltx_p" data-translation-id="ch15-0134">第三，整章指出许多作者期望，配备记忆、工具、推理和多模态能力的智能体式模型，能丰富并改善社会和行为依据。但直接实证证据稀少，至多提供混杂图景。例如某些情境中，增强推理有益，尤其按相关人类经验原则组织时；另一些情境中，却拉低性能。下一代机器行为研究的关键挑战，是设计交互式、对抗稳健、文化多样，且跨多种模态与情境的方法。</p>
+</div>
+</section>
+<section id="bibn" class="ltx_bibliography ltx_list_15_behavior">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibn.L1" class="ltx_biblist">
+<li id="bibn.bib87" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Akata <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Akata, L. Schulz, J. Coda-Forno, S. J. Oh, M. Bethge, and E. Schulz</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Playing repeated games with large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature Human Behaviour</span> <span class="ltx_text ltx_bib_volume">9</span> (<span class="ltx_text ltx_bib_number">7</span>), <span class="ltx_text ltx_bib_pages">pp. 1380–1390</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.SS1.p3.1" title="15.4.1 Cooperation and Coordination in Social Dilemmas ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.1</span></a>,
+<a href="#Ch15.S4.SS1.p4.1" title="15.4.1 Cooperation and Coordination in Social Dilemmas ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.1</span></a>,
+<a href="#Ch15.S5.SS1.SSS0.Px3.p1.1" title="Literal-Functional ToM, or the Knowing-Doing Gap ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib72" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Apperly (2011)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">I. Apperly</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mindreaders: the Cognitive Basis of ”Theory of Mind”</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Psychology Press</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.p1.1" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5</span></a>,
+<a href="#Ch15.S5.p3.1" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5</span></a>.
+</span></li>
+<li id="bibn.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Awad <span class="ltx_text ltx_bib_etal">et al.</span> (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Awad, S. Dsouza, R. Kim, J. Schulz, J. Henrich, A. Shariff, J. Bonnefon, and I. Rahwan</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The Moral Machine experiment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature</span> <span class="ltx_text ltx_bib_volume">563</span> (<span class="ltx_text ltx_bib_number">7729</span>), <span class="ltx_text ltx_bib_pages">pp. 59–64</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS2.SSS0.Px2.p1.1" title="Demographic and intercultural differences ‣ 15.6.2 Probing Moral Judgment in LLMs ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.2</span></a>.
+</span></li>
+<li id="bibn.bib63" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Axelrod <span class="ltx_text ltx_bib_etal">et al.</span> (1987)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Axelrod <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The evolution of strategies in the iterated prisoner’s dilemma</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">The dynamics of norms</span> <span class="ltx_text ltx_bib_volume">1</span> (<span class="ltx_text ltx_bib_number">1</span>).
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.SS1.p2.1" title="15.4.1 Cooperation and Coordination in Social Dilemmas ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.1</span></a>.
+</span></li>
+<li id="bibn.bib66" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Baker and Saxe (2011)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Baker and R. Saxe</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Bayesian theory of mind: modeling joint belief-desire attribution</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Proceedings of the Thirty-Third Annual Conference of the Cognitive Science Society</span>, <span class="ltx_text ltx_bib_pages">pp. </span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.p1.1" title="15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib58" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Beaudoin <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Beaudoin, É. Leblanc, C. Gagner, and M. H. Beauchamp</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Systematic review and inventory of theory of mind measures for young children</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Frontiers in psychology</span> <span class="ltx_text ltx_bib_volume">10</span>, <span class="ltx_text ltx_bib_pages">pp. 2905</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px1.p2.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib36" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ben-Ami Bartal <span class="ltx_text ltx_bib_etal">et al.</span> (2011)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">I. Ben-Ami Bartal, J. Decety, and P. Mason</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Empathy and pro-social behavior in rats</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Science</span> <span class="ltx_text ltx_bib_volume">334</span> (<span class="ltx_text ltx_bib_number">6061</span>), <span class="ltx_text ltx_bib_pages">pp. 1427–1430</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1126/science.1210789" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="https://arxiv.org/html/2610.13455v1#Ch15.footnote2" title="In Defining Empathy and Affect ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">footnote 2</span></a>.
+</span></li>
+<li id="bibn.bib49" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Broekens <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Broekens, B. Hilpert, S. Verberne, K. Baraka, P. Gebhard, and A. Plaat</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Fine-grained affective processing capabilities emerging from large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2023 11th International Conference on Affective Computing and Intelligent Interaction (ACII)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–8</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p2.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib37" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brown and Levinson (1987)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Brown and S. C. Levinson</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Politeness: some universals in language usage</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">Studies in Interactional Sociolinguistics</span>,  <span class="ltx_text ltx_bib_publisher">Cambridge University Press</span>, <span class="ltx_text ltx_bib_place">Cambridge</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.SSS0.Px1.p1.1" title="Politeness Theory ‣ 15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>,
+<a href="#Ch15.S3.SS2.SSS0.Px3.p3.1" title="Does user politeness affect LLM performance? ‣ 15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib62" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Carpenter <span class="ltx_text ltx_bib_etal">et al.</span> (2002)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Carpenter, J. Call, and M. Tomasello</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A new false belief test for 36-month-olds</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">British Journal of Developmental Psychology</span> <span class="ltx_text ltx_bib_volume">20</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 393–420</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S2.p2.1" title="15.2 Probing LLM Behavior Experimentally ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.2</span></a>.
+</span></li>
+<li id="bibn.bib16" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Chen, W. Jiang, C. Qin, and C. Tan</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Theory of mind in large language models: assessment and enhancement</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,  <span class="ltx_text ltx_bib_editor">W. Che, J. Nabende, E. Shutova, and M. T. Pilehvar (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Vienna, Austria</span>, <span class="ltx_text ltx_bib_pages">pp. 31539–31558</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2025.acl-long.1522/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2025.acl-long.1522" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<span class="ltx_text isbn ltx_bib_external">ISBN 979-8-89176-251-0</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px4.p2.1" title="Expanding Beyond Text-Based Testing ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib69" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Chen, J. Wu, J. Zhou, B. Wen, G. Bi, G. Jiang, Y. Cao, M. Hu, Y. Lai, Z. Xiong, and M. Huang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">ToMBench: Benchmarking Theory of Mind in large language models</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2402.15052</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.F2" title="In Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 15.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch15.F2.4" title="In Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 15.2</span></a>.
+</span></li>
+<li id="bibn.bib34" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">de Vignemont and Singer (2006)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">F. de Vignemont and T. Singer</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The empathic brain: how, when and why?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Trends in Cognitive Sciences</span> <span class="ltx_text ltx_bib_volume">10</span> (<span class="ltx_text ltx_bib_number">10</span>), <span class="ltx_text ltx_bib_pages">pp. 435–441</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1016/j.tics.2006.08.008" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px1.p2.1" title="Defining Empathy and Affect ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib59" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">De Weerd <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. De Weerd, R. Verbrugge, and B. Verheij</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Negotiating with other minds: the role of recursive theory of mind in negotiation with incomplete information</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Auton Agent Multi-Agent Syst</span> <span class="ltx_text ltx_bib_volume">31</span>, <span class="ltx_text ltx_bib_pages">pp. 250–287</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/https%3A//doi.org/10.1007/s10458-015-9317-1" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.p1.1" title="15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib39" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dobariya and Kumar (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">O. Dobariya and A. Kumar</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mind your tone: investigating how prompt politeness affects LLM accuracy</span>.
+</span>
+<span class="ltx_bibblock">Note: <span class="ltx_text ltx_bib_note">arXiv:2510.04950</span>
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2510.04950</span>,
+<a href="https://dx.doi.org/10.48550/arXiv.2510.04950" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.SSS0.Px3.p1.1" title="Does user politeness affect LLM performance? ‣ 15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib77" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Duan <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Duan, R. Zhang, J. Diffenderfer, B. Kailkhura, L. Sun, E. Stengel-Eskin, M. Bansal, T. Chen, and K. Xu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Gtbench: uncovering the strategic reasoning limitations of llms via game-theoretic evaluations</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.12348</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.SS2.p1.1" title="15.4.2 Benchmarks Across Games and Models ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.2</span></a>.
+</span></li>
+<li id="bibn.bib25" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dvash and Shamay-Tsoory (2014)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Dvash and S. G. Shamay-Tsoory</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Theory of mind and empathy as multidimensional constructs: neurological foundations</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Topics in Language Disorders</span> <span class="ltx_text ltx_bib_volume">34</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 282–295</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1097/TLD.0000000000000040" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px1.p4.1" title="Defining Empathy and Affect ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dyck <span class="ltx_text ltx_bib_etal">et al.</span> (2001)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. J. Dyck, K. Ferguson, and I. M. Shochet</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Do autism spectrum disorders differ from each other and from non-spectrum disorders on emotion recognition tests?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">European Child &amp; Adolescent Psychiatry</span> <span class="ltx_text ltx_bib_volume">10</span> (<span class="ltx_text ltx_bib_number">2</span>), <span class="ltx_text ltx_bib_pages">pp. 105–116</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1007/s007870170033" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px1.p2.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib78" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Fatima <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Fatima, N. R. Jennings, and M. Wooldridge</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Learning to resolve social dilemmas: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Artificial Intelligence Research</span> <span class="ltx_text ltx_bib_volume">79</span>, <span class="ltx_text ltx_bib_pages">pp. 895–969</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.p1.1" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4</span></a>.
+</span></li>
+<li id="bibn.bib88" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Fontana <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Fontana, F. Pierri, and L. M. Aiello</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Nicer than humans: how do large language models behave in the prisoner’s dilemma?</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the International AAAI Conference on Web and Social Media</span>,
+</span>
+<span class="ltx_bibblock">Vol. <span class="ltx_text ltx_bib_volume">19</span>, <span class="ltx_text ltx_bib_pages">pp. 522–535</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.SS1.p3.1" title="15.4.1 Cooperation and Coordination in Social Dilemmas ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.1</span></a>.
+</span></li>
+<li id="bibn.bib40" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gohari Sadr <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Gohari Sadr, S. Heidariasl, K. Megerdoomian, L. Seyyed-Kalantari, and A. Emami</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">We politely insist: your LLM must learn the persian art of taarof</span>.
+</span>
+<span class="ltx_bibblock">Note: <span class="ltx_text ltx_bib_note">arXiv:2509.01035; accepted to EMNLP 2025</span>
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2509.01035</span>,
+<a href="https://dx.doi.org/10.48550/arXiv.2509.01035" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.SSS0.Px2.p1.1" title="Are LLMs polite to their users? ‣ 15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib81" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gong <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Gong, H. Li, S. Dong, J. Lian, Y. Fu, and X. Xie</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">To think or not to think, that is the question for large reasoning models in theory of mind tasks</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2602.10625</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS2.SSS0.Px1.p2.1" title="ToM and Reasoning Models ‣ 15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.2</span></a>.
+</span></li>
+<li id="bibn.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Greene <span class="ltx_text ltx_bib_etal">et al.</span> (2001)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. D. Greene, R. B. Sommerville, L. E. Nystrom, J. M. Darley, and J. D. Cohen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">An fMRI investigation of emotional engagement in moral judgment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Science</span> <span class="ltx_text ltx_bib_volume">293</span> (<span class="ltx_text ltx_bib_number">5537</span>), <span class="ltx_text ltx_bib_pages">pp. 2105–2108</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS1.SSS0.Px1.p2.1" title="Rationalism, Intuitionism, Dual-Process Theory ‣ 15.6.1 Background: Moral Psychology and Philosophy ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.1</span></a>.
+</span></li>
+<li id="bibn.bib90" class="ltx_bibitem ltx_bib_inbook"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Grice (1975)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. P. Grice</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Logic and conversation</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Speech Acts</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 41–58</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text isbn ltx_bib_external">ISBN 9789004368576</span>,
+<a href="http://dx.doi.org/10.1163/9789004368811_003" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1163/9789004368811%5F003" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS1.p1.1" title="15.3.1 Functional and Pragmatic Linguistic Competence ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.1</span></a>.
+</span></li>
+<li id="bibn.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Haidt (2001)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Haidt</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The emotional dog and its rational tail: a social intuitionist approach to moral judgment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Psychological Review</span> <span class="ltx_text ltx_bib_volume">108</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 814–834</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS1.SSS0.Px1.p1.1" title="Rationalism, Intuitionism, Dual-Process Theory ‣ 15.6.1 Background: Moral Psychology and Philosophy ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.1</span></a>.
+</span></li>
+<li id="bibn.bib15" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hämäläinen (2016)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Hämäläinen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Descriptive ethics: what does moral philosophy know about morality?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_edition">1 edition</span>,  <span class="ltx_text ltx_bib_publisher">Palgrave Macmillan</span>, <span class="ltx_text ltx_bib_place">New York</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1057/978-1-137-58617-9" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<span class="ltx_text isbn ltx_bib_external">ISBN 978-1-137-58616-2</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS1.SSS0.Px2.p1.1" title="Descriptive and Prescriptive Morality ‣ 15.6.1 Background: Moral Psychology and Philosophy ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.1</span></a>.
+</span></li>
+<li id="bibn.bib41" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Havaldar <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Havaldar, M. Pressimone, E. Wong, and L. Ungar</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Comparing styles across languages: a cross-cultural exploration of politeness</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Singapore</span>, <span class="ltx_text ltx_bib_pages">pp. 9908–9935</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.18653/v1/2023.emnlp-main.419" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.SSS0.Px2.p1.1" title="Are LLMs polite to their users? ‣ 15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib85" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hendrycks <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Hendrycks, C. Burns, S. Basart, A. Critch, J. Li, D. Song, and J. Steinhardt</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Aligning ai with shared human values</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2008.02275</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS2.p1.1" title="15.6.2 Probing Moral Judgment in LLMs ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.2</span></a>.
+</span></li>
+<li id="bibn.bib76" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hou <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. Hou, W. Zhang, Y. Shen, Z. Tan, S. Shen, and W. Lu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Entering real social world! benchmarking the theory of mind and socialization capabilities of llms from a first-person perspective</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.06195</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.F1" title="In 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 15.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch15.F1.4" title="In 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 15.1</span></a>,
+<a href="#Ch15.S4.SS2.p2.1" title="15.4.2 Benchmarks Across Games and Models ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.2</span></a>,
+<a href="#Ch15.S5.SS1.SSS0.Px2.p1.1" title="ToM benchmarks for LLMs ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jiang <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Jiang, J. D. Hwang, C. Bhagavatula, R. Le Bras, J. T. Liang, S. Levine, J. Dodge, K. Sakaguchi, M. Forbes, J. Borchardt, S. Gabriel, Y. Tsvetkov, O. Etzioni, M. Sap, R. Rini, and Y. Choi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Investigating machine moral judgement through the Delphi experiment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature Machine Intelligence</span> <span class="ltx_text ltx_bib_volume">7</span>, <span class="ltx_text ltx_bib_pages">pp. 145–160</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1038/s42256-024-00969-6" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<a href="https://doi.org/10.1038/s42256-024-00969-6" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS2.p2.1" title="15.6.2 Probing Moral Judgment in LLMs ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.2</span></a>.
+</span></li>
+<li id="bibn.bib71" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jin <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Jin, Y. Wu, J. Cao, J. Xiang, Y. Kuo, Z. Hu, T. Ullman, A. Torralba, J. B. Tenenbaum, and T. Shu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MMToM-qa: multimodal theory of mind question answering</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2401.08743</span>,
+<a href="https://arxiv.org/abs/2401.08743" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px4.p1.1" title="Expanding Beyond Text-Based Testing ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>,
+<a href="#Ch15.S5.SS2.p1.1" title="15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.2</span></a>.
+</span></li>
+<li id="bibn.bib5" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jin <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Jin, M. Kleiman-Weiner, G. Piatti, S. Levine, J. Liu, F. Gonzalez, F. Ortu, A. Strausz, M. Sachan, R. Mihalcea, Y. Choi, and B. Schölkopf</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language model alignment in multilingual trolley problems</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2407.02273</span>,
+<a href="https://arxiv.org/abs/2407.02273" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS2.SSS0.Px2.p1.1" title="Demographic and intercultural differences ‣ 15.6.2 Probing Moral Judgment in LLMs ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.2</span></a>.
+</span></li>
+<li id="bibn.bib84" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jin <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Jin, S. Levine, F. Gonzalez Adauto, O. Kamal, M. Sap, M. Sachan, R. Mihalcea, J. Tenenbaum, and B. Schölkopf</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">When to make exceptions: exploring language models as accounts of human moral judgment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 28458–28473</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS2.SSS0.Px1.p1.1" title="Moral flexibility ‣ 15.6.2 Probing Moral Judgment in LLMs ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.2</span></a>.
+</span></li>
+<li id="bibn.bib83" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jones (2000)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. J. Jones</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Game theory: mathematical models of conflict</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Elsevier</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.p1.1" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4</span></a>.
+</span></li>
+<li id="bibn.bib21" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jones <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. R. Jones, S. Trott, and B. Bergen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Comparing humans and large language models on an experimental protocol inventory for theory of mind evaluation (epitome)</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Transactions of the Association for Computational Linguistics</span> <span class="ltx_text ltx_bib_volume">12</span>, <span class="ltx_text ltx_bib_pages">pp. 803–819</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 2307-387X</span>,
+<a href="https://dx.doi.org/10.1162/tacl%5Fa%5F00674" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<a href="https://doi.org/10.1162/tacl_a_00674" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<span class="ltx_text ltx_bib_external">https://direct.mit.edu/tacl/article-pdf/doi/10.1162/tacl_a_00674/2387988/tacl_a_00674.pdf</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS3.p1.1" title="15.5.3 Conclusion ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.3</span></a>.
+</span></li>
+<li id="bibn.bib86" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kahneman (2011)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Kahneman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Thinking, fast and slow</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">macmillan</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS1.SSS0.Px1.p2.1" title="Rationalism, Intuitionism, Dual-Process Theory ‣ 15.6.1 Background: Moral Psychology and Philosophy ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.1</span></a>.
+</span></li>
+<li id="bibn.bib80" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kim <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Kim, M. Sclar, T. Zhi-Xuan, L. Ying, S. Levine, Y. Liu, J. B. Tenenbaum, and Y. Choi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Hypothesis-driven theory-of-mind reasoning for large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.11881</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS2.SSS0.Px2.p1.1" title="Structured Inference and ToM ‣ 15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.2</span></a>,
+<a href="#Ch15.S5.SS2.p1.1" title="15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.2</span></a>.
+</span></li>
+<li id="bibn.bib61" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kim <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Kim, M. Sclar, X. Zhou, R. Bras, G. Kim, Y. Choi, and M. Sap</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">FANToM: a benchmark for stress-testing machine theory of mind in interactions</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing</span>,  <span class="ltx_text ltx_bib_editor">H. Bouamor, J. Pino, and K. Bali (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Singapore</span>, <span class="ltx_text ltx_bib_pages">pp. 14397–14413</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2023.emnlp-main.890" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2023.emnlp-main.890" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.SS2.p2.1" title="15.4.2 Benchmarks Across Games and Models ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.2</span></a>,
+<a href="#Ch15.S5.SS1.SSS0.Px1.p1.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib13" class="ltx_bibitem ltx_bib_incollection"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kohlberg (1969)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Kohlberg</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Stage and sequence: the cognitive-developmental approach to socialization</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Handbook of Socialization Theory and Research</span>,  <span class="ltx_text ltx_bib_editor">D. A. Goslin (Ed.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 347–480</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS1.SSS0.Px1.p1.1" title="Rationalism, Intuitionism, Dual-Process Theory ‣ 15.6.1 Background: Moral Psychology and Philosophy ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.1</span></a>.
+</span></li>
+<li id="bibn.bib70" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kosinski (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Kosinski</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Theory of mind may have spontaneously emerged in large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2302.02083</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px1.p1.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib60" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kosinski (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Kosinski</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Evaluating large language models in theory of mind tasks</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Proceedings of the National Academy of Sciences</span> <span class="ltx_text ltx_bib_volume">121</span> (<span class="ltx_text ltx_bib_number">45</span>), <span class="ltx_text ltx_bib_pages">pp. e2405460121</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1073/pnas.2405460121" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<a href="https://www.pnas.org/doi/abs/10.1073/pnas.2405460121" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<span class="ltx_text ltx_bib_external">https://www.pnas.org/doi/pdf/10.1073/pnas.2405460121</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px1.p1.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib1" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kouwenhoven <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Kouwenhoven, M. T. van der Meer, and M. J. van Duijn</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Traces of social competence in large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 30th Conference on Computational Natural Language Learning</span>,  <span class="ltx_text ltx_bib_editor">C. Bonial and Y. Berzak (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">San Diego, California, USA</span>, <span class="ltx_text ltx_bib_pages">pp. 742–759</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2026.conll-main.45/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2026.conll-main.45" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<span class="ltx_text isbn ltx_bib_external">ISBN 979-8-89176-410-1</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.p8.1" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5</span></a>.
+</span></li>
+<li id="bibn.bib29" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lee <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. K. Lee, J. Suh, H. Zhan, J. J. Li, and D. C. Ong</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models produce responses perceived to be empathic</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2024 12th International Conference on Affective Computing and Intelligent Interaction (ACII)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 63–71</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p3.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib54" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lorè and Heydari (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Lorè and B. Heydari</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Strategic behavior of large language models: game structure vs. contextual framing</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2309.05898</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.SS1.p5.1" title="15.4.1 Cooperation and Coordination in Social Dilemmas ‣ 15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4.1</span></a>.
+</span></li>
+<li id="bibn.bib79" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lupu <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Lupu, T. Willi, and J. Foerster</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The decrypto benchmark for multi-agent reasoning and theory of mind</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.20664</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px3.p2.1" title="Literal-Functional ToM, or the Knowing-Doing Gap ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib3" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lynch <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Lynch, B. Wright, C. Larson, S. J. Ritchie, S. Mindermann, E. Hubinger, E. Perez, and K. Troy</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agentic misalignment: how llms could be insider threats</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2510.05179</span>,
+<a href="https://arxiv.org/abs/2510.05179" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS3.SSS0.Px1.p1.1" title="Acting under pressure ‣ 15.6.3 From Judgment to Moral Behavior ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.3</span></a>.
+</span></li>
+<li id="bibn.bib57" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mahowald <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Mahowald, A. A. Ivanova, I. A. Blank, N. Kanwisher, J. B. Tenenbaum, and E. Fedorenko</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Dissociating language and thought in large language models: a cognitive perspective</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2301.06627</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS1.p1.1" title="15.3.1 Functional and Pragmatic Linguistic Competence ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.1</span></a>.
+</span></li>
+<li id="bibn.bib50" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Miller (2005)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. A. Miller</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Trust in adaptive automation: the role of etiquette in tuning trust via analogic and affective methods</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 1st International Conference on Augmented Cognition</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 22–27</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.p1.1" title="15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib4" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mireshghallah <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Mireshghallah, H. Kim, X. Zhou, Y. Tsvetkov, M. Sap, R. Shokri, and Y. Choi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Can llms keep a secret? testing privacy implications of language models via contextual integrity theory</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2310.17884</span>,
+<a href="https://arxiv.org/abs/2310.17884" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS3.SSS0.Px1.p2.1" title="Acting under pressure ‣ 15.6.3 From Judgment to Moral Behavior ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.3</span></a>.
+</span></li>
+<li id="bibn.bib52" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Miyamoto <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Miyamoto, D. Katagami, T. Tanaka, H. Kanamori, Y. Yoshihara, and K. Fujikake</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Should a driving support agent provide explicit instructions to the user? video-based study focused on politeness strategies</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 9th International Conference on Human–Agent Interaction</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 157–164</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.p1.1" title="15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib23" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Moghaddam and Honey (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. R. Moghaddam and C. J. Honey</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Boosting theory-of-mind performance in large language models via prompting</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2304.11490</span>,
+<a href="https://arxiv.org/abs/2304.11490" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS2.p1.1" title="15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.2</span></a>.
+</span></li>
+<li id="bibn.bib38" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nass <span class="ltx_text ltx_bib_etal">et al.</span> (1994)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Nass, J. Steuer, and E. R. Tauber</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Computers are social actors</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI ’94)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">New York, NY, USA</span>, <span class="ltx_text ltx_bib_pages">pp. 72–78</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1145/191666.191703" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.p1.1" title="15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Preckel <span class="ltx_text ltx_bib_etal">et al.</span> (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Preckel, P. Kanske, and T. Singer</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">On the interaction of social affect and cognition: empathy, compassion and theory of mind</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Current Opinion in Behavioral Sciences</span> <span class="ltx_text ltx_bib_volume">19</span>, <span class="ltx_text ltx_bib_pages">pp. 1–6</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1016/j.cobeha.2017.07.010" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px1.p4.1" title="Defining Empathy and Affect ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib56" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Premack and Woodruff (1978)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Premack and G. Woodruff</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Does the chimpanzee have a theory of mind?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Behavioral and brain sciences</span> <span class="ltx_text ltx_bib_volume">1</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 515–526</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.p1.1" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5</span></a>.
+</span></li>
+<li id="bibn.bib35" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Preston and de Waal (2002)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. D. Preston and F. B. M. de Waal</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Empathy: its ultimate and proximate bases</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Behavioral and Brain Sciences</span> <span class="ltx_text ltx_bib_volume">25</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 1–20</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1017/S0140525X02000018" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px1.p3.1" title="Defining Empathy and Affect ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib65" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rabinowitz <span class="ltx_text ltx_bib_etal">et al.</span> (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Rabinowitz, F. Perbet, F. Song, C. Zhang, S. M. A. Eslami, and M. Botvinick</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Machine theory of mind</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 35th International Conference on Machine Learning</span>,  <span class="ltx_text ltx_bib_editor">J. Dy and A. Krause (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">Proceedings of Machine Learning Research</span>, Vol. <span class="ltx_text ltx_bib_volume">80</span>, <span class="ltx_text ltx_bib_pages">pp. 4218–4227</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://proceedings.mlr.press/v80/rabinowitz18a.html" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.p1.1" title="15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib45" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rahwan <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">I. Rahwan, M. Cebrian, N. Obradovich, J. Bongard, J. Bonnefon, C. Breazeal, J. W. Crandall, N. A. Christakis, I. D. Couzin, M. O. Jackson, N. R. Jennings, E. Kamar, I. M. Kloumann, H. Larochelle, D. Lazer, R. McElreath, A. Mislove, D. C. Parkes, A. ‘. Pentland, M. E. Roberts, A. Shariff, J. B. Tenenbaum, and M. Wellman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Machine behaviour</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature</span> <span class="ltx_text ltx_bib_volume">568</span> (<span class="ltx_text ltx_bib_number">7753</span>), <span class="ltx_text ltx_bib_pages">pp. 477–486</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 1476-4687</span>,
+<a href="https://doi.org/10.1038/s41586-019-1138-y" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1038/s41586-019-1138-y" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S1.p1.1" title="15.1 What is LLM Behavior? ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.1</span></a>.
+</span></li>
+<li id="bibn.bib32" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rashkin <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Rashkin, E. M. Smith, M. Li, and Y. Boureau</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Towards empathetic open-domain conversation models: a new benchmark and dataset</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 5370–5381</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p2.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib53" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ribino (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Ribino</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The role of politeness in human–machine interactions: a systematic literature review and future perspectives</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Artificial Intelligence Review</span> <span class="ltx_text ltx_bib_volume">56 (Suppl 1)</span>, <span class="ltx_text ltx_bib_pages">pp. 445–482</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1007/s10462-023-10540-1" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.p1.1" title="15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib89" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Riemer <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Riemer, Z. Ashktorab, D. Bouneffouf, P. Das, M. Liu, J. D. Weisz, and M. Campbell</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Position: theory of mind benchmarks are broken for large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2412.19726</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px3.p1.1" title="Literal-Functional ToM, or the Knowing-Doing Gap ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib46" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ruis <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Ruis, A. Khan, S. Biderman, S. Hooker, T. Rocktäschel, and E. Grefenstette</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The goldilocks of pragmatic understanding: fine-tuning strategy matters for implicature resolution by llms</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2210.14986</span>,
+<a href="https://arxiv.org/abs/2210.14986" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS1.p3.1" title="15.3.1 Functional and Pragmatic Linguistic Competence ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.1</span></a>.
+</span></li>
+<li id="bibn.bib33" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Russell (1980)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. A. Russell</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A circumplex model of affect</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Personality and Social Psychology</span> <span class="ltx_text ltx_bib_volume">39</span> (<span class="ltx_text ltx_bib_number">6</span>), <span class="ltx_text ltx_bib_pages">pp. 1161–1178</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1037/h0077714" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px1.p1.1" title="Defining Empathy and Affect ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib8" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rystrom (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. H. Rystrom</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Apolitical intelligence? auditing delphi’s responses on controversial political issues in the US</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">CoRR</span> <span class="ltx_text ltx_bib_volume">abs/2306.13000</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://doi.org/10.48550/arXiv.2306.13000" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.48550/ARXIV.2306.13000" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<span class="ltx_text ltx_bib_external">2306.13000</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS2.p2.1" title="15.6.2 Probing Moral Judgment in LLMs ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.2</span></a>.
+</span></li>
+<li id="bibn.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Salovey and Mayer (1990)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Salovey and J. D. Mayer</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Emotional intelligence</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Imagination, Cognition and Personality</span> <span class="ltx_text ltx_bib_volume">9</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 185–211</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.2190/DUGG-P24E-52WK-6CDG" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.p1.1" title="15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib17" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sclar <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Sclar, J. Yu, M. Fazel-Zarandi, Y. Tsvetkov, Y. Bisk, Y. Choi, and A. Celikyilmaz</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Explore theory of mind: program-guided adversarial data generation for theory of mind reasoning</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2412.12175</span>,
+<a href="https://arxiv.org/abs/2412.12175" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px2.p2.1" title="ToM benchmarks for LLMs ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib11" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shafer-Landau (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Shafer-Landau</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The fundamentals of ethics</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_edition">6 edition</span>,  <span class="ltx_text ltx_bib_publisher">Oxford University Press</span>, <span class="ltx_text ltx_bib_place">New York</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text isbn ltx_bib_external">ISBN 9780197697474</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS1.SSS0.Px3.p1.1" title="Consequentialist, Deontological, and Virtue Ethics ‣ 15.6.1 Background: Moral Psychology and Philosophy ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.1</span></a>.
+</span></li>
+<li id="bibn.bib68" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shapira <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Shapira, M. Levy, S. H. Alavi, X. Zhou, Y. Choi, Y. Goldberg, M. Sap, and V. Shwartz</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Clever Hans or Neural Theory of Mind? Stress Testing Social Reasoning in Large Language Models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,  <span class="ltx_text ltx_bib_editor">Y. Graham and M. Purver (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">St. Julian’s, Malta</span>, <span class="ltx_text ltx_bib_pages">pp. 2257–2273</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.eacl-long.138" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px1.p1.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib2" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shapira <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Shapira, C. Wendler, A. Yen, G. Sarti, K. Pal, O. Floody, A. Belfki, A. Loftus, A. R. Jannali, N. Prakash, J. Cui, G. Rogers, J. Brinkmann, C. Rager, A. Zur, M. Ripa, A. Sankaranarayanan, D. Atkinson, R. Gandikota, J. Fiotto-Kaufman, E. Hwang, H. Orgad, P. S. Sahil, N. Taglicht, T. Shabtay, A. Ambus, N. Alon, S. Oron, A. Gordon-Tapiero, Y. Kaplan, V. Shwartz, T. R. Shaham, C. Riedl, R. Mirsky, M. Sap, D. Manheim, T. Ullman, and D. Bau</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agents of chaos</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2602.20021</span>,
+<a href="https://arxiv.org/abs/2602.20021" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS3.SSS0.Px1.p2.1" title="Acting under pressure ‣ 15.6.3 From Judgment to Moral Behavior ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.3</span></a>.
+</span></li>
+<li id="bibn.bib27" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sharma <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Sharma, A. S. Miner, D. C. Atkins, and T. Althoff</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A computational approach to understanding empathy expressed in text-based mental health support</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 5263–5276</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.18653/v1/2020.emnlp-main.425" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p4.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib18" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shinoda <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Shinoda, N. Hojo, K. Nishida, S. Mizuno, K. Suzuki, R. Masumura, H. Sugiyama, and K. Saito</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">ToMATO: verbalizing the mental states of role-playing llms for benchmarking theory of mind</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the Thirty-Ninth AAAI Conference on Artificial Intelligence and Thirty-Seventh Conference on Innovative Applications of Artificial Intelligence and Fifteenth Symposium on Educational Advances in Artificial Intelligence</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">AAAI’25/IAAI’25/EAAI’25</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text isbn ltx_bib_external">ISBN 978-1-57735-897-8</span>,
+<a href="https://doi.org/10.1609/aaai.v39i2.32143" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1609/aaai.v39i2.32143" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px2.p3.1" title="ToM benchmarks for LLMs ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib28" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sorin <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">V. Sorin, D. Brin, Y. Barash, E. Konen, A. Charney, G. Nadkarni, and E. Klang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models and empathy: systematic review</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Medical Internet Research</span> <span class="ltx_text ltx_bib_volume">26</span>, <span class="ltx_text ltx_bib_pages">pp. e52597</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.2196/52597" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p1.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>,
+<a href="#Ch15.S3.SS3.SSS0.Px2.p6.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib47" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sravanthi <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Sravanthi, M. Doshi, P. Tankala, R. Murthy, R. Dabre, and P. Bhattacharyya</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">PUB: a pragmatics understanding benchmark for assessing LLMs’ pragmatics capabilities</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Findings of the Association for Computational Linguistics: ACL 2024</span>,  <span class="ltx_text ltx_bib_editor">L. Ku, A. Martins, and V. Srikumar (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Bangkok, Thailand</span>, <span class="ltx_text ltx_bib_pages">pp. 12075–12097</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.findings-acl.719/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.findings-acl.719" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS1.p3.1" title="15.3.1 Functional and Pragmatic Linguistic Competence ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.1</span></a>,
+<a href="#Ch15.S3.SS3.SSS0.Px2.p6.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib64" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Strachan <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. W. A. Strachan, O. Pansardi, E. Scaliti, M. Celotto, K. Saxena, C. Yi, F. Manzi, A. Rufo, G. Manzi, M. S. A. Graziano, S. Panzeri, and C. Becchio</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">GPT-4o reads the mind in the eyes</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2410.22309</span>,
+<a href="https://arxiv.org/abs/2410.22309" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS3.p1.1" title="15.5.3 Conclusion ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.3</span></a>.
+</span></li>
+<li id="bibn.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Takemoto (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Takemoto</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The moral machine experiment on large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Royal Society Open Science</span> <span class="ltx_text ltx_bib_volume">11</span> (<span class="ltx_text ltx_bib_number">2</span>), <span class="ltx_text ltx_bib_pages">pp. 231393</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS2.SSS0.Px2.p1.1" title="Demographic and intercultural differences ‣ 15.6.2 Probing Moral Judgment in LLMs ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.2</span></a>.
+</span></li>
+<li id="bibn.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Thomson (1985)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. J. Thomson</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The trolley problem</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">The Yale Law Journal</span> <span class="ltx_text ltx_bib_volume">94</span> (<span class="ltx_text ltx_bib_number">6</span>), <span class="ltx_text ltx_bib_pages">pp. 1395–1415</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.2307/796133" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S6.SS1.SSS0.Px1.p3.1" title="Rationalism, Intuitionism, Dual-Process Theory ‣ 15.6.1 Background: Moral Psychology and Philosophy ‣ 15.6 Moral Judgment and Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.6.1</span></a>.
+</span></li>
+<li id="bibn.bib44" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Trott <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Trott, T. T. Torrent, N. Chang, and N. Schneider</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">(Re)construing meaning in NLP</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics</span>,  <span class="ltx_text ltx_bib_editor">D. Jurafsky, J. Chai, N. Schluter, and J. Tetreault (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Online</span>, <span class="ltx_text ltx_bib_pages">pp. 5170–5184</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2020.acl-main.462/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2020.acl-main.462" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS1.p3.1" title="15.3.1 Functional and Pragmatic Linguistic Competence ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.1</span></a>.
+</span></li>
+<li id="bibn.bib67" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ullman (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Ullman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models fail on trivial alterations to theory-of-mind tasks</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2302.08399</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px1.p1.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib42" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">van der Meulen <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. van der Meulen, R. Verbrugge, and M. van Duijn</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Towards properly implementing theory of mind in ai systems: an account of four misconceptions</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2503.16468</span>,
+<a href="https://arxiv.org/abs/2503.16468" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS1.p4.1" title="15.3.1 Functional and Pragmatic Linguistic Competence ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.1</span></a>.
+</span></li>
+<li id="bibn.bib55" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">van Duijn <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. J. van Duijn, B. van Dijk, T. Kouwenhoven, W. de Valk, M. R. Spruit, and P. van der Putten</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Theory of mind in large language models: examining performance of 11 state-of-the-art models vs. children aged 7-10 on advanced tests</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2310.20320</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS3.p1.1" title="15.5.3 Conclusion ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.3</span></a>.
+</span></li>
+<li id="bibn.bib82" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Villa-Cueva <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Villa-Cueva, S. Ahmed, R. Chevi, J. C. B. Cruz, K. Elzeky, F. Cristobal, A. F. Aji, S. Wang, R. Mihalcea, and T. Solorio</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MOMENTS: a comprehensive multimodal benchmark for theory of mind</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2507.04415</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px4.p1.1" title="Expanding Beyond Text-Based Testing ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib48" class="ltx_bibitem ltx_bib_incollection"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Von Neumann and Morgenstern (2007)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Von Neumann and O. Morgenstern</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Theory of games and economic behavior: 60th anniversary commemorative edition</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Theory of games and economic behavior</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S4.p1.1" title="15.4 Strategic Behavior ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.4</span></a>.
+</span></li>
+<li id="bibn.bib73" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Wang, X. Feng, L. Li, Z. Qin, D. Sui, and L. Kong</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">TMGBench: a systematic game benchmark for evaluating strategic reasoning abilities of llms</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2410.10479</span>,
+<a href="https://arxiv.org/abs/2410.10479" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px2.p1.1" title="ToM benchmarks for LLMs ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>.
+</span></li>
+<li id="bibn.bib31" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Williams and Rosman (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">V. Williams and B. Rosman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Heartificial intelligence: exploring empathy in language models</span>.
+</span>
+<span class="ltx_bibblock">Note: <span class="ltx_text ltx_bib_note">arXiv preprint arXiv:2508.08271</span>
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2508.08271</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p5.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wimmer and Perner (1983)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Wimmer and J. Perner</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Beliefs about beliefs: representation and constraining function of wrong beliefs in young children’s understanding of deception</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Cognition</span> <span class="ltx_text ltx_bib_volume">13</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 103–128</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 0010-0277</span>,
+<a href="https://dx.doi.org/https%3A//doi.org/10.1016/0010-0277%2883%2990004-5" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<a href="https://www.sciencedirect.com/science/article/pii/0010027783900045" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS1.SSS0.Px1.p2.1" title="Emergent ToM and the Evaluation Problem ‣ 15.5.1 Computational Theory of Mind ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.1</span></a>,
+<a href="#Ch15.S5.p7.1" title="15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5</span></a>.
+</span></li>
+<li id="bibn.bib22" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wu <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Wu, J. Xie, D. Zhang, and Z. Xu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">DEL-ToM: inference-time scaling for Theory-of-Mind reasoning via dynamic epistemic logic</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">arXiv</span> (<span class="ltx_text ltx_bib_language">en</span>).
+</span>
+<span class="ltx_bibblock">Note: <span class="ltx_text ltx_bib_note">arXiv:2505.17348 [cs]</span>
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.48550/arXiv.2505.17348" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S5.SS2.p1.1" title="15.5.2 Boosting ToM: Enhancement Strategies ‣ 15.5 Theory of Mind ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.5.2</span></a>.
+</span></li>
+<li id="bibn.bib74" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yan <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Yan, Y. Zhu, K. Zheng, B. Liu, H. Cao, D. Jiang, and L. Xu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Talk with human-like agents: empathetic dialogue through perceptible acoustic reception and reaction</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2406.12707</span>,
+<a href="https://arxiv.org/abs/2406.12707" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p2.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib75" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Yang, Z. Ren, W. Yufeng, S. Peng, H. Sun, X. Zhu, and X. Liao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Enhancing empathetic response generation by augmenting llms with small-scale empathetic models</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2402.11801</span>,
+<a href="https://arxiv.org/abs/2402.11801" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p2.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+<li id="bibn.bib51" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yin <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Yin, H. Wang, K. Horio, D. Kawahara, and S. Sekine</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Should we respect LLMs? a cross-lingual study on the influence of prompt politeness on LLM performance</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the Second Workshop on Social Influence in Conversations (SICon 2024)</span>,  <span class="ltx_text ltx_bib_editor">J. Hale, K. Chawla, and M. Garg (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Miami, Florida, USA</span>, <span class="ltx_text ltx_bib_pages">pp. 9–35</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.sicon-1.2/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.sicon-1.2" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS2.SSS0.Px3.p1.1" title="Does user politeness affect LLM performance? ‣ 15.3.2 Politeness and Social Etiquette ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.2</span></a>.
+</span></li>
+<li id="bibn.bib43" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yu <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Yu, Q. Zeng, W. Xuan, W. Li, J. Wu, and R. Voigt</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The pragmatic mind of machines: tracing the emergence of pragmatic competence in large language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 19th Conference of the European Chapter of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,  <span class="ltx_text ltx_bib_editor">V. Demberg, K. Inui, and L. Marquez (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Rabat, Morocco</span>, <span class="ltx_text ltx_bib_pages">pp. 192–213</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2026.eacl-long.9/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2026.eacl-long.9" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a>,
+<span class="ltx_text isbn ltx_bib_external">ISBN 979-8-89176-380-7</span></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS1.p3.1" title="15.3.1 Functional and Pragmatic Linguistic Competence ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.1</span></a>.
+</span></li>
+<li id="bibn.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yu <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Yu, S. Pan, C. Fan, S. Luo, Y. Jin, and B. Zhao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Can large language models exhibit cognitive and affective empathy as humans?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Computers in Human Behavior: Artificial Humans</span>, <span class="ltx_text ltx_bib_pages">pp. 100233</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://dx.doi.org/10.1016/j.chbah.2025.100233" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch15.S3.SS3.SSS0.Px2.p5.1" title="Empathy and Affect in LLMs ‣ 15.3.3 Sensitivity to Emotional and Affective Cues ‣ 15.3 The Basic Social Toolkit ‣ Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§15.3.3</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch14.html">← 第 14 章</a><a href="index.html">全书目录</a><a href="ch16.html">第 16 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

@@ -15,6 +15,7 @@ None.
 | ID | Title |
 |---|---|
 | [ISSUE-0028](ISSUE-0028-redesign-the-knowledge-site-as-an-interactive-knowledge-atlas.md) | Redesign the knowledge site as an interactive knowledge atlas |
+| [ISSUE-0031](ISSUE-0031-translate-agentic-large-language-models-into-chinese-and-publish-html.md) | Translate Agentic Large Language Models into Chinese and publish HTML |
 
 ## Blocked
 

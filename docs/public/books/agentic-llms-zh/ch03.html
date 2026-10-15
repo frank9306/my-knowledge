@@ -1,0 +1,987 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 3 章 大语言模型训练流程 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html" aria-current="page"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html" aria-current="page"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">03 / 23 · 中文翻译</p><section id="Ch3" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch03-0001">第 3 章 大语言模型训练流水线</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch3.S1">3.1 训练模型</a></li><li class="level-h3"><a href="#Ch3.S1.SS1">3.1.1 编码器与解码器模型</a></li><li class="level-h3"><a href="#Ch3.S1.SS2">3.1.2 预训练／微调范式</a></li><li class="level-h3"><a href="#Ch3.S1.SS3">3.1.3 开放与封闭模型</a></li><li class="level-h2"><a href="#Ch3.S2">3.2 训练流水线</a></li><li class="level-h3"><a href="#Ch3.S2.SS1">3.2.1 获取数据</a></li><li class="level-h3"><a href="#Ch3.S2.SS2">3.2.2 预训练</a></li><li class="level-h3"><a href="#Ch3.S2.SS3">3.2.3 微调</a></li><li class="level-h3"><a href="#Ch3.S2.SS4">3.2.4 偏好调优</a></li><li class="level-h3"><a href="#Ch3.S2.SS5">3.2.5 推断</a></li><li class="level-h3"><a href="#Ch3.S2.SS6">3.2.6 结语</a></li><li class="level-h2"><a href="#Ch3.S3">3.3 基准与性能</a></li><li class="level-h3"><a href="#Ch3.S3.SS1">3.3.1 常见任务</a></li><li class="level-h3"><a href="#Ch3.S3.SS2">3.3.2 指标</a></li><li class="level-h3"><a href="#Ch3.S3.SS3">3.3.3 常见基准</a></li><li class="level-h2"><a href="#Ch3.S4">3.4 结语</a></li><li class="level-h2"><a href="#bibb">参考文献</a></li></ol></nav></details><div id="Ch3.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch3.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch3.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch3.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch3.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0011">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch3.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch3.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0012">本章将介绍语言模型的训练方法。具体而言，你将能够：</p>
+<ul id="Ch3.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch3.S0.I1.i1" class="ltx_item">
+<div id="Ch3.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch3.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0013">描述基本训练流程的主要阶段，并解释每个阶段的目的：数据获取、预训练、微调、偏好调优和推理。</p>
+</div></li>
+<li id="Ch3.S0.I1.i2" class="ltx_item">
+<div id="Ch3.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch3.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0014">区分预训练与微调，并解释为何偏好调优应在这两个阶段之后进行，而非之前。</p>
+</div></li>
+<li id="Ch3.S0.I1.i3" class="ltx_item">
+<div id="Ch3.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch3.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0015">解释编码器与解码器的区别如何影响模型采用的训练目标。</p>
+</div></li>
+<li id="Ch3.S0.I1.i4" class="ltx_item">
+<div id="Ch3.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch3.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0016">识别评估语言模型的常见基准，并说明各基准旨在衡量的能力。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch3.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch03-0002">3.1 训练模型</h2>
+
+<div id="Ch3.S1.p1" class="ltx_para">
+<p id="Ch3.S1.p1.1" class="ltx_p" data-translation-id="ch03-0003">大语言模型的训练流水线遵循某种标准方法：从参数随机初始化的模型架构出发，通过称为预训练的过程训练语言能力。在预训练中，向模型输入大型文本语料库，以自回归方式训练。该阶段产生基础模型，通常尚不适合具体的实际应用，因此需要使其适应下游任务或用途。这一阶段称为后训练，向模型展示特定类型的额外数据，以诱导指令遵循或分类等任务专用行为。</p>
+</div>
+<section id="Ch3.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0004">3.1.1 编码器与解码器模型</h3>
+
+<div id="Ch3.S1.SS1.p1" class="ltx_para">
+<p id="Ch3.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch03-0005">上一章介绍了两种主流模型。一方面，编码器能够基于输入数据创建丰富的上下文化表示；不过，近期的大多数成功来自解码器模型。编码器更擅长理解任务（分类、情感分析），解码器则擅长生成任务。解码器在可训练参数数量和可用训练数据两方面不断扩大，带来了能够出人意料地泛化到未见上下文的模型。</p>
+</div>
+<div id="Ch3.S1.SS1.p2" class="ltx_para">
+<p id="Ch3.S1.SS1.p2.1" class="ltx_p" data-translation-id="ch03-0006">下面更详细地考察仅解码器训练流水线的相关步骤。</p>
+</div>
+</section>
+<section id="Ch3.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0007">3.1.2 预训练／微调范式</h3>
+
+<div id="Ch3.S1.SS2.p1" class="ltx_para">
+<p id="Ch3.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch03-0008">当前训练流水线成功的一个核心特征是采用迁移学习。现代 Transformer 模型的一种标准应用方式，是取一个已经在大型通用数据集上训练的模型，再针对新任务训练。模型先在大型通用语料库上预训练，再用新任务的小型专用数据集微调。新任务微调速度快，既因为数据集小，也因为迁移了预训练权重，无须从零开始。</p>
+</div>
+<div id="Ch3.S1.SS2.p2" class="ltx_para">
+<p id="Ch3.S1.SS2.p2.1" class="ltx_p" data-translation-id="ch03-0009">迁移学习范式中的预训练／微调区分，是大语言模型训练流水线的核心。模型可以在新场景中复用已学得的语言知识，加快训练，而无须从头开始。大型商业模型的预训练可能耗时数月。新任务通常很具体（例如特定领域问答或情感分析），使用专门的数据集微调。微调期间谨慎更新模型的一部分权重，使其在理解新任务的同时，保留预训练模型的一般语言能力。将模型微调至新任务通常耗时数分钟至数小时。</p>
+</div>
+</section>
+<section id="Ch3.S1.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0010">3.1.3 开放与封闭模型</h3>
+
+<div id="Ch3.S1.SS3.p1" class="ltx_para">
+<p id="Ch3.S1.SS3.p1.1" class="ltx_p" data-translation-id="ch03-0011">流行的大语言模型包括 OpenAI 的 ChatGPT 系列 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib23" title="" class="ltx_ref">Achiam et al., 2023</a>, <a href="#bibb.bib7" title="" class="ltx_ref">Ouyang et al., 2022</a>]</cite>、Meta 的 LLaMa 家族 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib33" title="" class="ltx_ref">Touvron et al., 2023</a>]</cite>、Google 的 Gemma <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib24" title="" class="ltx_ref">Chowdhery et al., 2023</a>]</cite> 和 Gemini <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib12" title="" class="ltx_ref">Anil et al., 2023</a>]</cite>、Anthropic 的 Claude 家族、Moonshot AI 的 Kimi、DeepSeek <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib5" title="" class="ltx_ref">Guo et al., 2025</a>]</cite> 和 Qwen <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib6" title="" class="ltx_ref">Bai et al., 2025</a>]</cite> 等。</p>
+</div>
+<div id="Ch3.S1.SS3.p2" class="ltx_para">
+<p id="Ch3.S1.SS3.p2.1" class="ltx_p" data-translation-id="ch03-0012">这些模型的开放程度各不相同。例如，可以公开模型训练数据、披露网络架构，也可以发布训练后的权重。不过，商业模型背后的公司为保持一定竞争优势，很少公布模型与训练过程的全部要素。</p>
+</div>
+<div id="Ch3.S1.SS3.p3" class="ltx_para">
+<p id="Ch3.S1.SS3.p3.1" class="ltx_p" data-translation-id="ch03-0013">为此，科学界开发了 BLOOM <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib14" title="" class="ltx_ref">Le Scao et al., 2023</a>]</cite>、Pythia <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib13" title="" class="ltx_ref">Biderman et al., 2023</a>]</cite> 和 OLMo <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib4" title="" class="ltx_ref">Groeneveld et al., 2024</a>]</cite> 等完全开源的模型，帮助共同理解大语言模型如何运作。这些模型训练流水线的所有要素均公开，是本章重点。我们也会介绍一些商业模型的特定方面。</p>
+</div>
+<div id="Ch3.S1.SS3.p4" class="ltx_para">
+<p id="Ch3.S1.SS3.p4.1" class="ltx_p" data-translation-id="ch03-0014">虽然模型都基于 Transformer 架构，但单个组件及整体布局存在细小差异，例如利用硬件差异，或各自创建者开发的特定优化。例如，Google 为其基于 TPU 的计算基础设施优化 Gemini <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib34" title="" class="ltx_ref">Jouppi et al., 2023</a>]</cite>。第 <a href="ch04.html#Ch4" title="Chapter 4 Scaling Laws and Efficient Large Language Models ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">4</span></a> 章将详细讨论架构的进一步改进。</p>
+</div>
+</section>
+</section>
+<section id="Ch3.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch03-0015">3.2 训练流水线</h2>
+
+<div id="Ch3.S2.p1" class="ltx_para">
+<p id="Ch3.S2.p1.1" class="ltx_p" data-translation-id="ch03-0016">现在更详细地描述标准训练流水线的步骤。大语言模型通过包含不同训练阶段的精细流水线构建 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib26" title="" class="ltx_ref">Radford et al., 2019</a>, <a href="#bibb.bib32" title="" class="ltx_ref">Minaee et al., 2024</a>]</cite>，其阶段如图 <a href="#Ch3.F1" title="Figure 3.1 ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.1</span></a> 所示。各阶段的组合通常称为训练配方，表示模型的训练顺序。每个阶段都可能采用新数据集和新损失函数，旨在赋予模型一种特定能力。讨论各个阶段时，这一点会更加清楚。</p>
+</div>
+<figure id="Ch3.F1" class="ltx_figure"><img src="" id="Ch3.F1.g1" class="ltx_graphics ltx_centering ltx_missing ltx_missing_image" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0017">图 3.1：大语言模型训练流水线概览 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib26" title="" class="ltx_ref">Radford et al., 2019</a>, <a href="#bibb.bib32" title="" class="ltx_ref">Minaee et al., 2024</a>]</cite>。</figcaption>
+</figure>
+<section id="Ch3.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0018">3.2.1 获取数据</h3>
+
+<div id="Ch3.S2.SS1.p1" class="ltx_para">
+<p id="Ch3.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch03-0019">流水线第一步是获取数据，通常采用海量通用文本语料库 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib30" title="" class="ltx_ref">Brown et al., 2020</a>]</cite>。语料库由无须人工标注的原始文本组成，通常从经过策划和未经过策划的在线来源汇集，再通过启发式清洗优化，以减轻有害、隐私或受版权保护内容的影响。预训练语料库规模庞大。现代大语言模型在互联网规模的数据上训练，通常达到数万亿词元。数据集示例包括：</p>
+</div>
+<div id="Ch3.S2.SS1.p2" class="ltx_para">
+<ul id="Ch3.S2.I1" class="ltx_itemize">
+<li id="Ch3.S2.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch3.S2.I1.i1.p1" class="ltx_para">
+<p id="Ch3.S2.I1.i1.p1.1" class="ltx_p" data-translation-id="ch03-0020">Common Crawl：包含数十亿页面的大规模非营利互联网快照；替代来源包括 <a href="https://archive.org" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://archive.org</a>。虽然规模无可比拟，其数据质量仍存在讨论 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib39" title="" class="ltx_ref">Baack, 2024</a>]</cite>。C4（Colossal Clean Crawled Corpus）等许多衍生数据集提供经过筛选的英语网页文本子集 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib40" title="" class="ltx_ref">Raffel et al., 2020</a>]</cite>，以提高数据质量。</p>
+</div></li>
+<li id="Ch3.S2.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch3.S2.I1.i2.p1" class="ltx_para">
+<p id="Ch3.S2.I1.i2.p1.1" class="ltx_p" data-translation-id="ch03-0021">Dolma 3：旨在最大化多样化任务套件整体性能的数据混合，用于 OLMo 开源／开放数据项目 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib35" title="" class="ltx_ref">Ettinger et al., 2025</a>, <a href="#bibb.bib36" title="" class="ltx_ref">Soldaini et al., 2024</a>]</cite>。</p>
+</div></li>
+<li id="Ch3.S2.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch3.S2.I1.i3.p1" class="ltx_para">
+<p id="Ch3.S2.I1.i3.p1.1" class="ltx_p" data-translation-id="ch03-0022">SmolLM3：采用包含 11.2 万亿词元的大规模三阶段训练策略，动态混合网页、数学和代码数据，优化推理与知识获取 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib37" title="" class="ltx_ref">Bakouch et al., 2025</a>]</cite>。</p>
+</div></li>
+</ul>
+<p id="Ch3.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch03-0023">近期研究强调，在改善跨领域知识和下游泛化方面，数据多样性与规模同样关键 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib38" title="" class="ltx_ref">Gao et al., 2020</a>]</cite>。The Pile 专门构建为异质语料库。例如，在其上训练的模型，在 GitHub 仓库、医学论文和哲学文本等不同领域，编码效率（每字节比特数，BPB）都有显著提升（见图 <a href="#Ch3.F2" title="Figure 3.2 ‣ 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.2</span></a>）。11 1 每字节比特数是信息论中与词元化器无关的指标，衡量每个符号平均所需的比特数，反映编码效率；另见第 <a href="#Ch3.S3.SS2" title="3.3.2 Metrics ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.3.2</span></a> 节。因此，它常用作基准：Pile BPB 的良好表现被视为模型世界知识和复杂推理能力的指标。</p>
+</div>
+<div id="Ch3.S2.SS1.p3" class="ltx_para">
+<p id="Ch3.S2.SS1.p3.1" class="ltx_p" data-translation-id="ch03-0024">整理预训练数据，需要定义复杂的数据清洗流水线，将多来源的原始数据转换成单一的干净纯文本文档集合。这个过程通常关注质量保证和安全。整理首先确定来源优先级，在混合数据中提高 Wikipedia、书籍和其他已知精选来源的权重。为确保语料完整性，研究者还采用降噪启发式方法，去掉模板文字、导航菜单和可能不适当的内容。此外，在 URL 和文档层面均进行去重；这对于防止模型记忆冗余信息、对重复数据过拟合至关重要。</p>
+</div>
+<div id="Ch3.S2.SS1.p4" class="ltx_para">
+<p id="Ch3.S2.SS1.p4.1" class="ltx_p" data-translation-id="ch03-0025">除了准确性，流水线还必须选择符合安全与伦理约束的数据。这通常也通过启发式筛选实现。此外，还使用有毒内容检测系统去除仇恨言论，不过效果往往参差不齐。该阶段的重大挑战是减轻偏见：自动过滤器可能无意间标记并压制特定方言（例如非裔美国人英语）写成的正当数据，导致训练集意外排除多元声音。</p>
+</div>
+<figure id="Ch3.F2" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/the_pile.png" id="Ch3.F2.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:429/269;" width="429" height="269" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0026">图 3.2：The Pile 数据集中的数据来源概览 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib38" title="" class="ltx_ref">Gao et al., 2020</a>]</cite>。</figcaption>
+</figure>
+</section>
+<section id="Ch3.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0027">3.2.2 预训练</h3>
+
+<div id="Ch3.S2.SS2.p1" class="ltx_para">
+<p id="Ch3.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch03-0028">训练流水线的第二步，是在整理后的语料库上预训练模型，产生通用自然语言模型。这一阶段对无标签文本使用自监督 Transformer 方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib31" title="" class="ltx_ref">Vaswani et al., 2017</a>]</cite>。</p>
+</div>
+<div id="Ch3.S2.SS2.p2" class="ltx_para">
+<p id="Ch3.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch03-0029">为获取语言、概念语义关系和世界知识的内部表示，模型采用类似掩码词元完形填空的任务训练。这些任务的目标，是以前面的上下文为条件，在大规模序列语料库（即文本或图像块的表示）中预测掩码词元。这个过程是自监督的（无须人工标注数据），已知能够产生各种形式的丰富语言表示、概念间关系及世界知识。</p>
+</div>
+<div id="Ch3.S2.SS2.p3" class="ltx_para">
+<p id="Ch3.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch03-0030">形式上，语言建模目标根据已有词元的窗口 <math id="Ch3.S2.SS2.p3.m2" class="ltx_Math" alttext="k" display="inline" intent=":literal"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>，最大化句子 <math id="Ch3.S2.SS2.p3.m1" class="ltx_Math" alttext="\mathcal{U}=\{u_{0},\dots,u_{n}\}" display="inline" intent=":literal"><semantics><mrow><mi class="ltx_font_mathcaligraphic">𝒰</mi><mo>=</mo><mrow><mo stretchy="false">{</mo><msub><mi>u</mi><mn>0</mn></msub><mo>,</mo><mi mathvariant="normal">…</mi><mo>,</mo><msub><mi>u</mi><mi>n</mi></msub><mo stretchy="false">}</mo></mrow></mrow><annotation encoding="application/x-tex">\mathcal{U}=\{u_{0},\dots,u_{n}\}</annotation></semantics></math> 中词元的概率（公式 <a href="#Ch3.E1" title="In 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.1</span></a>）。<math id="Ch3.S2.SS2.p3.m3" class="ltx_Math" alttext="L(\mathcal{U})" display="inline" intent=":literal"><semantics><mrow><mi>L</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi class="ltx_font_mathcaligraphic">𝒰</mi><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">L(\mathcal{U})</annotation></semantics></math> 为语言建模损失。</p>
+</div>
+<div id="Ch3.S2.SS2.p4" class="ltx_para">
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch3.E1" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Ch3.E1.m1" class="ltx_Math" alttext="L(\mathcal{U})=\sum_{i}\log P(u_{i}|u_{i-k},\dots,u_{i-1};\Theta)" display="block" intent=":literal"><semantics><mrow><mrow><mi>L</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi class="ltx_font_mathcaligraphic">𝒰</mi><mo stretchy="false">)</mo></mrow></mrow><mo rspace="0.111em">=</mo><mrow><munder><mo movablelimits="false">∑</mo><mi>i</mi></munder><mrow><mi>log</mi><mo lspace="0.167em">⁡</mo><mrow><mi>P</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msub><mi>u</mi><mi>i</mi></msub><mo lspace="0em" rspace="0em">|</mo><mrow><msub><mi>u</mi><mrow><mi>i</mi><mo>−</mo><mi>k</mi></mrow></msub><mo>,</mo><mi mathvariant="normal">…</mi><mo>,</mo><msub><mi>u</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>;</mo><mi mathvariant="normal">Θ</mi></mrow><mo stretchy="false">)</mo></mrow></mrow></mrow></mrow></mrow><annotation encoding="application/x-tex">L(\mathcal{U})=\sum_{i}\log P(u_{i}|u_{i-k},\dots,u_{i-1};\Theta)</annotation></semantics></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(3.1)</span></td></tr></tbody>
+</table>
+</div></div>
+<div id="Ch3.S2.SS2.p5" class="ltx_para">
+<p id="Ch3.S2.SS2.p5.1" class="ltx_p" data-translation-id="ch03-0031">语言模型通过可训练参数 <math id="Ch3.S2.SS2.p5.m1" class="ltx_Math" alttext="\Theta" display="inline" intent=":literal"><semantics><mi mathvariant="normal">Θ</mi><annotation encoding="application/x-tex">\Theta</annotation></semantics></math> 估计这些概率，并通过梯度更新优化。模型规模从数百万到超过一万亿参数不等，因此需要大型数据集确保收敛。该阶段使用教师强制：模型作出预测，但将真实词元，而非模型自身输出，作为下一步输入。相反，推断时的自回归生成必须依靠自己的预测作为后续词元的输入。词元通过运行相应的词元化器生成，如第 <a href="ch02.html#Ch2.S1.SS4" title="2.1.4 Tokenization ‣ 2.1 Processing Natural Language ‣ Chapter 2 Foundations of Language Modeling with LLMs ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2.1.4</span></a> 节所述。</p>
+</div>
+<div id="Ch3.S2.SS2.p6" class="ltx_para">
+<p id="Ch3.S2.SS2.p6.1" class="ltx_p" data-translation-id="ch03-0032">预训练的一个关键挑战，是确保模型高效学习，并在数万亿次梯度更新中保持稳定。随着时间推移，人们发展了不同策略控制训练过程。其中之一是课程学习。人类学习时，先学简单概念（例如加法），再处理较难概念（乘法、对数）。语言建模通过数据混合或数据课程使用这一思想。研究者不同时训练所有数据类型，而先选择特定数据来源的混合，示例见图 <a href="#Ch3.F3" title="Figure 3.3 ‣ 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.3</span></a>。创建混合时，按难度策略性地排列数据。训练课程先使用易学的普通网页抓取数据，后期转向更难、高质量的推理数据（数学和代码）。其基本思想是，这有助于模型更快地在复杂逻辑上收敛 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib15" title="" class="ltx_ref">Bengio et al., 2009</a>]</cite>。</p>
+</div>
+<figure id="Ch3.F3" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/smollm3_mixture.png" id="Ch3.F3.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:357/221;" width="357" height="221" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0033">图 3.3：训练 SmolLM3 的数据混合示例 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib37" title="" class="ltx_ref">Bakouch et al., 2025</a>]</cite>。</figcaption>
+</figure>
+<div id="Ch3.S2.SS2.p7" class="ltx_para">
+<p id="Ch3.S2.SS2.p7.1" class="ltx_p" data-translation-id="ch03-0034">还会采用其他稳定训练的机制，因为如此规模的训练以不稳定、易出现损失突增而著称 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib41" title="" class="ltx_ref">Takase et al., 2025</a>]</cite>。通过权重衰减、层归一化、复杂的学习率调度器等标准机器学习技术维持稳定。专门的优化器和梯度范数监控，有助于防止参数在高强度预训练期间发散。图 <a href="#Ch3.F4" title="Figure 3.4 ‣ 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.4</span></a> 举例说明切换嵌入层如何使训练更稳定。左图展示 336M 和 752M BERT 模型的训练损失。原始架构在 336M 模型上表现良好，而（b）的修改可实现更稳定、损失更低的训练 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib52" title="" class="ltx_ref">Shoeybi et al., 2020</a>]</cite>。</p>
+</div>
+<figure id="Ch3.F4" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/glm_spike.png" id="Ch3.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:357/194;" width="357" height="194" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0035">图 3.4：BERT 模型使用原始架构（a）与重新排列架构（b）的训练损失 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib52" title="" class="ltx_ref">Shoeybi et al., 2020</a>]</cite></figcaption>
+</figure>
+</section>
+<section id="Ch3.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0036">3.2.3 微调</h3>
+
+<div id="Ch3.S2.SS3.p1" class="ltx_para">
+<p id="Ch3.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch03-0037">预训练之后是后训练，其中第一个重要训练步骤是微调。大语言模型很少用于通用的自动补全、下一个词预测场景，人们更希望它回答问题、提供建议和回忆信息。微调指取一个已经学会通用语言模式的预训练模型，再在更小、更具体的数据集上进一步训练。微调使用监督学习，在带标签的数据集上将通用模型用于具体（狭窄）任务。低秩优化是一种流行的高效方法，只微调一小部分参数 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib27" title="" class="ltx_ref">Hu et al., 2021</a>, <a href="#bibb.bib29" title="" class="ltx_ref">Wei et al., 2022</a>, <a href="#bibb.bib32" title="" class="ltx_ref">Minaee et al., 2024</a>]</cite>。</p>
+</div>
+<section id="Ch3.S2.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0038">监督微调（SFT）</h5>
+
+<div id="Ch3.S2.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch3.S2.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch03-0039">微调可用于许多专门任务。最通用的模型通过监督微调获得遵循指令和执行推理步骤的能力 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib35" title="" class="ltx_ref">Ettinger et al., 2025</a>]</cite>。这一阶段对小模型尤为重要，能高效显著改善一般聊天、推理及函数调用能力。</p>
+</div>
+<div id="Ch3.S2.SS3.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch3.S2.SS3.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch03-0040">监督微调也用于减少有毒内容等更专门任务。WildChat <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib42" title="" class="ltx_ref">Zhao et al., 2024</a>]</cite> 提供一百多万次真实用户与 ChatGPT 的交互，记录人类如何用复杂程度和有毒程度各不相同的提示调用大语言模型。</p>
+</div>
+<div id="Ch3.S2.SS3.SSS0.Px1.p3" class="ltx_para">
+<p id="Ch3.S2.SS3.SSS0.Px1.p3.1" class="ltx_p" data-translation-id="ch03-0041">在推理能力学习方面，OpenThoughts <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib43" title="" class="ltx_ref">Guha et al., 2025</a>]</cite> 包含从先进模型蒸馏出的逐步推理链，以增强数学、科学和编程中的问题解决能力。人工获取的数据还会用合成数据补充：使用更大的教师模型（例如 GPT-5）生成指令与回答，填补特定数据缺口并扩大训练量 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib44" title="" class="ltx_ref">Zhang et al., 2026</a>]</cite>。</p>
+</div>
+<div id="Ch3.S2.SS3.SSS0.Px1.p4" class="ltx_para">
+<p id="Ch3.S2.SS3.SSS0.Px1.p4.1" class="ltx_p" data-translation-id="ch03-0042">微调不仅涉及通用指令遵循或推理。其他任务例如语言间翻译，或者医疗和客户服务中的问答。尤其对于任务狭窄、模型较小的工业应用，微调往往卓有成效。</p>
+</div>
+<div id="Ch3.S2.SS3.SSS0.Px1.p5" class="ltx_para">
+<p id="Ch3.S2.SS3.SSS0.Px1.p5.1" class="ltx_p" data-translation-id="ch03-0043">第 <a href="ch11.html#Ch11" title="Chapter 11 How Agents Use Tools to Act in the World ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">11</span></a> 章将讨论大语言模型使用工具，这是智能体式大语言模型的核心方面。使用工具的训练同样发生在训练流水线的监督微调阶段 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib29" title="" class="ltx_ref">Wei et al., 2022</a>, <a href="#bibb.bib32" title="" class="ltx_ref">Minaee et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch3.S2.SS3.SSS0.Px1.p6" class="ltx_para">
+<p id="Ch3.S2.SS3.SSS0.Px1.p6.1" class="ltx_p" data-translation-id="ch03-0044">此外，微调有助于建立模型的人设和深化专业能力。例如，组织可训练模型采用特定语气，使客服机器人保持一致的品牌形象，或富有同理心而正式，或诙谐而随意。最后，注入深入的领域知识，能让模型掌握小众领域的复杂术语和逻辑，例如特定行业的专利信息，或专有遗留代码的调试。</p>
+</div>
+<div id="Ch3.S2.SS3.SSS0.Px1.p7" class="ltx_para">
+<p id="Ch3.S2.SS3.SSS0.Px1.p7.1" class="ltx_p" data-translation-id="ch03-0045">最终，微调将通用预测器转化为专门专家，常使更小、更高效的模型在特定任务上胜过更大的基础模型。</p>
+</div>
+</section>
+</section>
+<section id="Ch3.S2.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0046">3.2.4 偏好调优</h3>
+
+<div id="Ch3.S2.SS4.p1" class="ltx_para">
+<p id="Ch3.S2.SS4.p1.1" class="ltx_p" data-translation-id="ch03-0047">早期模型暴露出一个问题：训练倾向于放大训练数据中极端、社会不可接受的文本，并失去控制，挤压温和观点。因此，要让大语言模型为社会接受，流水线必须包含一个将模型调整为社会可接受行为的阶段。这称为偏好调优。</p>
+</div>
+<div id="Ch3.S2.SS4.p2" class="ltx_para">
+<p id="Ch3.S2.SS4.p2.1" class="ltx_p" data-translation-id="ch03-0048">这一阶段使微调后的模型与用户预期对齐（偏好对齐），目标是改善模型，使其给出社会可接受的回答、防止仇恨言论、减少幻觉，并更好地遵循指令。</p>
+</div>
+<div id="Ch3.S2.SS4.p3" class="ltx_para">
+<p id="Ch3.S2.SS4.p3.1" class="ltx_p" data-translation-id="ch03-0049">标准偏好调优方法包括基于人类反馈的强化学习（RLHF）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib7" title="" class="ltx_ref">Ouyang et al., 2022</a>]</cite>，即训练奖励模型近似人类价值；以及直接偏好优化（DPO）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib28" title="" class="ltx_ref">Rafailov et al., 2024</a>]</cite>，即直接根据偏好数据优化策略。图 <a href="#Ch3.F5" title="Figure 3.5 ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.5</span></a> 给出 RLHF 的总体概览。为应对人工标注的瓶颈，现代流水线越来越多采用基于 AI 反馈的强化学习（RLAIF）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib51" title="" class="ltx_ref">Bai et al., 2022</a>]</cite>，由更强的模型生成偏好信号。</p>
+</div>
+<figure id="Ch3.F5" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/rlhf_loop.png" id="Ch3.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:238/121;" width="238" height="121" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0050">图 3.5：RLHF 总体概览：训练奖励模型（左），并依据该奖励模型优化语言模型（策略）<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibb.bib50" title="" class="ltx_ref">Dong et al. [2024]</a></cite></figcaption>
+</figure>
+<div id="Ch3.S2.SS4.p4" class="ltx_para">
+<p id="Ch3.S2.SS4.p4.1" class="ltx_p" data-translation-id="ch03-0051">实现人类价值对齐并不容易，我们通常区分安全对齐、价值对齐和偏好对齐。最后一种情况的复杂性在于，偏好是因人而异的主观偏好（例如写作风格）。</p>
+</div>
+<section id="Ch3.S2.SS4.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0052">价值对齐</h5>
+
+<div id="Ch3.S2.SS4.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch3.S2.SS4.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch03-0053">在更高层面，价值对齐关注确保模型的基本原则与世界观符合广泛的人类伦理。它不同于个体偏好，需要将模型锚定于公平、有帮助和诚实等高层概念。实践中，这意味着用一组书面原则（宪法）约束模型，确保它遵守开发者制定的政策。</p>
+</div>
+<div id="Ch3.S2.SS4.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch3.S2.SS4.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch03-0054">然而，价值对齐通常带来权衡：针对安全性和有用性优化模型，也会降低事实回忆、创造力等其他能力的表现 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib47" title="" class="ltx_ref">Lin et al., 2024</a>]</cite>。这种代价亦称为对齐税。</p>
+</div>
+</section>
+<section id="Ch3.S2.SS4.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0055">安全对齐</h5>
+
+<div id="Ch3.S2.SS4.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch3.S2.SS4.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch03-0056">安全对齐是在模型行为上设定硬性边界，以防止灾难性或有害输出的过程。偏好对齐可能关注语气，价值对齐关注观点，而安全对齐关注对抗稳健性以及拒绝恶意提示。确保安全的方法包括红队测试，即进行严格的越狱尝试以发现漏洞；以及设置护栏，即按高风险回答的特定拒绝边界进行过滤。</p>
+</div>
+</section>
+<section id="Ch3.S2.SS4.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0057">客观正确性对齐</h5>
+
+<div id="Ch3.S2.SS4.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch3.S2.SS4.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch03-0058">最后，在数学或编程等存在客观真值的领域，采用称为可验证奖励强化学习（RLVR）的方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib2" title="" class="ltx_ref">Lambert et al., 2024</a>]</cite>。不同于标准 RLHF，RLVR 利用真实答案信号优化客观正确性，稳健地改善推理能力，例如能够编译的代码，或正确的数学解。后者常使用组相对策略优化（GRPO）算法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib5" title="" class="ltx_ref">Guo et al., 2025</a>]</cite>，这是近端策略优化（PPO）的变体，在增强数学推理能力的同时优化 PPO 的内存使用。它从策略模型中采样多个回答，利用验证器评估的相对质量计算奖励。模型不依靠人工标签学习什么算好答案，而是直接从确定性验证器获得奖励（+1 或 -1）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib5" title="" class="ltx_ref">Guo et al., 2025</a>, <a href="#bibb.bib10" title="" class="ltx_ref">Shao et al., 2024</a>]</cite>，见图 <a href="#Ch3.F6" title="Figure 3.6 ‣ Objective alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.6</span></a>。</p>
+</div>
+<figure id="Ch3.F6" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/grpo.png" id="Ch3.F6.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:381/162;" width="381" height="162" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0059">图 3.6：RLHF（具体为 PPO）与 RLVR（具体为 GRPO）方法比较 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib10" title="" class="ltx_ref">Shao et al., 2024</a>]</cite></figcaption>
+</figure>
+</section>
+</section>
+<section id="Ch3.S2.SS5" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0060">3.2.5 推断</h3>
+
+<div id="Ch3.S2.SS5.p1" class="ltx_para">
+<p id="Ch3.S2.SS5.p1.1" class="ltx_p" data-translation-id="ch03-0061">训练流水线最后一步是推断。在这一步，训练好的模型终于投入使用，用户终于能够与模型互动，我们终于可以享用训练努力的成果。</p>
+</div>
+<div id="Ch3.S2.SS5.p2" class="ltx_para">
+<p id="Ch3.S2.SS5.p2.1" class="ltx_p" data-translation-id="ch03-0062">推断时，我们使用自然语言提示（指令和问题）获得模型回答。提示是让大语言模型回答问题的首选使用方式。推断结果可能对提示的表达方式敏感：使用某些词，或者调整提示中的词序，都可能影响模型回答。这种敏感性催生了提示工程与上下文工程，它们已成为大语言模型用户的重要技能 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib1" title="" class="ltx_ref">Sahoo et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch3.S2.SS5.p3" class="ltx_para">
+<p id="Ch3.S2.SS5.p3.1" class="ltx_p" data-translation-id="ch03-0063">有趣的是，上一章提到，当解码器模型规模超过数千亿参数时，会涌现一种新学习方式：上下文学习（ICL）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib30" title="" class="ltx_ref">Brown et al., 2020</a>, <a href="#bibb.bib29" title="" class="ltx_ref">Wei et al., 2022</a>]</cite>。它在提示中放入少量样例和一条指令。这些样例将模型引向某个方向，模型利用它们学习答案。ICL 是提示内部的少样本学习，也是一种不改变模型任何参数的学习：有样例学习，却没有参数训练 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib25" title="" class="ltx_ref">Dong et al., 2022</a>]</cite>。</p>
+</div>
+<div id="Ch3.S2.SS5.p4" class="ltx_para">
+<p id="Ch3.S2.SS5.p4.1" class="ltx_p" data-translation-id="ch03-0064">本书后续将看到许多上下文学习的使用实例，例如智能体 Harness。推断时的上下文学习是智能体式大语言模型的重要推动力。</p>
+</div>
+</section>
+<section id="Ch3.S2.SS6" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0065">3.2.6 结语</h3>
+
+<div id="Ch3.S2.SS6.p1" class="ltx_para">
+<p id="Ch3.S2.SS6.p1.1" class="ltx_p" data-translation-id="ch03-0066">以上描述了典型大语言模型训练流水线的阶段。请注意，它只是典型方法的一个示例，不同模型的训练方式不同。当前现代训练流水线十分精细，训练成本高昂。流水线创新是当下研究主题，例如参见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibb.bib5" title="" class="ltx_ref">Guo et al. [2025]</a>, <a href="#bibb.bib11" title="" class="ltx_ref">Du et al. [2025]</a></cite>。</p>
+</div>
+<div id="Ch3.S2.SS6.p2" class="ltx_para">
+<p id="Ch3.S2.SS6.p2.1" class="ltx_p" data-translation-id="ch03-0067">快速获得预测至关重要，人们已开发多种加速技术。例如，需要在推理投入与回答质量之间取得平衡。测试时扩展研究探索这种权衡：更多推断时投入需要更多计算时间，但可能得到更好的答案。第 <a href="ch04.html#Ch4" title="Chapter 4 Scaling Laws and Efficient Large Language Models ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">4</span></a> 章讨论这些及其他优化技术。</p>
+</div>
+</section>
+</section>
+<section id="Ch3.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch03-0068">3.3 基准与性能</h2>
+
+<div id="Ch3.S3.p1" class="ltx_para">
+<p id="Ch3.S3.p1.1" class="ltx_p" data-translation-id="ch03-0069">使用流水线训练模型之后，我们希望了解模型表现如何。大语言模型通过各种建模技术，针对不同任务和不同数据集创建，因此往往获得卓越能力。例如，它们在自然语言理解任务（GLUE、SQUAD、Xsum）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib8" title="" class="ltx_ref">Wang et al., 2018</a>, <a href="#bibb.bib20" title="" class="ltx_ref">Wang et al., 2019</a>, <a href="#bibb.bib19" title="" class="ltx_ref">Rajpurkar et al., 2016</a>, <a href="#bibb.bib21" title="" class="ltx_ref">Narayan et al., 2018</a>]</cite>、翻译 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib22" title="" class="ltx_ref">Kocmi et al., 2022</a>, <a href="#bibb.bib18" title="" class="ltx_ref">Papineni et al., 2002</a>, <a href="#bibb.bib17" title="" class="ltx_ref">Sennrich et al., 2015</a>]</cite>、问答 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib16" title="" class="ltx_ref">Roberts et al., 2020</a>]</cite> 和诗歌创作 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib9" title="" class="ltx_ref">Zhang and Eger, 2024</a>]</cite> 中表现良好，这里仅列举少数领域。广泛适用性体现其多功能性，不过领域快速发展和持续研究，也提出了关于大语言模型在不同领域和情境下能力的许多开放问题。</p>
+</div>
+<div id="Ch3.S3.p2" class="ltx_para">
+<p id="Ch3.S3.p2.1" class="ltx_p" data-translation-id="ch03-0070">下面讨论通常用于测试模型性能的基准。</p>
+</div>
+<section id="Ch3.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0071">3.3.1 常见任务</h3>
+
+<div id="Ch3.S3.SS1.p1" class="ltx_para">
+<p id="Ch3.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch03-0072">进一步考察一些常见大语言模型任务。它们大致可归入先前介绍的两类语言处理：自然语言理解（NLU）和自然语言生成（NLG）。性能指标因类别、具体任务表述及底层数据而不同。下面分别讨论。</p>
+</div>
+<div id="Ch3.S3.SS1.p2" class="ltx_para">
+<p id="Ch3.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch03-0073">请注意，“性能”具有歧义。在 NLP 中，它常指任务表现（准确率），而非计算性能（速度）。虽然具体评价标准取决于任务，但现代评估主要关注任务表现。不过，要在当代基准上取得高分，调用大语言模型的次数及获取回答的速度也很重要，后续章节将介绍。</p>
+</div>
+</section>
+<section id="Ch3.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0074">3.3.2 指标</h3>
+
+<div id="Ch3.S3.SS2.p1" class="ltx_para">
+<p id="Ch3.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch03-0075">为监控或报告大语言模型的（任务）性能，根据所处训练阶段，会使用不同指标。</p>
+</div>
+<section id="Ch3.S3.SS2.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0076">预训练指标</h5>
+
+<div id="Ch3.S3.SS2.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch3.S3.SS2.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch03-0077">预训练中，我们主要关注模型能否准确预测下一个词。标准指标为公式 <a href="#Ch3.E2" title="In Pretraining Metrics ‣ 3.3.2 Metrics ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.2</span></a> 所示的困惑度。困惑度衡量预测下一个词元时模型的不确定性，与交叉熵损失函数直接相关。低困惑度说明模型给正确的下一词元分配了高概率。困惑度越低越好。</p>
+</div>
+<div id="Ch3.S3.SS2.SSS0.Px1.p2" class="ltx_para">
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch3.E2" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Ch3.E2.m1" class="ltx_math_unparsed" alttext="\text{PPL}(X)=\exp\left(-\frac{1}{N}\sum_{i=1}^{N}\log P(x_{i}\mid x_{&lt;i})\right)" display="block" intent=":literal"><semantics><mrow><mtext>PPL</mtext><mrow><mo stretchy="false">(</mo><mi>X</mi><mo stretchy="false">)</mo></mrow><mo>=</mo><mi>exp</mi><mrow><mo>(</mo><mo lspace="0em">−</mo><mfrac><mn>1</mn><mi>N</mi></mfrac><munderover><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><mi>log</mi><mi>P</mi><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo lspace="0em" rspace="0.167em">∣</mo><msub><mi>x</mi><mrow><mphantom></mphantom><mo>&lt;</mo><mi>i</mi></mrow></msub><mo stretchy="false">)</mo></mrow><mo>)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{PPL}(X)=\exp\left(-\frac{1}{N}\sum_{i=1}^{N}\log P(x_{i}\mid x_{&lt;i})\right)</annotation></semantics></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(3.2)</span></td></tr></tbody>
+</table>
+</div></div>
+<div id="Ch3.S3.SS2.SSS0.Px1.p3" class="ltx_para">
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch3.E3" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Ch3.E3.m1" class="ltx_math_unparsed" alttext="\text{BPB}=-\frac{1}{B}\sum_{i=1}^{N}\log_{2}P(x_{i}\mid x_{&lt;i})" display="block" intent=":literal"><semantics><mrow><mtext>BPB</mtext><mo rspace="0em">=</mo><mo lspace="0em">−</mo><mfrac><mn>1</mn><mi>B</mi></mfrac><munderover><mo movablelimits="false">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>N</mi></munderover><msub><mi>log</mi><mn>2</mn></msub><mi>P</mi><mrow><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo lspace="0em" rspace="0.167em">∣</mo><msub><mi>x</mi><mrow><mphantom></mphantom><mo>&lt;</mo><mi>i</mi></mrow></msub><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\text{BPB}=-\frac{1}{B}\sum_{i=1}^{N}\log_{2}P(x_{i}\mid x_{&lt;i})</annotation></semantics></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(3.3)</span></td></tr></tbody>
+</table>
+</div><p id="Ch3.S3.SS2.SSS0.Px1.p3.1" class="ltx_p" data-translation-id="ch03-0078">困惑度基于词元计算；要调整到词边界，需要谨慎归一化 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib48" title="" class="ltx_ref">Pimentel and Meister, 2024</a>]</cite>。此外，即使经过调整，它仍依赖具体词元化器，因为不同词元化器产生不同子词，从而得到不同概率分布。</p>
+</div>
+<div id="Ch3.S3.SS2.SSS0.Px1.p4" class="ltx_para">
+<p id="Ch3.S3.SS2.SSS0.Px1.p4.1" class="ltx_p" data-translation-id="ch03-0079">另一种指标是公式 <a href="#Ch3.E3" title="In Pretraining Metrics ‣ 3.3.2 Metrics ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.3</span></a> 所示的每字节比特数（BPB），将损失归一化到字节层面，使不同词元化方案的模型能公平比较 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib49" title="" class="ltx_ref">Borgeaud et al., 2022</a>]</cite>。它衡量编码单个数据字节所需的平均比特数。</p>
+</div>
+</section>
+<section id="Ch3.S3.SS2.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0080">后训练指标</h5>
+
+<div id="Ch3.S3.SS2.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch3.S3.SS2.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch03-0081">在后训练与推断阶段，当模型用于问题解决、生成或推理时，我们根据真实答案数据考察确定性的成功率。任务常设为选择题问答格式，只有一个正确答案。对此通常报告准确率，即给出正确回答的问题百分比。准确率越高越好。</p>
+</div>
+<div id="Ch3.S3.SS2.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch3.S3.SS2.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch03-0082">常规设置下，模型须在一次尝试中给出答案。不过，从语言模型采样是随机过程，因此可以要求更多尝试，观察其中是否包含答案。这形式化为 Pass@K 指标：模型第 <math id="Ch3.S3.SS2.SSS0.Px2.p2.m1" class="ltx_Math" alttext="K" display="inline" intent=":literal"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math> 次尝试时正确解决问题的百分比；越高越好。<math id="Ch3.S3.SS2.SSS0.Px2.p2.m2" class="ltx_Math" alttext="K" display="inline" intent=":literal"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math> 的常见取值包括 1、5、10、100。</p>
+</div>
+</section>
+</section>
+<section id="Ch3.S3.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0083">3.3.3 常见基准</h3>
+
+<div id="Ch3.S3.SS3.p1" class="ltx_para">
+<p id="Ch3.S3.SS3.p1.1" class="ltx_p" data-translation-id="ch03-0084">大语言模型性能测量仍是活跃研究领域，不过许多数据集已经成为报告通用能力的常用工具。这些数据集只用于评估模型质量，并非额外训练数据，因此构成半标准化基准。MLCommons <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib3" title="" class="ltx_ref">Thiyagalingam et al., 2022</a>]</cite> 等推动领域标准的持续努力，反映了对客观、合理评估设置日益增长的需求。</p>
+</div>
+<figure id="Ch3.T1" class="ltx_table">
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch3.T1.3" class="ltx_tabular ltx_centering ltx_guessed_headers ltx_align_middle">
+<thead class="ltx_thead">
+<tr id="Ch3.T1.3.1" class="ltx_tr">
+<th id="Ch3.T1.3.1.1" class="ltx_td ltx_align_left ltx_align_top ltx_th ltx_th_column ltx_border_tt" data-translation-id="ch03-0097">基准名称</th>
+<th id="Ch3.T1.3.1.2" class="ltx_td ltx_align_left ltx_align_top ltx_th ltx_th_column ltx_border_tt" data-translation-id="ch03-0098">测试能力</th>
+<th id="Ch3.T1.3.1.3" class="ltx_td ltx_align_left ltx_align_top ltx_th ltx_th_column ltx_border_tt" data-translation-id="ch03-0099">任务形式</th>
+<th id="Ch3.T1.3.1.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top ltx_th ltx_th_column ltx_border_tt" data-translation-id="ch03-0100">指标</th></tr>
+</thead>
+<tbody class="ltx_tbody">
+<tr id="Ch3.T1.3.2" class="ltx_tr">
+<td id="Ch3.T1.3.2.1" class="ltx_td ltx_align_left ltx_align_top ltx_border_t" data-translation-id="ch03-0101">Humanity’s Last Exam（HLE，人类最后的考试）</td>
+<td id="Ch3.T1.3.2.2" class="ltx_td ltx_align_left ltx_align_top ltx_border_t" data-translation-id="ch03-0102">通用智能、多模态推理</td>
+<td id="Ch3.T1.3.2.3" class="ltx_td ltx_align_left ltx_align_top ltx_border_t" data-translation-id="ch03-0103">简答题、选择题</td>
+<td id="Ch3.T1.3.2.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top ltx_border_t" data-translation-id="ch03-0104">Pass@1</td></tr>
+<tr id="Ch3.T1.3.3" class="ltx_tr">
+<td id="Ch3.T1.3.3.1" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0105">Abstract Reasoning Challenge（ARC，抽象推理挑战）</td>
+<td id="Ch3.T1.3.3.2" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0106">通用智能</td>
+<td id="Ch3.T1.3.3.3" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0107">视觉网格模式补全</td>
+<td id="Ch3.T1.3.3.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top" data-translation-id="ch03-0108">Pass@1（私有集）</td></tr>
+<tr id="Ch3.T1.3.4" class="ltx_tr">
+<td id="Ch3.T1.3.4.1" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0109">GPQA Diamond</td>
+<td id="Ch3.T1.3.4.2" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0110">专家级 STEM 推理</td>
+<td id="Ch3.T1.3.4.3" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0111">选择题</td>
+<td id="Ch3.T1.3.4.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top" data-translation-id="ch03-0112">Pass@1</td></tr>
+<tr id="Ch3.T1.3.5" class="ltx_tr">
+<td id="Ch3.T1.3.5.1" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0113">AIME 2025</td>
+<td id="Ch3.T1.3.5.2" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0114">高等数学推理</td>
+<td id="Ch3.T1.3.5.3" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0115">整数答案（0–999）</td>
+<td id="Ch3.T1.3.5.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top" data-translation-id="ch03-0116">Pass@1</td></tr>
+<tr id="Ch3.T1.3.6" class="ltx_tr">
+<td id="Ch3.T1.3.6.1" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0117">SWE-Bench</td>
+<td id="Ch3.T1.3.6.2" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0118">智能体编程、现实软件工程</td>
+<td id="Ch3.T1.3.6.3" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0119">代码补丁生成</td>
+<td id="Ch3.T1.3.6.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top" data-translation-id="ch03-0120">Pass@1</td></tr>
+<tr id="Ch3.T1.3.7" class="ltx_tr">
+<td id="Ch3.T1.3.7.1" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0121">Fortress</td>
+<td id="Ch3.T1.3.7.2" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0122">AI 安全、国家安全风险评估</td>
+<td id="Ch3.T1.3.7.3" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0123">多种形式（专有）</td>
+<td id="Ch3.T1.3.7.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top" data-translation-id="ch03-0124">平均风险分数（ARS）与过度拒绝分数（ORS）</td></tr>
+<tr id="Ch3.T1.3.8" class="ltx_tr">
+<td id="Ch3.T1.3.8.1" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0125">MMLU</td>
+<td id="Ch3.T1.3.8.2" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0126">广泛的通用知识</td>
+<td id="Ch3.T1.3.8.3" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0127">选择题</td>
+<td id="Ch3.T1.3.8.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top" data-translation-id="ch03-0128">Pass@1</td></tr>
+<tr id="Ch3.T1.3.9" class="ltx_tr">
+<td id="Ch3.T1.3.9.1" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0129">GSM8K</td>
+<td id="Ch3.T1.3.9.2" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0130">小学数学推理</td>
+<td id="Ch3.T1.3.9.3" class="ltx_td ltx_align_left ltx_align_top" data-translation-id="ch03-0131">多步算术</td>
+<td id="Ch3.T1.3.9.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top" data-translation-id="ch03-0132">Pass@1</td></tr>
+<tr id="Ch3.T1.3.10" class="ltx_tr">
+<td id="Ch3.T1.3.10.1" class="ltx_td ltx_align_left ltx_align_top ltx_border_bb" data-translation-id="ch03-0133">TruthfulQA</td>
+<td id="Ch3.T1.3.10.2" class="ltx_td ltx_align_left ltx_align_top ltx_border_bb" data-translation-id="ch03-0134">事实正确性、幻觉检测</td>
+<td id="Ch3.T1.3.10.3" class="ltx_td ltx_align_left ltx_align_top ltx_border_bb" data-translation-id="ch03-0135">问答</td>
+<td id="Ch3.T1.3.10.4" class="ltx_td ltx_nopad_r ltx_align_left ltx_align_top ltx_border_bb" data-translation-id="ch03-0136">Pass@1</td></tr>
+</tbody>
+</table>
+</div><figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0085">表 3.1：常见大语言模型基准及其报告指标概览</figcaption>
+</figure>
+<section id="Ch3.S3.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0086">数据污染</h5>
+
+<div id="Ch3.S3.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch3.S3.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch03-0087">现代基准存在数据污染风险 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib46" title="" class="ltx_ref">Balloccu et al., 2024</a>]</cite>。随着预训练数据增大（往往占整个互联网规模的很大比例），域内与域外数据的界限越来越模糊，尤其商业供应商常因商业利益或其他原因不说明训练数据来源。因此，要测量对未见数据的真实泛化，必须确保模型此前没有见过这些数据（我们希望避免数据污染）。</p>
+</div>
+<div id="Ch3.S3.SS3.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch3.S3.SS3.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch03-0088">基准通常同时提供公开、免费可访问的数据集，便于开发者快速实验，并维护限制商业供应商访问的私有数据集，以防数据污染。此外，为保持基准今后的实用性，开发者往往主动更新其中样本。</p>
+</div>
+<div id="Ch3.S3.SS3.SSS0.Px1.p3" class="ltx_para">
+<p id="Ch3.S3.SS3.SSS0.Px1.p3.1" class="ltx_p" data-translation-id="ch03-0089">表 <a href="#Ch3.T1" title="Table 3.1 ‣ 3.3.3 Common Benchmarks ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.1</span></a> 列出了撰写时流行的通用基准，列表并不穷尽。</p>
+</div>
+</section>
+</section>
+</section>
+<section id="Ch3.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch03-0090">3.4 结语</h2>
+
+<div id="Ch3.S4.p1" class="ltx_para">
+<p id="Ch3.S4.p1.1" class="ltx_p" data-translation-id="ch03-0091">在大语言模型开发领域，商业开发者（例如 Anthropic、OpenAI、Google、DeepSeek、Mistral）发布技术报告，向专业公众介绍模型在流行基准上的表现，已成为常态。这些报告通常以未经学术同行评审的预印本形式发布，并因商业原因省略完整科学复现所需的许多细节（例如数据配方、模型架构）。不过，它们仍提供有用信息，帮助理解大语言模型能做什么、不能做什么。</p>
+</div>
+<div id="Ch3.S4.p2" class="ltx_para">
+<p id="Ch3.S4.p2.1" class="ltx_p" data-translation-id="ch03-0092">首先，现代大语言模型在不同基准上呈现鲜明的性能层级：广泛知识任务基本解决，但掌握复杂推理和自主智能体任务仍有困难。在静态知识与专业考试基准（例如 MMLU 和 TruthfulQA）上，前沿模型（例如 GPT-5.2、Gemini 3 Pro 和 Claude 4.5 Opus）在撰写时已接近饱和，分数持续超过 85–90%，高于人类专家基线。</p>
+</div>
+<div id="Ch3.S4.p3" class="ltx_para">
+<p id="Ch3.S4.p3.1" class="ltx_p" data-translation-id="ch03-0093">最新一代推理模型（例如 OpenAI 的 o1、DeepSeek-R1 和 Qwen-3.5）近期取得重大进展，将数学和科学通过率从很低的百分比提升至专家水平。尽管如此，软件工程 SWE-bench 仍是可靠性的终极压力测试：顶级编程智能体的分数从微不足道的水平（¡2%）上升到可观水平（已验证子集上为 40–50%），但回答编程问题与自主修复真实仓库问题之间的差距，仍是现代人工智能的重大障碍。</p>
+</div>
+<section id="Ch3.S4.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch03-0094">开放问题</h5>
+
+<div id="Ch3.S4.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch3.S4.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch03-0095">大语言模型能力起源仍有未解问题。流水线在训练（什么数据重要？哪些训练步骤最重要？）和推断（如何提取高质量推理轨迹？）两方面都日益复杂，因此很难得出结论。例如，预训练与后训练何者更重要，知识是否主要来自预训练、后训练是否只用于寻找良好的任务接口，仍是开放问题 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib45" title="" class="ltx_ref">Zhou et al., 2023</a>]</cite>。</p>
+</div>
+<div id="Ch3.S4.SS0.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch3.S4.SS0.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch03-0096">本书其余部分将讨论后训练、推断时推理方法以及智能体训练方法。不过，首先在下一章考察缩放定律。</p>
+</div>
+</section>
+</section>
+<section id="bibb" class="ltx_bibliography ltx_list_03_pipeline">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibb.L1" class="ltx_biblist">
+<li id="bibb.bib23" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Achiam <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Achiam, S. Adler, S. Agarwal, L. Ahmad, I. Akkaya, F. L. Aleman, D. Almeida, J. Altenschmidt, S. Altman, S. Anadkat, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Gpt-4 technical report</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2303.08774</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p1.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Anil <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Anil, S. Borgeaud, J. Alayrac, J. Yu, R. Soricut, J. Schalkwyk, A. M. Dai, A. Hauth, K. Millican, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Gemini: a family of highly capable multimodal models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2312.11805</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p1.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib39" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Baack (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Baack</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A critical analysis of the largest source for generative ai training data: common crawl</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2024 ACM Conference on Fairness, Accountability, and Transparency</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 2199–2208</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.I1.i1.p1.1" title="In 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1st item</span></a>.
+</span></li>
+<li id="bibb.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bai <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Bai, K. Chen, X. Liu, J. Wang, W. Ge, S. Song, K. Dang, P. Wang, S. Wang, J. Tang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Qwen2. 5-vl technical report</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.13923</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p1.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib51" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bai <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Bai, S. Kadavath, S. Kundu, A. Askell, J. Kernion, A. Jones, A. Chen, A. Goldie, A. Mirhoseini, C. McKinnon, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Constitutional ai: harmlessness from ai feedback</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2212.08073</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS4.p3.1" title="3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.4</span></a>.
+</span></li>
+<li id="bibb.bib37" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bakouch <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Bakouch, L. Ben Allal, A. Lozhkov, N. Tazi, L. Tunstall, C. M. Patiño, E. Beeching, A. Roucher, A. J. Reedi, Q. Gallouédec, K. Rasul, N. Habib, C. Fourrier, H. Kydlicek, G. Penedo, H. Larcher, M. Morlon, V. Srivastav, J. Lochner, X. Nguyen, C. Raffel, L. von Werra, and T. Wolf</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">SmolLM3: smol, multilingual, long-context reasoner</span>.
+</span>
+<span class="ltx_bibblock">Note: <span class="ltx_text ltx_bib_note"><a href="https://huggingface.co/blog/smollm3" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://huggingface.co/blog/smollm3</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.F3" title="In 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.3</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch3.F3.4" title="In 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.3</span></a>,
+<a href="#Ch3.S2.I1.i3.p1.1" title="In 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3rd item</span></a>.
+</span></li>
+<li id="bibb.bib46" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Balloccu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Balloccu, P. Schmidtová, M. Lango, and O. Dusek</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Leak, cheat, repeat: data contamination and evaluation malpractices in closed-source LLMs</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,  <span class="ltx_text ltx_bib_editor">Y. Graham and M. Purver (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">St. Julian’s, Malta</span>, <span class="ltx_text ltx_bib_pages">pp. 67–93</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.eacl-long.5/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.eacl-long.5" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.SS3.SSS0.Px1.p1.1" title="Data Contamination ‣ 3.3.3 Common Benchmarks ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3.3</span></a>.
+</span></li>
+<li id="bibb.bib15" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bengio <span class="ltx_text ltx_bib_etal">et al.</span> (2009)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Bengio, J. Louradour, R. Collobert, and J. Weston</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Curriculum learning</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 26th annual international conference on machine learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 41–48</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS2.p6.1" title="3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.2</span></a>.
+</span></li>
+<li id="bibb.bib13" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Biderman <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Biderman, H. Schoelkopf, Q. G. Anthony, H. Bradley, K. O’Brien, E. Hallahan, M. A. Khan, S. Purohit, U. S. Prashanth, E. Raff, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Pythia: a suite for analyzing large language models across training and scaling</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Machine Learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 2397–2430</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p3.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib49" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Borgeaud <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Borgeaud, A. Mensch, J. Hoffmann, T. Cai, E. Rutherford, K. Millican, G. B. Van Den Driessche, J. Lespiau, B. Damoc, A. Clark, D. De Las Casas, A. Guy, J. Menick, R. Ring, T. Hennigan, S. Huang, L. Maggiore, C. Jones, A. Cassirer, A. Brock, M. Paganini, G. Irving, O. Vinyals, S. Osindero, K. Simonyan, J. Rae, E. Elsen, and L. Sifre</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Improving language models by retrieving from trillions of tokens</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 39th International Conference on Machine Learning</span>,  <span class="ltx_text ltx_bib_editor">K. Chaudhuri, S. Jegelka, L. Song, C. Szepesvari, G. Niu, and S. Sabato (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_series">Proceedings of Machine Learning Research</span>, Vol. <span class="ltx_text ltx_bib_volume">162</span>, <span class="ltx_text ltx_bib_pages">pp. 2206–2240</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://proceedings.mlr.press/v162/borgeaud22a.html" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.SS2.SSS0.Px1.p4.1" title="Pretraining Metrics ‣ 3.3.2 Metrics ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3.2</span></a>.
+</span></li>
+<li id="bibb.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brown <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language models are few-shot learners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">33</span>, <span class="ltx_text ltx_bib_pages">pp. 1877–1901</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS1.p1.1" title="3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.1</span></a>,
+<a href="#Ch3.S2.SS5.p3.1" title="3.2.5 Infer ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.5</span></a>.
+</span></li>
+<li id="bibb.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chowdhery <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Chowdhery, S. Narang, J. Devlin, M. Bosma, G. Mishra, A. Roberts, P. Barham, H. W. Chung, C. Sutton, S. Gehrmann, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Palm: scaling language modeling with pathways</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Machine Learning Research</span> <span class="ltx_text ltx_bib_volume">24</span> (<span class="ltx_text ltx_bib_number">240</span>), <span class="ltx_text ltx_bib_pages">pp. 1–113</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p1.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib50" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dong <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Dong, W. Xiong, B. Pang, H. Wang, H. Zhao, Y. Zhou, N. Jiang, D. Sahoo, C. Xiong, and T. Zhang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">RLHF workflow: from reward modeling to online RLHF</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Transactions on Machine Learning Research</span>.
+</span>
+<span class="ltx_bibblock">Note: <span class="ltx_text ltx_bib_note"></span>
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 2835-8856</span>,
+<a href="https://openreview.net/forum?id=a13aYUU9eU" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.F5" title="In 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.5</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch3.F5.4" title="In 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.5</span></a>.
+</span></li>
+<li id="bibb.bib25" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dong <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Q. Dong, L. Li, D. Dai, C. Zheng, Z. Wu, B. Chang, X. Sun, J. Xu, and Z. Sui</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey on in-context learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2301.00234</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS5.p3.1" title="3.2.5 Infer ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.5</span></a>.
+</span></li>
+<li id="bibb.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Du <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Du, B. Gao, B. Xing, C. Jiang, C. Chen, C. Li, C. Xiao, C. Du, C. Liao, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Kimi k1.5: scaling reinforcement learning with llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.12599</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS6.p1.1" title="3.2.6 Concluding Remarks ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.6</span></a>.
+</span></li>
+<li id="bibb.bib35" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ettinger <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Ettinger, A. Bertsch, B. Kuehl, D. Graham, D. Heineman, D. Groeneveld, F. Brahman, F. Timbers, H. Ivison, J. Morrison, J. Poznanski, K. Lo, L. Soldaini, M. Jordan, M. Chen, M. Noukhovitch, N. Lambert, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Olmo 3</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2512.13961</span>,
+<a href="https://arxiv.org/abs/2512.13961" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.I1.i2.p1.1" title="In 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2nd item</span></a>,
+<a href="#Ch3.S2.SS3.SSS0.Px1.p1.1" title="Supervised Finetuning (SFT) ‣ 3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>.
+</span></li>
+<li id="bibb.bib38" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gao <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Gao, S. Biderman, S. Black, L. Golding, T. Hoppe, C. Foster, J. Phang, H. He, A. Thite, N. Nabeshima, S. Presser, and C. Leahy</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The pile: an 800gb dataset of diverse text for language modeling</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2101.00027</span>,
+<a href="https://arxiv.org/abs/2101.00027" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.F2" title="In 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch3.F2.4" title="In 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.2</span></a>,
+<a href="#Ch3.S2.SS1.p2.1" title="3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.1</span></a>.
+</span></li>
+<li id="bibb.bib4" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Groeneveld <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Groeneveld, I. Beltagy, P. Walsh, A. Bhagia, R. Kinney, O. Tafjord, A. H. Jha, H. Ivison, I. Magnusson, Y. Wang, S. Arora, D. Atkinson, R. Authur, K. R. Chandu, A. Cohan, J. Dumas, Y. Elazar, Y. Gu, J. Hessel, T. Khot, W. Merrill, J. Morrison, N. Muennighoff, A. Naik, C. Nam, M. E. Peters, V. Pyatkin, A. Ravichander, D. Schwenk, S. Shah, W. Smith, E. Strubell, N. Subramani, M. Wortsman, P. Dasigi, N. Lambert, K. Richardson, L. Zettlemoyer, J. Dodge, K. Lo, L. Soldaini, N. A. Smith, and H. Hajishirzi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">OLMo: accelerating the science of language models</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2402.00838</span>,
+<a href="https://arxiv.org/abs/2402.00838" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p3.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib43" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Guha <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Guha, R. Marten, S. Keh, N. Raoof, G. Smyrnis, H. Bansal, M. Nezhurina, J. Mercat, T. Vu, Z. Sprague, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">OpenThoughts: data recipes for reasoning models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.04178</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS3.SSS0.Px1.p3.1" title="Supervised Finetuning (SFT) ‣ 3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>.
+</span></li>
+<li id="bibb.bib5" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Guo <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Guo, D. Yang, H. Zhang, J. Song, R. Zhang, R. Xu, Q. Zhu, S. Ma, P. Wang, X. Bi, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deepseek-r1: incentivizing reasoning capability in llms via reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.12948</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p1.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>,
+<a href="#Ch3.S2.SS4.SSS0.Px3.p1.1" title="Objective alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.4</span></a>,
+<a href="#Ch3.S2.SS6.p1.1" title="3.2.6 Concluding Remarks ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.6</span></a>.
+</span></li>
+<li id="bibb.bib27" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hu <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, and W. Chen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Lora: low-rank adaptation of large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2106.09685</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS3.p1.1" title="3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>.
+</span></li>
+<li id="bibb.bib34" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jouppi <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Jouppi, G. Kurian, S. Li, P. Ma, R. Nagarajan, L. Nai, N. Patil, S. Subramanian, A. Swing, B. Towles, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tpu v4: an optically reconfigurable supercomputer for machine learning with hardware support for embeddings</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 50th annual international symposium on computer architecture</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–14</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p4.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib22" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kocmi <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Kocmi, R. Bawden, O. Bojar, A. Dvorkovich, C. Federmann, M. Fishel, T. Gowda, Y. Graham, R. Grundkiewicz, B. Haddow, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Findings of the 2022 conference on machine translation (wmt22)</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the Seventh Conference on Machine Translation (WMT)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–45</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib2" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lambert <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Lambert, J. Morrison, V. Pyatkin, S. Huang, H. Ivison, F. Brahman, L. J. V. Miranda, A. Liu, N. Dziri, S. Lyu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tulu 3: pushing frontiers in open language model post-training</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.15124</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS4.SSS0.Px3.p1.1" title="Objective alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.4</span></a>.
+</span></li>
+<li id="bibb.bib14" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Le Scao <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Le Scao, A. Fan, C. Akiki, E. Pavlick, S. Ilić, D. Hesslow, R. Castagné, A. S. Luccioni, F. Yvon, M. Gallé, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Bloom: a 176b-parameter open-access multilingual language model</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p3.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib47" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lin <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Lin, H. Lin, W. Xiong, S. Diao, J. Liu, J. Zhang, R. Pan, H. Wang, W. Hu, H. Zhang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mitigating the alignment tax of rlhf</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 580–606</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS4.SSS0.Px1.p2.1" title="Value alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.4</span></a>.
+</span></li>
+<li id="bibb.bib32" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Minaee <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Minaee, T. Mikolov, N. Nikzad, M. Chenaghlu, R. Socher, X. Amatriain, and J. Gao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.06196</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.F1" title="In 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch3.F1.4" title="In 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.1</span></a>,
+<a href="#Ch3.S2.SS3.SSS0.Px1.p5.1" title="Supervised Finetuning (SFT) ‣ 3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>,
+<a href="#Ch3.S2.SS3.p1.1" title="3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>,
+<a href="#Ch3.S2.p1.1" title="3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2</span></a>.
+</span></li>
+<li id="bibb.bib21" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Narayan <span class="ltx_text ltx_bib_etal">et al.</span> (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Narayan, S. B. Cohen, and M. Lapata</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Don’t give me the details, just the summary! topic-aware convolutional neural networks for extreme summarization</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1808.08745</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ouyang <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Ouyang, J. Wu, X. Jiang, D. Almeida, C. Wainwright, P. Mishkin, C. Zhang, S. Agarwal, K. Slama, A. Ray, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Training language models to follow instructions with human feedback</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 27730–27744</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p1.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>,
+<a href="#Ch3.S2.SS4.p3.1" title="3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.4</span></a>.
+</span></li>
+<li id="bibb.bib18" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Papineni <span class="ltx_text ltx_bib_etal">et al.</span> (2002)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Papineni, S. Roukos, T. Ward, and W. Zhu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Bleu: a method for automatic evaluation of machine translation</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 40th annual meeting of the Association for Computational Linguistics</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 311–318</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib48" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Pimentel and Meister (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Pimentel and C. Meister</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">How to compute the probability of a word</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing</span>,  <span class="ltx_text ltx_bib_editor">Y. Al-Onaizan, M. Bansal, and Y. Chen (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Miami, Florida, USA</span>, <span class="ltx_text ltx_bib_pages">pp. 18358–18375</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.emnlp-main.1020/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.emnlp-main.1020" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.SS2.SSS0.Px1.p3.1" title="Pretraining Metrics ‣ 3.3.2 Metrics ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3.2</span></a>.
+</span></li>
+<li id="bibb.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Radford <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, I. Sutskever, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language models are unsupervised multitask learners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">OpenAI blog</span> <span class="ltx_text ltx_bib_volume">1</span> (<span class="ltx_text ltx_bib_number">8</span>), <span class="ltx_text ltx_bib_pages">pp. 9</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.F1" title="In 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch3.F1.4" title="In 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.1</span></a>,
+<a href="#Ch3.S2.p1.1" title="3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2</span></a>.
+</span></li>
+<li id="bibb.bib28" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rafailov <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Rafailov, A. Sharma, E. Mitchell, C. D. Manning, S. Ermon, and C. Finn</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Direct preference optimization: your language model is secretly a reward model</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS4.p3.1" title="3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.4</span></a>.
+</span></li>
+<li id="bibb.bib40" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Raffel <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Raffel, N. Shazeer, A. Roberts, K. Lee, S. Narang, M. Matena, Y. Zhou, W. Li, and P. J. Liu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Exploring the limits of transfer learning with a unified text-to-text transformer</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Machine Learning Research</span> <span class="ltx_text ltx_bib_volume">21</span> (<span class="ltx_text ltx_bib_number">140</span>), <span class="ltx_text ltx_bib_pages">pp. 1–67</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="http://jmlr.org/papers/v21/20-074.html" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.I1.i1.p1.1" title="In 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">1st item</span></a>.
+</span></li>
+<li id="bibb.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rajpurkar <span class="ltx_text ltx_bib_etal">et al.</span> (2016)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Rajpurkar, J. Zhang, K. Lopyrev, and P. Liang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Squad: 100,000+ questions for machine comprehension of text</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1606.05250</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Roberts <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Roberts, C. Raffel, and N. Shazeer</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">How much knowledge can you pack into the parameters of a language model?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2002.08910</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib1" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sahoo <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Sahoo, A. K. Singh, S. Saha, V. Jain, S. Mondal, and A. Chadha</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A systematic survey of prompt engineering in large language models: techniques and applications</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.07927</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS5.p2.1" title="3.2.5 Infer ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.5</span></a>.
+</span></li>
+<li id="bibb.bib17" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sennrich <span class="ltx_text ltx_bib_etal">et al.</span> (2015)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Sennrich, B. Haddow, and A. Birch</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Improving neural machine translation models with monolingual data</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1511.06709</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Shao, P. Wang, Q. Zhu, R. Xu, J. Song, X. Bi, H. Zhang, M. Zhang, Y. Li, Y. Wu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deepseekmath: pushing the limits of mathematical reasoning in open language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.03300</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.F6" title="In Objective alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.6</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch3.F6.4" title="In Objective alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.6</span></a>,
+<a href="#Ch3.S2.SS4.SSS0.Px3.p1.1" title="Objective alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.4</span></a>.
+</span></li>
+<li id="bibb.bib52" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shoeybi <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Shoeybi, M. Patwary, R. Puri, P. LeGresley, J. Casper, and B. Catanzaro</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Megatron-lm: training multi-billion parameter language models using model parallelism</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">1909.08053</span>,
+<a href="https://arxiv.org/abs/1909.08053" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.F4" title="In 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch3.F4.4" title="In 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 3.4</span></a>,
+<a href="#Ch3.S2.SS2.p7.1" title="3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.2</span></a>.
+</span></li>
+<li id="bibb.bib36" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Soldaini <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Soldaini, R. Kinney, A. Bhagia, D. Schwenk, D. Atkinson, R. Authur, B. Bogin, K. Chandu, J. Dumas, Y. Elazar, V. Hofmann, A. Jha, S. Kumar, L. Lucy, X. Lyu, N. Lambert, I. Magnusson, J. Morrison, N. Muennighoff, A. Naik, C. Nam, M. Peters, A. Ravichander, K. Richardson, Z. Shen, E. Strubell, N. Subramani, O. Tafjord, E. Walsh, L. Zettlemoyer, N. Smith, H. Hajishirzi, I. Beltagy, D. Groeneveld, J. Dodge, and K. Lo</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Dolma: an open corpus of three trillion tokens for language model pretraining research</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)</span>,  <span class="ltx_text ltx_bib_editor">L. Ku, A. Martins, and V. Srikumar (Eds.)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_place">Bangkok, Thailand</span>, <span class="ltx_text ltx_bib_pages">pp. 15725–15788</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://aclanthology.org/2024.acl-long.840/" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.18653/v1/2024.acl-long.840" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.I1.i2.p1.1" title="In 3.2.1 Acquire Data ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2nd item</span></a>.
+</span></li>
+<li id="bibb.bib41" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Takase <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Takase, S. Kiyono, S. Kobayashi, and J. Suzuki</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Spike no more: stabilizing the pre-training of large language models</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2312.16903</span>,
+<a href="https://arxiv.org/abs/2312.16903" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS2.p7.1" title="3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.2</span></a>.
+</span></li>
+<li id="bibb.bib3" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Thiyagalingam <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Thiyagalingam, G. von Laszewski, J. Yin, M. Emani, J. Papay, G. Barrett, P. Luszczek, A. Tsaris, C. Kirkpatrick, F. Wang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">AI benchmarking for science: efforts from the mlcommons science working group</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on High Performance Computing</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 47–64</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.SS3.p1.1" title="3.3.3 Common Benchmarks ‣ 3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3.3</span></a>.
+</span></li>
+<li id="bibb.bib33" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Touvron <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Touvron, L. Martin, K. Stone, P. Albert, A. Almahairi, Y. Babaei, N. Bashlykov, S. Batra, P. Bhargava, S. Bhosale, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Llama 2: open foundation and fine-tuned chat models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2307.09288</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S1.SS3.p1.1" title="3.1.3 Open and Closed Models ‣ 3.1 Training Models ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.1.3</span></a>.
+</span></li>
+<li id="bibb.bib31" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Vaswani <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit, L. Jones, A. N. Gomez, Ł. Kaiser, and I. Polosukhin</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Attention is all you need</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">30</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS2.p1.1" title="3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.2</span></a>.
+</span></li>
+<li id="bibb.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Wang, Y. Pruksachatkun, N. Nangia, A. Singh, J. Michael, F. Hill, O. Levy, and S. Bowman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Superglue: a stickier benchmark for general-purpose language understanding systems</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">32</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib8" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Wang, A. Singh, J. Michael, F. Hill, O. Levy, and S. Bowman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">GLUE: a multi-task benchmark and analysis platform for natural language understanding</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2018 EMNLP workshop BlackboxNLP: Analyzing and interpreting neural networks for NLP</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 353–355</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib29" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wei <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Wei, Y. Tay, R. Bommasani, C. Raffel, B. Zoph, S. Borgeaud, D. Yogatama, M. Bosma, D. Zhou, D. Metzler, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Emergent abilities of large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2206.07682</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS3.SSS0.Px1.p5.1" title="Supervised Finetuning (SFT) ‣ 3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>,
+<a href="#Ch3.S2.SS3.p1.1" title="3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>,
+<a href="#Ch3.S2.SS5.p3.1" title="3.2.5 Infer ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.5</span></a>.
+</span></li>
+<li id="bibb.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang and Eger (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Zhang and S. Eger</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">LLM-based multi-agent poetry generation in non-cooperative environments</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2409.03659</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S3.p1.1" title="3.3 Benchmarks, and Performance ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.3</span></a>.
+</span></li>
+<li id="bibb.bib44" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Zhang, L. Dong, X. Li, S. Zhang, X. Sun, S. Wang, J. Li, R. Hu, T. Zhang, G. Wang, and F. Wu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Instruction tuning for large language models: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">ACM Comput. Surv.</span> <span class="ltx_text ltx_bib_volume">58</span> (<span class="ltx_text ltx_bib_number">7</span>).
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 0360-0300</span>,
+<a href="https://doi.org/10.1145/3777411" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1145/3777411" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS3.SSS0.Px1.p3.1" title="Supervised Finetuning (SFT) ‣ 3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>.
+</span></li>
+<li id="bibb.bib42" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Zhao, X. Ren, J. Hessel, C. Cardie, Y. Choi, and Y. Deng</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">WildChat: 1m chatGPT interaction logs in the wild</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">The Twelfth International Conference on Learning Representations</span>,
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://openreview.net/forum?id=Bl8u7ZRlbM" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S2.SS3.SSS0.Px1.p2.1" title="Supervised Finetuning (SFT) ‣ 3.2.3 Finetune ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.2.3</span></a>.
+</span></li>
+<li id="bibb.bib45" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Zhou, P. Liu, P. Xu, S. Iyer, J. Sun, Y. Mao, X. Ma, A. Efrat, P. Yu, L. Yu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Lima: less is more for alignment</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 55006–55021</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch3.S4.SS0.SSS0.Px1.p1.1" title="Open Questions ‣ 3.4 Concluding Remarks ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§3.4</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch02.html">← 第 2 章</a><a href="index.html">全书目录</a><a href="ch04.html">第 4 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

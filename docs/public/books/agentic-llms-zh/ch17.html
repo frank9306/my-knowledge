@@ -1,0 +1,703 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 17 章 多大语言模型系统中的涌现行为 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html" aria-current="page"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html" aria-current="page"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">17 / 23 · 中文翻译</p><section id="Ch17" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch17-0001">第 17 章 多大语言模型系统中的涌现行为</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch17.S1">17.1 什么是涌现的多智能体行为？</a></li><li class="level-h3"><a href="#Ch17.S1.SS1">17.1.1 从基于智能体的建模到生成式智能体社会</a></li><li class="level-h3"><a href="#Ch17.S1.SS2">17.1.2 方法论说明</a></li><li class="level-h2"><a href="#Ch17.S2">17.2 模拟基础设施</a></li><li class="level-h3"><a href="#Ch17.S2.SS1">17.2.1 小世界</a></li><li class="level-h3"><a href="#Ch17.S2.SS2">17.2.2 从数千到百万智能体的社会</a></li><li class="level-h3"><a href="#Ch17.S2.SS3">17.2.3 作为科学工具的模拟</a></li><li class="level-h2"><a href="#Ch17.S3">17.3 涌现的惯例与规范</a></li><li class="level-h2"><a href="#Ch17.S4">17.4 在开放世界环境中评估智能体</a></li><li class="level-h2"><a href="#Ch17.S5">17.5 涌现行为的风险</a></li><li class="level-h2"><a href="#Ch17.S6">17.6 结束语</a></li><li class="level-h2"><a href="#bibp">参考文献</a></li></ol></nav></details><div id="Ch17.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch17.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch17.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch17.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch17.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0133">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch17.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch17.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0134">本章将介绍：为研究开放式系统中的涌现行为，多个大语言模型智能体在未被分配角色时会如何行动。具体而言，你将能够：</p>
+<ul id="Ch17.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch17.S0.I1.i1" class="ltx_item">
+<div id="Ch17.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch17.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0135">区分涌现型多智能体模拟与基于角色的交互，并解释开放式场景为何需要不同的研究问题与评估方法。</p>
+</div></li>
+<li id="Ch17.S0.I1.i2" class="ltx_item">
+<div id="Ch17.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch17.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0136">描述生成式智能体模拟的架构，以及模拟基础设施如何从少数几个智能体扩展到数千个。</p>
+</div></li>
+<li id="Ch17.S0.I1.i3" class="ltx_item">
+<div id="Ch17.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch17.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0137">解释全局尺度上的惯例、规范与元规范，如何从局部尺度上通过自然语言进行的智能体交互中涌现。</p>
+</div></li>
+<li id="Ch17.S0.I1.i4" class="ltx_item">
+<div id="Ch17.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch17.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0138">理解多智能体模拟如何作为科学研究工具用于计算社会科学。</p>
+</div></li>
+<li id="Ch17.S0.I1.i5" class="ltx_item">
+<div id="Ch17.S0.I1.i5.p1" class="ltx_para">
+<p id="Ch17.S0.I1.i5.p1.1" class="ltx_p" data-supplement-id="extra-0139">理解开放世界基准环境对数据生成的重要性。</p>
+</div></li>
+<li id="Ch17.S0.I1.i6" class="ltx_item">
+<div id="Ch17.S0.I1.i6.p1" class="ltx_para">
+<p id="Ch17.S0.I1.i6.p1.1" class="ltx_p" data-supplement-id="extra-0140">批判性地评估从人类语境引入的涌现、自组织、集体智能等概念相关主张的有效性，并评估开放式多智能体系统引入的安全风险。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch17.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch17-0002">17.1 什么是涌现的多智能体行为？</h2>
+
+<div id="Ch17.S1.p1" class="ltx_para">
+<p id="Ch17.S1.p1.1" class="ltx_p" data-translation-id="ch17-0003">上一章研究了多大语言模型系统，其中每个智能体都被分配了角色，交互则由协议引导。研究问题关注指定结构内部的行为，探究一组智能体以受控方式解决任务的效果如何。本章将智能体置于开放式环境中，研究问题也从“在给定的全局结构下，智能体如何行动和表现？”转向“局部智能体的交互会涌现出怎样的全局结构？”。</p>
+</div>
+<div id="Ch17.S1.p2" class="ltx_para">
+<p id="Ch17.S1.p2.1" class="ltx_p" data-translation-id="ch17-0004">正如本书所述，智能体式大语言模型在感知、记忆、推理、决策和自适应学习方面具备增强的能力，也可以表现出各不相同的人格特征 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib30" title="" class="ltx_ref">Gao et al., 2023</a>, <a href="#bibp.bib35" title="" class="ltx_ref">Gao et al., 2024</a>]</cite>。这些特性也使其适合在未预先分配角色的开放式多智能体模拟中交互，作为社会中人类行为的替代模型。由于大语言模型智能体使用自然语言沟通，研究人员能够阅读和理解此类模拟中的交互。这使研究人员可以观察中间步骤，也让这些模拟比经典框架中的模拟更便于与人类交互比较，契合了社会科学长期以来的研究兴趣。适用于此类模拟的大语言模型智能体的一般结构见图 <a href="#Ch17.F1" title="Figure 17.1 ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.1</span></a> 和图 <a href="#Ch17.F2" title="Figure 17.2 ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.2</span></a>。</p>
+</div>
+<figure id="Ch17.F1" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/abm.png" id="Ch17.F1.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:393/145;" width="393" height="145" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0005">图 17.1：基于智能体的建模与大语言模型智能体 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib35" title="" class="ltx_ref">Gao et al., 2024</a>]</cite></figcaption>
+</figure>
+<figure id="Ch17.F2" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/struct.png" id="Ch17.F2.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:393/228;" width="393" height="228" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0006">图 17.2：用于多智能体建模的大语言模型智能体结构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib30" title="" class="ltx_ref">Gao et al., 2023</a>]</cite></figcaption>
+</figure>
+<section id="Ch17.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch17-0007">17.1.1 从基于智能体的建模到生成式智能体社会</h3>
+
+<div id="Ch17.S1.SS1.p1" class="ltx_para">
+<p id="Ch17.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch17-0008">对于相互交互的人工智能体群体的研究，已有数十年历史。在基于智能体的建模中，宏观层面的模式和规律由简单智能体之间的局部交互自下而上地产生 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib44" title="" class="ltx_ref">Epstein and Axtell, 1996</a>, <a href="#bibp.bib8" title="" class="ltx_ref">Macal and North, 2010</a>]</cite>。基于智能体的建模中最有影响力的发现之一，是合作与规范能够在自利智能体群体中涌现 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib12" title="" class="ltx_ref">Axelrod, 1986</a>]</cite>。文化演化理论将行为如何通过模仿、沟通和教育在群体中传播进行了形式化描述 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib37" title="" class="ltx_ref">Boyd and Richerson, 1988</a>]</cite>。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib10" title="" class="ltx_ref">Steels [1995]</a></cite> 的命名博弈表明，即使是共享词汇表——本质上也是一种惯例——也能在没有中央协调的情况下，通过成对交互产生。</p>
+</div>
+<div id="Ch17.S1.SS1.p2" class="ltx_para">
+<p id="Ch17.S1.SS1.p2.1" class="ltx_p" data-translation-id="ch17-0009">在经典的基于智能体的模拟中，智能体遵循人工编写的规则，交换抽象信息，而不像本章的智能体那样使用自然语言。另一个关键差异是，经典智能体并不具备任何在意义上可与大语言模型智能体相提并论的世界背景知识。大语言模型使模拟达到了全然不同的层次：拥有丰富、多样人设的智能体会闲聊、劝说、误解和协商，其方式让人类一看便能理解。模拟基础设施的进步，使这类智能体能够以群体规模运行 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib35" title="" class="ltx_ref">Gao et al., 2024</a>, <a href="#bibp.bib41" title="" class="ltx_ref">Yang et al., 2024</a>]</cite>。由此产生的新一代生成式智能体社会，为历史悠久的基于智能体的建模研究议程注入了新动力，同时也带来了新的方法论问题与考量。</p>
+</div>
+<div id="Ch17.S1.SS1.p3" class="ltx_para">
+<p id="Ch17.S1.SS1.p3.1" class="ltx_p" data-translation-id="ch17-0010">在第 <a href="ch16.html#Ch16.S1.SS3" title="16.1.3 Five Dimensions of Multi-Agent Collaboration ‣ 16.1 From Single-agent to Multi-agent ‣ Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16.1.3</span></a> 节中，我们介绍了研究者对多大语言模型系统进行控制的五个轴所构成的连续谱 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib47" title="" class="ltx_ref">Tran et al., 2025</a>]</cite>。基于角色的模拟与开放式模拟之间，区别在于程度而非性质。开放式模拟位于连续谱的一端，与角色明确、交互协议化的一端相对。开放式模拟仍包含为结果埋下种子的设计选择，但这些选择的确定性较弱，并有意为新模式的涌现留出空间。研究重点因此发生变化：研究不再评价某项任务或明确目标的完成效果，而是采用开放的观察视角——交互模式本身就是研究目标。开放式模拟以更接近民族志的方法，观察和探索智能体如何行动与交互，因此需要不同的方法论，下面我们将展开讨论。</p>
+</div>
+</section>
+<section id="Ch17.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch17-0011">17.1.2 方法论说明</h3>
+
+<div id="Ch17.S1.SS2.p1" class="ltx_para">
+<p id="Ch17.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch17-0012">第 <a href="ch15.html#Ch15" title="Chapter 15 Studying Behavior of Agentic LLMs ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">15</span></a> 章和第 <a href="ch16.html#Ch16" title="Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16</span></a> 章讨论的方法论问题，都同样存在于开放式场景中：提示敏感性、不同运行之间的变异、级联幻觉、弱点的相互强化，以及人类语境中术语的有效性，都会给开放式模拟带来挑战。我们将看到，这种场景会放大某些问题，同时缓解另一些问题。例如，当智能体每次交互时都缺少适用的协议，单个智能体层面的微小变化就可能使整个模拟走上另一条轨迹。这正是开放式模拟既有趣又脆弱的原因。开放式场景引入的一个新问题是，涌现与检索之间可能只有一线之隔：当开放式模拟中的大语言模型智能体趋同于某一规范时，很难判断这一规范究竟是从交互中全新涌现的，还是仅仅从其预训练的世界知识中检索出来的。</p>
+</div>
+<div id="Ch17.S1.SS2.p2" class="ltx_para">
+<p id="Ch17.S1.SS2.p2.1" class="ltx_p" data-translation-id="ch17-0013"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib14" title="" class="ltx_ref">Mou et al. [2024]</a></cite>、<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib18" title="" class="ltx_ref">Savarimuthu et al. [2024]</a></cite> 和 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib15" title="" class="ltx_ref">Xi et al. [2023]</a></cite> 对这一新兴领域给出了全面综述。我们将在第 <a href="#Ch17.S2" title="17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.2</span></a> 节讨论基础设施和模拟平台，再在第 <a href="#Ch17.S3" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.3</span></a> 节讨论惯例与规范的涌现，并在第 <a href="#Ch17.S4" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.4</span></a> 节讨论开放世界环境的重要性。最后，在第 <a href="#Ch17.S5" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.5</span></a> 节反思开放式场景的风险。随后，第 <a href="ch18.html#Ch18" title="Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">18</span></a> 章提供了一个实践案例，你将在其中亲手操作开放式模拟。</p>
+</div>
+</section>
+</section>
+<section id="Ch17.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch17-0014">17.2 模拟基础设施</h2>
+
+<div id="Ch17.S2.p1" class="ltx_para">
+<p id="Ch17.S2.p1.1" class="ltx_p" data-translation-id="ch17-0015">开放式模拟需要基础设施，一方面提供平台，在智能体长时间持续交互和行动的同时记录研究数据；另一方面，这些基础设施应当为现象自下而上的发生以及未知结构的涌现留下足够空间，因此不能构成限制。本节聚焦规模，从居住在虚拟小镇中的单个模拟社区，逐步讨论到包含一百万个智能体的社会。</p>
+</div>
+<section id="Ch17.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch17-0016">17.2.1 小世界</h3>
+
+<div id="Ch17.S2.SS1.p1" class="ltx_para">
+<p id="Ch17.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch17-0017"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib36" title="" class="ltx_ref">Park et al. [2023]</a></cite> 提出了名为 Generative Agents 的系统。Generative Agents 是一个模拟环境，用户可以与其中居住着 25 个基于大语言模型的智能体的小镇进行交互。依据早先提出的社会拟像技术 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib31" title="" class="ltx_ref">Park et al., 2022</a>]</cite>，每个智能体初始化时都拥有独特的人设和记忆。系统为每个智能体记录其在模拟中的全部经历和对话，再利用这些记录综合形成更高层次的反思，并规划后续行为（见图 <a href="#Ch17.F3" title="Figure 17.3 ‣ 17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.3</span></a>）。</p>
+</div>
+<div id="Ch17.S2.SS1.p2" class="ltx_para">
+<p id="Ch17.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch17-0018">在 Generative Agents 中，智能体的行为有些类似电子游戏《The Sims》中的角色 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib4" title="" class="ltx_ref">Nutt and Railton, 2003</a>]</cite>：它们主动交谈、建立关系、传播信息，并协调临时的群体活动（见图 <a href="#Ch17.F4" title="Figure 17.4 ‣ 17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.4</span></a>）。请注意，交互会受到用户输入的影响，因此属于半自主交互；模拟在很大程度上没有预设脚本，但并非完全如此。情人节聚会的例子展示了模拟如何运作：用户通过提示发起聚会计划，随后多个智能体相互传递邀请，并带着协调好的计划在正确的时间到场（有些会迟到，就像现实生活一样）。智能体发展出了可信的社交惯例，例如每日安排和闲聊，甚至表现出类似人类的性格特点：一些智能体会欺骗或固执，另一些则表现出合作。这些结果表明，在适当的起始提示下，社会模式能够从动态、半自主的大语言模型交互中涌现。</p>
+</div>
+<figure id="Ch17.F3" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/simulacra1.png" id="Ch17.F3.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:471/176;" width="471" height="176" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0019">图 17.3：记忆—反思—规划循环是支撑 Generative Agents 系统的关键设计：如果不对持续增长的经历记录进行检索，也不定期反思，智能体会在模拟时间的数小时内失去行为一致性 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib36" title="" class="ltx_ref">Park et al., 2023</a>]</cite></figcaption>
+</figure>
+<figure id="Ch17.F4" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/simulacra2.png" id="Ch17.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/256;" width="476" height="256" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0020">图 17.4：Generative Agents 模拟示意，包含 25 个智能体，并通过交互式设计让用户能够触发行为 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib36" title="" class="ltx_ref">Park et al., 2023</a>]</cite></figcaption>
+</figure>
+</section>
+<section id="Ch17.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch17-0021">17.2.2 从数千到百万智能体的社会</h3>
+
+<div id="Ch17.S2.SS2.p1" class="ltx_para">
+<p id="Ch17.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch17-0022">将 Generative Agents 架构扩展到 25 个以上的智能体，会引出推理成本问题，以及环境能否足够丰富、容纳数千个智能体活动的问题。11 1 正如你将在下一章亲身体验的，即使只运行具有三个活跃智能体的 Generative Agents 架构变体，在计算上也已经颇具挑战。大型社会模拟需要在可用算力、模拟总运行时间、模拟智能体数量以及单个智能体行为的准确性之间进行权衡。若干平台正在处理这些问题。</p>
+</div>
+<div id="Ch17.S2.SS2.p2" class="ltx_para">
+<p id="Ch17.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch17-0023">AgentSociety 是一种涉及超过 10,000 个智能体的大规模模拟 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib5" title="" class="ltx_ref">Piao et al., 2025b</a>]</cite>。它将大语言模型驱动的智能体与真实感城市环境相结合，重点关注出行、就业和消费。它不仅旨在研究日常社会动态，如 Generative Agents 所做的那样，还为计算社会实验提供试验平台。为了达到所需规模，该模拟运行于分布式推理后端，并对智能体行为施加更严格的控制。</p>
+</div>
+<div id="Ch17.S2.SS2.p3" class="ltx_para">
+<p id="Ch17.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch17-0024">OASIS 是面向 Twitter/X 和 Reddit 的可扩展社交媒体模拟器 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib41" title="" class="ltx_ref">Yang et al., 2024</a>]</cite>，支持对多达一百万个大语言模型智能体进行建模。它构建于 CAMEL <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib43" title="" class="ltx_ref">Li et al., 2023</a>]</cite> 之上，并以基于角色的智能体为起点。在 OASIS 中，并非每个智能体动作都需要调用大语言模型，也并非所有智能体始终处于活跃状态。在如此大的规模上，OASIS 展现出多种社会群体现象，包括信息与错误信息的传播、群体极化和从众效应。OASIS 由环境服务器、推荐系统、智能体模块、时间引擎和可扩展推理器构成（见图 <a href="#Ch17.F5" title="Figure 17.5 ‣ 17.2.2 Societies of Thousands to a Million Agents ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.5</span></a>）。</p>
+</div>
+<figure id="Ch17.F5" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/oasis.png" id="Ch17.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/251;" width="476" height="251" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0025">图 17.5：OASIS 的组成部分 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib41" title="" class="ltx_ref">Yang et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch17.S2.SS2.p4" class="ltx_para">
+<p id="Ch17.S2.SS2.p4.1" class="ltx_p" data-translation-id="ch17-0026">Project Sid <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib2" title="" class="ltx_ref">Ahn et al., 2024</a>]</cite> 将多达 1000 个智能体置于 Minecraft 世界中，并报告了一项引人注目的涌现结果：研究者观察到，智能体发展出专门的经济角色，如农民、矿工和守卫；遵守集体采纳的规则，如征税；还在聚落之间传播文化乃至宗教模因。然而，尽管交互没有预设脚本，上述关于涌现与检索的警示仍适用：可以预期，在驱动各个智能体的大语言模型的训练数据中，已大量描述过所观察到的角色与行为。</p>
+</div>
+</section>
+<section id="Ch17.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch17-0027">17.2.3 作为科学工具的模拟</h3>
+
+<div id="Ch17.S2.SS3.p1" class="ltx_para">
+<p id="Ch17.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch17-0028">这些平台除了令人印象深刻地展示可扩展的大语言模型技术之外，如果谨慎使用，还可用于复杂的计算社会实验。研究者已利用模拟的生成式智能体社会，研究社会科学中长期存在的问题（第 <a href="#Ch17.S1" title="17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.1</span></a> 节）。例如，AgentSociety 已用于多项案例研究，包括煽动性消息的传播、极化、全民基本收入政策的效果，以及飓风等外部冲击对社会的影响 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib5" title="" class="ltx_ref">Piao et al., 2025b</a>, <a href="#bibp.bib7" title="" class="ltx_ref">Piao et al., 2025a</a>]</cite>。在人类群体中开展这些实验可能不符合伦理、不切实际，甚至完全不可能。作者认为，在模拟中可以重复开展这些实验，并且可以在每一步对实验进行调整。</p>
+</div>
+<div id="Ch17.S2.SS3.p2" class="ltx_para">
+<p id="Ch17.S2.SS3.p2.1" class="ltx_p" data-translation-id="ch17-0029"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib34" title="" class="ltx_ref">Li et al. [2024b]</a></cite> 进一步以错误信息为例说明了这一方法。其智能体在性别、年龄和大五人格特质方面具有不同特征。22 2 大五人格也称 OCEAN：开放性、尽责性、外向性、宜人性和神经质。一项发现是，鼓励评论并不能显著减少错误信息的传播，而公开为信息标注准确性评分、屏蔽特定意见领袖，则被证实是有效策略，在无标度网络中尤为如此 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib3" title="" class="ltx_ref">Barabási, 2009</a>]</cite>。这类研究具有典型模式：通过改变模拟平台来实施某个候选干预，并在多次运行中测量其宏观效果。这些效果能否迁移到人类群体，恰好就是第 <a href="#Ch17.S1.SS2" title="17.1.2 A Methodological Note ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.1.2</span></a> 节提出的有效性问题；此类模拟最适合被视为生成假设与进行预检的工具，而不能代替实地实验。</p>
+</div>
+<section id="Ch17.S2.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch17-0030">一个边界案例：AgentVerse</h5>
+
+<div id="Ch17.S2.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch17.S2.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch17-0031">严格来说，AgentVerse <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib38" title="" class="ltx_ref">Chen et al., 2023</a>]</cite> 属于第 <a href="ch16.html#Ch16" title="Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16</span></a> 章研究的基于角色的系统。在 AgentVerse 中，问题求解被分成专家招募、协作决策、动作执行和评估四个阶段，反复迭代直至结果令人满意（图 <a href="#Ch17.F6" title="Figure 17.6 ‣ A Borderline Case: AgentVerse ‣ 17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.6</span></a>）。我们在此提到它，是因为其设计之外发生的现象：智能体表现出了涌现行为，例如主动向同伴提供帮助的自愿协助，以及在他人批评下调整偏离行为的从众。研究者也观察到了破坏性行为，偶尔会导致不希望出现且有害的结果。宏观行为在角色已设定脚本的模拟中涌现，这说明基于角色与涌现之间的区别是一个连续谱：即使交互协议十分严格的系统，也经常表现出无人有意设计的行为。我们将在第 <a href="#Ch17.S5" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.5</span></a> 节再讨论这一观察所关联的风险。</p>
+</div>
+<figure id="Ch17.F6" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/agentverse.png" id="Ch17.F6.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:550/302;" width="550" height="302" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0032">图 17.6：AgentVerse 决策的四个阶段 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib38" title="" class="ltx_ref">Chen et al., 2023</a>]</cite></figcaption>
+</figure>
+</section>
+</section>
+</section>
+<section id="Ch17.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch17-0033">17.3 涌现的惯例与规范</h2>
+
+<div id="Ch17.S3.p1" class="ltx_para">
+<p id="Ch17.S3.p1.1" class="ltx_p" data-translation-id="ch17-0034">研究者已在多个开放式多智能体模拟中观察到涌现模式。本节将关注点从基础设施和交互层面，转向惯例与规范层面。</p>
+</div>
+<div id="Ch17.S3.p2" class="ltx_para">
+<p id="Ch17.S3.p2.1" class="ltx_p" data-translation-id="ch17-0035">EvolutionaryAgent <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib22" title="" class="ltx_ref">Li et al., 2024a</a>]</cite> 使用超越基于人类反馈的强化学习的演化方法，研究多智能体系统中的智能体对齐（见图 <a href="#Ch17.F7" title="Figure 17.7 ‣ 17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.7</span></a>）。EvolutionaryAgent 采用受控的规范涌现方法：既不允许社会规范无序或随机演化，也不干预演化过程的每一步。作者定义初始社会规范和期望的演化方向。适应度更高、也就是更符合规范的智能体，更有可能繁衍，从而促成其策略扩散，逐渐稳定并形成新的社会规范。</p>
+</div>
+<figure id="Ch17.F7" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/evolutionary1.png" id="Ch17.F7.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:471/163;" width="471" height="163" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0036">图 17.7：EvolutionaryAgent 概览 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib22" title="" class="ltx_ref">Li et al., 2024a</a>]</cite></figcaption>
+</figure>
+<div id="Ch17.S3.p3" class="ltx_para">
+<p id="Ch17.S3.p3.1" class="ltx_p" data-translation-id="ch17-0037">定义一个完整、真实且复杂的虚拟社会具有挑战性。这项工作的目的在于研究：假设这样的虚拟社会存在，系统如何进一步支持智能体的复杂行为，以及这些行为如何导致新动态的涌现。该系统提供了一个沙盒，用于在人工智能系统影响现实世界之前，研究其安全性。</p>
+</div>
+<div id="Ch17.S3.p4" class="ltx_para">
+<p id="Ch17.S3.p4.1" class="ltx_p" data-translation-id="ch17-0038">基于 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib10" title="" class="ltx_ref">Steels [1995]</a></cite> 的命名博弈，研究者实现了不同方法，使用由 LLaMa 3 和 Claude 3.5 驱动的智能体 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib6" title="" class="ltx_ref">Kouwenhoven et al., 2024</a>, <a href="#bibp.bib20" title="" class="ltx_ref">Ashery et al., 2024</a>, <a href="#bibp.bib19" title="" class="ltx_ref">Baronchelli, 2023</a>]</cite>。这些研究发现，得到全局接受的惯例或规范，能够从相互沟通的大语言模型之间的局部交互中自发产生。作者还展示了，在这一过程中，即使单个智能体看似没有偏见，也可能涌现出强烈的集体偏见；具有坚定立场的大语言模型少数群体，也能通过确立新的社会惯例推动社会变化，进而推翻既有行为。</p>
+</div>
+<div id="Ch17.S3.p5" class="ltx_para">
+<p id="Ch17.S3.p5.1" class="ltx_p" data-translation-id="ch17-0039"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib21" title="" class="ltx_ref">Horiguchi et al. [2024]</a></cite> 在另一个层面研究规范的涌现。他们以 Axelrod 元规范博弈的奠基工作为基础，探索大语言模型智能体自发生成并遵循规范性策略的可能性。元规范是有关执行规范的规范：如果某个智能体没有惩罚违反规范的智能体，就对这个不施罚者加以惩罚 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib12" title="" class="ltx_ref">Axelrod, 1986</a>]</cite>。在控制报复倾向与大胆程度这两项人格特质后，他们发现，大语言模型智能体仅通过自然语言交互，就能在对话中形成元规范等复杂社会规范。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib17" title="" class="ltx_ref">He et al. [2024]</a></cite> 的一项相关研究评估了大语言模型识别规范违反行为的能力。他们基于家庭情境中 80 个故事的模拟数据，考察 10 项规范是否遭到违反，发现 ChatGPT-4 能够识别规范违反行为，而 Mistral 则明显落后。</p>
+</div>
+<div id="Ch17.S3.p6" class="ltx_para">
+<p id="Ch17.S3.p6.1" class="ltx_p" data-translation-id="ch17-0040"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib16" title="" class="ltx_ref">Qiu et al. [2024]</a></cite> 更进一步，超越规范本身，研究大语言模型智能体的文化与社会意识。他们提出 CASA 基准，用于评估大语言模型智能体在网上购物和社交讨论论坛这两项网络任务中，对文化与社会规范的敏感性。（CASA 基于 WebArena <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib25" title="" class="ltx_ref">Qi et al., 2024</a>]</cite>。）当前大语言模型在非智能体网络环境中的表现显著优于智能体网络环境；智能体的意识覆盖率不足 10%，违规率却超过 40%。不过，通过提示以及在特定数据集上微调，可以改善文化与社会意识。</p>
+</div>
+<div id="Ch17.S3.p7" class="ltx_para">
+<p id="Ch17.S3.p7.1" class="ltx_p" data-translation-id="ch17-0041">受 Minsky 的《Society of Mind》启发 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib29" title="" class="ltx_ref">Minsky, 1988</a>]</cite>，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib42" title="" class="ltx_ref">Zhang et al. [2023]</a></cite> 的智能体式大语言模型模拟探索了合作机制。该模拟包含四种不同的大语言模型智能体社会，每个智能体具有某种特定性格——随和或过度自信——并以不同的思考模式——辩论或反思——参与合作。他们发现，大语言模型智能体表现出从众、达成共识等类似人类的社会行为，呼应了基础社会心理学理论。图 <a href="#Ch17.F8" title="Figure 17.8 ‣ 17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.8</span></a> 展示了由不同类型智能体组成的社会。</p>
+</div>
+<figure id="Ch17.F8" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/som.png" id="Ch17.F8.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:471/363;" width="471" height="363" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch17-0042">图 17.8：不同性格的智能体构成多样化的机器社会 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib42" title="" class="ltx_ref">Zhang et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch17.S3.p8" class="ltx_para">
+<p id="Ch17.S3.p8.1" class="ltx_p" data-translation-id="ch17-0043"><cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib13" title="" class="ltx_ref">Baltaji et al., 2024</a>]</cite> 研究了大语言模型智能体群体能否成功开展跨国协作与辩论。多智能体讨论可以支持反映不同视角的集体人工智能决策，尽管智能体容易因感受到同伴压力而从众。它们也可能偏离自己的人设和观点。鼓励辩论的指令会增加出错风险。</p>
+</div>
+</section>
+<section id="Ch17.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch17-0044">17.4 在开放世界环境中评估智能体</h2>
+
+<div id="Ch17.S4.p1" class="ltx_para">
+<p id="Ch17.S4.p1.1" class="ltx_p" data-translation-id="ch17-0045">推动智能体式大语言模型研究的主要因素之一，是训练数据有限导致大语言模型性能进入平台期的问题。开放世界多智能体交互试图通过多智能体模拟生成数据，来解决这一问题。机器学习无法学到超出数据集或环境自身所包含的复杂性。开放世界模型的设想是，它能够生成无限的数据集或环境，让智能体持续学习，不断提升智能水平。应如何创造这样的无限挑战？大语言模型的出现为这一研究问题带来了新动力。例如，多智能体微调方法就沿用了这一思路 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib9" title="" class="ltx_ref">Subramaniam et al., 2025</a>]</cite>。</p>
+</div>
+<div id="Ch17.S4.p2" class="ltx_para">
+<p id="Ch17.S4.p2.1" class="ltx_p" data-translation-id="ch17-0046">当前智能体主要在简化的合成环境中创建和测试，导致其与现实情景脱节。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibp.bib23" title="" class="ltx_ref">Zhou et al. [2023]</a></cite> 构建了更真实且可复现的环境 WebArena。WebArena 包含来自四类常见领域的、功能完整的网站：电子商务、社交论坛讨论、协作软件开发和内容管理。</p>
+</div>
+<div id="Ch17.S4.p3" class="ltx_para">
+<p id="Ch17.S4.p3.1" class="ltx_p" data-translation-id="ch17-0047">游戏也经常用作交互行为的基准。现实任务需要处理复杂交互，进行高级空间推理与长期规划，并持续探索新策略。我们在案例研究 2 中使用的系统 BALROG <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib1" title="" class="ltx_ref">Paglieri et al., 2025</a>]</cite>，整合了难度各异的规划环境，从非专业人类几秒钟就能解决的任务，到可能需要多年才能掌握的挑战性任务，如 NetHack Learning Environment。他们发现，当前模型在较容易的游戏中能够取得部分成功，但在基于视觉的决策等更具挑战性的任务上仍十分吃力。</p>
+</div>
+<div id="Ch17.S4.p4" class="ltx_para">
+<p id="Ch17.S4.p4.1" class="ltx_p" data-translation-id="ch17-0048">机器学习的进步依赖于基准的可用性。随着模型发展，需要创建能够衡量新生成能力进展的基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib40" title="" class="ltx_ref">Butt et al., 2024</a>]</cite>。BENCHAGENTS 将基准创建过程分解为规划、生成、数据验证和评估，每个环节都由一个大语言模型智能体执行。这些智能体相互交互，并利用有人参与的反馈，明确改善并灵活控制数据的多样性与质量。BENCHAGENTS 创建的基准用于评估与规划和约束满足相关的能力。</p>
+</div>
+<div id="Ch17.S4.p5" class="ltx_para">
+<p id="Ch17.S4.p5.1" class="ltx_p" data-translation-id="ch17-0049">AgentBoard 对现有基准的覆盖广度进行评估 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib39" title="" class="ltx_ref">Ma et al., 2024</a>]</cite>。基准应具有任务多样性，必须涵盖具身任务、网络任务和工具任务等各种智能体任务。此外，多轮交互对于模拟现实情景十分重要，而现有基准通常采用单轮任务。还应在部分可观测环境中评估智能体，以测试它们能否主动探索周围环境。现有智能体基准未能满足所有这些标准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib39" title="" class="ltx_ref">Ma et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch17.S4.p6" class="ltx_para">
+<p id="Ch17.S4.p6.1" class="ltx_p" data-translation-id="ch17-0050">开放世界环境研究与课程学习有关。大语言模型出现之前的工作已经表明，智能体社会可能创造出难度不断增加的自动化课程 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib27" title="" class="ltx_ref">Elman, 1991</a>, <a href="#bibp.bib45" title="" class="ltx_ref">Bengio et al., 2009</a>, <a href="#bibp.bib46" title="" class="ltx_ref">Silver et al., 2017</a>, <a href="#bibp.bib28" title="" class="ltx_ref">Soviany et al., 2022</a>]</cite>，要求智能体展现越来越高水平的智能行为 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib33" title="" class="ltx_ref">Racaniere et al., 2019</a>]</cite>。对大语言模型也观察到了类似结果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib24" title="" class="ltx_ref">Feng et al., 2023</a>]</cite>。例如，WebArena 被用于研究自我演化课程 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib25" title="" class="ltx_ref">Qi et al., 2024</a>]</cite>；这类课程也有助于机器人训练 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib32" title="" class="ltx_ref">Ryu et al., 2024</a>]</cite>，或者缓解幻觉 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib26" title="" class="ltx_ref">Zhao et al., 2024</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch17.S5" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch17-0051">17.5 涌现行为的风险</h2>
+
+<div id="Ch17.S5.p1" class="ltx_para">
+<p id="Ch17.S5.p1.1" class="ltx_p" data-translation-id="ch17-0052">第 <a href="ch16.html#Ch16" title="Chapter 16 Role-Based Interaction in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">16</span></a> 章结尾指出，角色分配会引入风险，因为智能体可能仅仅由于角色扮演得过于到位，就表现出非预期、甚至反社会的行为。开放式场景可能使风险进一步加重，因为内置的防护更少，不良行为可能从交互动态中自下而上地产生。从某种意义上说，这种反社会行为并不应过于令人惊讶：回想最早的多智能体模拟，其目标就是探究自利智能体之间的交互究竟能否涌现合作行为。出乎研究人员意料的是，合作确实出现了，但只在适当条件下才会发生 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib11" title="" class="ltx_ref">Axelrod, 1981</a>]</cite>。合作行为与竞争行为之间的界线十分微妙。</p>
+</div>
+<div id="Ch17.S5.p2" class="ltx_para">
+<p id="Ch17.S5.p2.1" class="ltx_p" data-translation-id="ch17-0053">AgentVerse 观察到，破坏性行为与合作行为一同涌现，偶尔会造成有害结果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib38" title="" class="ltx_ref">Chen et al., 2023</a>]</cite>。命名博弈研究表明，由个体层面无偏见的智能体构成的群体，也会涌现强烈的集体偏见，而具有坚定立场的少数群体能够推翻既有惯例 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib20" title="" class="ltx_ref">Ashery et al., 2024</a>, <a href="#bibp.bib6" title="" class="ltx_ref">Kouwenhoven et al., 2024</a>]</cite>。这些机制本身是中性的，但可能被意图不善的智能体利用。在平台规模上，OASIS 和 AgentSociety 复现了错误信息传播、群体极化、从众效应以及有害内容传播 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib41" title="" class="ltx_ref">Yang et al., 2024</a>, <a href="#bibp.bib7" title="" class="ltx_ref">Piao et al., 2025a</a>]</cite>；正是让这些模拟具有科学价值的保真度，也使它们原则上能够成为操纵策略的演练场。</p>
+</div>
+<div id="Ch17.S5.p3" class="ltx_para">
+<p id="Ch17.S5.p3.1" class="ltx_p" data-translation-id="ch17-0054">建设性的应对方式，是反过来利用这一风险。EvolutionaryAgent 明确将其虚拟社会定位为一个沙盒，用于在人工智能系统影响现实世界之前研究其安全性 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibp.bib22" title="" class="ltx_ref">Li et al., 2024a</a>]</cite>。如果能够在模拟中引导智能体之间的规范朝期望方向发展，那么同一套机制就可用于在群体动态下，而非孤立条件下，对对齐方法进行压力测试。开放式模拟可以用于理解风险最初在何种条件下涌现，并以较低成本研究抵御这些风险的方法。</p>
+</div>
+</section>
+<section id="Ch17.S6" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch17-0055">17.6 结束语</h2>
+
+<div id="Ch17.S6.p1" class="ltx_para">
+<p id="Ch17.S6.p1.1" class="ltx_p" data-translation-id="ch17-0056">我们讨论了不预先分配角色的开放式多大语言模型模拟。这些模拟为社会科学长期以来对自组织行为、集体智能以及社会惯例和规范发展的建模兴趣注入了新动力。此类模拟的规模，从几个相互交互的智能体，到多达一百万个智能体不等。</p>
+</div>
+<div id="Ch17.S6.p2" class="ltx_para">
+<p id="Ch17.S6.p2.1" class="ltx_p" data-translation-id="ch17-0057">支持大规模模拟的基础设施已经可用，这使进一步研究成为可能。然而，一个悬而未决的问题是，自主模拟究竟在多大程度上真正属于开放式，而不受大语言模型提示和智能体支架的影响。此外，尽管开放式模拟旨在观察涌现行为，在解释行为结果模式时仍必须谨慎。所有大语言模型智能体都使用人类生成的数据进行过预训练。行为模式中的哪些要素来自智能体之间的交互，哪些仅仅是检索预训练行为的结果，很难区分。</p>
+</div>
+</section>
+<section id="bibp" class="ltx_bibliography ltx_list_17_emergent">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibp.L1" class="ltx_biblist">
+<li id="bibp.bib2" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ahn <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Ahn, N. Becker, S. Carroll, N. Christie, M. Cortes, A. Demirci, M. Du, F. Li, S. Luo, P. Y. Wang, M. Willows, F. Yang, and G. R. Yang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Project sid: many-agent simulations toward ai civilization</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2411.00114</span>,
+<a href="https://arxiv.org/abs/2411.00114" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS2.p4.1" title="17.2.2 Societies of Thousands to a Million Agents ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.2</span></a>.
+</span></li>
+<li id="bibp.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ashery <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. F. Ashery, L. M. Aiello, and A. Baronchelli</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The dynamics of social conventions in llm populations: spontaneous emergence, collective biases and tipping points</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.08948</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p4.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>,
+<a href="#Ch17.S5.p2.1" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.5</span></a>.
+</span></li>
+<li id="bibp.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Axelrod (1981)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Axelrod</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The emergence of cooperation among egoists</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">American political science review</span> <span class="ltx_text ltx_bib_volume">75</span> (<span class="ltx_text ltx_bib_number">2</span>), <span class="ltx_text ltx_bib_pages">pp. 306–318</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S5.p1.1" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.5</span></a>.
+</span></li>
+<li id="bibp.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Axelrod (1986)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Axelrod</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">An evolutionary approach to norms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">American political science review</span> <span class="ltx_text ltx_bib_volume">80</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 1095–1111</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS1.p1.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>,
+<a href="#Ch17.S3.p5.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib13" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Baltaji <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Baltaji, B. Hemmatian, and L. R. Varshney</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Conformity, confabulation, and impersonation: persona inconstancy in multi-agent llm collaboration</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.03862</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p8.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib3" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Barabási (2009)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Barabási</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Scale-free networks: a decade and beyond</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">science</span> <span class="ltx_text ltx_bib_volume">325</span> (<span class="ltx_text ltx_bib_number">5939</span>), <span class="ltx_text ltx_bib_pages">pp. 412–413</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS3.p2.1" title="17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.3</span></a>.
+</span></li>
+<li id="bibp.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Baronchelli (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Baronchelli</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Shaping new norms for artificial intelligence: a complex systems perspective</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2307.08564</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p4.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib45" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bengio <span class="ltx_text ltx_bib_etal">et al.</span> (2009)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Bengio, J. Louradour, R. Collobert, and J. Weston</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Curriculum learning</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 26th annual international conference on machine learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 41–48</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib37" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Boyd and Richerson (1988)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Boyd and P. J. Richerson</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Culture and the evolutionary process</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">University of Chicago press</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS1.p1.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>.
+</span></li>
+<li id="bibp.bib40" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Butt <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Butt, V. Chandrasekaran, N. Joshi, B. Nushi, and V. Balachandran</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">BENCHAGENTS: automated benchmark creation with agent interaction</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.22584</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p4.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib38" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Chen, Y. Su, J. Zuo, C. Yang, C. Yuan, C. Qian, C. Chan, Y. Qin, Y. Lu, R. Xie, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agentverse: facilitating multi-agent collaboration and exploring emergent behaviors in agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2308.10848</span> <span class="ltx_text ltx_bib_volume">2</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 5</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.F6" title="In A Borderline Case: AgentVerse ‣ 17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.6</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F6.4" title="In A Borderline Case: AgentVerse ‣ 17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.6</span></a>,
+<a href="#Ch17.S2.SS3.SSS0.Px1.p1.1" title="A Borderline Case: AgentVerse ‣ 17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.3</span></a>,
+<a href="#Ch17.S5.p2.1" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.5</span></a>.
+</span></li>
+<li id="bibp.bib27" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Elman (1991)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. L. Elman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Incremental learning, or the importance of starting small</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the Annual Meeting of the Cognitive Science Society</span>,
+</span>
+<span class="ltx_bibblock">Vol. <span class="ltx_text ltx_bib_volume">13</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib44" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Epstein and Axtell (1996)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. M. Epstein and R. Axtell</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Growing artificial societies: social science from the bottom up</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Brookings Institution Press</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS1.p1.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>.
+</span></li>
+<li id="bibp.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Feng <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Feng, Z. Wang, and J. Sun</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Citing: large language models create curriculum for instruction tuning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2310.02527</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib35" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Gao, X. Lan, N. Li, Y. Yuan, J. Ding, Z. Zhou, F. Xu, and Y. Li</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models empowered agent-based modeling and simulation: a survey and perspectives</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Humanities and Social Sciences Communications</span> <span class="ltx_text ltx_bib_volume">11</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 1–24</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.F1" title="In 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F1.4" title="In 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.1</span></a>,
+<a href="#Ch17.S1.SS1.p2.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>,
+<a href="#Ch17.S1.p2.1" title="17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1</span></a>.
+</span></li>
+<li id="bibp.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gao <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Gao, X. Lan, Z. Lu, J. Mao, J. Piao, H. Wang, D. Jin, and Y. Li</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title"><math id="bib.bib30.m1" class="ltx_Math" alttext="S^{3}" display="inline" intent=":literal"><semantics><msup><mi>S</mi><mn>3</mn></msup><annotation encoding="application/x-tex">S^{3}</annotation></semantics></math>: Social-network simulation system with large language model-empowered agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2307.14984</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.F2" title="In 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F2.4" title="In 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.2</span></a>,
+<a href="#Ch17.S1.p2.1" title="17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1</span></a>.
+</span></li>
+<li id="bibp.bib17" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">He <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. He, S. Ranathunga, S. Cranefield, and B. T. R. Savarimuthu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Norm violation detection in multi-agent systems using large language models: a pilot study</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2403.16517</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p5.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib21" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Horiguchi <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">I. Horiguchi, T. Yoshida, and T. Ikegami</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Evolution of social norms in llm agents using natural language</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2409.00993</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p5.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib6" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kouwenhoven <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Kouwenhoven, M. Peeperkorn, and T. Verhoef</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Searching for structure: investigating emergent communication with large language models</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2412.07646</span>,
+<a href="https://arxiv.org/abs/2412.07646" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p4.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>,
+<a href="#Ch17.S5.p2.1" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.5</span></a>.
+</span></li>
+<li id="bibp.bib43" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. Li, H. Hammoud, H. Itani, D. Khizbullin, and B. Ghanem</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Camel: communicative agents for” mind” exploration of large language model society</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 51991–52008</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS2.p3.1" title="17.2.2 Societies of Thousands to a Million Agents ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.2</span></a>.
+</span></li>
+<li id="bibp.bib22" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2024a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Li, T. Sun, Q. Cheng, and X. Qiu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agent alignment in evolving social norms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2401.04620</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.F7" title="In 17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.7</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F7.4" title="In 17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.7</span></a>,
+<a href="#Ch17.S3.p2.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>,
+<a href="#Ch17.S5.p3.1" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.5</span></a>.
+</span></li>
+<li id="bibp.bib34" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2024b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Li, Y. Xu, Y. Zhang, and E. C. Malthouse</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language model-driven multi-agent simulation for news diffusion under different network structures</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.13909</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS3.p2.1" title="17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.3</span></a>.
+</span></li>
+<li id="bibp.bib39" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ma <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Ma, J. Zhang, Z. Zhu, C. Yang, Y. Yang, Y. Jin, Z. Lan, L. Kong, and J. He</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">AgentBoard: an analytical evaluation board of multi-turn llm agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2401.13178</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p5.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib8" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Macal and North (2010)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. M. Macal and M. J. North</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tutorial on agent-based modelling and simulation</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Simulation</span> <span class="ltx_text ltx_bib_volume">4</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 151–162</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text issn ltx_bib_external">ISSN 1747-7786</span>,
+<a href="https://doi.org/10.1057/jos.2010.3" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a>,
+<a href="https://dx.doi.org/10.1057/jos.2010.3" title="" class="ltx_ref doi ltx_bib_external" rel="noopener noreferrer">Document</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS1.p1.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>.
+</span></li>
+<li id="bibp.bib29" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Minsky (1988)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Minsky</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Society of mind</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">Simon and Schuster</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p7.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mou <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Mou, X. Ding, Q. He, L. Wang, J. Liang, X. Zhang, L. Sun, J. Lin, J. Zhou, X. Huang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">From individual to society: a survey on social simulation driven by large language model-based agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2412.03563</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS2.p2.1" title="17.1.2 A Methodological Note ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.2</span></a>.
+</span></li>
+<li id="bibp.bib4" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nutt and Railton (2003)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Nutt and D. Railton</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The sims: real life as genre</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Information Communication &amp; Society</span> <span class="ltx_text ltx_bib_volume">6</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 577–592</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS1.p2.1" title="17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.1</span></a>.
+</span></li>
+<li id="bibp.bib1" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Paglieri <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Paglieri, B. Cupiał, S. Coward, U. Piterbarg, M. Wolczyk, A. Khan, E. Pignatelli, Ł. Kuciński, L. Pinto, R. Fergus, J. N. Foerster, J. Parker-Holder, and T. Rocktäschel</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">BALROG: benchmarking agentic LLM and VLM reasoning on games</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">The Thirteenth International Conference on Learning Representations</span>,
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://openreview.net/forum?id=fp6t3F669F" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p3.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib36" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Park <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. S. Park, J. O’Brien, C. J. Cai, M. R. Morris, P. Liang, and M. S. Bernstein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Generative agents: interactive simulacra of human behavior</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 36th annual acm symposium on user interface software and technology</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–22</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.F3" title="In 17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.3</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F3.4" title="In 17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.3</span></a>,
+<a href="#Ch17.F4" title="In 17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F4.4" title="In 17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.4</span></a>,
+<a href="#Ch17.S2.SS1.p1.1" title="17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.1</span></a>.
+</span></li>
+<li id="bibp.bib31" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Park <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. S. Park, L. Popowski, C. Cai, M. R. Morris, P. Liang, and M. S. Bernstein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Social simulacra: creating populated prototypes for social computing systems</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 35th Annual ACM Symposium on User Interface Software and Technology</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–18</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS1.p1.1" title="17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.1</span></a>.
+</span></li>
+<li id="bibp.bib7" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Piao <span class="ltx_text ltx_bib_etal">et al.</span> (2025a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Piao, Z. Lu, C. Gao, F. Xu, F. P. Santos, Y. Li, and J. Evans</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Emergence of human-like polarization among large language model agents</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2501.05171</span>,
+<a href="https://arxiv.org/abs/2501.05171" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS3.p1.1" title="17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.3</span></a>,
+<a href="#Ch17.S5.p2.1" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.5</span></a>.
+</span></li>
+<li id="bibp.bib5" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Piao <span class="ltx_text ltx_bib_etal">et al.</span> (2025b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Piao, Y. Yan, J. Zhang, N. Li, J. Yan, X. Lan, Z. Lu, Z. Zheng, J. Y. Wang, D. Zhou, C. Gao, F. Xu, F. Zhang, K. Rong, J. Su, and Y. Li</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">AgentSociety: large-scale simulation of llm-driven generative agents advances understanding of human behaviors and society</span>.
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><span class="ltx_text ltx_bib_external">2502.08691</span>,
+<a href="https://arxiv.org/abs/2502.08691" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S2.SS2.p2.1" title="17.2.2 Societies of Thousands to a Million Agents ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.2</span></a>,
+<a href="#Ch17.S2.SS3.p1.1" title="17.2.3 Simulation as a Scientific Instrument ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.3</span></a>.
+</span></li>
+<li id="bibp.bib25" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Qi <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Qi, X. Liu, I. L. Iong, H. Lai, X. Sun, X. Yang, J. Sun, Y. Yang, S. Yao, T. Zhang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">WebRL: training llm web agents via self-evolving online curriculum reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.02337</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p6.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>,
+<a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Qiu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Qiu, A. R. Fabbri, D. Agarwal, K. Huang, S. Tan, N. Peng, and C. Wu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Evaluating cultural and social awareness of llm web agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.23252</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S3.p6.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib33" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Racaniere <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Racaniere, A. K. Lampinen, A. Santoro, D. P. Reichert, V. Firoiu, and T. P. Lillicrap</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Automated curricula through setter-solver interactions</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1909.12892</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib32" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ryu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Ryu, Q. Liao, Z. Li, K. Sreenath, and N. Mehr</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">CurricuLLM: automatic task curricula design for learning complex robot skills using large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2409.18382</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Savarimuthu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. T. R. Savarimuthu, S. Ranathunga, and S. Cranefield</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Harnessing the power of llms for normative reasoning in mass</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2403.16524</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS2.p2.1" title="17.1.2 A Methodological Note ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.2</span></a>.
+</span></li>
+<li id="bibp.bib46" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Silver <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Silver, J. Schrittwieser, K. Simonyan, I. Antonoglou, A. Huang, A. Guez, T. Hubert, L. Baker, M. Lai, A. Bolton, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mastering the game of go without human knowledge</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">nature</span> <span class="ltx_text ltx_bib_volume">550</span> (<span class="ltx_text ltx_bib_number">7676</span>), <span class="ltx_text ltx_bib_pages">pp. 354–359</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib28" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Soviany <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Soviany, R. T. Ionescu, P. Rota, and N. Sebe</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Curriculum learning: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">International Journal of Computer Vision</span> <span class="ltx_text ltx_bib_volume">130</span> (<span class="ltx_text ltx_bib_number">6</span>), <span class="ltx_text ltx_bib_pages">pp. 1526–1565</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Steels (1995)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Steels</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A self-organizing spatial vocabulary</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Artificial life</span> <span class="ltx_text ltx_bib_volume">2</span> (<span class="ltx_text ltx_bib_number">3</span>), <span class="ltx_text ltx_bib_pages">pp. 319–332</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS1.p1.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>,
+<a href="#Ch17.S3.p4.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Subramaniam <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">V. Subramaniam, Y. Du, J. B. Tenenbaum, A. Torralba, S. Li, and I. Mordatch</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Multiagent finetuning: self improvement with diverse reasoning chains</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.05707</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p1.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib47" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Tran <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Tran, D. Dao, M. Nguyen, Q. Pham, B. O’Sullivan, and H. D. Nguyen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Multi-agent collaboration mechanisms: a survey of llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.06322</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS1.p3.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>.
+</span></li>
+<li id="bibp.bib15" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xi <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Xi, W. Chen, X. Guo, W. He, Y. Ding, B. Hong, M. Zhang, J. Wang, S. Jin, E. Zhou, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The rise and potential of large language model based agents: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2309.07864</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S1.SS2.p2.1" title="17.1.2 A Methodological Note ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.2</span></a>.
+</span></li>
+<li id="bibp.bib41" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Yang, Z. Zhang, Z. Zheng, Y. Jiang, Z. Gan, Z. Wang, Z. Ling, J. Chen, M. Ma, B. Dong, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Oasis: open agents social interaction simulations on one million agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.11581</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.F5" title="In 17.2.2 Societies of Thousands to a Million Agents ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.5</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F5.4" title="In 17.2.2 Societies of Thousands to a Million Agents ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.5</span></a>,
+<a href="#Ch17.S1.SS1.p2.1" title="17.1.1 From Agent-Based Modeling to Generative Agent Societies ‣ 17.1 What Is Emergent Multi-Agent Behavior? ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.1.1</span></a>,
+<a href="#Ch17.S2.SS2.p3.1" title="17.2.2 Societies of Thousands to a Million Agents ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.2.2</span></a>,
+<a href="#Ch17.S5.p2.1" title="17.5 Risks of Emergent Behavior ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.5</span></a>.
+</span></li>
+<li id="bibp.bib42" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Zhang, X. Xu, N. Zhang, R. Liu, B. Hooi, and S. Deng</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Exploring collaboration mechanisms for llm agents: a social psychology view</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2310.02124</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.F8" title="In 17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.8</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch17.F8.4" title="In 17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 17.8</span></a>,
+<a href="#Ch17.S3.p7.1" title="17.3 Emergent Conventions and Norms ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.3</span></a>.
+</span></li>
+<li id="bibp.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Zhao, H. Dong, A. Saha, C. Xiong, and D. Sahoo</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Automatic curriculum expert iteration for reliable llm reasoning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.07627</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p6.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+<li id="bibp.bib23" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Zhou, F. F. Xu, H. Zhu, X. Zhou, R. Lo, A. Sridhar, X. Cheng, T. Ou, Y. Bisk, D. Fried, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Webarena: a realistic web environment for building autonomous agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2307.13854</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch17.S4.p2.1" title="17.4 Evaluating Agents in Open World Environments ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§17.4</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch16.html">← 第 16 章</a><a href="index.html">全书目录</a><a href="ch18.html">第 18 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

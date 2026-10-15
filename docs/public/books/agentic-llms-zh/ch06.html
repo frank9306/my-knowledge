@@ -1,0 +1,1150 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 6 章 大语言模型的多步推理 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html" aria-current="page"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html" aria-current="page"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">06 / 23 · 中文翻译</p><section id="Ch6" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch06-0001">第 6 章 大语言模型中的多步推理</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch6.S1">6.1 上下文推理</a></li><li class="level-h3"><a href="#Ch6.S1.SS1">6.1.1 上下文学习</a></li><li class="level-h3"><a href="#Ch6.S1.SS2">6.1.2 多步推理基准</a></li><li class="level-h3"><a href="#Ch6.S1.SS3">6.1.3 思维链提示</a></li><li class="level-h2"><a href="#Ch6.S2">6.2 自我反思与状态</a></li><li class="level-h3"><a href="#Ch6.S2.SS1">6.2.1 大语言模型是无记忆函数</a></li><li class="level-h3"><a href="#Ch6.S2.SS2">6.2.2 检索增强与长上下文窗口</a></li><li class="level-h3"><a href="#Ch6.S2.SS3">6.2.3 大语言模型与有状态问题</a></li><li class="level-h3"><a href="#Ch6.S2.SS4">6.2.4 用于提示改进的智能体 Harness</a></li><li class="level-h2"><a href="#Ch6.S3">6.3 结束语</a></li><li class="level-h3"><a href="#Ch6.S3.SS1">6.3.1 脆弱性</a></li><li class="level-h3"><a href="#Ch6.S3.SS2">6.3.2 思考，快与慢</a></li><li class="level-h3"><a href="#Ch6.S3.SS3">6.3.3 结论</a></li><li class="level-h2"><a href="#bibe">参考文献</a></li></ol></nav></details><div id="Ch6.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch6.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch6.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch6.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch6.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0031">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch6.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch6.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0032">本章将介绍语言模型如何通过多步推理解决更复杂的问题。具体而言，你将能够：</p>
+<ul id="Ch6.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch6.S0.I1.i1" class="ltx_item">
+<div id="Ch6.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch6.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0033">描述思维链概念：如何利用上下文学习，引导大语言模型在回答查询时执行中间步骤，从而更好地回答复杂查询。</p>
+</div></li>
+<li id="Ch6.S0.I1.i2" class="ltx_item">
+<div id="Ch6.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch6.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0034">描述推理方法如何大幅增强大语言模型的能力，以及这种能力为何是智能体式大语言模型在现实世界中采取合理行动的必要条件。</p>
+</div></li>
+<li id="Ch6.S0.I1.i3" class="ltx_item">
+<div id="Ch6.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch6.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0035">编写第一个智能体 Harness：通过不同提示调用大语言模型的小型算法。智能体 Harness 管理提示及模型回复。</p>
+</div></li>
+<li id="Ch6.S0.I1.i4" class="ltx_item">
+<div id="Ch6.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch6.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0036">解释自我反思：Harness 可以让大语言模型承担不同角色，例如评估答案或生成子问题。模型通过反思改进自己的答案。</p>
+</div></li>
+<li id="Ch6.S0.I1.i5" class="ltx_item">
+<div id="Ch6.S0.I1.i5.p1" class="ltx_para">
+<p id="Ch6.S0.I1.i5.p1.1" class="ltx_p" data-supplement-id="extra-0037">理解记忆的作用：Harness 如何跟踪智能体状态，以及如何利用这些状态管理提示。</p>
+</div></li>
+<li id="Ch6.S0.I1.i6" class="ltx_item">
+<div id="Ch6.S0.I1.i6.p1" class="ltx_para">
+<p id="Ch6.S0.I1.i6.p1.1" class="ltx_p" data-supplement-id="extra-0038">运用可验证奖励强化学习的概念：利用推理时的推理结果进行微调。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch6.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch06-0002">6.1 上下文推理</h2>
+
+<div id="Ch6.S1.p1" class="ltx_para">
+<p id="Ch6.S1.p1.1" class="ltx_p" data-translation-id="ch06-0003">正如第 <a href="ch03.html#Ch3" title="Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3</span></a> 章指出，当模型超过数千亿参数时，大语言模型中涌现出一种新的学习形式，称为上下文学习（ICL）或提示学习 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib59" title="" class="ltx_ref">Brown et al., 2020</a>]</cite>。这是一种重要的学习方法，本节将更详细讨论。随后，我们将介绍常见基准，以及用于多步推理的思维链方法。</p>
+</div>
+<section id="Ch6.S1.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0004">6.1.1 上下文学习</h3>
+
+<div id="Ch6.S1.SS1.p1" class="ltx_para">
+<p id="Ch6.S1.SS1.p1.1" class="ltx_p" data-translation-id="ch06-0005">上下文学习 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib52" title="" class="ltx_ref">Dong et al., 2022</a>]</cite> 并非发生在训练阶段，而是在使用模型回答问题的推理阶段，从大语言模型提示中提供的示例学习。这些示例促使解码器模型访问存储在大语言模型中的相关知识。凭借丰富知识，上下文学习仅用少量示例就能获得准确结果，因此被称为少样本学习方法。模型规模庞大，包含众多主题的丰富多样知识，使少样本学习成为可能。</p>
+</div>
+<section id="Ch6.S1.SS1.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0006">是学习，而不是训练</h5>
+
+<div id="Ch6.S1.SS1.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch06-0007">上下文学习与微调或预训练的主要区别之一，是它不改变 Transformer 的参数。推理阶段没有模型参数变化，因此它不是参数训练方法；然而，它确实从提供的示例中学习答案，所以属于学习方法。由此带来的一项缺点是遗忘性：模型参数保持不变，所有学到的信息会在大语言模型调用之间丢失。为了在调用之间共享信息，必须将先前结果作为额外学习示例，加入下次调用的提示，即上下文窗口。</p>
+</div>
+</section>
+<section id="Ch6.S1.SS1.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0008">上下文窗口</h5>
+
+<div id="Ch6.S1.SS1.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch06-0009">上下文学习如何工作？大语言模型中写入提示的部分，称为上下文窗口。解码器模型在这个窗口内，从提示提供的示例中学习。需要注意，学习答案所用的全部示例，必须一起出现在上下文窗口中，也就是必须装入提示。上下文窗口通常限制在几千个词元，只能提供少量示例，因此 ICL 能执行的只是少样本学习。当我们希望从中学习的信息量增加时，这便成为问题，因为上下文窗口的大小通常有限。可以说，上下文学习患有长期记忆丧失。</p>
+</div>
+</section>
+<section id="Ch6.S1.SS1.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0010">示例</h5>
+
+<div id="Ch6.S1.SS1.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch06-0011">在上下文学习中，由少量演示上下文组成的提示，与查询问题拼接后，输入语言模型的上下文窗口 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib40" title="" class="ltx_ref">Liu et al., 2023</a>]</cite>。随后，模型通过一次前向传播生成答案。例如，当任务是识别社交媒体帖子中的情绪时，可以在“我今天错过了公交车”后接上“我觉得很 [___]”，模型可能回答“糟糕”。或者，对于翻译任务，可以在“I missed the bus today”后接“French: [___]”，请求翻译。提示包含模型能够识别的背景信息，从而选择期望的模型上下文。</p>
+</div>
+</section>
+<section id="Ch6.S1.SS1.SSS0.Px4" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0012">少样本学习与机器学习的圣杯</h5>
+
+<div id="Ch6.S1.SS1.SSS0.Px4.p1" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px4.p1.1" class="ltx_p" data-translation-id="ch06-0013">当语言模型包含足够知识，能够根据提示中的少量示例泛化时，上下文学习就会起作用。用户在提示中提供少量相关示例，引导大语言模型选取正确背景知识，回答提示中的指令。包含少量示例的上下文，被称为执行少样本学习。只有指令、没有示例的上下文，则被称为执行零样本学习。</p>
+</div>
+<div id="Ch6.S1.SS1.SSS0.Px4.p2" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px4.p2.1" class="ltx_p" data-translation-id="ch06-0014">ICL 是一种少样本学习，曾让研究者十分兴奋。传统机器学习在数据集上训练模型 <math id="Ch6.S1.SS1.SSS0.Px4.p2.m1" class="ltx_Math" alttext="f" display="inline" intent=":literal"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math>。要在复杂问题上达到高准确率，数据集必须包含大量示例。传统机器学习是一种多样本学习，需要很多昂贵的训练轮次来训练模型参数。相比之下，上下文学习成本低，只需要几个示例，再通过解码器模型进行一次前向传播，因为昂贵训练已经在预训练阶段完成。少样本学习堪称机器学习的圣杯：能够低成本泛化的模型。</p>
+</div>
+</section>
+<section id="Ch6.S1.SS1.SSS0.Px5" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0015">实践考量与提示工程</h5>
+
+<div id="Ch6.S1.SS1.SSS0.Px5.p1" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px5.p1.1" class="ltx_p" data-translation-id="ch06-0016">上下文学习还有便利这一实践优势：我们可以在智能手机上，对商业云端运行的大语言模型执行 ICL，而无需费力寻找能够训练大型模型的计算机。</p>
+</div>
+<div id="Ch6.S1.SS1.SSS0.Px5.p2" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px5.p2.1" class="ltx_p" data-translation-id="ch06-0017">尽管提示为大语言模型提供了用户友好界面，上下文学习能否成功，往往对提示措辞方式或所提供的不同示例相当敏感。提示学习十分脆弱，因此出现了名为提示工程的新领域，帮助人类用户学会让大语言模型按我们的意愿行事 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib53" title="" class="ltx_ref">Radford et al., 2019</a>, <a href="#bibe.bib58" title="" class="ltx_ref">Wei et al., 2022a</a>, <a href="#bibe.bib33" title="" class="ltx_ref">Giray, 2023</a>, <a href="#bibe.bib12" title="" class="ltx_ref">Sahoo et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch6.S1.SS1.SSS0.Px5.p3" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px5.p3.1" class="ltx_p" data-translation-id="ch06-0018">多数大语言模型的上下文窗口中，都会提供隐藏提示，即系统提示，用于指定模型角色、防止使用脏话；在聊天机器人中，还会加入简短的先前搜索结果历史，使对话更自然流畅。</p>
+</div>
+<div id="Ch6.S1.SS1.SSS0.Px5.p4" class="ltx_para">
+<p id="Ch6.S1.SS1.SSS0.Px5.p4.1" class="ltx_p" data-translation-id="ch06-0019">上下文学习催生了大量后续研究，其中一个领域就是本章主题：多步推理。推理曾是大语言模型表现不佳的领域，例如模型会在简单数学练习上失败。为更好地理解这一应用领域，我们先介绍若干推理基准，再讨论一种大幅提升大语言模型推理表现的上下文学习方法。</p>
+</div>
+</section>
+</section>
+<section id="Ch6.S1.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0020">6.1.2 多步推理基准</h3>
+
+<div id="Ch6.S1.SS2.p1" class="ltx_para">
+<p id="Ch6.S1.SS2.p1.1" class="ltx_p" data-translation-id="ch06-0021">人工智能进步通过基准衡量。使用大语言模型进行多步推理的研究，始于简单的小学数学应用题。GSM8K 基准专门为研究这种简单推理而构建 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib57" title="" class="ltx_ref">Cobbe et al., 2021</a>]</cite>，旨在提供高质量、多样性强、难度适中的自然语言问题。它包含 8500 道人工编写的数学题与解答。在思维链引入之前，语言模型在这一数据集上难以取得良好表现，见下一节。下面是典型数学应用题的例子：</p>
+<blockquote id="Ch6.S1.SS2.p1.2" class="ltx_quote">
+<p id="Ch6.S1.SS2.p1.2.1" class="ltx_p" data-translation-id="ch06-0022">问题：Romeo 一周烤了 4 盘饼干，每盘两打。如果将这些饼干平均分给 16 个人，每人吃到多少块饼干？答案：<math id="Ch6.S1.SS2.p1.m1" class="ltx_Math" alttext="4\times 2\times 12/16=6" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mn>4</mn><mo lspace="0.222em" rspace="0.222em">×</mo><mn>2</mn><mo lspace="0.222em" rspace="0.222em">×</mo><mn>12</mn></mrow><mo>/</mo><mn>16</mn></mrow><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">4\times 2\times 12/16=6</annotation></semantics></math>。</p>
+</blockquote>
+</div>
+<div id="Ch6.S1.SS2.p2" class="ltx_para">
+<p id="Ch6.S1.SS2.p2.1" class="ltx_p" data-translation-id="ch06-0023">尽管 GSM8K 在我们看来可能很容易，对大语言模型却很困难。它刚提出时，最先进的大语言模型 GPT-3-175B，准确率仅约 15% <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib70" title="" class="ltx_ref">Wei et al., 2022b</a>]</cite>。其他类似数学应用题基准包括结构多变的 SVAMP 基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib44" title="" class="ltx_ref">Patel et al., 2021</a>]</cite>、包含多样数学问题的 ASDiv 数据集 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib38" title="" class="ltx_ref">Miao et al., 2021</a>]</cite>、代数应用题 AQuA 数据集 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib67" title="" class="ltx_ref">Ling et al., 2017</a>]</cite>，以及 MAWPS 基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib37" title="" class="ltx_ref">Koncel-Kedziorski et al., 2016</a>]</cite>。</p>
+</div>
+<div id="Ch6.S1.SS2.p3" class="ltx_para">
+<p id="Ch6.S1.SS2.p3.1" class="ltx_p" data-translation-id="ch06-0024">后来，其他任务的基准也被提出，用于评估大语言模型在其他推理领域的能力。例如，已有基准涵盖高级数学问题（AIME <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib5" title="" class="ltx_ref">Codeforces, 2024</a>]</cite>）、计算机代码理解（Spider <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib6" title="" class="ltx_ref">Yu et al., 2018</a>]</cite>、转码，即将一种计算机语言的程序翻译成另一种 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib7" title="" class="ltx_ref">Roziere et al., 2020</a>]</cite>）、机器人移动（Alfworld <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib25" title="" class="ltx_ref">Shridhar et al., 2020</a>]</cite>、厨房任务 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib61" title="" class="ltx_ref">Ahn et al., 2022</a>]</cite>）、解谜（Game24 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib42" title="" class="ltx_ref">Yao et al., 2024</a>]</cite>）、创意写作 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib42" title="" class="ltx_ref">Yao et al., 2024</a>]</cite>、棋盘游戏（将死问题 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib34" title="" class="ltx_ref">Yang et al., 2024</a>]</cite>、MineCraft <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib11" title="" class="ltx_ref">Fan et al., 2022</a>]</cite>），以及网页导航（WebShop <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib10" title="" class="ltx_ref">Yao et al., 2022a</a>]</cite>）。其他相关基准研究也聚焦游戏和规划问题 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib23" title="" class="ltx_ref">Ruoss et al., 2024</a>, <a href="#bibe.bib1" title="" class="ltx_ref">Paglieri et al., 2025</a>, <a href="#bibe.bib9" title="" class="ltx_ref">Wen et al., 2025a</a>]</cite>。</p>
+</div>
+<div id="Ch6.S1.SS2.p4" class="ltx_para">
+<p id="Ch6.S1.SS2.p4.1" class="ltx_p" data-translation-id="ch06-0025">基准旨在清晰比较不同方法的性能。然而，不同实验的实施方式可能不同，因此直接比较不同基准结果并不容易。关于大语言模型推理基准挑战的批判性讨论，参见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib8" title="" class="ltx_ref">Kamoi et al. [2024]</a>, <a href="#bibe.bib13" title="" class="ltx_ref">Shojaee et al. [2025]</a></cite>。</p>
+</div>
+</section>
+<section id="Ch6.S1.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0026">6.1.3 思维链提示</h3>
+
+<div id="Ch6.S1.SS3.p1" class="ltx_para">
+<p id="Ch6.S1.SS3.p1.1" class="ltx_p" data-translation-id="ch06-0027">2022 年前后，当时普通大语言模型在简单数学应用题上表现不佳。有趣的是，第 <a href="ch04.html#Ch4" title="Chapter 4 Scaling Laws and Efficient Large Language Models ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">4</span></a> 章介绍的通过扩大模型规模改善性能的标准方法，并没有解决这一问题 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib46" title="" class="ltx_ref">Rae et al., 2021</a>]</cite>。问题似乎在某种程度上具有根本性，研究者因此开始寻找不同方法。</p>
+</div>
+<div id="Ch6.S1.SS3.p2" class="ltx_para">
+<p id="Ch6.S1.SS3.p2.1" class="ltx_p" data-translation-id="ch06-0028">大语言模型架构是基于 Transformer 的解码器。给定某个输入，它被设计为产生单个词元。大语言模型是下一个词元预测器。当我们提示这种解码器给出答案时，它会按指令快速给出一个答案——任何答案。但人类解决数学推理问题时，并不是这样得到答案，而是将问题分解成一系列待解决步骤（<math id="Ch6.S1.SS3.p2.m1" class="ltx_Math" alttext="4\times 2\times 12/16=6" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mn>4</mn><mo lspace="0.222em" rspace="0.222em">×</mo><mn>2</mn><mo lspace="0.222em" rspace="0.222em">×</mo><mn>12</mn></mrow><mo>/</mo><mn>16</mn></mrow><mo>=</mo><mn>6</mn></mrow><annotation encoding="application/x-tex">4\times 2\times 12/16=6</annotation></semantics></math>）。因此，对大语言模型应采取的做法，是提示它遵循精心选择的中间步骤序列，逐一回答，最终得到答案；就像教育学生将复杂问题分成小步骤，并在学校答题时提供推理过程——不要只告诉我答案，也告诉我是怎么得到答案的。儿童在学校学习解决数学问题时，要将大问题分解为一系列小步骤。同样，我们应引导语言模型显式产生这些中间步骤，再合并结果。模型随后应给出包含中间步骤的答案，得到正确结果。</p>
+</div>
+<div id="Ch6.S1.SS3.p3" class="ltx_para">
+<p id="Ch6.S1.SS3.p3.1" class="ltx_p" data-translation-id="ch06-0029">因此，少样本提示应包含中间推理步骤的示例，而不只是最终答案的示例。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib70" title="" class="ltx_ref">Wei et al. [2022b]</a></cite> 等研究了这一问题，提出思维链方法。图 <a href="#Ch6.F1" title="Figure 6.1 ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.1</span></a> 展示了其工作方式，以及受它启发的相关方法。</p>
+</div>
+<div id="Ch6.S1.SS3.p4" class="ltx_para">
+<p id="Ch6.S1.SS3.p4.1" class="ltx_p" data-translation-id="ch06-0030">指导大语言模型生成中间步骤的方法，是手工编写包含解答任务所需具体推理步骤的提示，例如计算容器中有多少球，或者馅饼被切成多少块。事实上，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib70" title="" class="ltx_ref">Wei et al. [2022b]</a></cite> 尝试这种方法，提示模型在答案中将题目信息重新表述为中间推理步骤时，模型表现远优于被要求仅给出单个答案时。思维链论文的例子见图 <a href="#Ch6.F1" title="Figure 6.1 ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.1</span></a>。展示较长的示例提示后，模型在回答问题时会遵循该较长示例，即少样本思维链。在 GSM8K 上，思维链方法使准确率从 16% 大幅提高至 47%。</p>
+</div>
+<figure id="Ch6.F1" class="ltx_figure">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0031">图 6.1：不同的思维链（CoT）提示技术 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib70" title="" class="ltx_ref">Wei et al., 2022b</a>, <a href="#bibe.bib54" title="" class="ltx_ref">Kojima et al., 2022</a>, <a href="#bibe.bib66" title="" class="ltx_ref">Gao et al., 2023</a>, <a href="#bibe.bib29" title="" class="ltx_ref">Plaat et al., 2025</a>]</cite>。上方为提示，下方为答案。</figcaption>
+</figure>
+<div id="Ch6.S1.SS3.p5" class="ltx_para">
+<p id="Ch6.S1.SS3.p5.1" class="ltx_p" data-translation-id="ch06-0032">通过提示让大语言模型遵循逐步指令这一想法，激起了广泛兴趣，开启了更多大语言模型多步推理研究。此后，思维链（CoT）成为大语言模型的标准提示方法。</p>
+</div>
+<div id="Ch6.S1.SS3.p6" class="ltx_para">
+<p id="Ch6.S1.SS3.p6.1" class="ltx_p" data-translation-id="ch06-0033">原始论文中，研究者为不同问题类型手工编写提示。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib54" title="" class="ltx_ref">Kojima et al. [2022]</a></cite> 更进一步，表明只需加入一句与任务无关的话“让我们一步一步地思考”，也能显著改善许多问题的表现。由于这段文本不包含与问题相关的要素，因此属于零样本学习。图 <a href="#Ch6.F1" title="Figure 6.1 ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.1</span></a> 比较了这些方法，见第二和第三列。实验还表明，这种添加在其他推理基准上同样带来显著提升，包括算术、符号和逻辑推理；使用较新的 PaLM 大语言模型，并加入下一节所述的自一致性后，在 GSM8K 上达到 70% 准确率 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib64" title="" class="ltx_ref">Wang et al., 2022</a>]</cite>。</p>
+</div>
+<div id="Ch6.S1.SS3.p7" class="ltx_para">
+<p id="Ch6.S1.SS3.p7.1" class="ltx_p" data-translation-id="ch06-0034">思维链思想本身受到 Scratchpad <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib68" title="" class="ltx_ref">Nye et al., 2021</a>]</cite>、更早利用自然语言步骤进行算术推理的工作 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib67" title="" class="ltx_ref">Ling et al., 2017</a>, <a href="#bibe.bib57" title="" class="ltx_ref">Cobbe et al., 2021</a>]</cite>，以及使用形式语言推理的工作 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib50" title="" class="ltx_ref">Roy and Roth, 2016</a>, <a href="#bibe.bib49" title="" class="ltx_ref">Chiang and Chen, 2018</a>, <a href="#bibe.bib48" title="" class="ltx_ref">Amini et al., 2019</a>, <a href="#bibe.bib47" title="" class="ltx_ref">Chen et al., 2019</a>]</cite> 启发。</p>
+</div>
+<section id="Ch6.S1.SS3.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch06-0035">6.1.3.1 自我评估</h4>
+
+<div id="Ch6.S1.SS3.SSS1.p1" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS1.p1.1" class="ltx_p" data-translation-id="ch06-0036">大语言模型并不完美，结果会出现错误。生成多个推理步骤时，错误会累积。为防止错误失控，应格外关注结果评估。下面回顾通过检查模型或评估中间推理步骤，来减少错误累积的方法。</p>
+</div>
+<div id="Ch6.S1.SS3.SSS1.p2" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS1.p2.1" class="ltx_p" data-translation-id="ch06-0037">提示大语言模型执行思维链推理时，它会产生一系列步骤。多步执行使模型容易犯错，也容易发生错误累积 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib56" title="" class="ltx_ref">Weng et al., 2022</a>, <a href="#bibe.bib45" title="" class="ltx_ref">Xiao et al., 2023</a>]</cite>。已有若干防止错误累积的方法。一种做法是创建新模型，单独评估结果。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib56" title="" class="ltx_ref">Weng et al. [2022]</a></cite> 提出由同一个大语言模型评估的自动方法，称为自验证。提示模型将思维链推理的结论作为解决原问题的条件，再回到原问题比较答案。系统向模型提供其自身结论的不同变体，要求选择与原问题相似度最高的一个。</p>
+</div>
+<div id="Ch6.S1.SS3.SSS1.p3" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS1.p3.1" class="ltx_p" data-translation-id="ch06-0038">一种流行的相关方法是自一致性 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib64" title="" class="ltx_ref">Wang et al., 2022</a>]</cite>。自一致性属于集成方法，这是一种广为人知的机器学习技术，通过运行多个较弱学习器，构建强学习器 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib39" title="" class="ltx_ref">Sagi and Rokach, 2018</a>, <a href="#bibe.bib36" title="" class="ltx_ref">Breiman, 2001</a>]</cite>。通常，大语言模型查询的答案通过贪心地沿最高 logit 值路径，从解码器网络中提取。自一致性用更广泛路径样本上的多数投票，代替贪心单路径解码。通过采样多样推理路径、评估它们，并选出其中最一致的答案，自一致性实际上要求大语言模型多次执行相同查询，并对 Transformer 内部解码路径进行多数投票。它之所以有效，是因为复杂推理问题通常有多条不同推理路径通向正确答案。图 <a href="#Ch6.F2" title="Figure 6.2 ‣ 6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2</span></a> 给出了这一方法的例子。</p>
+</div>
+<figure id="Ch6.F2" class="ltx_figure">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0039">图 6.2：自一致性，改编自 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib64" title="" class="ltx_ref">Wang et al., 2022</a>]</cite>，展示多数投票</figcaption>
+</figure>
+<div id="Ch6.S1.SS3.SSS1.p4" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS1.p4.1" class="ltx_p" data-translation-id="ch06-0040">自一致性已在算术推理、常识推理和符号推理中，使用包括 GPT-3 在内的多种大语言模型评估。它通常在思维链基础上，进一步提高 10 至 20 个百分点。现代大语言模型常将自一致性与思维链结合使用。</p>
+</div>
+</section>
+<section id="Ch6.S1.SS3.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch06-0041">6.1.3.2 生成代码以验证</h4>
+
+<div id="Ch6.S1.SS3.SSS2.p1" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS2.p1.1" class="ltx_p" data-translation-id="ch06-0042">提高推理步骤序列准确性的另一种方法，是从自然语言切换为形式语言。形式语言的优点是歧义少于自然语言，例如 Python 等计算机语言，或数理逻辑。</p>
+</div>
+<div id="Ch6.S1.SS3.SSS2.p2" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS2.p2.1" class="ltx_p" data-translation-id="ch06-0043">大语言模型根据自然语言提示生成计算机代码，已相当成功。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib55" title="" class="ltx_ref">Chen et al. [2021]</a></cite> 提出 Codex，这是在 GitHub 上公开代码中训练的 GPT 模型。Codex 能根据注释字符串等自然语言描述，生成正确程序。此后，使用形式语言进行推理成为流行方法。许多方法用 Python 生成推理步骤，使代码可由编译器、调试器或解释器评估。人类程序员写代码时，通常遵循一个循环：编写部分代码、编译并执行以寻找错误，再用反馈改进代码。例如，自调试采用了这一方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib62" title="" class="ltx_ref">Chen et al., 2023</a>]</cite>，同样遵循代码生成、代码执行和代码解释步骤。自调试通过检查执行结果，识别自身代码中的错误，还能用自然语言解释所生成的代码。</p>
+</div>
+<div id="Ch6.S1.SS3.SSS2.p3" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS2.p3.1" class="ltx_p" data-translation-id="ch06-0044">另一种方法是程序辅助语言 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib66" title="" class="ltx_ref">Gao et al., 2023</a>]</cite>，利用大语言模型生成 Python，再用解释器评估结果。这种方法将问题翻译成小段 Python 代码，然后由解释器执行以解决问题。图 <a href="#Ch6.F1" title="Figure 6.1 ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.1</span></a> 的第四列展示了程序辅助语言方法。将推理步骤的评估交给 Python 解释器后，大语言模型的唯一任务，就只剩将自然语言问题分解为可执行代码步骤。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib66" title="" class="ltx_ref">Gao et al. [2023]</a></cite> 提供了大量实验证据，展示神经大语言模型与符号解释器之间的协同效应。在 13 项数学、符号和算法推理任务上的实验，取得了比当时大得多的模型更准确的结果，例如程序辅助语言报告 GSM8K 准确率为 72%，Penguins 为 93%。</p>
+</div>
+</section>
+<section id="Ch6.S1.SS3.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch06-0045">6.1.3.3 演化代码生成提示</h4>
+
+<div id="Ch6.S1.SS3.SSS3.p1" class="ltx_para">
+<p id="Ch6.S1.SS3.SSS3.p1.1" class="ltx_p" data-translation-id="ch06-0046">基于形式语言验证的研究，催生了若干无需人类反馈，就能自动生成针对特定问题调优的可运行代码的工作。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib26" title="" class="ltx_ref">Romera-Paredes et al. [2024]</a></cite> 提出 FunSearch，将形式方法与大语言模型结合，增强数学推理和代码生成。FunSearch 使用遗传方法，维护多个候选解，也就是程序的种群，并根据问题规格，使用相应函数评估。评估起始提示生成的程序后，系统迭代创建新提示：选取采样程序，按评估分数排序并组合，再要求大语言模型生成新程序。另一项工作利用演化计算方法，生成和优化演化算法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib27" title="" class="ltx_ref">van Stein and Bäck, 2024</a>]</cite>。LLaMEA（Large Language Model Evolutionary Algorithm，大语言模型演化算法）利用大语言模型设计和优化演化算法：先生成初始算法结构，再通过变异和选择精化。它报告在黑盒优化基准（BBOB）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib4" title="" class="ltx_ref">Hansen and Ros, 2010</a>]</cite> 上，准确率提高了 11 个百分点。</p>
+</div>
+</section>
+</section>
+</section>
+<section id="Ch6.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch06-0047">6.2 自我反思与状态</h2>
+
+<div id="Ch6.S2.p1" class="ltx_para">
+<p id="Ch6.S2.p1.1" class="ltx_p" data-translation-id="ch06-0048">上下文学习已成为一种强大的新型少样本学习方法。当少样本示例规定推理步骤时，我们还可以进一步增强大语言模型能力。</p>
+</div>
+<div id="Ch6.S2.p2" class="ltx_para">
+<p id="Ch6.S2.p2.1" class="ltx_p" data-translation-id="ch06-0049">本节考察上下文学习的一些限制，以及扩展这些限制的方法。首先讨论状态和记忆问题，考察如何在大语言模型的独立调用之间传递状态、长上下文窗口，以及大语言模型是否擅长解决必须操作状态的问题。</p>
+</div>
+<section id="Ch6.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0050">6.2.1 大语言模型是无记忆函数</h3>
+
+<div id="Ch6.S2.SS1.p1" class="ltx_para">
+<p id="Ch6.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch06-0051">上下文少样本学习利用了大语言模型在提示条件下检索知识的能力。给出指令和示例后，Transformer 架构在其庞大的 <math id="Ch6.S2.SS1.p1.m1" class="ltx_Math" alttext="(K,V)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mi>K</mi><mo>,</mo><mi>V</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(K,V)</annotation></semantics></math> 参数模型中寻找答案，即下一个词元。使用思维链提示时，大语言模型以提示中规定的少样本推理步骤为条件。</p>
+</div>
+<div id="Ch6.S2.SS1.p2" class="ltx_para">
+<p id="Ch6.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch06-0052">上下文学习以函数方式使用大语言模型，所有输入都通过提示提供。模型 <math id="Ch6.S2.SS1.p2.m1" class="ltx_Math" alttext="f" display="inline" intent=":literal"><semantics><mi>f</mi><annotation encoding="application/x-tex">f</annotation></semantics></math> 为输入提示 <math id="Ch6.S2.SS1.p2.m3" class="ltx_Math" alttext="p" display="inline" intent=":literal"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math> 寻找答案 <math id="Ch6.S2.SS1.p2.m2" class="ltx_Math" alttext="a" display="inline" intent=":literal"><semantics><mi>a</mi><annotation encoding="application/x-tex">a</annotation></semantics></math>：</p>
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch6.Ex1" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Ch6.Ex1.m1" class="ltx_Math" alttext="f(p)\rightarrow a." display="block" intent=":literal"><semantics><mrow><mrow><mrow><mi>f</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo></mrow></mrow><mo stretchy="false">→</mo><mi>a</mi></mrow><mo lspace="0em">.</mo></mrow><annotation encoding="application/x-tex">f(p)\rightarrow a.</annotation></semantics></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td></tr></tbody>
+</table>
+</div><p id="Ch6.S2.SS1.p2.2" class="ltx_p" data-translation-id="ch06-0053">原则上，大语言模型不在调用之间保留信息：模型参数不变，也没有带历史的全局变量。如果希望细化请求，将上次调用的状态信息带到下一次，就必须由用户在新提示 <math id="Ch6.S2.SS1.p2.m4" class="ltx_Math" alttext="p^{\prime}" display="inline" intent=":literal"><semantics><msup><mi>p</mi><mo>′</mo></msup><annotation encoding="application/x-tex">p^{\prime}</annotation></semantics></math> 中指定全部这些状态。模型本身已经完全忘记先前答案。</p>
+</div>
+<div id="Ch6.S2.SS1.p3" class="ltx_para">
+<p id="Ch6.S2.SS1.p3.1" class="ltx_p" data-translation-id="ch06-0054">对聊天机器人来说，在每个新问题中重复全部对话历史，会是一种繁琐、不自然的交谈方式。人类对话伙伴会记得刚刚说过什么，无需我们明确重复对方上一句话；不过采访政治人物时，记者有时会用这种方式让他们不偏离主题。商业聊天机器人部分通过系统提示解决这一问题，将前一次大语言模型调用的输出，隐式提供给新查询的提示。然而，基本原则不变：大语言模型擅长为提示找到联想式的下一个词元答案，却并不擅长记住答案，以及像通用计算机编程语言那样操作变量状态。由于参数没有变化，大语言模型不会在调用之间记住上下文状态。</p>
+</div>
+</section>
+<section id="Ch6.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0055">6.2.2 检索增强与长上下文窗口</h3>
+
+<div id="Ch6.S2.SS2.p1" class="ltx_para">
+<p id="Ch6.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch06-0056">大语言模型的记忆问题更为深层。查询的全部信息都必须放在上下文窗口中，而窗口大小有限，从根本上限制了单次查询能够传达给模型的信息量。当需要总结书籍等长文本时，这一限制就是问题。此外，第 <a href="ch20.html#Ch20.S2.SS1" title="20.2.1 In-Context Reinforcement Learning ‣ 20.2 Agentic Architectures ‣ Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20.2.1</span></a> 节将讨论通过在上下文窗口保存完整回合历史来工作的上下文强化学习方法。总之，需要向大语言模型传递更多信息的方法。</p>
+</div>
+<div id="Ch6.S2.SS2.p2" class="ltx_para">
+<p id="Ch6.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch06-0057">在推理阶段扩充信息量的最早方法之一，是生成式人工智能的检索增强，即 RAG。RAG 让大语言模型调用企业数据库或维基百科等外部数据 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib32" title="" class="ltx_ref">Lewis et al., 2020</a>]</cite>。它也用于减少事实幻觉，并获取金融或物流数据等具有时效性的信息。第 <a href="ch12.html#Ch12" title="Chapter 12 Search and Retrieval in Agentic LLMs ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">12</span></a> 章将讨论 RAG。</p>
+</div>
+<div id="Ch6.S2.SS2.p3" class="ltx_para">
+<p id="Ch6.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch06-0058">为向模型传递更长文本，研究者开发了具有更长上下文窗口的大语言模型。标准 Transformer 架构的计算需求随上下文窗口大小呈平方增长，因此线性架构正在发展 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib15" title="" class="ltx_ref">Ren et al., 2024</a>]</cite>。另一种解决方案是压缩上下文窗口信息，例如语义压缩 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib60" title="" class="ltx_ref">Fei et al., 2024</a>]</cite>、信息分块 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib17" title="" class="ltx_ref">Wang et al., 2023</a>, <a href="#bibe.bib14" title="" class="ltx_ref">Zhou et al., 2025</a>]</cite> 或递归方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib28" title="" class="ltx_ref">Zhang et al., 2025</a>]</cite>。为大语言模型设计新型记忆架构，是活跃研究领域 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib16" title="" class="ltx_ref">Yan et al., 2025</a>]</cite>。</p>
+</div>
+<figure id="Ch6.F3" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/ttt.png" id="Ch6.F3.g1" class="ltx_graphics ltx_centering ltx_img_square" style="aspect-ratio:167/148;" width="167" height="148" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0059">图 6.3：井字棋是一种状态很重要的简单棋盘游戏</figcaption>
+</figure>
+</section>
+<section id="Ch6.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0060">6.2.3 大语言模型与有状态问题</h3>
+
+<div id="Ch6.S2.SS3.p1" class="ltx_para">
+<p id="Ch6.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch06-0061">大语言模型在需要管理状态的问题上表现不佳 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib63" title="" class="ltx_ref">Wong et al., 2025</a>]</cite>。例如，规划问题必须准确记住当前状态，即使图 <a href="#Ch6.F3" title="Figure 6.3 ‣ 6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.3</span></a> 这样的简单棋盘游戏也是如此。大语言模型往往混淆状态，给出听起来合理的答案；它们可能适用于训练语料中见过的棋局，却不适用于当前实际棋盘状态 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib1" title="" class="ltx_ref">Paglieri et al., 2025</a>, <a href="#bibe.bib23" title="" class="ltx_ref">Ruoss et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch6.S2.SS3.p2" class="ltx_para">
+<p id="Ch6.S2.SS3.p2.1" class="ltx_p" data-translation-id="ch06-0062">研究者尝试了许多方法改善带状态的推理，常受到强化学习和规划算法启发 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib3" title="" class="ltx_ref">Wong et al., 2026</a>]</cite>。为理解如何使用大语言模型解决这些有状态问题，我们将讨论其无记忆特性，如何导致所谓知行鸿沟。还有其他高级方法，帮助大语言模型更好地处理有状态问题，第 <a href="ch20.html#Ch20" title="Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20</span></a> 章将介绍。</p>
+</div>
+<section id="Ch6.S2.SS3.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0063">知行鸿沟</h5>
+
+<div id="Ch6.S2.SS3.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch6.S2.SS3.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch06-0064">除了调用之间缺少状态，大语言模型内部执行某些任务时，还存在另一项与记忆相关的问题。</p>
+</div>
+<div id="Ch6.S2.SS3.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch6.S2.SS3.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch06-0065">这一问题称为知行鸿沟，描述一种奇特现象：大语言模型能够生成解决问题的正确文字描述，甚至正确算法，却无法正确执行该算法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib1" title="" class="ltx_ref">Paglieri et al., 2025</a>]</cite>。询问如何解决某个问题时，它能迅速以可执行 Python 代码提供正确算法。随后要求它真正解决问题时，却不会正确遵循自己刚生成的算法。很多时候，算法中变量状态变化之间就开始出错 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib1" title="" class="ltx_ref">Paglieri et al., 2025</a>, <a href="#bibe.bib23" title="" class="ltx_ref">Ruoss et al., 2024</a>]</cite>。注意，逐步忠实执行算法代码、跟踪寄存器值，根本不是大语言模型中基于注意力的 Transformer 的设计目标；它们被设计为通过某种联想记忆模拟自然语言处理 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib65" title="" class="ltx_ref">La Malfa et al., 2024</a>]</cite>。11 1 还应注意，人类心智有时也有同样问题：我们可以轻易描述长除法算法，但要求计算 <math id="Ch6.footnote1.m1" class="ltx_Math" alttext="12345/42" display="inline" intent=":literal"><semantics><mrow><mn>12345</mn><mo>/</mo><mn>42</mn></mrow><annotation encoding="application/x-tex">12345/42</annotation></semantics></math> 时，仍可能犯错——计算机擅长此事，而人类和大语言模型都不擅长。</p>
+</div>
+<div id="Ch6.S2.SS3.SSS0.Px1.p3" class="ltx_para">
+<p id="Ch6.S2.SS3.SSS0.Px1.p3.1" class="ltx_p" data-translation-id="ch06-0066">除了知行鸿沟，还有另一项状态管理问题。提示大语言模型与自己下棋盘游戏的前几步，可能看到棋子在步与步之间神奇地出现或消失。模型无法认识到，自己所走的棋在某些情境下可能很好，却不适合当前棋盘位置，甚至以健谈的对话风格，为错误落子装点听似合理的理由。大语言模型难以可靠管理变量从一个值到另一个值的状态转移。单个值容易遗忘或混淆。可以在提示中加入额外文本，要求模型下一步之前仔细跟踪变量值 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib65" title="" class="ltx_ref">La Malfa et al., 2024</a>]</cite>，但这种方案繁琐且容易出错。</p>
+</div>
+<div id="Ch6.S2.SS3.SSS0.Px1.p4" class="ltx_para">
+<p id="Ch6.S2.SS3.SSS0.Px1.p4.1" class="ltx_p" data-translation-id="ch06-0067">知行鸿沟和棋子消失问题，都可通过调用外部解释器执行大语言模型生成的算法来绕过。商业聊天机器人有时采用这一策略。这是一种聪明、实用的方案，因为 Python 解释器不仅能正确执行 Python 代码，而且比大语言模型更高效。</p>
+</div>
+<div id="Ch6.S2.SS3.SSS0.Px1.p5" class="ltx_para">
+<p id="Ch6.S2.SS3.SSS0.Px1.p5.1" class="ltx_p" data-translation-id="ch06-0068">第 <a href="ch20.html#Ch20" title="Chapter 20 *Advanced Transformer and Agentic Architectures ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">20</span></a> 章将讨论在 Transformer 架构中处理状态和记忆的其他方法。</p>
+</div>
+</section>
+</section>
+<section id="Ch6.S2.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0069">6.2.4 用于提示改进的智能体 Harness</h3>
+
+<div id="Ch6.S2.SS4.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.p1.1" class="ltx_p" data-translation-id="ch06-0070">除在外部执行生成代码外，研究者还开发了其他处理记忆与状态的方法。本节将转向智能体方法，引入小型外部算法，显式管理状态和提示。这种算法称为 Harness（运行支架）。Harness 也可让同一个大语言模型承担不同角色，为各角色提供不同提示，例如用于状态生成或状态评估。我们从基于搜索算法的提示管理开始。</p>
+</div>
+<div id="Ch6.S2.SS4.p2" class="ltx_para">
+<p id="Ch6.S2.SS4.p2.1" class="ltx_p" data-translation-id="ch06-0071">当大语言模型被以不同角色调用，例如批评、评估自己刚生成的表现时，可以说它在进行自我反思。文献常用这一带有拟人化色彩的术语描述这些方法。究竟是什么，而非谁，在执行自我反思——大语言模型还是智能体 Harness——仍有争议。</p>
+</div>
+<section id="Ch6.S2.SS4.SSS1" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch06-0072">6.2.4.1 基于搜索的提示优化</h4>
+
+<div id="Ch6.S2.SS4.SSS1.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p1.1" class="ltx_p" data-translation-id="ch06-0073">下面讨论基于搜索的推理阶段决策方法。这些上下文学习方法超越了思维链。思维链探索单条推理步骤路线，每步仅有一个后继；基于搜索的方法则在每步探索多个选项，形成可能性之树。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS1.p2" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p2.1" class="ltx_p" data-translation-id="ch06-0074">要考察可能推理步骤构成的树，就需要一种方法，跟踪已看过哪些步骤、迄今最佳答案是什么，以及哪些步骤仍需进一步检查。如前所述，大语言模型并不擅长跟踪状态，而传统计算机算法，例如小段 Python 代码，则擅长。这样的算法将问题分解为搜索树，生成多个替代步骤，能够向未来搜索多步，见第 <a href="#Ch6.F6" title="Figure 6.6 ‣ 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.6</span></a> 页图 <a href="#Ch6.F6" title="Figure 6.6 ‣ 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.6</span></a>。算法将大语言模型作为子程序调用，提示其执行动作选择和奖励评估等所需任务。随后，算法可以回溯，尝试替代步骤。这一控制算法位于大语言模型之外，包裹模型，跟踪状态、管理提示，将模型与外界隔离，也保护外界免受弄乱状态的大语言模型影响。这一控制算法称为 Harness。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS1.p3" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p3.1" class="ltx_p" data-translation-id="ch06-0075">我们从深度优先搜索与广度优先搜索开始讨论控制策略 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib2" title="" class="ltx_ref">Cormen et al., 2022</a>]</cite>。思维树 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib42" title="" class="ltx_ref">Yao et al., 2024</a>]</cite> 使用广度优先或深度优先搜索，动态沿不同推理步骤前进。22 2 思维树是一种流行方法，Huggingface 链接在此：<a href="https://huggingface.co/blog/sadhaklal/tree-of-thoughts" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://huggingface.co/blog/sadhaklal/tree-of-thoughts</a>。思维树中的生成部分（红色）和评估部分（绿色），都通过提示大语言模型执行，见图 <a href="#Ch6.F4" title="Figure 6.4 ‣ 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.4</span></a>。</p>
+</div>
+<figure id="Ch6.F4" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/totcode.png" id="Ch6.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:471/158;" width="471" height="158" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0076">图 6.4：思维树。左侧为广度优先搜索，右侧为深度优先搜索。箭头表示大语言模型提示，依据 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib42" title="" class="ltx_ref">Yao et al., 2024</a>]</cite>。</figcaption>
+</figure>
+<div id="Ch6.S2.SS4.SSS1.p4" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p4.1" class="ltx_p" data-translation-id="ch06-0077">两个大语言模型提示与外部控制结合，使推理步骤空间能够被系统探索，执行前瞻与回溯。</p>
+</div>
+<figure id="Ch6.F5" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/tot-ex.png" id="Ch6.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:471/133;" width="471" height="133" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0078">图 6.5：用于 24 点游戏的思维树示例提示 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib42" title="" class="ltx_ref">Yao et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch6.S2.SS4.SSS1.p5" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p5.1" class="ltx_p" data-translation-id="ch06-0079">思维树（ToT）已用于 24 点等基于规划的谜题。游戏给出 4 个数字，任务是在数字之间使用算术运算符 <math id="Ch6.S2.SS4.SSS1.p5.m1" class="ltx_math_unparsed" alttext="(+-*/)" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">(</mo><mo lspace="0em" rspace="0em">+</mo><mo lspace="0em" rspace="0em">−</mo><mo lspace="0em" rspace="0em">∗</mo><mo lspace="0em" rspace="0em">/</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(+-*/)</annotation></semantics></math>，得到 24。例如，对数字 <math id="Ch6.S2.SS4.SSS1.p5.m2" class="ltx_Math" alttext="4" display="inline" intent=":literal"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math> <math id="Ch6.S2.SS4.SSS1.p5.m3" class="ltx_Math" alttext="9" display="inline" intent=":literal"><semantics><mn>9</mn><annotation encoding="application/x-tex">9</annotation></semantics></math> <math id="Ch6.S2.SS4.SSS1.p5.m4" class="ltx_Math" alttext="10" display="inline" intent=":literal"><semantics><mn>10</mn><annotation encoding="application/x-tex">10</annotation></semantics></math> <math id="Ch6.S2.SS4.SSS1.p5.m5" class="ltx_Math" alttext="13" display="inline" intent=":literal"><semantics><mn>13</mn><annotation encoding="application/x-tex">13</annotation></semantics></math>，一个解为 <math id="Ch6.S2.SS4.SSS1.p5.m6" class="ltx_Math" alttext="(10-4)*(13-9)=24" display="inline" intent=":literal"><semantics><mrow><mrow><mrow><mo stretchy="false">(</mo><mrow><mn>10</mn><mo>−</mo><mn>4</mn></mrow><mo rspace="0.055em" stretchy="false">)</mo></mrow><mo rspace="0.222em">∗</mo><mrow><mo stretchy="false">(</mo><mrow><mn>13</mn><mo>−</mo><mn>9</mn></mrow><mo stretchy="false">)</mo></mrow></mrow><mo>=</mo><mn>24</mn></mrow><annotation encoding="application/x-tex">(10-4)*(13-9)=24</annotation></semantics></math>。思维树首先通过提议提示 <code id="Ch6.S2.SS4.SSS1.p5.1.2" class="ltx_verbatim ltx_font_typewriter">Input 4 9 10 13; Possible next steps:</code> 生成局面，模型对此生成可能的下一步思路。随后，模型通过包含思维链示例的评估提示，评估这些思路。图 <a href="#Ch6.F5" title="Figure 6.5 ‣ 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.5</span></a> 展示了原论文中一种可能的提示序列。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS1.p6" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p6.1" class="ltx_p" data-translation-id="ch06-0080">作者在 24 点游戏、创意写作和迷你填字游戏中，将该方法与带自一致性的传统线性思维链比较，在 24 点任务中取得 74% 准确率，其他任务则采用定性评估。图 <a href="#Ch6.F6" title="Figure 6.6 ‣ 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.6</span></a> 展示了不同推理结构。33 3 一种名称相似的方法是思维图 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib35" title="" class="ltx_ref">Besta et al., 2024</a>]</cite>。思维图允许更一般的推理图，提供形式化框架，再手动指定不同元素。</p>
+</div>
+<figure id="Ch6.F6" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/cot-tot.png" id="Ch6.F6.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/324;" width="476" height="324" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0081">图 6.6：思维链（b）、自一致性（c）和思维树（d）的推理结构</figcaption>
+</figure>
+<div id="Ch6.S2.SS4.SSS1.p7" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p7.1" class="ltx_p" data-translation-id="ch06-0082">思维树是一种优雅方法，在大语言模型之上添加两种最简单的搜索结构。提示序列容易理解，查找并纠正错误也很容易。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS1.p8" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS1.p8.1" class="ltx_p" data-translation-id="ch06-0083">思维树的两种搜索方法遵循固定扩展策略。接下来讨论更高级的基于学习的方法，它们可能表现更好，但代价是算法复杂度更高。</p>
+</div>
+</section>
+<section id="Ch6.S2.SS4.SSS2" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch06-0084">6.2.4.2 自我反思</h4>
+
+<div id="Ch6.S2.SS4.SSS2.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.p1.1" class="ltx_p" data-translation-id="ch06-0085">研究者设计了许多让大语言模型承担多个角色的方法，通常称为自我反思方法。模型不仅用于评估提示，还用于生成新的推理步骤，并常常进一步精化这些步骤。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS2.p2" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.p2.1" class="ltx_p" data-translation-id="ch06-0086">自我反思领域尚年轻，新方法不断出现。我们将介绍四种：Self-Refine、ReAct、Reflexion 和 Buffer of Thoughts。这些方法以不同方式使用大语言模型，通过受强化学习启发的方案，让模型自我改进。</p>
+</div>
+<section id="Ch6.S2.SS4.SSS2.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0087">Self-Refine</h5>
+
+<div id="Ch6.S2.SS4.SSS2.Px1.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.Px1.p1.1" class="ltx_p" data-translation-id="ch06-0088">第一种方法是 Self-Refine <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib71" title="" class="ltx_ref">Madaan et al., 2023</a>]</cite>，旨在根据反馈改进答案。大语言模型生成初始输出，并为自己的答案提供反馈，利用自身进行迭代精化。因此，模型被用于改进自身答案，见图 <a href="#Ch6.F7" title="Figure 6.7 ‣ Self Refine ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.7</span></a>。</p>
+</div>
+<figure id="Ch6.F7" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/selfref.png" id="Ch6.F7.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:354/132;" width="354" height="132" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0089">图 6.7：Self-Refine 架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib71" title="" class="ltx_ref">Madaan et al., 2023</a>]</cite></figcaption>
+</figure>
+<div id="Ch6.S2.SS4.SSS2.Px1.p2" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.Px1.p2.1" class="ltx_p" data-translation-id="ch06-0090">Self-Refine 以三种方式提示大语言模型：（1）初始生成；（2）反馈；（3）精化，遵循贪心推理链。据报告，Self-Refine 在对话回复生成、代码优化和约束生成等基准上，显著优于普通思维链。它遵循线性、贪心的推理链，在一个状态中只尝试单个后继，而不像 ToT 那样探索树。</p>
+</div>
+</section>
+<section id="Ch6.S2.SS4.SSS2.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0091">ReAct</h5>
+
+<div id="Ch6.S2.SS4.SSS2.Px2.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.Px2.p1.1" class="ltx_p" data-translation-id="ch06-0092">推广贪心方法，可以让大语言模型对每个状态考察多个选项。ReAct 是结合强化学习与大语言模型的一种重要方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib72" title="" class="ltx_ref">Yao et al., 2022b</a>]</cite>。44 4 <a href="https://github.com/ysymyth/ReAct" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://github.com/ysymyth/ReAct</a> ReAct 将思维链提示学习纳入强化学习框架，并使用外部知识来源，如维基百科，以及微调，以减少错误、实现落地和缓解幻觉。该框架允许手工编写提示。在 Alfworld 和 WebShop 两项交互式决策基准上，ReAct 相比模仿学习与强化学习方法，成功率分别提高 34 和 10 个绝对百分点。</p>
+</div>
+</section>
+<section id="Ch6.S2.SS4.SSS2.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0093">Reflexion</h5>
+
+<div id="Ch6.S2.SS4.SSS2.Px3.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.Px3.p1.1" class="ltx_p" data-translation-id="ch06-0094">ReAct 的工作得到进一步发展。Reflexion <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib69" title="" class="ltx_ref">Shinn et al., 2024</a>]</cite> 受人类反思失败并提升结果的方式启发，创建通过此方式学习的人工智能智能体。55 5 <a href="https://github.com/noahshinn/reflexion" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://github.com/noahshinn/reflexion</a> Reflexion 对大语言模型使用三个提示：行动者、评估者和反思者。其 Harness 在模型调用之间加入显式记忆，用短期记忆生成轨迹，用长期记忆存储经验信息。这一方法通过外部算法中的记忆，处理普通大语言模型的状态管理问题。Reflexion 的流程为：（1）行动者模型生成文本和动作；（2）评估者模型为行动者输出评分；（3）自我反思模型生成语言强化线索，协助行动者自我改进，见图 <a href="#Ch6.F8" title="Figure 6.8 ‣ Reflexion ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.8</span></a>。行动者可采用思维链和 ReAct。Reflexion 已在决策、推理和编码任务上评估，报告提升 10 至 20 个百分点 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib69" title="" class="ltx_ref">Shinn et al., 2024</a>]</cite>。</p>
+</div>
+<figure id="Ch6.F8" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/reflexion3.png" id="Ch6.F8.g1" class="ltx_graphics ltx_centering ltx_img_square" style="aspect-ratio:314/279;" width="314" height="279" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0095">图 6.8：Reflexion 架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib69" title="" class="ltx_ref">Shinn et al., 2024</a>]</cite>，与强化学习的智能体／环境结构十分相似</figcaption>
+</figure>
+</section>
+<section id="Ch6.S2.SS4.SSS2.Px4" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0096">Buffer of Thoughts</h5>
+
+<div id="Ch6.S2.SS4.SSS2.Px4.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.Px4.p1.1" class="ltx_p" data-translation-id="ch06-0097">另一种方法是 Buffer of Thoughts <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib34" title="" class="ltx_ref">Yang et al., 2024</a>]</cite>，向元推理迈进一步 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib22" title="" class="ltx_ref">Gao et al., 2024</a>]</cite>。它引入元缓冲区，保存从多种任务中提取的高层思维模板。Buffer of Thoughts 使用问题蒸馏器，将不同问题提炼出的高层思维存入元缓冲区，并主动管理其容量。图 <a href="#Ch6.F9" title="Figure 6.9 ‣ Buffer of Thoughts ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.9</span></a> 将该方法与思维链和思维树等比较。它在 24 点游戏和将死谜题上优于其他方法，分别提高 11% 和 51%。思维模板与元认知，即对思考的思考有关 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib43" title="" class="ltx_ref">Didolkar et al., 2024</a>]</cite>。</p>
+</div>
+<figure id="Ch6.F9" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/bot.png" id="Ch6.F9.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:393/247;" width="393" height="247" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch06-0098">图 6.9：Buffer of Thoughts <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib34" title="" class="ltx_ref">Yang et al., 2024</a>]</cite></figcaption>
+</figure>
+</section>
+<section id="Ch6.S2.SS4.SSS2.Px5" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch06-0099">批评与提示敏感性</h5>
+
+<div id="Ch6.S2.SS4.SSS2.Px5.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.Px5.p1.1" class="ltx_p" data-translation-id="ch06-0100">自我反思概念并非没有陷阱和批评。首先，让模型精化结果的基本想法引出一个问题：为什么模型一开始没有给出更好答案？其次，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibe.bib18" title="" class="ltx_ref">Huang et al. [2023]</a>, <a href="#bibe.bib13" title="" class="ltx_ref">Shojaee et al. [2025]</a></cite> 发现部分研究存在方法论问题，例如使用泄漏答案的数据标签、第二轮精化提示无意间比初始提示透露更多信息，以及让同一个大语言模型充当智能体和环境。一项可复现性研究中，表现并未超过带自一致性的思维链 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib18" title="" class="ltx_ref">Huang et al., 2023</a>]</cite>。大语言模型对提示中问题的表达方式敏感。自我反思仍是年轻、活跃的研究领域，前景很有吸引力，但开放问题众多。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS2.Px5.p2" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS2.Px5.p2.1" class="ltx_p" data-translation-id="ch06-0101">所介绍的方法可能多次调用大语言模型，因而成本高、速度慢。为你的问题寻找最优方法，可能需要相当多实验。第 <a href="ch10.html#Ch10" title="Chapter 10 Case Study 2: BALROG for LLM Reasoning and Reflection ‣ Part III Agents ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">10</span></a> 章将讨论实践案例，让我们亲手体验自我反思方法。请记住前面的批评。</p>
+</div>
+</section>
+</section>
+<section id="Ch6.S2.SS4.SSS3" class="ltx_subsubsection">
+<h4 class="ltx_title ltx_title_subsubsection" data-translation-id="ch06-0102">6.2.4.3 使用可验证奖励的强化学习</h4>
+
+<div id="Ch6.S2.SS4.SSS3.p1" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS3.p1.1" class="ltx_p" data-translation-id="ch06-0103">本章聚焦上下文学习。它发生在推理阶段，不训练或改变参数。微调则发生在训练阶段，确实改变模型参数。不过，本节将简要讨论微调与上下文学习的混合，也就是将训练与推理结合。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS3.p2" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS3.p2.1" class="ltx_p" data-translation-id="ch06-0104">使用可验证奖励的强化学习，是一种算法训练方法，用于数学解题和指令遵循等结果可验证的语言模型任务。尤其在数学应用题和编码等推理问题中，研究发现，将推理阶段的思维链结果用于微调，能够显著改善模型。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS3.p3" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS3.p3.1" class="ltx_p" data-translation-id="ch06-0105">RLVR 是对基于人类反馈的强化学习（RLHF）的改进，省去了人类反馈需求。在数学等许多领域，存在检查答案是否正确的简单函数，无需人工反馈。RLVR 利用已有 RLHF 目标，但以验证函数替代奖励模型。给定一组提示，RLVR 从策略模型采样补全，再通过确定性函数验证正确性。若正确，奖励为正，否则为 0。随后，像 RLHF 一样，使用标准强化学习算法 PPO <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib41" title="" class="ltx_ref">Schulman et al., 2017</a>]</cite>，依据该奖励进行训练。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS3.p4" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS3.p4.1" class="ltx_p" data-translation-id="ch06-0106">DeepSeek-R1 开发中提出了这一类型的一种有影响力的方法 <cite class="ltx_cite ltx_citemacro_cite"><a href="#bibe.bib24" title="" class="ltx_ref">Guo et al. [2025]</a></cite>。与外部推理方法不同，它强调模型自行生成的推理步骤，通过强化学习学习这些步骤，将数据生成和训练整合到单一循环。DeepSeek 的方法减少了训练大语言模型的监督数据需求，利用强化学习让模型自主演化推理技能。从基础模型出发并应用强化学习后，系统识别并强化有效推理模式。DeepSeek 使用组相对策略优化（GRPO），通过基于组的评分计算优势 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib31" title="" class="ltx_ref">Shao et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS3.p5" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS3.p5.1" class="ltx_p" data-translation-id="ch06-0107">DeepSeek 方法的关键特征之一，是微调期间涌现出复杂推理行为，例如反思和探索其他解题方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib30" title="" class="ltx_ref">Mercer et al., 2025</a>]</cite>。这些行为不是预编程的，也不需要外部自我反思循环，而是模型与强化学习环境交互时自发出现。例如，DeepSeek-R1-Zero 学会通过重新评估初始方法，为问题分配更多思考时间。这种自主学习推理的方法，可能带来更稳定、更具适应性的推理大语言模型。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS3.p6" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS3.p6.1" class="ltx_p" data-translation-id="ch06-0108">GRPO 成功的原因之一，是聚焦存在可验证奖励的应用，使强化学习方法能够发挥作用。对可验证奖励的关注已相当成功，使用可验证奖励的强化学习（RLVR）方法，常用于大语言模型微调 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib21" title="" class="ltx_ref">Lambert et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch6.S2.SS4.SSS3.p7" class="ltx_para">
+<p id="Ch6.S2.SS4.SSS3.p7.1" class="ltx_p" data-translation-id="ch06-0109">GRPO 等 RLVR 方法通常动态使用：通过推理阶段的思维链查询，回答训练集中的问题，以微调模型。因此，测试阶段推理被用于微调。DeepSeek 令人印象深刻的结果 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib24" title="" class="ltx_ref">Guo et al., 2025</a>]</cite>，使 GRPO <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib31" title="" class="ltx_ref">Shao et al., 2024</a>]</cite> 与 RLVR <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib21" title="" class="ltx_ref">Lambert et al., 2024</a>, <a href="#bibe.bib24" title="" class="ltx_ref">Guo et al., 2025</a>, <a href="#bibe.bib19" title="" class="ltx_ref">Wen et al., 2025b</a>, <a href="#bibe.bib20" title="" class="ltx_ref">Yue et al., 2025</a>]</cite> 成为极受欢迎的微调方法。</p>
+</div>
+</section>
+</section>
+</section>
+<section id="Ch6.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch06-0110">6.3 结束语</h2>
+
+<div id="Ch6.S3.p1" class="ltx_para">
+<p id="Ch6.S3.p1.1" class="ltx_p" data-translation-id="ch06-0111">前面我们看到了如何提升语言模型的推理能力。最著名的方法是思维链：这是一种提示工程方法，示范模型在回答问题时提供多步推理，就像我们在学校学习解数学题一样。研究者提出了更复杂的提示改进算法，从深度优先搜索，经由自我反思，到推理阶段强化学习方法。RLVR 等高级训练方法将推理结果与微调结合，取得强大的训练效果。</p>
+</div>
+<section id="Ch6.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0112">6.3.1 脆弱性</h3>
+
+<div id="Ch6.S3.SS1.p1" class="ltx_para">
+<p id="Ch6.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch06-0113">我们讨论了创建智能体 Harness 的许多不同算法方法。方法之所以如此众多，有多个原因。首先，智能体式大语言模型领域仍年轻，存在许多挑战，因此带来了许多新解决方案。</p>
+</div>
+<div id="Ch6.S3.SS1.p2" class="ltx_para">
+<p id="Ch6.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch06-0114">其次，这些方法相当脆弱。提示的细微变化，甚至这里或那里一个逗号，有时就决定方法是否有效。模型温度等超参数的微小变化，乃至仅仅更换随机数生成器的种子，都可能有很大影响。改变智能体 Harness 的记忆管理方法，或换用不同大语言模型，也可能显著影响性能。</p>
+</div>
+<div id="Ch6.S3.SS1.p3" class="ltx_para">
+<p id="Ch6.S3.SS1.p3.1" class="ltx_p" data-translation-id="ch06-0115">这种状况可能让人觉得不满意。的确，领域还年轻，方法稳定下来还需要几年。在实验中，应始终记得使用不同种子、模型和超参数设置，进行多次运行。这将帮助你更好地理解方案在不同条件下如何工作。</p>
+</div>
+</section>
+<section id="Ch6.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0116">6.3.2 思考，快与慢</h3>
+
+<div id="Ch6.S3.SS2.p1" class="ltx_para">
+<p id="Ch6.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch06-0117">本章最后，从更广阔视角讨论大语言模型推理。人工智能历史中，可以看到两种方法或思想流派：符号主义人工智能与联结主义人工智能。符号主义大致认为，最好通过按逻辑规则操作符号来建模智能。联结主义则研究智能是否会从相互连接的元素之间的交互中自发涌现，无论这些元素是神经元、细胞、蚂蚁、人类还是机器人。符号主义借鉴数学，联结主义借鉴生物学。如第 <a href="ch02.html#Ch2.S3" title="2.3 Modeling Language ‣ Chapter 2 Foundations of Language Modeling with LLMs ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2.3</span></a> 节所见，两派都开发了有用方法，也都取得重要成功，例如搜索算法与推理，以及深度学习与大语言模型。</p>
+</div>
+<div id="Ch6.S3.SS2.p2" class="ltx_para">
+<p id="Ch6.S3.SS2.p2.1" class="ltx_p" data-translation-id="ch06-0118">2011 年，Daniel Kahneman 出版《Thinking, Fast and Slow》，使用系统 1 和系统 2 区分人类思维：直觉、快速思考，以及审慎、缓慢思考 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib51" title="" class="ltx_ref">Kahneman, 2011</a>]</cite>。这些术语在人工智能中广为流行，快速思考与联想式查找联系起来，慢速思考则与多步推理联系起来。推理阶段，零样本大语言模型快速思考，即系统 1 思维。推理阶段的逐步方法，无论通过更长提示还是智能体 Harness，则执行审慎的慢速思考，即系统 2 思维。</p>
+</div>
+<div id="Ch6.S3.SS2.p3" class="ltx_para">
+<p id="Ch6.S3.SS2.p3.1" class="ltx_p" data-translation-id="ch06-0119">大语言模型基于联结主义人工智能传统，即系统 1。推理阶段使用工具，则用来自符号主义传统，即系统 2 的知识检索或处理工具，增强大语言模型部分。</p>
+</div>
+<div id="Ch6.S3.SS2.p4" class="ltx_para">
+<p id="Ch6.S3.SS2.p4.1" class="ltx_p" data-translation-id="ch06-0120">应当注意，尽管研究者有时将大语言模型及其能力拟人化，模型执行的仍只是下一个词元预测。大语言模型远非人类。通过生成更多词元形成答案，即逐步推理，从提示到最终答案的词元路径变长。这更常导向正确答案，可能是因为它以更小步幅朝答案前进，每个中间步骤都让正确答案更合理，而不是因为它类似人类所受的解题教育。推理是在收窄概率，使正确答案更有可能被生成，而不依赖与人类认知相关的解释 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibe.bib24" title="" class="ltx_ref">Guo et al., 2025</a>]</cite>。</p>
+</div>
+</section>
+<section id="Ch6.S3.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch06-0121">6.3.3 结论</h3>
+
+<div id="Ch6.S3.SS3.p1" class="ltx_para">
+<p id="Ch6.S3.SS3.p1.1" class="ltx_p" data-translation-id="ch06-0122">本章讨论了大语言模型如何通过下一个词元预测解决语言任务，以及如何解决需要多步推理的任务。我们也讨论了管理复杂推理结构的方法。</p>
+</div>
+<div id="Ch6.S3.SS3.p2" class="ltx_para">
+<p id="Ch6.S3.SS3.p2.1" class="ltx_p" data-translation-id="ch06-0123">多数方法属于上下文方法，高效且易用，因为引导推理的提示可由用户阅读。我们介绍了智能体 Harness 在提示改进和记忆管理中的作用。也涉及使用预训练和微调的方法，它们不仅针对语言部分，还整合多步推理。因此，这些方法训练模型进行决策，超越语言模型中纯粹的下一个词元预测。</p>
+</div>
+<div id="Ch6.S3.SS3.p3" class="ltx_para">
+<p id="Ch6.S3.SS3.p3.1" class="ltx_p" data-translation-id="ch06-0124">构建这类更丰富模型的研究十分活跃，将视觉推理、决策和动作加入，成为大语言模型的组成部分。下一章将深入考察这些经过预训练和微调的多模态模型。</p>
+</div>
+</section>
+</section>
+<section id="bibe" class="ltx_bibliography ltx_list_06_reasoning">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibe.L1" class="ltx_biblist">
+<li id="bibe.bib61" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ahn <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Ahn, A. Brohan, N. Brown, Y. Chebotar, O. Cortes, B. David, C. Finn, C. Fu, K. Gopalakrishnan, K. Hausman, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Do as i can, not as i say: grounding language in robotic affordances</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2204.01691</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib48" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Amini <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Amini, S. Gabriel, P. Lin, R. Koncel-Kedziorski, Y. Choi, and H. Hajishirzi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mathqa: towards interpretable math word problem solving with operation-based formalisms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1905.13319</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.p7.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib35" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Besta <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Besta, N. Blach, A. Kubicek, R. Gerstenberger, M. Podstawski, L. Gianinazzi, J. Gajda, T. Lehmann, H. Niewiadomski, P. Nyczyk, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Graph of thoughts: solving elaborate problems with large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Proceedings of the AAAI Conference on Artificial Intelligence</span> <span class="ltx_text ltx_bib_volume">38</span> (<span class="ltx_text ltx_bib_number">16</span>), <span class="ltx_text ltx_bib_pages">pp. 17682–17690</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="https://arxiv.org/html/2610.13455v1#Ch6.footnote3" title="In 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">footnote 3</span></a>.
+</span></li>
+<li id="bibe.bib36" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Breiman (2001)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Breiman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Random forests</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Machine learning</span> <span class="ltx_text ltx_bib_volume">45</span>, <span class="ltx_text ltx_bib_pages">pp. 5–32</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS1.p3.1" title="6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.1</span></a>.
+</span></li>
+<li id="bibe.bib59" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brown <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal, A. Neelakantan, P. Shyam, G. Sastry, A. Askell, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language models are few-shot learners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">33</span>, <span class="ltx_text ltx_bib_pages">pp. 1877–1901</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.p1.1" title="6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1</span></a>.
+</span></li>
+<li id="bibe.bib55" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Chen, J. Tworek, H. Jun, Q. Yuan, H. P. d. O. Pinto, J. Kaplan, H. Edwards, Y. Burda, N. Joseph, G. Brockman, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Evaluating large language models trained on code</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2107.03374</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS2.p2.1" title="6.1.3.2 Code Generation for Validation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.2</span></a>.
+</span></li>
+<li id="bibe.bib47" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Chen, C. Liang, A. W. Yu, D. Zhou, D. Song, and Q. V. Le</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Neural symbolic reader: scalable integration of distributed and symbolic representations for reading comprehension</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Learning Representations</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.p7.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib62" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chen <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Chen, M. Lin, N. Schärli, and D. Zhou</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Teaching large language models to self-debug</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2304.05128</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS2.p2.1" title="6.1.3.2 Code Generation for Validation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.2</span></a>.
+</span></li>
+<li id="bibe.bib49" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Chiang and Chen (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Chiang and Y. Chen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Semantically-aligned equation generation for solving and reasoning math word problems</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1811.00720</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.p7.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib57" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Cobbe <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. Cobbe, V. Kosaraju, M. Bavarian, M. Chen, H. Jun, L. Kaiser, M. Plappert, J. Tworek, J. Hilton, R. Nakano, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Training verifiers to solve math word problems</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2110.14168</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p1.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S1.SS3.p7.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib5" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Codeforces (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Codeforces</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">American invitational mathematics examination-aime 2024, 2024</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib2" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Cormen <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. H. Cormen, C. E. Leiserson, R. L. Rivest, and C. Stein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Introduction to algorithms</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">MIT press</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS1.p3.1" title="6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.1</span></a>.
+</span></li>
+<li id="bibe.bib43" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Didolkar <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Didolkar, A. Goyal, N. R. Ke, S. Guo, M. Valko, T. Lillicrap, D. Rezende, Y. Bengio, M. Mozer, and S. Arora</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Metacognitive capabilities of llms: an exploration in mathematical problem solving</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.12205</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS2.Px4.p1.1" title="Buffer of Thoughts ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib52" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Dong <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Q. Dong, L. Li, D. Dai, C. Zheng, Z. Wu, B. Chang, X. Sun, J. Xu, and Z. Sui</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey on in-context learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2301.00234</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS1.p1.1" title="6.1.1 In-Context Learning ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.1</span></a>.
+</span></li>
+<li id="bibe.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Fan <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Fan, G. Wang, Y. Jiang, A. Mandlekar, Y. Yang, H. Zhu, A. Tang, D. Huang, Y. Zhu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Minedojo: building open-ended embodied agents with internet-scale knowledge</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 18343–18362</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib60" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Fei <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Fei, X. Niu, P. Zhou, L. Hou, B. Bai, L. Deng, and W. Han</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Extending context window of large language models via semantic compression</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Findings of the Association for Computational Linguistics: ACL 2024</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 5169–5181</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS2.p3.1" title="6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.2</span></a>.
+</span></li>
+<li id="bibe.bib66" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gao <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Gao, A. Madaan, S. Zhou, U. Alon, P. Liu, Y. Yang, J. Callan, and G. Neubig</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Pal: program-aided language models</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Machine Learning</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 10764–10799</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F1" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F1.4" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>,
+<a href="#Ch6.S1.SS3.SSS2.p3.1" title="6.1.3.2 Code Generation for Validation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.2</span></a>.
+</span></li>
+<li id="bibe.bib22" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Gao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Gao, A. Xie, S. Mao, W. Wu, Y. Xia, H. Mi, and F. Wei</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Meta reasoning for large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2406.11698</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS2.Px4.p1.1" title="Buffer of Thoughts ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib33" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Giray (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Giray</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Prompt engineering with chatgpt: a guide for academic writers</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Annals of biomedical engineering</span> <span class="ltx_text ltx_bib_volume">51</span> (<span class="ltx_text ltx_bib_number">12</span>), <span class="ltx_text ltx_bib_pages">pp. 2629–2633</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS1.SSS0.Px5.p2.1" title="Practical Considerations and Prompt Engineering ‣ 6.1.1 In-Context Learning ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.1</span></a>.
+</span></li>
+<li id="bibe.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Guo <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Guo, D. Yang, H. Zhang, J. Song, R. Zhang, R. Xu, Q. Zhu, S. Ma, P. Wang, X. Bi, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deepseek-r1: incentivizing reasoning capability in llms via reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.12948</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS3.p4.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>,
+<a href="#Ch6.S2.SS4.SSS3.p7.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>,
+<a href="#Ch6.S3.SS2.p4.1" title="6.3.2 Thinking, Fast and Slow ‣ 6.3 Concluding Remarks ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.3.2</span></a>.
+</span></li>
+<li id="bibe.bib4" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Hansen and Ros (2010)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Hansen and R. Ros</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Black-box optimization benchmarking of newuoa compared to bipop-cma-es: on the bbob noiseless testbed</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 12th annual conference companion on Genetic and evolutionary computation</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1519–1526</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS3.p1.1" title="6.1.3.3 Evolving code generation prompts ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.3</span></a>.
+</span></li>
+<li id="bibe.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Huang <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Huang, X. Chen, S. Mishra, H. S. Zheng, A. W. Yu, X. Song, and D. Zhou</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models cannot self-correct reasoning yet</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2310.01798</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS2.Px5.p1.1" title="Critique and Prompt Sensitivity ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib51" class="ltx_bibitem ltx_bib_book"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kahneman (2011)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Kahneman</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Thinking, fast and slow</span>.
+</span>
+<span class="ltx_bibblock"> <span class="ltx_text ltx_bib_publisher">macmillan</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S3.SS2.p2.1" title="6.3.2 Thinking, Fast and Slow ‣ 6.3 Concluding Remarks ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.3.2</span></a>.
+</span></li>
+<li id="bibe.bib8" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kamoi <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Kamoi, Y. Zhang, N. Zhang, J. Han, and R. Zhang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">When can llms actually correct their own mistakes? a critical survey of self-correction of llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Transactions of the Association for Computational Linguistics</span> <span class="ltx_text ltx_bib_volume">12</span>, <span class="ltx_text ltx_bib_pages">pp. 1417–1440</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p4.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib54" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Kojima <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Kojima, S. S. Gu, M. Reid, Y. Matsuo, and Y. Iwasawa</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models are zero-shot reasoners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 22199–22213</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F1" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F1.4" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>,
+<a href="#Ch6.S1.SS3.p6.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib37" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Koncel-Kedziorski <span class="ltx_text ltx_bib_etal">et al.</span> (2016)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Koncel-Kedziorski, S. Roy, A. Amini, N. Kushman, and H. Hajishirzi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MAWPS: a math word problem repository</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 2016 conference of the north american chapter of the association for computational linguistics: human language technologies</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1152–1157</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p2.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib65" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">La Malfa <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. La Malfa, C. Weinhuber, O. Torre, F. Lin, S. Marro, A. Cohn, N. Shadbolt, and M. Wooldridge</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Code simulation challenges for large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2401.09074</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS3.SSS0.Px1.p2.1" title="Knowing-Doing Gap ‣ 6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>,
+<a href="#Ch6.S2.SS3.SSS0.Px1.p3.1" title="Knowing-Doing Gap ‣ 6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>.
+</span></li>
+<li id="bibe.bib21" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lambert <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Lambert, J. Morrison, V. Pyatkin, S. Huang, H. Ivison, F. Brahman, L. J. V. Miranda, A. Liu, N. Dziri, S. Lyu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tulu 3: pushing frontiers in open language model post-training</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2411.15124</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS3.p6.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>,
+<a href="#Ch6.S2.SS4.SSS3.p7.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>.
+</span></li>
+<li id="bibe.bib32" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lewis <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Lewis, E. Perez, A. Piktus, F. Petroni, V. Karpukhin, N. Goyal, H. Küttler, M. Lewis, W. Yih, T. Rocktäschel, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Retrieval-augmented generation for knowledge-intensive nlp tasks</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">33</span>, <span class="ltx_text ltx_bib_pages">pp. 9459–9474</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS2.p2.1" title="6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.2</span></a>.
+</span></li>
+<li id="bibe.bib67" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ling <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Ling, D. Yogatama, C. Dyer, and P. Blunsom</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Program induction by rationale generation: learning to solve and explain algebraic word problems</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1705.04146</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p2.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S1.SS3.p7.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib40" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Liu <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Liu, W. Yuan, J. Fu, Z. Jiang, H. Hayashi, and G. Neubig</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Pre-train, prompt, and predict: a systematic survey of prompting methods in natural language processing</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">ACM Computing Surveys</span> <span class="ltx_text ltx_bib_volume">55</span> (<span class="ltx_text ltx_bib_number">9</span>), <span class="ltx_text ltx_bib_pages">pp. 1–35</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS1.SSS0.Px3.p1.1" title="Example ‣ 6.1.1 In-Context Learning ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.1</span></a>.
+</span></li>
+<li id="bibe.bib71" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Madaan <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Madaan, N. Tandon, P. Gupta, S. Hallinan, L. Gao, S. Wiegreffe, U. Alon, N. Dziri, S. Prabhumoye, Y. Yang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Self-refine: iterative refinement with self-feedback</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F7" title="In Self Refine ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.7</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F7.4" title="In Self Refine ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.7</span></a>,
+<a href="#Ch6.S2.SS4.SSS2.Px1.p1.1" title="Self Refine ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mercer <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Mercer, S. Spillard, and D. P. Martin</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Brief analysis of deepseek r1 and it’s implications for generative ai</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.02523</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS3.p5.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>.
+</span></li>
+<li id="bibe.bib38" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Miao <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Miao, C. Liang, and K. Su</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A diverse corpus for evaluating and developing english math word problem solvers</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2106.15772</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p2.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib68" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nye <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Nye, A. J. Andreassen, G. Gur-Ari, H. Michalewski, J. Austin, D. Bieber, D. Dohan, A. Lewkowycz, M. Bosma, D. Luan, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Show your work: scratchpads for intermediate computation with language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2112.00114</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.p7.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib1" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Paglieri <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Paglieri, B. Cupiał, S. Coward, U. Piterbarg, M. Wolczyk, A. Khan, E. Pignatelli, Ł. Kuciński, L. Pinto, R. Fergus, J. N. Foerster, J. Parker-Holder, and T. Rocktäschel</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">BALROG: benchmarking agentic LLM and VLM reasoning on games</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">The Thirteenth International Conference on Learning Representations</span>,
+</span>
+<span class="ltx_bibblock">External Links: <span class="ltx_text ltx_bib_links"><a href="https://openreview.net/forum?id=fp6t3F669F" title="" class="ltx_ref ltx_bib_external" rel="noopener noreferrer">Link</a></span>
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S2.SS3.SSS0.Px1.p2.1" title="Knowing-Doing Gap ‣ 6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>,
+<a href="#Ch6.S2.SS3.p1.1" title="6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>.
+</span></li>
+<li id="bibe.bib44" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Patel <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Patel, S. Bhattamishra, and N. Goyal</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Are nlp models really able to solve simple math word problems?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2103.07191</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p2.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib29" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Plaat <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Plaat, A. Wong, S. Verberne, J. Broekens, N. van Stein, and T. Bäck</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Multi-step reasoning with large language models, a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">ACM Computing Surveys, arXiv preprint arXiv:2407.11511</span> <span class="ltx_text ltx_bib_volume">58</span> (<span class="ltx_text ltx_bib_number">6</span>), <span class="ltx_text ltx_bib_pages">pp. 160:1–160:35</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F1" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F1.4" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>.
+</span></li>
+<li id="bibe.bib53" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Radford <span class="ltx_text ltx_bib_etal">et al.</span> (2019)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, I. Sutskever, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Language models are unsupervised multitask learners</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">OpenAI blog</span> <span class="ltx_text ltx_bib_volume">1</span> (<span class="ltx_text ltx_bib_number">8</span>), <span class="ltx_text ltx_bib_pages">pp. 9</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS1.SSS0.Px5.p2.1" title="Practical Considerations and Prompt Engineering ‣ 6.1.1 In-Context Learning ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.1</span></a>.
+</span></li>
+<li id="bibe.bib46" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Rae <span class="ltx_text ltx_bib_etal">et al.</span> (2021)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. W. Rae, S. Borgeaud, T. Cai, K. Millican, J. Hoffmann, F. Song, J. Aslanides, S. Henderson, R. Ring, S. Young, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Scaling language models: methods, analysis &amp; insights from training gopher</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2112.11446</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.p1.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib15" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ren <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Ren, Y. Liu, Y. Lu, Y. Shen, C. Liang, and W. Chen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Samba: simple hybrid state space models for efficient unlimited context language modeling</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2406.07522</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS2.p3.1" title="6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.2</span></a>.
+</span></li>
+<li id="bibe.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Romera-Paredes <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Romera-Paredes, M. Barekatain, A. Novikov, M. Balog, M. P. Kumar, E. Dupont, F. J. Ruiz, J. S. Ellenberg, P. Wang, O. Fawzi, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Mathematical discoveries from program search with large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature</span> <span class="ltx_text ltx_bib_volume">625</span> (<span class="ltx_text ltx_bib_number">7995</span>), <span class="ltx_text ltx_bib_pages">pp. 468–475</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS3.p1.1" title="6.1.3.3 Evolving code generation prompts ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.3</span></a>.
+</span></li>
+<li id="bibe.bib50" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Roy and Roth (2016)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Roy and D. Roth</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Solving general arithmetic word problems</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1608.01413</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.p7.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Roziere <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Roziere, M. Lachaux, L. Chanussot, and G. Lample</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Unsupervised translation of programming languages</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">33</span>, <span class="ltx_text ltx_bib_pages">pp. 20601–20611</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib23" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ruoss <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Ruoss, F. Pardo, H. Chan, B. Li, V. Mnih, and T. Genewein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Lmact: a benchmark for in-context imitation learning with long multimodal demonstrations</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2412.01441</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S2.SS3.SSS0.Px1.p2.1" title="Knowing-Doing Gap ‣ 6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>,
+<a href="#Ch6.S2.SS3.p1.1" title="6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>.
+</span></li>
+<li id="bibe.bib39" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sagi and Rokach (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">O. Sagi and L. Rokach</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Ensemble learning: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Wiley interdisciplinary reviews: data mining and knowledge discovery</span> <span class="ltx_text ltx_bib_volume">8</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. e1249</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS1.p3.1" title="6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.1</span></a>.
+</span></li>
+<li id="bibe.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sahoo <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Sahoo, A. K. Singh, S. Saha, V. Jain, S. Mondal, and A. Chadha</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A systematic survey of prompt engineering in large language models: techniques and applications</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.07927</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS1.SSS0.Px5.p2.1" title="Practical Considerations and Prompt Engineering ‣ 6.1.1 In-Context Learning ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.1</span></a>.
+</span></li>
+<li id="bibe.bib41" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Schulman <span class="ltx_text ltx_bib_etal">et al.</span> (2017)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Proximal policy optimization algorithms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1707.06347</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS3.p3.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>.
+</span></li>
+<li id="bibe.bib31" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Shao, P. Wang, Q. Zhu, R. Xu, J. Song, X. Bi, H. Zhang, M. Zhang, Y. Li, Y. Wu, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Deepseekmath: pushing the limits of mathematical reasoning in open language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.03300</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS3.p4.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>,
+<a href="#Ch6.S2.SS4.SSS3.p7.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>.
+</span></li>
+<li id="bibe.bib69" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shinn <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Shinn, F. Cassano, A. Gopinath, K. Narasimhan, and S. Yao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reflexion: language agents with verbal reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F8" title="In Reflexion ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.8</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F8.4" title="In Reflexion ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.8</span></a>,
+<a href="#Ch6.S2.SS4.SSS2.Px3.p1.1" title="Reflexion ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib13" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shojaee <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Shojaee, I. Mirzadeh, K. Alizadeh, M. Horton, S. Bengio, and M. Farajtabar</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The illusion of thinking: understanding the strengths and limitations of reasoning models via the lens of problem complexity</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.06941</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p4.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S2.SS4.SSS2.Px5.p1.1" title="Critique and Prompt Sensitivity ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib25" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shridhar <span class="ltx_text ltx_bib_etal">et al.</span> (2020)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Shridhar, X. Yuan, M. Côté, Y. Bisk, A. Trischler, and M. Hausknecht</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Alfworld: aligning text and embodied environments for interactive learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2010.03768</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib27" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">van Stein and Bäck (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. van Stein and T. Bäck</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">LLaMEA: a large language model evolutionary algorithm for automatically generating metaheuristics</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.20132</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS3.p1.1" title="6.1.3.3 Evolving code generation prompts ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.3</span></a>.
+</span></li>
+<li id="bibe.bib17" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Wang, L. Dong, H. Cheng, X. Liu, X. Yan, J. Gao, and F. Wei</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Augmenting language models with long-term memory</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>, <span class="ltx_text ltx_bib_pages">pp. 74530–74543</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS2.p3.1" title="6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.2</span></a>.
+</span></li>
+<li id="bibe.bib64" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wang <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Wang, J. Wei, D. Schuurmans, Q. Le, E. Chi, S. Narang, A. Chowdhery, and D. Zhou</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Self-consistency improves chain of thought reasoning in language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2203.11171</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F2" title="In 6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F2.4" title="In 6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.2</span></a>,
+<a href="#Ch6.S1.SS3.SSS1.p3.1" title="6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.1</span></a>,
+<a href="#Ch6.S1.SS3.p6.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib58" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wei <span class="ltx_text ltx_bib_etal">et al.</span> (2022a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Wei, Y. Tay, R. Bommasani, C. Raffel, B. Zoph, S. Borgeaud, D. Yogatama, M. Bosma, D. Zhou, D. Metzler, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Emergent abilities of large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2206.07682</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS1.SSS0.Px5.p2.1" title="Practical Considerations and Prompt Engineering ‣ 6.1.1 In-Context Learning ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.1</span></a>.
+</span></li>
+<li id="bibe.bib70" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wei <span class="ltx_text ltx_bib_etal">et al.</span> (2022b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Wei, X. Wang, D. Schuurmans, M. Bosma, F. Xia, E. Chi, Q. V. Le, D. Zhou, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Chain-of-thought prompting elicits reasoning in large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in neural information processing systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 24824–24837</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F1" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F1.4" title="In 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.1</span></a>,
+<a href="#Ch6.S1.SS2.p2.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S1.SS3.p3.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>,
+<a href="#Ch6.S1.SS3.p4.1" title="6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3</span></a>.
+</span></li>
+<li id="bibe.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wen <span class="ltx_text ltx_bib_etal">et al.</span> (2025a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">P. Wen, J. Ji, C. Chan, J. Dai, D. Hong, Y. Yang, S. Han, and Y. Guo</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Thinkpatterns-21k: a systematic study on the impact of thinking patterns in llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2503.12918</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wen <span class="ltx_text ltx_bib_etal">et al.</span> (2025b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">X. Wen, Z. Liu, S. Zheng, Z. Xu, S. Ye, Z. Wu, X. Liang, Y. Wang, J. Li, Z. Miao, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reinforcement learning with verifiable rewards implicitly incentivizes correct reasoning in base llms</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.14245</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS3.p7.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>.
+</span></li>
+<li id="bibe.bib56" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Weng <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Weng, M. Zhu, F. Xia, B. Li, S. He, S. Liu, B. Sun, K. Liu, and J. Zhao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models are better reasoners with self-verification</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2212.09561</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS1.p2.1" title="6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.1</span></a>.
+</span></li>
+<li id="bibe.bib63" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wong <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Wong, T. Bäck, A. Plaat, N. van Stein, and A. V. Kononova</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reasoning capabilities of large language models on dynamic tasks</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">3rd International Conference on Foundation and Large Language Models (FLLM2025), 25-28 November, Vienna, Austria, arXiv preprint arXiv:2505.10543</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS3.p1.1" title="6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>.
+</span></li>
+<li id="bibe.bib3" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wong <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Wong, A. Plaat, T. Bäck, N. van Stein, and A. V. Kononova</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">State design matters: how representations shape dynamic reasoning in large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Transactions on Machine Learning Research</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS3.p2.1" title="6.2.3 LLMs and Stateful Problems ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.3</span></a>.
+</span></li>
+<li id="bibe.bib45" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xiao <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Xiao, L. Wu, J. Guo, J. Li, M. Zhang, T. Qin, and T. Liu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A survey on non-autoregressive generation for neural machine translation and beyond</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">IEEE Transactions on Pattern Analysis and Machine Intelligence</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS3.SSS1.p2.1" title="6.1.3.1 Self Evaluation ‣ 6.1.3 Chain of Thought Prompting ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.3.1</span></a>.
+</span></li>
+<li id="bibe.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yan <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Yan, C. Li, H. Qian, S. Lu, and Z. Liu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">General agentic memory via deep research</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2511.18423</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS2.p3.1" title="6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.2</span></a>.
+</span></li>
+<li id="bibe.bib34" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">L. Yang, Z. Yu, T. Zhang, S. Cao, M. Xu, W. Zhang, J. E. Gonzalez, and B. Cui</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Buffer of thoughts: thought-augmented reasoning with large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2406.04271</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F9" title="In Buffer of Thoughts ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.9</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F9.4" title="In Buffer of Thoughts ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.9</span></a>,
+<a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S2.SS4.SSS2.Px4.p1.1" title="Buffer of Thoughts ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yao <span class="ltx_text ltx_bib_etal">et al.</span> (2022a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Yao, H. Chen, J. Yang, and K. Narasimhan</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Webshop: towards scalable real-world web interaction with grounded language agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">35</span>, <span class="ltx_text ltx_bib_pages">pp. 20744–20757</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib42" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Yao, D. Yu, J. Zhao, I. Shafran, T. Griffiths, Y. Cao, and K. Narasimhan</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Tree of thoughts: deliberate problem solving with large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.F4" title="In 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F4.4" title="In 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.4</span></a>,
+<a href="#Ch6.F5" title="In 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.5</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch6.F5.4" title="In 6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 6.5</span></a>,
+<a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>,
+<a href="#Ch6.S2.SS4.SSS1.p3.1" title="6.2.4.1 Search-based Prompt Optimization ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.1</span></a>.
+</span></li>
+<li id="bibe.bib72" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yao <span class="ltx_text ltx_bib_etal">et al.</span> (2022b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, and Y. Cao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">React: synergizing reasoning and acting in language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2210.03629</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS2.Px2.p1.1" title="ReAct ‣ 6.2.4.2 Self-Reflection ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.2</span></a>.
+</span></li>
+<li id="bibe.bib6" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yu <span class="ltx_text ltx_bib_etal">et al.</span> (2018)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">T. Yu, R. Zhang, K. Yang, M. Yasunaga, D. Wang, Z. Li, J. Ma, I. Li, Q. Yao, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Spider: a large-scale human-labeled dataset for complex and cross-domain semantic parsing and text-to-sql task</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Association for Computational Linguistics</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S1.SS2.p3.1" title="6.1.2 Multi-step Reasoning Benchmarks ‣ 6.1 In-Context Reasoning ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.1.2</span></a>.
+</span></li>
+<li id="bibe.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yue <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Yue, Z. Chen, R. Lu, A. Zhao, Z. Wang, S. Song, and G. Huang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Does reinforcement learning really incentivize reasoning capacity in llms beyond the base model?</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2504.13837</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS4.SSS3.p7.1" title="6.2.4.3 Reinforcement Learning with Verifiable Rewards ‣ 6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.4.3</span></a>.
+</span></li>
+<li id="bibe.bib28" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. L. Zhang, T. Kraska, and O. Khattab</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Recursive language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2512.24601</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS2.p3.1" title="6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.2</span></a>.
+</span></li>
+<li id="bibe.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Z. Zhou, A. Qu, Z. Wu, S. Kim, A. Prakash, D. Rus, J. Zhao, B. K. H. Low, and P. P. Liang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MEM1: learning to synergize memory and reasoning for efficient long-horizon agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2506.15841</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch6.S2.SS2.p3.1" title="6.2.2 Retrieval Augmentation and Long Context Windows ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§6.2.2</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch05.html">← 第 5 章</a><a href="index.html">全书目录</a><a href="ch07.html">第 7 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

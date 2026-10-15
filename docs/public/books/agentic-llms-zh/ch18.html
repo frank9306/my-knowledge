@@ -1,0 +1,332 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 18 章 案例四：用大语言模型智能体模拟社会 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html" aria-current="page"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html" aria-current="page"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">18 / 23 · 中文翻译</p><section id="Ch18" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch18-0001">第 18 章 案例研究 4：使用大语言模型智能体模拟社会</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch18.S1">18.1 社会模拟</a></li><li class="level-h3"><a href="#Ch18.S1.SSx1">课程材料</a></li><li class="level-h2"><a href="#Ch18.S2">18.2 背景</a></li><li class="level-h3"><a href="#Ch18.S2.SS1">18.2.1 生成式智能体</a></li><li class="level-h3"><a href="#Ch18.S2.SS2">18.2.2 坏事比好事更有力量</a></li><li class="level-h3"><a href="#Ch18.S2.SS3">18.2.3 这为何对智能体设计重要</a></li><li class="level-h2"><a href="#Ch18.S3">18.3 实现</a></li><li class="level-h3"><a href="#Ch18.S3.SS1">18.3.1 模拟环境</a></li><li class="level-h3"><a href="#Ch18.S3.SS2">18.3.2 智能体架构</a></li><li class="level-h3"><a href="#Ch18.S3.SS3">18.3.3 认知循环</a></li><li class="level-h3"><a href="#Ch18.S3.SS4">18.3.4 两种架构变体</a></li><li class="level-h3"><a href="#Ch18.S3.SS5">18.3.5 设置与安装</a></li><li class="level-h2"><a href="#Ch18.S4">18.4 讨论</a></li><li class="level-h2"><a href="#Ch18.S5">18.5 结束语</a></li><li class="level-h2"><a href="#bibq">参考文献</a></li></ol></nav></details><div id="Ch18.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch18.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch18.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch18.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch18.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0141">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch18.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch18.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0142">本案例将通过广泛采用的 Generative Agents 框架 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibq.bib2" title="" class="ltx_ref">Park et al., 2023</a>]</cite>，帮助你熟悉基于智能体的社会模拟。具体而言，你将能够：</p>
+<ul id="Ch18.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch18.S0.I1.i1" class="ltx_item">
+<div id="Ch18.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch18.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0143">运行并配置由大语言模型驱动的多智能体社会模拟。</p>
+</div></li>
+<li id="Ch18.S0.I1.i2" class="ltx_item">
+<div id="Ch18.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch18.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0144">开展结构化的机器心理学实验。</p>
+</div></li>
+<li id="Ch18.S0.I1.i3" class="ltx_item">
+<div id="Ch18.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch18.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0145">比较两种认知架构：标准记忆系统，以及具有负面偏见的记忆系统。</p>
+</div></li>
+<li id="Ch18.S0.I1.i4" class="ltx_item">
+<div id="Ch18.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch18.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0146">研究人格描述与架构选择如何塑造智能体的涌现行为。</p>
+</div></li>
+<li id="Ch18.S0.I1.i5" class="ltx_item">
+<div id="Ch18.S0.I1.i5.p1" class="ltx_para">
+<p id="Ch18.S0.I1.i5.p1.1" class="ltx_p" data-supplement-id="extra-0147">批判性地思考提示的脆弱性、对模型的依赖，以及大语言模型驱动模拟的局限。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch18.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch18-0002">18.1 社会模拟</h2>
+
+<div id="Ch18.S1.p1" class="ltx_para">
+<p id="Ch18.S1.p1.1" class="ltx_p" data-translation-id="ch18-0003">在社会模拟中，生成式智能体是由大语言模型驱动的角色，它们与环境以及彼此进行交互。智能体可以规划活动、保存记忆，或者反思自己的经历。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibq.bib2" title="" class="ltx_ref">Park et al. [2023]</a></cite> 提出的 Generative Agents Framework 表明，由大语言模型驱动的角色聚在一起，能够产生可信的日常作息、社交互动，甚至协调群体活动——这一切都涌现于一个相对简单而优雅的认知架构。</p>
+</div>
+<div id="Ch18.S1.p2" class="ltx_para">
+<p id="Ch18.S1.p2.1" class="ltx_p" data-translation-id="ch18-0004">本案例研究的特别之处是，你将为智能体使用两种认知架构，以两种架构分别运行同一个情景，并比较涌现行为。一种架构平等对待所有记忆；另一种则引入负面偏向：对负面经历进行更强的编码，使其更有可能被检索和反思。我们将观察到，这种受到认知心理学发现启发的不对称性 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibq.bib3" title="" class="ltx_ref">Baumeister et al., 2001</a>]</cite>，对实验智能体产生了可测量的影响。</p>
+</div>
+<div id="Ch18.S1.p3" class="ltx_para">
+<p id="Ch18.S1.p3.1" class="ltx_p" data-translation-id="ch18-0005">本章旨在理解架构选择——在本案例中，是智能体内部处理过程的细小变化——如何导致涌现后果。你也将看到智能体人设可以多么脆弱：性格描述中的一个词，或者记忆权重的微妙变化，就可能从根本上改变智能体的行动、规划和反思方式。</p>
+</div>
+<section id="Ch18.S1.SSx1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0006">课程材料</h3>
+
+<div id="Ch18.S1.SSx1.p1" class="ltx_para">
+<p id="Ch18.S1.SSx1.p1.1" class="ltx_p" data-translation-id="ch18-0007">你可以在这里找到课程练习材料：<a href="https://github.com/DorotaMoravcikova/agentic-llm-course-excercises" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://github.com/DorotaMoravcikova/agentic-llm-course-excercises</a></p>
+</div>
+</section>
+</section>
+<section id="Ch18.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch18-0008">18.2 背景</h2>
+
+<section id="Ch18.S2.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0009">18.2.1 生成式智能体</h3>
+
+<div id="Ch18.S2.SS1.p1" class="ltx_para">
+<p id="Ch18.S2.SS1.p1.1" class="ltx_p" data-translation-id="ch18-0010"><cite class="ltx_cite ltx_citemacro_citet"><a href="#bibq.bib2" title="" class="ltx_ref">Park et al. [2023]</a></cite> 提出的生成式智能体框架表明，由大语言模型驱动的角色能够产生可信的日常作息、社交互动，甚至协调群体活动。</p>
+</div>
+<div id="Ch18.S2.SS1.p2" class="ltx_para">
+<p id="Ch18.S2.SS1.p2.1" class="ltx_p" data-translation-id="ch18-0011">每个智能体都有三个核心组成部分：</p>
+<ol id="Ch18.S2.I1" class="ltx_enumerate">
+<li id="Ch18.S2.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch18.S2.I1.i1.p1" class="ltx_para">
+<p id="Ch18.S2.I1.i1.p1.1" class="ltx_p" data-translation-id="ch18-0012">记忆流：带时间戳的日志，记录智能体所感知、所做和所想的一切。</p>
+</div></li>
+<li id="Ch18.S2.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch18.S2.I1.i2.p1" class="ltx_para">
+<p id="Ch18.S2.I1.i2.p1.1" class="ltx_p" data-translation-id="ch18-0013">检索函数：当智能体需要行动时，根据近期性、重要性，以及与当前情境的相关性，检索相关记忆。</p>
+</div></li>
+<li id="Ch18.S2.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch18.S2.I1.i3.p1" class="ltx_para">
+<p id="Ch18.S2.I1.i3.p1.1" class="ltx_p" data-translation-id="ch18-0014">反思机制：智能体定期根据原始记忆，综合形成更高层次的认识。</p>
+</div></li>
+</ol>
+</div>
+<div id="Ch18.S2.SS1.p3" class="ltx_para">
+<p id="Ch18.S2.SS1.p3.1" class="ltx_p" data-translation-id="ch18-0015">智能体的性格由一段简短的自然语言描述定义，即一个 scratch 文件，其中说明角色的姓名、年龄、后天习得与先天的特质，以及生活方式。每次发送给大语言模型的提示都包含这段描述，以锚定智能体的行为。</p>
+</div>
+</section>
+<section id="Ch18.S2.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0016">18.2.2 坏事比好事更有力量</h3>
+
+<div id="Ch18.S2.SS2.p1" class="ltx_para">
+<p id="Ch18.S2.SS2.p1.1" class="ltx_p" data-translation-id="ch18-0017">当原始 Generative Agents 模拟中的大语言模型智能体受到批评时，它会形成一段记忆。一小时后受到表扬时，它又形成另一段记忆。只要两段记忆在近期性、相关性和重要性上相同，生成式智能体就会以同样的优先级检索这段负面记忆和那段正面记忆。</p>
+</div>
+<div id="Ch18.S2.SS2.p2" class="ltx_para">
+<p id="Ch18.S2.SS2.p2.1" class="ltx_p" data-translation-id="ch18-0018">一般而言，基于智能体的社会模拟所采用的认知架构，会借鉴认知科学来产生可信的行为。近期性、相关性和重要性这些变量，大致受到人类记忆检索研究见解的启发。重要性变量捕捉的是类似事件唤醒度或显著性的因素。然而，在原始模拟 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibq.bib1" title="" class="ltx_ref">Park et al., 2022</a>]</cite> 中，记忆系统实际上对效价不敏感：所有正面、负面和中性记忆，都以相同权重编码和检索。如果智能体是人类，就会以不同方式对待负面效价的事件：用更鲜明的感官细节编码，在检索时呈现更强的生动性，也更容易在后续思绪中再次浮现。心理学研究发现，相比赞美，人们会更长久地记住侮辱。与同事一次糟糕的互动，可能抵消数周愉快互动的影响。换言之，在人类心理中，坏事比好事更有力量 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibq.bib3" title="" class="ltx_ref">Baumeister et al., 2001</a>]</cite>，而这种不对称性在记忆中的影响尤其深远。</p>
+</div>
+<div id="Ch18.S2.SS2.p3" class="ltx_para">
+<p id="Ch18.S2.SS2.p3.1" class="ltx_p" data-translation-id="ch18-0019">本案例研究测试引入 NEVER（Negative Emotional Valence Enhances Recapitulation，负面情绪效价增强重现）模型的效果，这是一种更接近人类的记忆检索机制。在经过 NEVER 增强的智能体中，负面记忆在编码时会获得更高的重要性评分。因此，它们更有可能被检索，也更有可能触发反思。</p>
+</div>
+<div id="Ch18.S2.SS2.p4" class="ltx_para">
+<p id="Ch18.S2.SS2.p4.1" class="ltx_p" data-translation-id="ch18-0020">架构在其他方面保持完全相同。因此，我们可以开展受控的机器心理学实验，比较某项架构选择的效果：对效价不敏感的记忆与对效价敏感的记忆。此外，你还将利用这一结构化设置，测试在智能体初始化时调整性格描述和系统提示的效果。</p>
+</div>
+</section>
+<section id="Ch18.S2.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0021">18.2.3 这为何对智能体设计重要</h3>
+
+<div id="Ch18.S2.SS3.p1" class="ltx_para">
+<p id="Ch18.S2.SS3.p1.1" class="ltx_p" data-translation-id="ch18-0022">本案例研究说明了两点重要启示：</p>
+<ol id="Ch18.S2.I2" class="ltx_enumerate">
+<li id="Ch18.S2.I2.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch18.S2.I2.i1.p1" class="ltx_para">
+<p id="Ch18.S2.I2.i1.p1.1" class="ltx_p" data-translation-id="ch18-0023">架构选择会产生涌现后果：在组件层面看似无害的记忆权重参数，随着时间推移，可能使智能体的社交行为、情绪基调和决策发生巨大变化。这些涌现效应很难仅根据架构来预测。</p>
+</div></li>
+<li id="Ch18.S2.I2.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch18.S2.I2.i2.p1" class="ltx_para">
+<p id="Ch18.S2.I2.i2.p1.1" class="ltx_p" data-translation-id="ch18-0024">提示的脆弱性：智能体行为对性格描述和系统提示的内容高度敏感。微小扰动可能导致巨大的行为变化——在大语言模型文献中，这一现象有时被称为提示敏感性。</p>
+</div></li>
+</ol>
+</div>
+</section>
+</section>
+<section id="Ch18.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch18-0025">18.3 实现</h2>
+
+<section id="Ch18.S3.SS1" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0026">18.3.1 模拟环境</h3>
+
+<div id="Ch18.S3.SS1.p1" class="ltx_para">
+<p id="Ch18.S3.SS1.p1.1" class="ltx_p" data-translation-id="ch18-0027">本模拟使用 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibq.bib2" title="" class="ltx_ref">Park et al. [2023]</a></cite> 的 Smallville 环境：一个以二维瓦片地图呈现的小镇，智能体可以在不同地点之间移动、与物体交互并进行交谈。</p>
+</div>
+<div id="Ch18.S3.SS1.p2" class="ltx_para">
+<p id="Ch18.S3.SS1.p2.1" class="ltx_p" data-translation-id="ch18-0028">我们的模拟采用简化情景：一家咖啡馆中的三个智能体。请认识以下角色：</p>
+<ul id="Ch18.S3.I1" class="ltx_itemize">
+<li id="Ch18.S3.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch18.S3.I1.i1.p1" class="ltx_para">
+<p id="Ch18.S3.I1.i1.p1.1" class="ltx_p" data-translation-id="ch18-0029">Dolores：一名咖啡师。温暖、富有同理心、注重细节。她是实验智能体，也就是将被赋予负面偏向的智能体。</p>
+</div></li>
+<li id="Ch18.S3.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch18.S3.I1.i2.p1" class="ltx_para">
+<p id="Ch18.S3.I1.i2.p1.1" class="ltx_p" data-translation-id="ch18-0030">Maeve：一名具有匹配性格特征的咖啡师。她是对照智能体，采用标准架构，没有负面偏向。</p>
+</div></li>
+<li id="Ch18.S3.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch18.S3.I1.i3.p1" class="ltx_para">
+<p id="Ch18.S3.I1.i3.p1.1" class="ltx_p" data-translation-id="ch18-0031">Bernard：咖啡馆经理。难以预测、喜怒无常，偶尔具有对抗性。Bernard 充当贴近现实的压力源：两位咖啡师都会接触到这一社交摩擦来源。</p>
+</div></li>
+</ul>
+<p id="Ch18.S3.SS1.p2.2" class="ltx_p" data-translation-id="ch18-0032">这一设置包含三个智能体，其中两个具有相似角色和职位，都是在 Bernard 监督下工作的咖啡师，因此可以针对智能体架构和初始化进行受控实验。第一步中，Dolores 和 Maeve 被赋予相同的性格特质，并置于相同环境。唯一差异在于 Dolores 处理记忆的方式：她使用 NEVER 实现，以更高的重要性编码负面记忆。</p>
+</div>
+</section>
+<section id="Ch18.S3.SS2" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0033">18.3.2 智能体架构</h3>
+
+<div id="Ch18.S3.SS2.p1" class="ltx_para">
+<p id="Ch18.S3.SS2.p1.1" class="ltx_p" data-translation-id="ch18-0034">每个智能体维护以下内容：</p>
+<ul id="Ch18.S3.I2" class="ltx_itemize">
+<li id="Ch18.S3.I2.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch18.S3.I2.i1.p1" class="ltx_para">
+<p id="Ch18.S3.I2.i1.p1.1" class="ltx_p" data-translation-id="ch18-0035">性格描述（scratch 文件）：简短描述智能体姓名、特质、职业、关系和目标的文本。</p>
+</div></li>
+<li id="Ch18.S3.I2.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch18.S3.I2.i2.p1" class="ltx_para">
+<p id="Ch18.S3.I2.i2.p1.1" class="ltx_p" data-translation-id="ch18-0036">记忆流：带有时间戳的观察、动作和反思列表。</p>
+</div></li>
+<li id="Ch18.S3.I2.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch18.S3.I2.i3.p1" class="ltx_para">
+<p id="Ch18.S3.I2.i3.p1.1" class="ltx_p" data-translation-id="ch18-0037">当前计划：简短描述智能体打算做什么。</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch18.S3.SS3" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0038">18.3.3 认知循环</h3>
+
+<div id="Ch18.S3.SS3.p1" class="ltx_para">
+<p id="Ch18.S3.SS3.p1.1" class="ltx_p" data-translation-id="ch18-0039">在每个模拟步中，即游戏内时间的 10 秒，每个智能体执行以下循环：</p>
+<ol id="Ch18.S3.I3" class="ltx_enumerate">
+<li id="Ch18.S3.I3.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch18.S3.I3.i1.p1" class="ltx_para">
+<p id="Ch18.S3.I3.i1.p1.1" class="ltx_p" data-translation-id="ch18-0040">感知：观察环境的当前状态——其他智能体正在做什么、正在进行的对话，以及周围环境的变化。</p>
+</div></li>
+<li id="Ch18.S3.I3.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch18.S3.I3.i2.p1" class="ltx_para">
+<p id="Ch18.S3.I3.i2.p1.1" class="ltx_p" data-translation-id="ch18-0041">检索：查询记忆流，寻找相关的过往经历。</p>
+</div></li>
+<li id="Ch18.S3.I3.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch18.S3.I3.i3.p1" class="ltx_para">
+<p id="Ch18.S3.I3.i3.p1.1" class="ltx_p" data-translation-id="ch18-0042">规划：根据性格描述、检索到的记忆和当前观察，使用大语言模型决定下一步做什么。</p>
+</div></li>
+<li id="Ch18.S3.I3.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">4.</span>
+<div id="Ch18.S3.I3.i4.p1" class="ltx_para">
+<p id="Ch18.S3.I3.i4.p1.1" class="ltx_p" data-translation-id="ch18-0043">行动：在环境中执行计划的动作。</p>
+</div></li>
+<li id="Ch18.S3.I3.i5" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">5.</span>
+<div id="Ch18.S3.I3.i5.p1" class="ltx_para">
+<p id="Ch18.S3.I3.i5.p1.1" class="ltx_p" data-translation-id="ch18-0044">反思（定期进行）：每隔几小时游戏时间，根据近期记忆综合形成更高层次的反思。</p>
+</div></li>
+</ol>
+</div>
+<div id="Ch18.S3.SS3.p2" class="ltx_para">
+<p id="Ch18.S3.SS3.p2.1" class="ltx_p" data-translation-id="ch18-0045">这些步骤都涉及一次大语言模型调用。提示由智能体的性格描述——保持不变——以及相关的检索记忆和当前观察——动态变化——共同构成。</p>
+</div>
+</section>
+<section id="Ch18.S3.SS4" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0046">18.3.4 两种架构变体</h3>
+
+<div id="Ch18.S3.SS4.p1" class="ltx_para">
+<p id="Ch18.S3.SS4.p1.1" class="ltx_p" data-translation-id="ch18-0047">你将使用检索函数的两种变体：</p>
+</div>
+<section id="Ch18.S3.SS4.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch18-0048">变体 A：基线记忆检索</h5>
+
+<div id="Ch18.S3.SS4.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch18.S3.SS4.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch18-0049">检索基于近期性、相关性和重要性的加权组合。这就是 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibq.bib2" title="" class="ltx_ref">Park et al. [2023]</a></cite> 描述的标准生成式智能体架构。</p>
+</div>
+</section>
+<section id="Ch18.S3.SS4.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch18-0050">变体 B：具有负面偏向的记忆检索</h5>
+
+<div id="Ch18.S3.SS4.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch18.S3.SS4.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch18-0051">创建新记忆时，系统会评估其情绪效价。检索函数中增加了一个效价项。效价绝对值归一化到 <math id="Ch18.S3.SS4.SSS0.Px2.p1.m1" class="ltx_Math" alttext="[0,1]" display="inline" intent=":literal"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math>，并且对负面记忆乘以 1.5，从而形成检索层级：负面 <math id="Ch18.S3.SS4.SSS0.Px2.p1.m2" class="ltx_Math" alttext="&gt;" display="inline" intent=":literal"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math> 正面 <math id="Ch18.S3.SS4.SSS0.Px2.p1.m3" class="ltx_Math" alttext="&gt;" display="inline" intent=":literal"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math> 中性。检索评分变为：</p>
+<div class="table-scroll" tabindex="0" aria-label="表格，可横向滚动"><table id="Ch18.E1" class="ltx_equation ltx_eqn_table">
+
+<tbody><tr class="ltx_equation ltx_eqn_row ltx_align_baseline">
+<td class="ltx_eqn_cell ltx_eqn_center_padleft"></td>
+<td class="ltx_eqn_cell ltx_align_center"><math id="Ch18.E1.m1" class="ltx_Math" alttext="\textit{score}=\alpha_{\text{rec}}\cdot R+\alpha_{\text{rel}}\cdot L+\alpha_{\text{imp}}\cdot I+\alpha_{\text{val}}\cdot V" display="block" intent=":literal"><semantics><mrow><mtext class="ltx_mathvariant_italic">score</mtext><mo>=</mo><mrow><mrow><msub><mi>α</mi><mtext>rec</mtext></msub><mo lspace="0.222em" rspace="0.222em">⋅</mo><mi>R</mi></mrow><mo>+</mo><mrow><msub><mi>α</mi><mtext>rel</mtext></msub><mo lspace="0.222em" rspace="0.222em">⋅</mo><mi>L</mi></mrow><mo>+</mo><mrow><msub><mi>α</mi><mtext>imp</mtext></msub><mo lspace="0.222em" rspace="0.222em">⋅</mo><mi>I</mi></mrow><mo>+</mo><mrow><msub><mi>α</mi><mtext>val</mtext></msub><mo lspace="0.222em" rspace="0.222em">⋅</mo><mi>V</mi></mrow></mrow></mrow><annotation encoding="application/x-tex">\textit{score}=\alpha_{\text{rec}}\cdot R+\alpha_{\text{rel}}\cdot L+\alpha_{\text{imp}}\cdot I+\alpha_{\text{val}}\cdot V</annotation></semantics></math></td>
+<td class="ltx_eqn_cell ltx_eqn_center_padright"></td>
+<td rowspan="1" class="ltx_eqn_cell ltx_eqn_eqno ltx_align_middle ltx_align_right"><span class="ltx_tag ltx_tag_equation ltx_align_right">(18.1)</span></td></tr></tbody>
+</table>
+</div><p id="Ch18.S3.SS4.SSS0.Px2.p1.2" class="ltx_p" data-translation-id="ch18-0052">其中所有 <math id="Ch18.S3.SS4.SSS0.Px2.p1.m4" class="ltx_Math" alttext="\alpha=1" display="inline" intent=":literal"><semantics><mrow><mi>α</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\alpha=1</annotation></semantics></math>。因此，两种变体的唯一区别就是增加了效价项；其余一切完全相同。</p>
+</div>
+</section>
+</section>
+<section id="Ch18.S3.SS5" class="ltx_subsection">
+<h3 class="ltx_title ltx_title_subsection" data-translation-id="ch18-0053">18.3.5 设置与安装</h3>
+
+<div id="Ch18.S3.SS5.p1" class="ltx_para">
+<p id="Ch18.S3.SS5.p1.1" class="ltx_p" data-translation-id="ch18-0054">克隆仓库，并遵循 README 中的说明：<a href="https://github.com/DorotaMoravcikova/generative_agents/tree/course-exercises" title="" class="ltx_ref ltx_url ltx_font_typewriter" rel="noopener noreferrer">https://github.com/DorotaMoravcikova/generative_agents/tree/course-exercises</a></p>
+</div>
+</section>
+</section>
+<section id="Ch18.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch18-0055">18.4 讨论</h2>
+
+<div id="Ch18.S4.p1" class="ltx_para">
+<p id="Ch18.S4.p1.1" class="ltx_p" data-translation-id="ch18-0056">完成实验后，请思考以下问题：</p>
+</div>
+<div id="Ch18.S4.p2" class="ltx_para">
+<ol id="Ch18.S4.I1" class="ltx_enumerate">
+<li id="Ch18.S4.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">1.</span>
+<div id="Ch18.S4.I1.i1.p1" class="ltx_para">
+<p id="Ch18.S4.I1.i1.p1.1" class="ltx_p" data-translation-id="ch18-0057">提示与架构：你已经看到，性格提示和记忆架构都会影响智能体行为。哪一种手段更有力？哪一种更可预测？如果模拟要用于政策采纳建模等影响重大的应用，你更愿意用哪一种方式塑造智能体行为？为什么？</p>
+</div></li>
+<li id="Ch18.S4.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">2.</span>
+<div id="Ch18.S4.I1.i2.p1" class="ltx_para">
+<p id="Ch18.S4.I1.i2.p1.1" class="ltx_p" data-translation-id="ch18-0058">涌现行为：你是否观察到了令人意外的智能体行为，也就是性格或架构中没有明确指定的行为？你认为哪些机制产生了这些涌现行为？</p>
+</div></li>
+<li id="Ch18.S4.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">3.</span>
+<div id="Ch18.S4.I1.i3.p1" class="ltx_para">
+<p id="Ch18.S4.I1.i3.p1.1" class="ltx_p" data-translation-id="ch18-0059">评估挑战：如何评估生成式智能体表现得是否良好？效价评分是一项指标，但它本身也是大语言模型作出的判断。使用一个大语言模型评估另一个大语言模型，或同一个模型的输出，有哪些局限？你能想到其他评估方法吗？</p>
+</div></li>
+<li id="Ch18.S4.I1.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">4.</span>
+<div id="Ch18.S4.I1.i4.p1" class="ltx_para">
+<p id="Ch18.S4.I1.i4.p1.1" class="ltx_p" data-translation-id="ch18-0060">认知真实性：负面偏向是认知心理学发现的一个例子。你还能想到哪些可以通过架构实现的认知偏差或记忆效应？你预期它们会产生怎样的涌现效应？例如可以考虑确认偏差、可得性启发式和近因偏差。</p>
+</div></li>
+</ol>
+</div>
+</section>
+<section id="Ch18.S5" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch18-0061">18.5 结束语</h2>
+
+<div id="Ch18.S5.p1" class="ltx_para">
+<p id="Ch18.S5.p1.1" class="ltx_p" data-translation-id="ch18-0062">本章让我们熟悉了生成式智能体模拟，并利用它探索了智能体式人工智能中的两个重要现象：认知架构选择所产生的涌现效应，即负面偏向，以及智能体行为对提示内容的敏感性，即提示的脆弱性。</p>
+</div>
+<div id="Ch18.S5.p2" class="ltx_para">
+<p id="Ch18.S5.p2.1" class="ltx_p" data-translation-id="ch18-0063">我们看到，记忆权重方式的一个微小变化——让负面记忆获得更高的重要性评分——随着时间推移，便能造成可测量的智能体行为变化。我们也看到智能体人设十分脆弱：性格描述的细微改变，可能导致巨大且有时难以预测的行为影响。</p>
+</div>
+<div id="Ch18.S5.p3" class="ltx_para">
+<p id="Ch18.S5.p3.1" class="ltx_p" data-translation-id="ch18-0064">这些发现对任何构建大语言模型驱动的智能体系统的人，都具有实践意义。人设并不是可靠的行为锚点。记忆如何存储、检索和反思，也就是架构，会以仅仅阅读代码可能看不出来的方式塑造行为。</p>
+</div>
+<div id="Ch18.S5.p4" class="ltx_para">
+<p id="Ch18.S5.p4.1" class="ltx_p" data-translation-id="ch18-0065">生成式智能体模拟领域仍很年轻，也在不断发展。本章练习让你亲手体验了其中的核心机制和核心挑战。随着领域成熟，提示鲁棒性、认知架构设计和涌现行为评估等问题仍将处于核心地位。</p>
+</div>
+</section>
+<section id="bibq" class="ltx_bibliography ltx_list_18_case4_societysim">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibq.L1" class="ltx_biblist">
+<li id="bibq.bib3" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Baumeister <span class="ltx_text ltx_bib_etal">et al.</span> (2001)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. F. Baumeister, E. Bratslavsky, C. Finkenauer, and K. D. Vohs</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Bad is stronger than good</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Review of General Psychology</span> <span class="ltx_text ltx_bib_volume">5</span> (<span class="ltx_text ltx_bib_number">4</span>), <span class="ltx_text ltx_bib_pages">pp. 323–370</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch18.S1.p2.1" title="18.1 Social Simulation ‣ Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§18.1</span></a>,
+<a href="#Ch18.S2.SS2.p2.1" title="18.2.2 Bad is Stronger Than Good ‣ 18.2 Background ‣ Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§18.2.2</span></a>.
+</span></li>
+<li id="bibq.bib2" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Park <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. S. Park, J. O’Brien, C. J. Cai, M. R. Morris, P. Liang, and M. S. Bernstein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Generative agents: interactive simulacra of human behavior</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 36th annual acm symposium on user interface software and technology</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–22</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch18.S1.p1.1" title="18.1 Social Simulation ‣ Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§18.1</span></a>,
+<a href="#Ch18.S2.SS1.p1.1" title="18.2.1 Generative Agents ‣ 18.2 Background ‣ Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§18.2.1</span></a>,
+<a href="#Ch18.S3.SS1.p1.1" title="18.3.1 The Simulation Environment ‣ 18.3 Implementation ‣ Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§18.3.1</span></a>,
+<a href="#Ch18.S3.SS4.SSS0.Px1.p1.1" title="Variant A: Baseline memory retrieval ‣ 18.3.4 Two Architecture Variants ‣ 18.3 Implementation ‣ Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§18.3.4</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch18.p1.pic1.2.1.1" title="Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">章 18</span></a>.
+</span></li>
+<li id="bibq.bib1" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Park <span class="ltx_text ltx_bib_etal">et al.</span> (2022)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. S. Park, L. Popowski, C. Cai, M. R. Morris, P. Liang, and M. S. Bernstein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Social simulacra: creating populated prototypes for social computing systems</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 35th Annual ACM Symposium on User Interface Software and Technology</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–18</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch18.S2.SS2.p2.1" title="18.2.2 Bad is Stronger Than Good ‣ 18.2 Background ‣ Chapter 18 Case Study 4: Simulating Societies with LLM Agents ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§18.2.2</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch17.html">← 第 17 章</a><a href="index.html">全书目录</a><a href="ch19.html">第 19 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

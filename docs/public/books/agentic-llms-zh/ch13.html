@@ -1,0 +1,737 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 13 章 从工具到助手：现实应用 · 智能体式大语言模型中文版</title><meta name="description" content="《Agentic Large Language Models》23 章中文翻译，保留公式、代码、引用与原书插图。">
+<link rel="stylesheet" href="reader.css"><link rel="icon" href="/logo.svg"></head><body class="">
+<a class="skip-link" href="#main">跳到正文</a><header class="topbar"><a href="/ai-agent/agentic-llms-chinese">← 知识库</a><a href="index.html">全书目录</a><a href="complete.html">连续阅读</a><a href="https://arxiv.org/html/2610.13455v1">英文原文 ↗</a></header>
+<details class="mobile-toc"><summary>章节目录</summary><nav aria-label="移动端章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html" aria-current="page"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></details><div class="reader-layout"><aside class="sidebar"><a class="book-name" href="index.html">智能体式大语言模型<small>Agentic Large Language Models</small></a><nav aria-label="章节目录"><ol class="chapter-list"><li class="part">导论</li><li><a href="ch01.html"><span>01</span> 导论</a></li><li class="part">第一部分 · 语言建模</li><li><a href="ch02.html"><span>02</span> 语言建模基础</a></li><li><a href="ch03.html"><span>03</span> 大语言模型训练流程</a></li><li><a href="ch04.html"><span>04</span> 缩放定律与高效大语言模型</a></li><li><a href="ch05.html"><span>05</span> 案例一：从零构建大语言模型</a></li><li class="part">第二部分 · 推理</li><li><a href="ch06.html"><span>06</span> 大语言模型的多步推理</a></li><li><a href="ch07.html"><span>07</span> 视觉、行动与世界模型</a></li><li><a href="ch08.html"><span>08</span> 元学习</a></li><li class="part">第三部分 · 智能体</li><li><a href="ch09.html"><span>09</span> 智能体式大语言模型的交互方式</a></li><li><a href="ch10.html"><span>10</span> 案例二：利用 BALROG 研究推理与反思</a></li><li class="part">第四部分 · 工具与助手</li><li><a href="ch11.html"><span>11</span> 智能体如何使用工具在现实世界中行动</a></li><li><a href="ch12.html"><span>12</span> 智能体式大语言模型的搜索与检索</a></li><li><a href="ch13.html" aria-current="page"><span>13</span> 从工具到助手：现实应用</a></li><li><a href="ch14.html"><span>14</span> 案例三：构建多智能体诊断框架</a></li><li class="part">第五部分 · 行为与认知</li><li><a href="ch15.html"><span>15</span> 研究智能体式大语言模型的行为</a></li><li><a href="ch16.html"><span>16</span> 多大语言模型系统中的角色交互</a></li><li><a href="ch17.html"><span>17</span> 多大语言模型系统中的涌现行为</a></li><li><a href="ch18.html"><span>18</span> 案例四：用大语言模型智能体模拟社会</a></li><li class="part">第六部分 · 进阶专题</li><li><a href="ch19.html"><span>19</span> 进阶：用于训练智能体式大语言模型的合成数据生成</a></li><li><a href="ch20.html"><span>20</span> 进阶：Transformer 与智能体架构</a></li><li><a href="ch21.html"><span>21</span> 进阶：大语言模型智能体的机制可解释性</a></li><li><a href="ch22.html"><span>22</span> 进阶：智能体式大语言模型的认知视角</a></li><li class="part">第七部分 · 展望</li><li><a href="ch23.html"><span>23</span> 智能体式大语言模型的未来方向</a></li></ol></nav></aside><main id="main" tabindex="-1"><p class="chapter-context">13 / 23 · 中文翻译</p><section id="Ch13" class="ltx_chapter">
+<h1 class="ltx_title ltx_title_chapter" data-translation-id="ch13-0001">第 13 章 从工具到助手：现实世界的应用</h1>
+
+<details class="section-toc"><summary>本章目录</summary><nav aria-label="本章目录"><ol><li class="level-h2"><a href="#Ch13.S1">13.1 作为助手的智能体式大语言模型</a></li><li class="level-h2"><a href="#Ch13.S2">13.2 对话助手</a></li><li class="level-h2"><a href="#Ch13.S3">13.3 购物助手</a></li><li class="level-h2"><a href="#Ch13.S4">13.4 航空运行助手</a></li><li class="level-h2"><a href="#Ch13.S5">13.5 医疗助手</a></li><li class="level-h2"><a href="#Ch13.S6">13.6 交易助手</a></li><li class="level-h2"><a href="#Ch13.S7">13.7 自动化科学发现</a></li><li class="level-h2"><a href="#Ch13.S8">13.8 编程助手与总体进展</a></li><li class="level-h2"><a href="#Ch13.S9">13.9 结语</a></li><li class="level-h2"><a href="#bibl">参考文献</a></li></ol></nav></details><div id="Ch13.p1" class="ltx_para ltx_noindent"><span class="ltx_inline-block"><aside class="book-callout" id="Ch13.p1.pic1"><div class="ltx_foreignobject_content">
+<div id="Ch13.p1.pic1.1" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<span id="Ch13.p1.pic1.1.1" class="ltx_inline-block fas fa-graduation-cap" aria-hidden="true">
+</span>
+<p id="Ch13.p1.pic1.1.2" class="ltx_p" data-supplement-id="extra-0105">本章学习目标</p>
+</div></div><div class="ltx_foreignobject_content">
+<div id="Ch13.p1.pic1.2" class="ltx_inline-block ltx_minipage ltx_align_bottom">
+<p id="Ch13.p1.pic1.2.1" class="ltx_p" data-supplement-id="extra-0106">本章将介绍智能体式语言模型如何在现实世界的不同领域部署为实用助手。具体而言，你将能够：</p>
+<ul id="Ch13.S0.I1" class="ltx_itemize ltx_leftmargin_flush">
+<li id="Ch13.S0.I1.i1" class="ltx_item">
+<div id="Ch13.S0.I1.i1.p1" class="ltx_para">
+<p id="Ch13.S0.I1.i1.p1.1" class="ltx_p" data-supplement-id="extra-0107">描述助手如何超越问答，进行规划、检索信息、调用工具，并随时间推移调整自身行为。</p>
+</div></li>
+<li id="Ch13.S0.I1.i2" class="ltx_item">
+<div id="Ch13.S0.I1.i2.p1" class="ltx_para">
+<p id="Ch13.S0.I1.i2.p1.1" class="ltx_p" data-supplement-id="extra-0108">比较购物、医学、航空、科学研究与编程等不同领域的助手架构。</p>
+</div></li>
+<li id="Ch13.S0.I1.i3" class="ltx_item">
+<div id="Ch13.S0.I1.i3.p1" class="ltx_para">
+<p id="Ch13.S0.I1.i3.p1.1" class="ltx_p" data-supplement-id="extra-0109">解释高风险领域为何对安全、透明性和法规合规提出更严格的要求，以及智能体设计如何回应这些要求。</p>
+</div></li>
+<li id="Ch13.S0.I1.i4" class="ltx_item">
+<div id="Ch13.S0.I1.i4.p1" class="ltx_para">
+<p id="Ch13.S0.I1.i4.p1.1" class="ltx_p" data-supplement-id="extra-0110">批判性地评估助手行为，并思考在对社会有重大影响的场景中部署智能体系统所涉及的伦理问题。</p>
+</div></li>
+</ul>
+</div></div></aside></span>
+</div>
+<section id="Ch13.S1" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0002">13.1 作为助手的智能体式大语言模型</h2>
+
+<div id="Ch13.S1.p1" class="ltx_para">
+<p id="Ch13.S1.p1.1" class="ltx_p" data-translation-id="ch13-0003">大语言模型已从文本生成器发展为主动助手，结合推理、检索与工具使用，在现实世界执行行动。助手是智能体式大语言模型的实用软件形态：能够交互、规划并从反馈中学习的系统。助手让推理与现实相遇，将语言模型变成世界中的协作行动者。</p>
+</div>
+<div id="Ch13.S1.p2" class="ltx_para">
+<p id="Ch13.S1.p2.1" class="ltx_p" data-translation-id="ch13-0004">助手连接感知、推理与行动。通过 API 和外部工具，它可以对话、执行任务，并适应特定上下文。这些系统不仅支持用户，也创造有价值的人类—人工智能交互数据，可用于进一步开发和训练下一代模型。</p>
+</div>
+<div id="Ch13.S1.p3" class="ltx_para">
+<p id="Ch13.S1.p3.1" class="ltx_p" data-translation-id="ch13-0005">本章回顾助手的主要类型。先介绍对话系统及其向多模态、工具感知界面的演进；再讨论医疗、金融与交易领域的专用助手；最后考察用于推理与发现的科学助手。</p>
+</div>
+</section>
+<section id="Ch13.S2" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0006">13.2 对话助手</h2>
+
+<div id="Ch13.S2.p1" class="ltx_para">
+<p id="Ch13.S2.p1.1" class="ltx_p" data-translation-id="ch13-0007">第一个应用领域是一般对话场景，例如通过记录会议纪要帮助开会，担任会议主持人或通用行政助理。</p>
+</div>
+<div id="Ch13.S2.p2" class="ltx_para">
+<p id="Ch13.S2.p2.1" class="ltx_p" data-translation-id="ch13-0008">这类应用中，大语言模型主要让人机交互更自然、更顺畅 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib25" title="" class="ltx_ref">Neszlényi et al., 2024</a>, <a href="#bibl.bib21" title="" class="ltx_ref">Oluwagbade, 2024</a>]</cite>。例如 AssistantGPT 系统 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib25" title="" class="ltx_ref">Neszlényi et al., 2024</a>]</cite> 是为教育或企业环境部署而设计的通用行政助理，还支持 Teams、Slack 等远程工作环境。AssistantGPT 支持网页搜索、通过 OpenAPI 与 API 交互、语音对话和通过 shell 执行命令等多种操作。系统由一个可访问规划器、记忆等多种工具的大语言模型组成（见图 <a href="#Ch13.F1" title="Figure 13.1 ‣ 13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">13.1</span></a>）。</p>
+</div>
+<figure id="Ch13.F1" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/assist.png" id="Ch13.F1.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:354/248;" width="354" height="248" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch13-0009">图 13.1：AssistGPT 系统架构 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib25" title="" class="ltx_ref">Neszlényi et al., 2024</a>]</cite></figcaption>
+</figure>
+<div id="Ch13.S2.p3" class="ltx_para">
+<p id="Ch13.S2.p3.1" class="ltx_p" data-translation-id="ch13-0010">研究表明，这些对话与会议助手可改善敏捷软件开发团队的会议 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib29" title="" class="ltx_ref">Cabrero-Daniel et al., 2024</a>]</cite>。在 Scrum 会议准备与现场协助方面取得了积极结果，但部分测试者认为模型的干预不自然、缺乏灵活性。</p>
+</div>
+<div id="Ch13.S2.p4" class="ltx_para">
+<p id="Ch13.S2.p4.1" class="ltx_p" data-translation-id="ch13-0011">其他例子包括协作学习课堂中的大语言模型智能体，它们改善了参与者整体协作 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib28" title="" class="ltx_ref">Wei et al., 2024b</a>]</cite>。另一项研究 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib27" title="" class="ltx_ref">Bastola et al., 2023</a>]</cite> 报告，在包含对话助手的协作任务调度实验中，工作效率得到提高。</p>
+</div>
+<div id="Ch13.S2.p5" class="ltx_para">
+<p id="Ch13.S2.p5.1" class="ltx_p" data-translation-id="ch13-0012">稍有不同的是思考助手。它通过提问而非回答，尝试改善人类面对困难决策时的反思性思考 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib26" title="" class="ltx_ref">Park and Kulkarni, 2023</a>]</cite>。大型模型厂商近期也推出类似举措，例如 OpenAI 的 ChatGPT 和 Google 的 Gemini 应用中的学习模式。</p>
+</div>
+<div id="Ch13.S2.p6" class="ltx_para">
+<p id="Ch13.S2.p6.1" class="ltx_p" data-translation-id="ch13-0013">对话助手大多从常规预训练大语言模型演化而来，有时针对特定领域微调。某些方法采用专门的多模型方案，让不同模型专注不同子任务，或用侧重不同子任务的提示序列编排单一模型。</p>
+</div>
+</section>
+<section id="Ch13.S3" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0014">13.3 购物助手</h2>
+
+<div id="Ch13.S3.p1" class="ltx_para">
+<p id="Ch13.S3.p1.1" class="ltx_p" data-translation-id="ch13-0015">本节考察基于语言的助手如何用于电子商务，重点介绍该领域的主要组件、架构选择与专属挑战。</p>
+</div>
+<section id="Ch13.S3.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0016">购物助手做什么？</h5>
+
+<div id="Ch13.S3.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch13.S3.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch13-0017">购物助手是基于大语言模型的对话系统，帮助用户完成网上购物任务，包括理解商品需求、比较选项、推荐商品和完成购买。这类系统通常以领域专用模块补充底层模型，包括检索最新商品信息、通过 API 访问商品目录、集成推荐引擎，以及对用户需求、属性和约束进行推理（例如通过思维链）。</p>
+</div>
+</section>
+<section id="Ch13.S3.SS0.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0018">关键要素</h5>
+
+<div id="Ch13.S3.SS0.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch13.S3.SS0.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch13-0019">通用大语言模型缺少对品牌、类别、商品层级、购买行为等电商概念的内置感知，因此构建有能力的助手需要若干增强：</p>
+<ul id="Ch13.S3.I1" class="ltx_itemize">
+<li id="Ch13.S3.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I1.i1.p1" class="ltx_para">
+<p id="Ch13.S3.I1.i1.p1.1" class="ltx_p" data-translation-id="ch13-0020">检索增强：从外部来源动态获取商品元数据、价格和库存情况。</p>
+</div></li>
+<li id="Ch13.S3.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I1.i2.p1" class="ltx_para">
+<p id="Ch13.S3.I1.i2.p1.1" class="ltx_p" data-translation-id="ch13-0021">工具／API 调用：助手可调用搜索、筛选和排序工具，与商品数据库交互。</p>
+</div></li>
+<li id="Ch13.S3.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I1.i3.p1" class="ltx_para">
+<p id="Ch13.S3.I1.i3.p1.1" class="ltx_p" data-translation-id="ch13-0022">领域微调或指令调优：让模型适应购物场景，包括品牌语言、属性推理和用户意图。</p>
+</div></li>
+<li id="Ch13.S3.I1.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I1.i4.p1" class="ltx_para">
+<p id="Ch13.S3.I1.i4.p1.1" class="ltx_p" data-translation-id="ch13-0023">结构化推理：加入思维链提示或显式推理步骤，帮助模型比较商品、评估价格与功能等权衡，并与用户偏好对齐。</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch13.S3.SS0.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0024">购物助手的基准评测</h5>
+
+<div id="Ch13.S3.SS0.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch13.S3.SS0.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch13-0025">研究者开发了基准，以研究模型处理购物专属任务的能力。例如，多任务在线购物基准数据集 ShopMMLU <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib30" title="" class="ltx_ref">Jin et al., 2024</a>]</cite> 定义了 57 项任务，归为概念理解、知识推理、用户行为对齐和多语言能力四类。它使用真实电商数据（Amazon 商品目录、会话和评论），评估模型处理品牌型号识别、商品兼容性推理、基于会话的推荐及多语言查询等方面的能力。另一个例子是 LLaSA 系统（大语言与电商购物助手）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib31" title="" class="ltx_ref">Zhang et al., 2024a</a>]</cite>，使用名为 EshopInstruct 的指令数据集（65,000 个样本）训练。在购物任务上指令调优后，LLaSA 在 ShopBench 基准上取得强劲成绩，说明领域适应能显著提高性能。</p>
+</div>
+</section>
+<section id="Ch13.S3.SS0.SSS0.Px4" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0026">实践建议</h5>
+
+<div id="Ch13.S3.SS0.SSS0.Px4.p1" class="ltx_para">
+<p id="Ch13.S3.SS0.SSS0.Px4.p1.1" class="ltx_p" data-translation-id="ch13-0027">构建购物助手时，以下原则很重要：</p>
+<ul id="Ch13.S3.I2" class="ltx_itemize">
+<li id="Ch13.S3.I2.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I2.i1.p1" class="ltx_para">
+<p id="Ch13.S3.I2.i1.p1.1" class="ltx_p" data-translation-id="ch13-0028">有能力的助手应融合自然语言理解与领域推理。它应理解“低于 200 欧元、续航 ¿ 20 小时的降噪耳机”意味着什么，并将其转成商品属性与用户约束。 〔译注：此处“¿ 20 h”来自原始 HTML，符号疑似排版异常，未擅自改动。〕</p>
+</div></li>
+<li id="Ch13.S3.I2.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I2.i2.p1" class="ltx_para">
+<p id="Ch13.S3.I2.i2.p1.1" class="ltx_p" data-translation-id="ch13-0029">领域专用数据很重要：现成模型在一定程度上有效，但针对购物任务的微调或指令调优可显著提升性能。LLaSA <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib31" title="" class="ltx_ref">Zhang et al., 2024a</a>]</cite> 在实践中展示了这一点。</p>
+</div></li>
+<li id="Ch13.S3.I2.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I2.i3.p1" class="ltx_para">
+<p id="Ch13.S3.I2.i3.p1.1" class="ltx_p" data-translation-id="ch13-0030">评估必须反映领域特点。相较于理解商品属性或生成查询的准确率，助手能否对齐用户行为、处理多步会话并支持多语言用户更为重要。</p>
+</div></li>
+<li id="Ch13.S3.I2.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I2.i4.p1" class="ltx_para">
+<p id="Ch13.S3.I2.i4.p1.1" class="ltx_p" data-translation-id="ch13-0031">工具与检索集成很重要。助手必须充当商品系统的接口，这会引入额外复杂性，包括 API 设计、延迟、数据新鲜度及集成错误处理。</p>
+</div></li>
+<li id="Ch13.S3.I2.i5" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S3.I2.i5.p1" class="ltx_para">
+<p id="Ch13.S3.I2.i5.p1.1" class="ltx_p" data-translation-id="ch13-0032">考虑伦理与信任。购物推荐涉及商业、隐私和偏差问题。在生产部署前，应评估展示哪些品牌、用户历史是否被正确处理、推理是否透明等问题。</p>
+</div></li>
+</ul>
+</div>
+</section>
+<section id="Ch13.S3.SS0.SSS0.Px5" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0033">挑战与开放问题</h5>
+
+<div id="Ch13.S3.SS0.SSS0.Px5.p1" class="ltx_para">
+<p id="Ch13.S3.SS0.SSS0.Px5.p1.1" class="ltx_p" data-translation-id="ch13-0034">尽管近期有所进展，购物助手仍面临若干重要挑战。第一，大语言模型智能体仍难以处理浏览、细化查询、切换意图等长交互轨迹。第二，实时更新商品知识（新型号、价格变化、库存）仍是主要工程痛点。第三，基于模型的助手在向用户解释推荐理由（为什么选择此商品而非另一个）方面研究不足。最后，跨语言行为与多语言商品查询增加了复杂性，因为购物场景跨越语言和地区。</p>
+</div>
+</section>
+</section>
+<section id="Ch13.S4" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0035">13.4 航空运行助手</h2>
+
+<div id="Ch13.S4.p1" class="ltx_para">
+<p id="Ch13.S4.p1.1" class="ltx_p" data-translation-id="ch13-0036">基于语言的助手也用于航空运行，这一领域超越消费者预订，进入规划与决策支持。</p>
+</div>
+<section id="Ch13.S4.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0037">预订与旅行规划</h5>
+
+<div id="Ch13.S4.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch13.S4.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch13-0038">较简单的应用是对话式预订助手，与上一节购物助手类似。例如，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib24" title="" class="ltx_ref">Manasa et al. [2024]</a></cite> 提出基于 LLaMa 2 和 RAG 的系统，交互式帮助用户预订航班。助手在航班预订数据上微调，并通过检索连接最新航班信息。用户测试对其捕捉偏好、有效引导预订流程的能力给予较高评价。</p>
+</div>
+<div id="Ch13.S4.SS0.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch13.S4.SS0.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch13-0039">注意，这一用例的运行复杂性仍相对较浅。助手处理结构化用户意图（我想在日期 D 从 A 飞到 B）、检索最新产品数据、询问偏好并生成回应。它尚未深入处理动态空中交通约束或安全裕度等问题。</p>
+</div>
+</section>
+<section id="Ch13.S4.SS0.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0040">运行决策支持</h5>
+
+<div id="Ch13.S4.SS0.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch13.S4.SS0.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch13-0041">在要求更高的场景中，研究者开始提出用于实际航空运行的大语言模型助手。这里讨论两个例子。</p>
+</div>
+<div id="Ch13.S4.SS0.SSS0.Px2.p2" class="ltx_para">
+<p id="Ch13.S4.SS0.SSS0.Px2.p2.1" class="ltx_p" data-translation-id="ch13-0042">在 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib22" title="" class="ltx_ref">Zhou et al. [2024]</a></cite> 的研究中，进场时隙分配问题（即确定进场飞机着陆顺序）被表述为语言建模任务。作者将调度输入和输出编码为词元，微调模型以生成无冲突着陆序列。实验表明，即使对传统方法难以应对的机场，该模型也能降低冲突率和总延误时间。</p>
+</div>
+<div id="Ch13.S4.SS0.SSS0.Px2.p3" class="ltx_para">
+<p id="Ch13.S4.SS0.SSS0.Px2.p3.1" class="ltx_p" data-translation-id="ch13-0043">另一项运行问题是在环境危险下规划。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib23" title="" class="ltx_ref">Tabrizian et al. [2024]</a></cite> 使用思维链支持风害约束下的航路或飞行计划生成。此时助手的任务不再只是预订航班，而必须对风、航路、飞机性能等约束进行推理，提出运行上可行的计划。</p>
+</div>
+</section>
+<section id="Ch13.S4.SS0.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0044">关键建议</h5>
+
+<div id="Ch13.S4.SS0.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch13.S4.SS0.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch13-0045">这些研究展示了大语言模型智能体系统的几个重要方面：</p>
+</div>
+<div id="Ch13.S4.SS0.SSS0.Px3.p2" class="ltx_para">
+<ul id="Ch13.S4.I1" class="ltx_itemize">
+<li id="Ch13.S4.I1.i1" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S4.I1.i1.p1" class="ltx_para">
+<p id="Ch13.S4.I1.i1.p1.1" class="ltx_p" data-translation-id="ch13-0046">工具与后端集成：运行助手中的模型不仅需要对话，还必须对接航班数据库、气象信息流、航路引擎和时隙分配系统，因此需要实现工具调用、检索流水线和决策逻辑。</p>
+</div></li>
+<li id="Ch13.S4.I1.i2" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S4.I1.i2.p1" class="ltx_para">
+<p id="Ch13.S4.I1.i2.p1.1" class="ltx_p" data-translation-id="ch13-0047">约束下推理：这些助手必须处理组合约束或调度约束，生成计划，并应对天气、跑道可用性等实时不确定性。进场时隙是一个好例子，模型必须对动态排序进行推理。</p>
+</div></li>
+<li id="Ch13.S4.I1.i3" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S4.I1.i3.p1" class="ltx_para">
+<p id="Ch13.S4.I1.i3.p1.1" class="ltx_p" data-translation-id="ch13-0048">领域专用数据与微调：标准预训练模型缺少航空运行先验。上述系统经过领域专用微调或提示设计。必须具备领域任务、提示、预期输出的数据集，以及针对领域定制的评估指标。</p>
+</div></li>
+<li id="Ch13.S4.I1.i4" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S4.I1.i4.p1" class="ltx_para">
+<p id="Ch13.S4.I1.i4.p1.1" class="ltx_p" data-translation-id="ch13-0049">从对话智能体到自主规划器：预订助手仍由用户驱动，即用户提出需求、助手提供帮助；运行助手则日益承担规划角色。它应能处理“这里是约束，请提出时间表或航路”等请求。这一转变带来信任、验证和可解释性问题。</p>
+</div></li>
+<li id="Ch13.S4.I1.i5" class="ltx_item" style="list-style-type:none;"><span class="ltx_tag ltx_tag_item">•</span>
+<div id="Ch13.S4.I1.i5.p1" class="ltx_para">
+<p id="Ch13.S4.I1.i5.p1.1" class="ltx_p" data-translation-id="ch13-0050">真实情境评估：运行系统的评估往往不只考察助手是否回答用户，还需衡量冲突率、延误时间和序列效率等。例如，进场时隙模型研究衡量了总延误和冲突率。</p>
+</div></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="Ch13.S5" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0051">13.5 医疗助手</h2>
+
+<div id="Ch13.S5.p1" class="ltx_para">
+<p id="Ch13.S5.p1.1" class="ltx_p" data-translation-id="ch13-0052">医疗是大语言模型助手最活跃的应用领域之一 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib11" title="" class="ltx_ref">Thirunavukarasu et al., 2023</a>, <a href="#bibl.bib6" title="" class="ltx_ref">Clusmann et al., 2023</a>, <a href="#bibl.bib5" title="" class="ltx_ref">Mehandru et al., 2024</a>]</cite>。近期研究报告，模型在诊断任务上可超过受过训练的医生 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib7" title="" class="ltx_ref">Goh et al., 2024</a>]</cite>，在临床记录生成方面超过人类医疗记录员 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib10" title="" class="ltx_ref">Yuan et al., 2024</a>]</cite>。其他评估确认了这些优势，同时也发现特定临床场景下的系统性弱点 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib8" title="" class="ltx_ref">Panagoulias et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch13.S5.p2" class="ltx_para">
+<p id="Ch13.S5.p2.1" class="ltx_p" data-translation-id="ch13-0053">智能体架构越来越多地用于满足监管、伦理与可用性要求。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib14" title="" class="ltx_ref">Sudarshan et al. [2024]</a></cite> 提出一种智能体工作流，生成符合《21 世纪治愈法案》、方便患者理解的医疗报告。其系统利用 reflexion（第 <a href="ch06.html#Ch6.S2.SS4" title="6.2.4 Agentic Harness for Prompt Improvement ‣ 6.2 Self-Reflection and State ‣ Chapter 6 Multi-step Reasoning in LLMs ‣ Part II Reasoning ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">6.2.4</span></a> 节，<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib38" title="" class="ltx_ref">Shinn et al., 2024</a>]</cite>），在向患者发布信息前迭代改进清晰度和正确性。</p>
+</div>
+<div id="Ch13.S5.p3" class="ltx_para">
+<p id="Ch13.S5.p3.1" class="ltx_p" data-translation-id="ch13-0054">其他研究探索将模型智能体用于更广泛的临床支持。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib15" title="" class="ltx_ref">Qiu et al. [2024]</a></cite> 指出从临床工作流自动化到多智能体诊断支持等应用，但准确性、完整性和幻觉仍令人担忧。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib9" title="" class="ltx_ref">Ullah et al. [2024]</a></cite> 的范围综述强调，训练和微调这些系统时，医疗领域知识与伦理约束至关重要。</p>
+</div>
+<div id="Ch13.S5.p4" class="ltx_para">
+<p id="Ch13.S5.p4.1" class="ltx_p" data-translation-id="ch13-0055">为缓解常见失败模式，<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib13" title="" class="ltx_ref">Das et al. [2024]</a></cite> 提出基于检索的智能体架构，让大语言模型担任规划器。智能体协调专用工具，从可信医疗来源检索并综合证据，减少幻觉和“中间信息丢失”错误。</p>
+</div>
+<section id="Ch13.S5.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0056">高风险应用领域</h5>
+
+<div id="Ch13.S5.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch13.S5.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch13-0057">医疗是高风险应用领域，错误或有偏输出可能直接影响患者安全。因此，医疗人工智能系统受到严格监管框架约束，包括将许多医疗人工智能用途归为高风险的欧盟《人工智能法案》。无论临床实践还是医疗大语言模型学术研究，透明性、公平性和问责都居于核心地位。这些关切推动人们关注超越事后解释、在更深层理解模型行为的方法。我们将在机制可解释性一章（第 <a href="ch21.html#Ch21" title="Chapter 21 *Mechanistic Interpretability for LLM Agents ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">21</span></a> 章）回到这一主题，讨论分析和控制模型内部表示的技术。</p>
+</div>
+</section>
+<section id="Ch13.S5.SS0.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0058">医学教育</h5>
+
+<div id="Ch13.S5.SS0.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch13.S5.SS0.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch13-0059">在医学教育中，智能体系统用于模拟真实训练环境。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib12" title="" class="ltx_ref">Wei et al. [2024a]</a></cite> 引入多智能体协作助手，支持基于案例的学习和临床推理练习（图 <a href="#Ch13.F2" title="Figure 13.2 ‣ Medical education ‣ 13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">13.2</span></a>）。<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib20" title="" class="ltx_ref">Qiao et al. [2024]</a></cite> 为医疗检索增强生成的系统评估提供了专门基准。</p>
+</div>
+<figure id="Ch13.F2" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/medco.png" id="Ch13.F2.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:476/229;" width="476" height="229" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch13-0060">图 13.2：医学教育协作助手 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib12" title="" class="ltx_ref">Wei et al., 2024a</a>]</cite></figcaption>
+</figure>
+</section>
+</section>
+<section id="Ch13.S6" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0061">13.6 交易助手</h2>
+
+<div id="Ch13.S6.p1" class="ltx_para">
+<p id="Ch13.S6.p1.1" class="ltx_p" data-translation-id="ch13-0062">另一个专门领域是金融交易。金融机构已经使用许多非大语言模型算法作交易决策。金融界对智能体式大语言模型兴趣浓厚 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib2" title="" class="ltx_ref">Ding et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch13.S6.p2" class="ltx_para">
+<p id="Ch13.S6.p2.1" class="ltx_p" data-translation-id="ch13-0063">InvestorBench 是金融交易系统基准 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib16" title="" class="ltx_ref">Li et al., 2024</a>]</cite>。FinAgent 是用于金融交易、由工具增强的多模态智能体 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib19" title="" class="ltx_ref">Zhang et al., 2024b</a>]</cite>。它包含市场情报模块，能从资产价格、视觉表示、新闻和专家分析等多模态数据集中提取见解。系统还可执行查询检索，并在低层模块进行技术分析反思，在高层模块分析过去交易决策。</p>
+</div>
+<div id="Ch13.S6.p3" class="ltx_para">
+<p id="Ch13.S6.p3.1" class="ltx_p" data-translation-id="ch13-0064">FinRobot 是用于金融分析、帮助人类交易者的智能体式大语言模型 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib18" title="" class="ltx_ref">Yang et al., 2024a</a>]</cite>。它能分析和生成文档，并预测个股市场。FinMem 是为金融决策设计的智能体式大语言模型框架 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib4" title="" class="ltx_ref">Yu et al., 2024</a>]</cite>，具有分层记忆系统和可调节的交易智能体性格设计。FinMem 受到 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib3" title="" class="ltx_ref">Park et al. [2023]</a></cite> 的生成式智能体框架启发（见第 <a href="ch17.html#Ch17.S2.SS1" title="17.2.1 Small Worlds ‣ 17.2 Simulation Infrastructure ‣ Chapter 17 Emergent Behavior in Multi-LLM Systems ‣ Part V Behavior and Cognition ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">17.2.1</span></a> 节及案例研究 4）。</p>
+</div>
+<div id="Ch13.S6.p4" class="ltx_para">
+<p id="Ch13.S6.p4.1" class="ltx_p" data-translation-id="ch13-0065">迄今大多数金融市场机器学习集中于单智能体系统。TradingAgents 方法用多智能体系统复现现实交易公司的协作动态 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib17" title="" class="ltx_ref">Xiao et al., 2024</a>]</cite>，模拟由大语言模型驱动的专业角色，包括基本面分析师、情绪分析师、技术分析师以及不同风险偏好的交易员。系统向人类经理输出买入或卖出建议。模拟显示它超过了基线模型。</p>
+</div>
+<section id="Ch13.S6.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0066">评估</h5>
+
+<div id="Ch13.S6.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch13.S6.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch13-0067">金融交易是具有挑战性的研究领域。其竞争利益重大，人们自然倾向于将有力研究发现保密，这与科学研究的开放透明原则形成张力。</p>
+</div>
+<div id="Ch13.S6.SS0.SSS0.Px1.p2" class="ltx_para">
+<p id="Ch13.S6.SS0.SSS0.Px1.p2.1" class="ltx_p" data-translation-id="ch13-0068">此外，尽管该领域有丰富的数值数据，在相同数据上比较不同智能体式大语言模型方法的基准研究仍较少。一项近期基准研究发现，某些金融大语言模型研究存在方法缺陷，例如选择市场上涨的短评估期，或测试数据泄漏到训练数据中 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib1" title="" class="ltx_ref">Li et al., 2026</a>]</cite>。</p>
+</div>
+</section>
+</section>
+<section id="Ch13.S7" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0069">13.7 自动化科学发现</h2>
+
+<div id="Ch13.S7.p1" class="ltx_para">
+<p id="Ch13.S7.p1.1" class="ltx_p" data-translation-id="ch13-0070">在某些科学领域，科学实验工作流相对标准化。例如机器学习中：（1）产生想法，（2）提出假设，（3）设计实验，（4）获取数据集，（5）执行实验，（6）解释结果，（7）形成报告。这种标准工作流吸引研究者尝试使用智能体式大语言模型开展科学研究，综述见 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib37" title="" class="ltx_ref">Eger et al. [2025]</a></cite>。</p>
+</div>
+<div id="Ch13.S7.p2" class="ltx_para">
+<p id="Ch13.S7.p2.1" class="ltx_p" data-translation-id="ch13-0071">Google 和 OpenAI 都发布了 Deep Research 智能体。它们可执行综合在线信息等多步研究任务，基于推理大语言模型构建，并利用检索增强寻找信息来源。系统能够生成看起来很出色的科学研究论文，但往往并非没有错误。</p>
+</div>
+<div id="Ch13.S7.p3" class="ltx_para">
+<p id="Ch13.S7.p3.1" class="ltx_p" data-translation-id="ch13-0072">AI Scientist <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib35" title="" class="ltx_ref">Lu et al., 2024</a>]</cite> 是自动化科学发现过程的框架，涵盖从想法生成到论文写作及评审。用户必须指定主题、提供实验模板并指出数据集。作者报告了扩散建模、基于 Transformer 的语言建模、学习动力学这三个机器学习领域的实验，结果具有前景。为改善想法生成与评审，智能体访问开放来源。目前局限包括实验有限、想法实现不正确，以及论文生成中的视觉错误。另一方面，整套结果被凭空捏造的情况很少。不过，建议将 AI Scientist 的结果视为有前景思路的线索，值得后续研究 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib35" title="" class="ltx_ref">Lu et al., 2024</a>]</cite>。</p>
+</div>
+<div id="Ch13.S7.p4" class="ltx_para">
+<p id="Ch13.S7.p4.1" class="ltx_p" data-translation-id="ch13-0073">在 AI Scientist 思想基础上，研究者提出 Agent Laboratory <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib39" title="" class="ltx_ref">Schmidgall et al., 2025</a>]</cite>，这是采用专门大语言模型智能体、加速完整研究周期的开源框架。与 AI Scientist 不同，它明确设计为人类研究者的协作助手，补充而非取代人类构思。框架分为文献综述、实验和报告写作三个主要阶段，各阶段由博士生、博士后、教授等专门智能体执行，通过结构化流水线协调。系统集成两个专用组件：mle-solver 自主生成、测试和改进机器学习代码；paper-solver 根据实验结果生成完整 LaTeX 研究报告。二者均用迭代改进、自我评估和基于奖励的评分，在各轮中改善代码与报告质量。</p>
+</div>
+<div id="Ch13.S7.p5" class="ltx_para">
+<p id="Ch13.S7.p5.1" class="ltx_p" data-translation-id="ch13-0074">评估表明，Agent Laboratory 能以同类系统一小部分计算成本，自主生成包含可执行代码和可发表报告的完整研究项目（使用 gpt-4o 后端，每篇论文约 2.33 美元）。人在环路或协作助手模式进一步改善研究质量和可用性，参与者报告高度满意，并愿意继续使用。不过人类监督仍不可或缺，因为自动自评通常比人类评审者高估研究质量。</p>
+</div>
+</section>
+<section id="Ch13.S8" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0075">13.8 编程助手与总体进展</h2>
+
+<div id="Ch13.S8.p1" class="ltx_para">
+<p id="Ch13.S8.p1.1" class="ltx_p" data-translation-id="ch13-0076">SWE-Agent（软件工程智能体的缩写）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib33" title="" class="ltx_ref">Yang et al., 2024b</a>]</cite> 旨在自动化软件发现过程，帮助智能体自主使用计算机解决软件工程任务。它引入创建和编辑代码文件、浏览软件仓库、执行程序等工具。在 HumanEvalFix 等编程基准中，实验成功率超过 80%。这一成功归因于智能体的交互式设计（见图 <a href="#Ch13.F3" title="Figure 13.3 ‣ 13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">13.3</span></a>）。</p>
+</div>
+<figure id="Ch13.F3" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/figures/swe.png" id="Ch13.F3.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:471/106;" width="471" height="106" alt="原书插图，说明见图注" loading="lazy" decoding="async">
+<figcaption class="ltx_caption ltx_centering" data-translation-id="ch13-0077">图 13.3：用于软件工程的 SWE-Agent <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib33" title="" class="ltx_ref">Yang et al., 2024b</a>]</cite></figcaption>
+</figure>
+<div id="Ch13.S8.p2" class="ltx_para">
+<p id="Ch13.S8.p2.1" class="ltx_p" data-translation-id="ch13-0078">MLGym <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib34" title="" class="ltx_ref">Nathani et al., 2025</a>]</cite> 遵循常用的 Gym 强化学习框架 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib32" title="" class="ltx_ref">Brockman et al., 2016</a>]</cite>。Gym 为环境与智能体提供标准接口，2016 年推出后加速了强化学习算法开发，促进领域进步。MLGym 进一步借鉴 SWE-agent 的文件编辑等能力，展示如何将科学发现建模为交互过程。讨论的应用领域从数据科学、博弈论、计算机视觉、强化学习，到自然语言处理。研究报告了使用 OpenAI、Meta、Google、Anthropic 等商业大语言模型的实验。</p>
+</div>
+<div id="Ch13.S8.p3" class="ltx_para">
+<p id="Ch13.S8.p3.1" class="ltx_p" data-translation-id="ch13-0079">包括研究和编程助手在内，大多数大语言模型助手依赖预定义工具，限制了自主性和可扩展性。Toolmaker <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib40" title="" class="ltx_ref">Wölflein et al., 2025</a>]</cite> 让智能体直接从科学论文及代码仓库创建新工具，解决这一局限。给定任务描述与 GitHub URL，它安装依赖、配置可复现 Docker 环境，并通过迭代自纠正与错误诊断实现可用 Python 工具。系统在 TM-Bench（也由 <cite class="ltx_cite ltx_citemacro_citet"><a href="#bibl.bib40" title="" class="ltx_ref">Wölflein et al. [2025]</a></cite> 提出）上评估，该基准包含医疗、生物和人工智能领域 15 项真实科学任务。Toolmaker 达到 80% 任务成功率。其闭环设计让智能体不仅使用工具，还能自主构建新工具，向自扩展研究助手和自适应科学工作流迈进。</p>
+</div>
+<div id="Ch13.S8.p4" class="ltx_para">
+<p id="Ch13.S8.p4.1" class="ltx_p" data-translation-id="ch13-0080">Agent Laboratory、Toolmaker 等关注单个智能体能力，而 The Agent Company <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibl.bib36" title="" class="ltx_ref">Xu et al., 2024</a>]</cite> 提供综合基准，评估模型智能体在逼真工作环境中的表现。它模拟一家小型软件公司，让智能体使用浏览器、终端、通信平台等标准数字工具，完成软件开发、项目管理、财务、人力资源等专业任务。</p>
+</div>
+<div id="Ch13.S8.p5" class="ltx_para">
+<p id="Ch13.S8.p5.1" class="ltx_p" data-translation-id="ch13-0081">基准包含 175 项任务，测试多步推理、工具使用及与模型驱动的模拟同事协作。每项任务分为检查点，衡量完整和部分完成度。针对 GPT-4o、Claude、Gemini、Llama 等十二个基础模型的实验表明，即使当前最强系统也只能自主完成约 30% 的任务。失败往往源于交流、长程规划和复杂用户界面导航的弱点。</p>
+</div>
+<div id="Ch13.S8.p6" class="ltx_para">
+<p id="Ch13.S8.p6.1" class="ltx_p" data-translation-id="ch13-0082">The Agent Company 引入可复现、自托管、映射现代工作场所的环境，为评估智能体式大语言模型成熟度提供关键压力测试。它同时突出当前系统的迅速进步与持续局限，强调数字工作自动化虽已触手可及，真正自主协作仍是重要研究前沿。</p>
+</div>
+</section>
+<section id="Ch13.S9" class="ltx_section">
+<h2 class="ltx_title ltx_title_section" data-translation-id="ch13-0083">13.9 结语</h2>
+
+<div id="Ch13.S9.p1" class="ltx_para">
+<p id="Ch13.S9.p1.1" class="ltx_p" data-translation-id="ch13-0084">本章展示智能体式大语言模型如何作为助手与真实世界互动。助手从被动问答走向对话、航空运行、医疗、教育、科学研究等领域的主动协作。它们规划、检索信息、调用工具、反思结果，并随时间调整行为。因此，智能体式大语言模型使语言模型从孤立推理引擎转为更广泛社会技术系统中的参与者。</p>
+</div>
+<section id="Ch13.S9.SS0.SSS0.Px1" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0085">领域敏感性与风险</h5>
+
+<div id="Ch13.S9.SS0.SSS0.Px1.p1" class="ltx_para">
+<p id="Ch13.S9.SS0.SSS0.Px1.p1.1" class="ltx_p" data-translation-id="ch13-0086">不同助手受到不同约束。医疗、航空等高风险领域要求对安全性、稳健性、透明性和公平性提供强保证，并受欧盟《人工智能法案》等监管框架塑造。在这些场景中，智能体设计越来越依赖检索、规划、验证与人类监督。学术研究也反映这些关切，越来越强调把评估、偏差分析和可解释性作为首要设计目标。</p>
+</div>
+</section>
+<section id="Ch13.S9.SS0.SSS0.Px2" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0087">实践建议</h5>
+
+<div id="Ch13.S9.SS0.SSS0.Px2.p1" class="ltx_para">
+<p id="Ch13.S9.SS0.SSS0.Px2.p1.1" class="ltx_p" data-translation-id="ch13-0088">构建助手时，现实依据（真实世界评估）很重要。采用让智能体检索证据、说明行动理由，并在不确定时交由人类决策的架构（人在环路）。将工具作为具有明确契约与失败模式的模块组件。记录决策、计划和中间状态，支持调试和审计。在高风险领域，建议设计平稳降级机制；智能体请求澄清或放弃作答，优于自信地犯错。</p>
+</div>
+</section>
+<section id="Ch13.S9.SS0.SSS0.Px3" class="ltx_paragraph">
+<h5 class="ltx_title ltx_title_paragraph" data-translation-id="ch13-0089">展望</h5>
+
+<div id="Ch13.S9.SS0.SSS0.Px3.p1" class="ltx_para">
+<p id="Ch13.S9.SS0.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch13-0090">智能体助手的未来，在于更紧密地集成推理、学习与控制。进步需要更丰富的认知结构、从交互中持续适应，以及更强的安全和伦理保证。这些目标直接关联可解释性和透明性进展。后续章节，尤其是机制可解释性（第 <a href="ch21.html#Ch21" title="Chapter 21 *Mechanistic Interpretability for LLM Agents ‣ Part VI Advanced Topics ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">21</span></a> 章），将再次讨论打开黑箱、深入理解智能体式大语言模型如何在内部表示目标、计划与决策的技术。</p>
+</div>
+</section>
+</section>
+<section id="bibl" class="ltx_bibliography ltx_list_13_assist">
+<h2 class="ltx_title ltx_title_bibliography">参考文献</h2>
+
+<ul id="bibl.L1" class="ltx_biblist">
+<li id="bibl.bib27" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Bastola <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Bastola, H. Wang, J. Hembree, P. Yadav, N. McNeese, and A. Razi</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Llm-based smart reply (lsr): enhancing collaborative performance with chatgpt-mediated smart reply system (acm)(draft) llm-based smart reply (lsr): enhancing collaborative performance with chatgpt-mediated smart reply system</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2306.11980</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S2.p4.1" title="13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.2</span></a>.
+</span></li>
+<li id="bibl.bib32" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Brockman <span class="ltx_text ltx_bib_etal">et al.</span> (2016)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. Brockman, V. Cheung, L. Pettersson, J. Schneider, J. Schulman, J. Tang, and W. Zaremba</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Openai gym</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:1606.01540</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S8.p2.1" title="13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.8</span></a>.
+</span></li>
+<li id="bibl.bib29" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Cabrero-Daniel <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">B. Cabrero-Daniel, T. Herda, V. Pichler, and M. Eder</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Exploring human-ai collaboration in agile: customised llm meeting assistants</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">International Conference on Agile Software Development</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 163–178</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S2.p3.1" title="13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.2</span></a>.
+</span></li>
+<li id="bibl.bib6" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Clusmann <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Clusmann, F. R. Kolbinger, H. S. Muti, Z. I. Carrero, J. Eckardt, N. G. Laleh, C. M. L. Löffler, S. Schwarzkopf, M. Unger, G. P. Veldhuizen, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The future landscape of large language models in medicine</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Communications medicine</span> <span class="ltx_text ltx_bib_volume">3</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 141</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p1.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib13" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Das <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Das, K. Maheswari, S. Siddiqui, N. Arora, A. Paul, J. Nanshi, V. Udbalkar, A. Sarvade, H. Chaturvedi, T. Shvartsman, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Improved precision oncology question-answering using agentic llm</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">medRxiv</span>, <span class="ltx_text ltx_bib_pages">pp. 2024–09</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p4.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib2" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ding <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Ding, Y. Li, J. Wang, and H. Chen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language model agent in financial trading: a survey</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2408.06361</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.p1.1" title="13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib37" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Eger <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Eger, Y. Cao, J. D’Souza, A. Geiger, C. Greisinger, S. Gross, Y. Hou, B. Krenn, A. Lauscher, Y. Li, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Transforming science with large language models: a survey on ai-assisted scientific discovery, experimentation, content generation, and evaluation</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.05151</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S7.p1.1" title="13.7 Automated Scientific Discovery ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.7</span></a>.
+</span></li>
+<li id="bibl.bib7" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Goh <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Goh, R. Gallo, J. Hom, E. Strong, Y. Weng, H. Kerman, J. A. Cool, Z. Kanjee, A. S. Parsons, N. Ahuja, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language model influence on diagnostic reasoning: a randomized clinical trial</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">JAMA Network Open</span> <span class="ltx_text ltx_bib_volume">7</span> (<span class="ltx_text ltx_bib_number">10</span>), <span class="ltx_text ltx_bib_pages">pp. e2440969–e2440969</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p1.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib30" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Jin <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Jin, Z. Li, C. Zhang, T. Cao, Y. Gao, P. Jayarao, M. Li, X. Liu, R. Sarkhel, X. Tang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Shopping mmlu: a massive multi-task online shopping benchmark for large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.20745</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S3.SS0.SSS0.Px3.p1.1" title="Benchmarking shopping-assistants ‣ 13.3 Shopping Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.3</span></a>.
+</span></li>
+<li id="bibl.bib16" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Li, Y. Cao, Y. Yu, S. R. Javaji, Z. Deng, Y. He, Y. Jiang, Z. Zhu, K. Subbalakshmi, G. Xiong, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">INVESTORBENCH: a benchmark for financial decision-making tasks with llm-based agent</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2412.18174</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.p2.1" title="13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib1" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Li <span class="ltx_text ltx_bib_etal">et al.</span> (2026)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. W. Li, H. Kim, M. Cucuringu, and T. Ma</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Can llm-based financial investing strategies outperform the market in long run?</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V. 1</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 2711–2722</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.SS0.SSS0.Px1.p2.1" title="Evaluation ‣ 13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib35" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Lu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">C. Lu, C. Lu, R. T. Lange, J. Foerster, J. Clune, and D. Ha</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">The ai scientist: towards fully automated open-ended scientific discovery</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2408.06292</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S7.p3.1" title="13.7 Automated Scientific Discovery ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.7</span></a>.
+</span></li>
+<li id="bibl.bib24" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Manasa <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Manasa, P. Agarwal, G. Pal, P. Mahendra, S. R. Pendyala, and S. Marge</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Towards seamless air travel: developing a next-generation flight booking assistant</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Journal of Electrical Systems</span> <span class="ltx_text ltx_bib_volume">20</span> (<span class="ltx_text ltx_bib_number">2</span>), <span class="ltx_text ltx_bib_pages">pp. 2558–2567</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S4.SS0.SSS0.Px1.p1.1" title="Booking and travel-planning ‣ 13.4 Flight Operations Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.4</span></a>.
+</span></li>
+<li id="bibl.bib5" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Mehandru <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Mehandru, B. Y. Miao, E. R. Almaraz, M. Sushil, A. J. Butte, and A. Alaa</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Evaluating large language models as agents in the clinic</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">NPJ digital medicine</span> <span class="ltx_text ltx_bib_volume">7</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 84</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p1.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib34" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Nathani <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Nathani, L. Madaan, N. Roberts, N. Bashlykov, A. Menon, V. Moens, A. Budhiraja, D. Magka, V. Vorotilov, G. Chaurasia, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">MLGym: a new framework and benchmark for advancing ai research agents</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.14499</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S8.p2.1" title="13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.8</span></a>.
+</span></li>
+<li id="bibl.bib25" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Neszlényi <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">K. B. Neszlényi, A. Milos, and A. Kiss</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">AssistantGPT: enhancing user interaction with llm integration</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2024 IEEE 22nd Jubilee International Symposium on Intelligent Systems and Informatics (SISY)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 000619–000624</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.F1" title="In 13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 13.1</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch13.F1.4" title="In 13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 13.1</span></a>,
+<a href="#Ch13.S2.p2.1" title="13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.2</span></a>.
+</span></li>
+<li id="bibl.bib21" class="ltx_bibitem ltx_bib_misc"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Oluwagbade (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Oluwagbade</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Conversational ai as the new employee liaison: llm-powered chatbots in enhancing workplace collaboration and inclusion</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S2.p2.1" title="13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.2</span></a>.
+</span></li>
+<li id="bibl.bib8" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Panagoulias <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. P. Panagoulias, M. Virvou, and G. A. Tsihrintzis</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Evaluating llm–generated multimodal diagnosis from medical images and symptom analysis</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.01730</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p1.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib3" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Park <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. S. Park, J. O’Brien, C. J. Cai, M. R. Morris, P. Liang, and M. S. Bernstein</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Generative agents: interactive simulacra of human behavior</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the 36th annual acm symposium on user interface software and technology</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–22</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.p3.1" title="13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib26" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Park and Kulkarni (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Park and C. Kulkarni</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Thinking assistants: llm-based conversational assistants that help users think by asking rather than answering</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2312.06024</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S2.p5.1" title="13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.2</span></a>.
+</span></li>
+<li id="bibl.bib20" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Qiao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Qiao, R. Fang, Z. Qiu, X. Wang, N. Zhang, Y. Jiang, P. Xie, F. Huang, and H. Chen</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Benchmarking agentic workflow generation</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2410.07869</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.SS0.SSS0.Px2.p1.1" title="Medical education ‣ 13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib15" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Qiu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Qiu, K. Lam, G. Li, A. Acharya, T. Y. Wong, A. Darzi, W. Yuan, and E. J. Topol</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">LLM-based agentic systems in medicine and healthcare</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature Machine Intelligence</span>, <span class="ltx_text ltx_bib_pages">pp. 1–3</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p3.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib39" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Schmidgall <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Schmidgall, Y. Su, Z. Wang, X. Sun, J. Wu, X. Yu, J. Liu, M. Moor, Z. Liu, and E. Barsoum</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agent laboratory: using llm agents as research assistants</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2501.04227</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S7.p4.1" title="13.7 Automated Scientific Discovery ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.7</span></a>.
+</span></li>
+<li id="bibl.bib38" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Shinn <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">N. Shinn, F. Cassano, A. Gopinath, K. Narasimhan, and S. Yao</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Reflexion: language agents with verbal reinforcement learning</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Advances in Neural Information Processing Systems</span> <span class="ltx_text ltx_bib_volume">36</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p2.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib14" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Sudarshan <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">M. Sudarshan, S. Shih, E. Yee, A. Yang, J. Zou, C. Chen, Q. Zhou, L. Chen, C. Singhal, and G. Shih</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Agentic llm workflows for generating patient-friendly medical reports</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2408.01112</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p2.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib23" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Tabrizian <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. Tabrizian, P. Gupta, A. Taye, J. Jones, E. Thompson, S. Chen, T. Bonin, D. Eberle, and P. Wei</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Using large language models to automate flight planning under wind hazards</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2024 AIAA DATC/IEEE 43rd Digital Avionics Systems Conference (DASC)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–8</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S4.SS0.SSS0.Px2.p3.1" title="Operational decision support ‣ 13.4 Flight Operations Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.4</span></a>.
+</span></li>
+<li id="bibl.bib11" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Thirunavukarasu <span class="ltx_text ltx_bib_etal">et al.</span> (2023)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">A. J. Thirunavukarasu, D. S. J. Ting, K. Elangovan, L. Gutierrez, T. F. Tan, and D. S. W. Ting</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Large language models in medicine</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Nature medicine</span> <span class="ltx_text ltx_bib_volume">29</span> (<span class="ltx_text ltx_bib_number">8</span>), <span class="ltx_text ltx_bib_pages">pp. 1930–1940</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p1.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib9" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Ullah <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">E. Ullah, A. Parwani, M. M. Baig, and R. Singh</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Challenges and barriers of using large language models (llm) such as chatgpt for diagnostic medicine with a focus on digital pathology–a recent scoping review</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Diagnostic pathology</span> <span class="ltx_text ltx_bib_volume">19</span> (<span class="ltx_text ltx_bib_number">1</span>), <span class="ltx_text ltx_bib_pages">pp. 43</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p3.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib12" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wei <span class="ltx_text ltx_bib_etal">et al.</span> (2024a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Wei, J. Qiu, H. Yu, and W. Yuan</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Medco: medical education copilots based on a multi-agent framework</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2408.12496</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.F2" title="In Medical education ‣ 13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 13.2</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch13.F2.4" title="In Medical education ‣ 13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 13.2</span></a>,
+<a href="#Ch13.S5.SS0.SSS0.Px2.p1.1" title="Medical education ‣ 13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib28" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wei <span class="ltx_text ltx_bib_etal">et al.</span> (2024b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">R. Wei, K. Li, and J. Lan</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Improving collaborative learning performance based on llm virtual assistant</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">2024 13th International Conference on Educational and Information Technology (ICEIT)</span>,
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_pages">pp. 1–6</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S2.p4.1" title="13.2 Conversational Assistants ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.2</span></a>.
+</span></li>
+<li id="bibl.bib40" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Wölflein <span class="ltx_text ltx_bib_etal">et al.</span> (2025)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">G. Wölflein, D. Ferber, D. Truhn, O. Arandjelović, and J. N. Kather</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Llm agents making agent tools</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2502.11705</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S8.p3.1" title="13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.8</span></a>.
+</span></li>
+<li id="bibl.bib17" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xiao <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Xiao, E. Sun, D. Luo, and W. Wang</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">TradingAgents: multi-agents llm financial trading framework</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2412.20138</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.p4.1" title="13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib36" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Xu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">F. F. Xu, Y. Song, B. Li, Y. Tang, K. Jain, M. Bao, Z. Z. Wang, X. Zhou, Z. Guo, M. Cao, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Theagentcompany: benchmarking llm agents on consequential real world tasks</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2412.14161</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S8.p4.1" title="13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.8</span></a>.
+</span></li>
+<li id="bibl.bib18" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2024a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">H. Yang, B. Zhang, N. Wang, C. Guo, X. Zhang, L. Lin, J. Wang, T. Zhou, M. Guan, R. Zhang, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">FinRobot: an open-source ai agent platform for financial applications using large language models</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2405.14767</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.p3.1" title="13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib33" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yang <span class="ltx_text ltx_bib_etal">et al.</span> (2024b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">J. Yang, C. E. Jimenez, A. Wettig, K. Lieret, S. Yao, K. R. Narasimhan, and O. Press</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Swe-agent: agent-computer interfaces enable automated software engineering</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">The Thirty-eighth Annual Conference on Neural Information Processing Systems</span>,
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.F3" title="In 13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 13.3</span></a>,
+<a href="https://arxiv.org/html/2610.13455v1#Ch13.F3.4" title="In 13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">图 13.3</span></a>,
+<a href="#Ch13.S8.p1.1" title="13.8 Coding Assistants and General Advances ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.8</span></a>.
+</span></li>
+<li id="bibl.bib4" class="ltx_bibitem ltx_bib_inproceedings"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yu <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">Y. Yu, H. Li, Z. Chen, Y. Jiang, Y. Li, D. Zhang, R. Liu, J. W. Suchow, and K. Khashanah</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">FinMem: a performance-enhanced llm trading agent with layered memory and character design</span>.
+</span>
+<span class="ltx_bibblock">In <span class="ltx_text ltx_bib_inbook">Proceedings of the AAAI Symposium Series</span>,
+</span>
+<span class="ltx_bibblock">Vol. <span class="ltx_text ltx_bib_volume">3</span>, <span class="ltx_text ltx_bib_pages">pp. 595–597</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.p3.1" title="13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib10" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Yuan <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">D. Yuan, E. Rastogi, G. Naik, S. P. Rajagopal, S. Goyal, F. Zhao, B. Chintagunta, and J. Ward</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">A continued pretrained llm approach for automatic medical note generation</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2403.09057</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S5.p1.1" title="13.5 Medical Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.5</span></a>.
+</span></li>
+<li id="bibl.bib31" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2024a)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">S. Zhang, B. Peng, X. Zhao, B. Hu, Y. Zhu, Y. Zeng, and X. Hu</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Llasa: large language and e-commerce shopping assistant</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2408.02006</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S3.I2.i2.p1.1" title="In Practical Recommendations ‣ 13.3 Shopping Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">2nd item</span></a>,
+<a href="#Ch13.S3.SS0.SSS0.Px3.p1.1" title="Benchmarking shopping-assistants ‣ 13.3 Shopping Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.3</span></a>.
+</span></li>
+<li id="bibl.bib19" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhang <span class="ltx_text ltx_bib_etal">et al.</span> (2024b)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Zhang, L. Zhao, H. Xia, S. Sun, J. Sun, M. Qin, X. Li, Y. Zhao, Y. Zhao, X. Cai, <span class="ltx_text ltx_bib_etal">et al.</span></span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">FinAgent: a multimodal foundation agent for financial trading: tool-augmented, diversified, and generalist</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">arXiv preprint arXiv:2402.18485</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S6.p2.1" title="13.6 Trading Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.6</span></a>.
+</span></li>
+<li id="bibl.bib22" class="ltx_bibitem ltx_bib_article"><span class="ltx_tag ltx_bib_author-year ltx_role_refnum ltx_tag_bibitem">Zhou <span class="ltx_text ltx_bib_etal">et al.</span> (2024)</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_author">W. Zhou, J. Wang, L. Zhu, Y. Wang, and Y. Ji</span>
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_title">Flight arrival scheduling via large language model</span>.
+</span>
+<span class="ltx_bibblock"><span class="ltx_text ltx_bib_journal">Aerospace</span> <span class="ltx_text ltx_bib_volume">11</span> (<span class="ltx_text ltx_bib_number">10</span>), <span class="ltx_text ltx_bib_pages">pp. 813</span>.
+</span>
+<span class="ltx_bibblock ltx_bib_cited">Cited by: <a href="#Ch13.S4.SS0.SSS0.Px2.p2.1" title="Operational decision support ‣ 13.4 Flight Operations Assistant ‣ Chapter 13 From Tools to Assistants: Real-World Applications ‣ Part IV Tools and Assistants ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">§13.4</span></a>.
+</span></li>
+</ul>
+</section>
+</section>
+<nav class="page-turn" aria-label="翻页"><a href="ch12.html">← 第 12 章</a><a href="index.html">全书目录</a><a href="ch14.html">第 14 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
+<p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
+<p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
+<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>
