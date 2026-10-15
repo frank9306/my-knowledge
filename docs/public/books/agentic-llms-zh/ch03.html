@@ -82,8 +82,8 @@
 <div id="Ch3.S2.p1" class="ltx_para">
 <p id="Ch3.S2.p1.1" class="ltx_p" data-translation-id="ch03-0016">现在更详细地描述标准训练流水线的步骤。大语言模型通过包含不同训练阶段的精细流水线构建 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib26" title="" class="ltx_ref">Radford et al., 2019</a>, <a href="#bibb.bib32" title="" class="ltx_ref">Minaee et al., 2024</a>]</cite>，其阶段如图 <a href="#Ch3.F1" title="Figure 3.1 ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.1</span></a> 所示。各阶段的组合通常称为训练配方，表示模型的训练顺序。每个阶段都可能采用新数据集和新损失函数，旨在赋予模型一种特定能力。讨论各个阶段时，这一点会更加清楚。</p>
 </div>
-<figure id="Ch3.F1" class="ltx_figure"><img src="" id="Ch3.F1.g1" class="ltx_graphics ltx_centering ltx_missing ltx_missing_image" alt="原书插图，说明见图注" loading="lazy" decoding="async">
-<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0017">图 3.1：大语言模型训练流水线概览 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib26" title="" class="ltx_ref">Radford et al., 2019</a>, <a href="#bibb.bib32" title="" class="ltx_ref">Minaee et al., 2024</a>]</cite>。</figcaption>
+<figure id="Ch3.F1" class="ltx_figure"><a href="images/img012-zh.svg" target="_blank" rel="noopener noreferrer" title="查看完整尺寸中文插图"><img src="images/img012-zh.svg" id="Ch3.F1.g1" class="ltx_graphics ltx_centering ltx_missing ltx_missing_image" alt="中文插图，说明见图注；点击查看完整尺寸" loading="lazy" decoding="async" data-localized-image="img012" width="1408" height="269" style="aspect-ratio:1408/269;">
+</a><figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0017">图 3.1：大语言模型训练流水线概览 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib26" title="" class="ltx_ref">Radford et al., 2019</a>, <a href="#bibb.bib32" title="" class="ltx_ref">Minaee et al., 2024</a>]</cite>。</figcaption>
 </figure>
 <section id="Ch3.S2.SS1" class="ltx_subsection">
 <h3 class="ltx_title ltx_title_subsection" data-translation-id="ch03-0018">3.2.1 获取数据</h3>
@@ -114,8 +114,8 @@
 <div id="Ch3.S2.SS1.p4" class="ltx_para">
 <p id="Ch3.S2.SS1.p4.1" class="ltx_p" data-translation-id="ch03-0025">除了准确性，流水线还必须选择符合安全与伦理约束的数据。这通常也通过启发式筛选实现。此外，还使用有毒内容检测系统去除仇恨言论，不过效果往往参差不齐。该阶段的重大挑战是减轻偏见：自动过滤器可能无意间标记并压制特定方言（例如非裔美国人英语）写成的正当数据，导致训练集意外排除多元声音。</p>
 </div>
-<figure id="Ch3.F2" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/the_pile.png" id="Ch3.F2.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:429/269;" width="429" height="269" alt="原书插图，说明见图注" loading="lazy" decoding="async">
-<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0026">图 3.2：The Pile 数据集中的数据来源概览 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib38" title="" class="ltx_ref">Gao et al., 2020</a>]</cite>。</figcaption>
+<figure id="Ch3.F2" class="ltx_figure"><a href="images/img013-zh.svg" target="_blank" rel="noopener noreferrer" title="查看完整尺寸中文插图"><img src="images/img013-zh.svg" id="Ch3.F2.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:1222/766;" width="1222" height="766" alt="中文插图，说明见图注；点击查看完整尺寸" loading="lazy" decoding="async" data-localized-image="img013">
+</a><figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0026">图 3.2：The Pile 数据集中的数据来源概览 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib38" title="" class="ltx_ref">Gao et al., 2020</a>]</cite>。</figcaption>
 </figure>
 </section>
 <section id="Ch3.S2.SS2" class="ltx_subsection">
@@ -146,14 +146,14 @@
 <div id="Ch3.S2.SS2.p6" class="ltx_para">
 <p id="Ch3.S2.SS2.p6.1" class="ltx_p" data-translation-id="ch03-0032">预训练的一个关键挑战，是确保模型高效学习，并在数万亿次梯度更新中保持稳定。随着时间推移，人们发展了不同策略控制训练过程。其中之一是课程学习。人类学习时，先学简单概念（例如加法），再处理较难概念（乘法、对数）。语言建模通过数据混合或数据课程使用这一思想。研究者不同时训练所有数据类型，而先选择特定数据来源的混合，示例见图 <a href="#Ch3.F3" title="Figure 3.3 ‣ 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.3</span></a>。创建混合时，按难度策略性地排列数据。训练课程先使用易学的普通网页抓取数据，后期转向更难、高质量的推理数据（数学和代码）。其基本思想是，这有助于模型更快地在复杂逻辑上收敛 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib15" title="" class="ltx_ref">Bengio et al., 2009</a>]</cite>。</p>
 </div>
-<figure id="Ch3.F3" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/smollm3_mixture.png" id="Ch3.F3.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:357/221;" width="357" height="221" alt="原书插图，说明见图注" loading="lazy" decoding="async">
-<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0033">图 3.3：训练 SmolLM3 的数据混合示例 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib37" title="" class="ltx_ref">Bakouch et al., 2025</a>]</cite>。</figcaption>
+<figure id="Ch3.F3" class="ltx_figure"><a href="images/img014-zh.svg" target="_blank" rel="noopener noreferrer" title="查看完整尺寸中文插图"><img src="images/img014-zh.svg" id="Ch3.F3.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:1932/1407;" width="1932" height="1407" alt="中文插图，说明见图注；点击查看完整尺寸" loading="lazy" decoding="async" data-localized-image="img014">
+</a><figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0033">图 3.3：训练 SmolLM3 的数据混合示例 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib37" title="" class="ltx_ref">Bakouch et al., 2025</a>]</cite>。</figcaption>
 </figure>
 <div id="Ch3.S2.SS2.p7" class="ltx_para">
 <p id="Ch3.S2.SS2.p7.1" class="ltx_p" data-translation-id="ch03-0034">还会采用其他稳定训练的机制，因为如此规模的训练以不稳定、易出现损失突增而著称 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib41" title="" class="ltx_ref">Takase et al., 2025</a>]</cite>。通过权重衰减、层归一化、复杂的学习率调度器等标准机器学习技术维持稳定。专门的优化器和梯度范数监控，有助于防止参数在高强度预训练期间发散。图 <a href="#Ch3.F4" title="Figure 3.4 ‣ 3.2.2 Pretrain ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.4</span></a> 举例说明切换嵌入层如何使训练更稳定。左图展示 336M 和 752M BERT 模型的训练损失。原始架构在 336M 模型上表现良好，而（b）的修改可实现更稳定、损失更低的训练 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib52" title="" class="ltx_ref">Shoeybi et al., 2020</a>]</cite>。</p>
 </div>
-<figure id="Ch3.F4" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/glm_spike.png" id="Ch3.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:357/194;" width="357" height="194" alt="原书插图，说明见图注" loading="lazy" decoding="async">
-<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0035">图 3.4：BERT 模型使用原始架构（a）与重新排列架构（b）的训练损失 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib52" title="" class="ltx_ref">Shoeybi et al., 2020</a>]</cite></figcaption>
+<figure id="Ch3.F4" class="ltx_figure"><a href="images/img015-zh.svg" target="_blank" rel="noopener noreferrer" title="查看完整尺寸中文插图"><img src="images/img015-zh.svg" id="Ch3.F4.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:1560/848;" width="1560" height="848" alt="中文插图，说明见图注；点击查看完整尺寸" loading="lazy" decoding="async" data-localized-image="img015">
+</a><figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0035">图 3.4：BERT 模型使用原始架构（a）与重新排列架构（b）的训练损失 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib52" title="" class="ltx_ref">Shoeybi et al., 2020</a>]</cite></figcaption>
 </figure>
 </section>
 <section id="Ch3.S2.SS3" class="ltx_subsection">
@@ -200,8 +200,8 @@
 <div id="Ch3.S2.SS4.p3" class="ltx_para">
 <p id="Ch3.S2.SS4.p3.1" class="ltx_p" data-translation-id="ch03-0049">标准偏好调优方法包括基于人类反馈的强化学习（RLHF）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib7" title="" class="ltx_ref">Ouyang et al., 2022</a>]</cite>，即训练奖励模型近似人类价值；以及直接偏好优化（DPO）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib28" title="" class="ltx_ref">Rafailov et al., 2024</a>]</cite>，即直接根据偏好数据优化策略。图 <a href="#Ch3.F5" title="Figure 3.5 ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.5</span></a> 给出 RLHF 的总体概览。为应对人工标注的瓶颈，现代流水线越来越多采用基于 AI 反馈的强化学习（RLAIF）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib51" title="" class="ltx_ref">Bai et al., 2022</a>]</cite>，由更强的模型生成偏好信号。</p>
 </div>
-<figure id="Ch3.F5" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/rlhf_loop.png" id="Ch3.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:238/121;" width="238" height="121" alt="原书插图，说明见图注" loading="lazy" decoding="async">
-<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0050">图 3.5：RLHF 总体概览：训练奖励模型（左），并依据该奖励模型优化语言模型（策略）<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibb.bib50" title="" class="ltx_ref">Dong et al. [2024]</a></cite></figcaption>
+<figure id="Ch3.F5" class="ltx_figure"><a href="images/img016-zh.svg" target="_blank" rel="noopener noreferrer" title="查看完整尺寸中文插图"><img src="images/img016-zh.svg" id="Ch3.F5.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:1810/918;" width="1810" height="918" alt="中文插图，说明见图注；点击查看完整尺寸" loading="lazy" decoding="async" data-localized-image="img016">
+</a><figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0050">图 3.5：RLHF 总体概览：训练奖励模型（左），并依据该奖励模型优化语言模型（策略）<cite class="ltx_cite ltx_citemacro_citet"><a href="#bibb.bib50" title="" class="ltx_ref">Dong et al. [2024]</a></cite></figcaption>
 </figure>
 <div id="Ch3.S2.SS4.p4" class="ltx_para">
 <p id="Ch3.S2.SS4.p4.1" class="ltx_p" data-translation-id="ch03-0051">实现人类价值对齐并不容易，我们通常区分安全对齐、价值对齐和偏好对齐。最后一种情况的复杂性在于，偏好是因人而异的主观偏好（例如写作风格）。</p>
@@ -229,8 +229,8 @@
 <div id="Ch3.S2.SS4.SSS0.Px3.p1" class="ltx_para">
 <p id="Ch3.S2.SS4.SSS0.Px3.p1.1" class="ltx_p" data-translation-id="ch03-0058">最后，在数学或编程等存在客观真值的领域，采用称为可验证奖励强化学习（RLVR）的方法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib2" title="" class="ltx_ref">Lambert et al., 2024</a>]</cite>。不同于标准 RLHF，RLVR 利用真实答案信号优化客观正确性，稳健地改善推理能力，例如能够编译的代码，或正确的数学解。后者常使用组相对策略优化（GRPO）算法 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib5" title="" class="ltx_ref">Guo et al., 2025</a>]</cite>，这是近端策略优化（PPO）的变体，在增强数学推理能力的同时优化 PPO 的内存使用。它从策略模型中采样多个回答，利用验证器评估的相对质量计算奖励。模型不依靠人工标签学习什么算好答案，而是直接从确定性验证器获得奖励（+1 或 -1）<cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib5" title="" class="ltx_ref">Guo et al., 2025</a>, <a href="#bibb.bib10" title="" class="ltx_ref">Shao et al., 2024</a>]</cite>，见图 <a href="#Ch3.F6" title="Figure 3.6 ‣ Objective alignment ‣ 3.2.4 Preference Tuning ‣ 3.2 Training Pipeline ‣ Chapter 3 The Large Language Model Training Pipeline ‣ Part I Language Modeling ‣ Agentic Large Language Models" class="ltx_ref"><span class="ltx_text ltx_ref_tag">3.6</span></a>。</p>
 </div>
-<figure id="Ch3.F6" class="ltx_figure"><img src="https://arxiv.org/html/2610.13455v1/part1/visuals/grpo.png" id="Ch3.F6.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:381/162;" width="381" height="162" alt="原书插图，说明见图注" loading="lazy" decoding="async">
-<figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0059">图 3.6：RLHF（具体为 PPO）与 RLVR（具体为 GRPO）方法比较 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib10" title="" class="ltx_ref">Shao et al., 2024</a>]</cite></figcaption>
+<figure id="Ch3.F6" class="ltx_figure"><a href="images/img017-zh.svg" target="_blank" rel="noopener noreferrer" title="查看完整尺寸中文插图"><img src="images/img017-zh.svg" id="Ch3.F6.g1" class="ltx_graphics ltx_centering ltx_img_landscape" style="aspect-ratio:2304/978;" width="2304" height="978" alt="中文插图，说明见图注；点击查看完整尺寸" loading="lazy" decoding="async" data-localized-image="img017">
+</a><figcaption class="ltx_caption ltx_centering" data-translation-id="ch03-0059">图 3.6：RLHF（具体为 PPO）与 RLVR（具体为 GRPO）方法比较 <cite class="ltx_cite ltx_citemacro_citep">[<a href="#bibb.bib10" title="" class="ltx_ref">Shao et al., 2024</a>]</cite></figcaption>
 </figure>
 </section>
 </section>
@@ -984,4 +984,4 @@
 <nav class="page-turn" aria-label="翻页"><a href="ch02.html">← 第 2 章</a><a href="index.html">全书目录</a><a href="ch04.html">第 4 章 →</a></nav><footer class="reader-footer"><div class="provenance"><p>原著：Max van Duijn · Michiel van der Meer · Aske Plaat · Niki van Stein · arXiv:2610.13455v1 · 2026-10-09</p>
 <p>本版为 AI 辅助中文翻译，未经原作者审校。正文、标题、图注与表格文字译为中文；数学记号、可执行代码和参考文献条目保留原文。遇到歧义请核对英文。</p>
 <p><a href="https://arxiv.org/html/2610.13455v1">英文原文</a> · <a href="https://arxiv.org/pdf/2610.13455v1">原书 PDF</a> · <a href="https://creativecommons.org/publicdomain/zero/1.0/">原书授权：CC0 1.0</a></p>
-<p>原书插图从 arXiv 加载，图中文字保留原貌；联网阅读可查看插图。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>
+<p>插图已保存为本地中文文字版，点击可查看完整尺寸。数学符号、数值、代码与专名保留；作为实验材料的原文附中文对照。图 3.1 从原书 PDF 恢复。少量原图极小或截断文字无法可靠辨读，已在对应图中注明。本版不代表作者认可或背书。</p></div><a href="#main">返回本页顶部 ↑</a></footer></main></div></body></html>

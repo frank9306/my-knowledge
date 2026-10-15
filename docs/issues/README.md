@@ -15,6 +15,7 @@ None.
 | ID | Title |
 |---|---|
 | [ISSUE-0028](ISSUE-0028-redesign-the-knowledge-site-as-an-interactive-knowledge-atlas.md) | Redesign the knowledge site as an interactive knowledge atlas |
+| [ISSUE-0032](ISSUE-0032-localize-textbook-illustrations-and-fix-static-book-navigation.md) | Localize textbook illustrations and fix static-book navigation |
 
 ## Blocked
 

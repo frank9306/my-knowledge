@@ -85,7 +85,20 @@ export default defineConfig({
   },
   ignoreDeadLinks: [/^https?:\/\/localhost(:\d+)?/, /^https?:\/\/127\.0\.0\.1(:\d+)?/],
   markdown: {
-    html: false
+    html: false,
+    config(md) {
+      const renderLink = md.renderer.rules.link_open
+      md.renderer.rules.link_open = (tokens, index, options, env, self) => {
+        const token = tokens[index]
+        if (token.attrGet('href')?.startsWith('/books/agentic-llms-zh/')) {
+          token.attrSet('target', '_blank')
+          token.attrSet('rel', 'noopener noreferrer')
+        }
+        return renderLink
+          ? renderLink(tokens, index, options, env, self)
+          : self.renderToken(tokens, index, options)
+      }
+    }
   },
   themeConfig: {
     rssUrl: `${siteUrl}/rss.xml`,

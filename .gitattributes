@@ -1,0 +1,2 @@
+# Keep audited figure bytes identical on Windows and Linux checkouts.
+docs/public/books/agentic-llms-zh/images/*.svg text eol=lf
