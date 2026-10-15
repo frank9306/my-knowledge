@@ -24,12 +24,16 @@ let browser
 try{
   await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve))
   const base=process.env.BOOK_TEST_BASE||`http://127.0.0.1:${server.address().port}`
-  browser=await chromium.launch({executablePath:process.argv[3]||'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true})
+  const proxyUrl=process.env.BOOK_TEST_BASE&&(process.env.HTTPS_PROXY||process.env.HTTP_PROXY)
+  const parsedProxy=proxyUrl?new URL(proxyUrl):null
+  const proxy=parsedProxy?{server:parsedProxy.origin,username:decodeURIComponent(parsedProxy.username),password:decodeURIComponent(parsedProxy.password)}:undefined
+  browser=await chromium.launch({executablePath:process.argv[3]||'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true,proxy})
   const context=await browser.newContext({viewport:{width:1280,height:900}})
   if(!process.env.BOOK_TEST_BASE)await context.route('https://**/*',route=>route.abort())
   const page=await context.newPage()
   page.setDefaultTimeout(10000)
-  await page.goto(base+'/ai-agent/agentic-llms-chinese.html',{waitUntil:'networkidle'})
+  await page.goto(base+'/ai-agent/agentic-llms-chinese.html',{waitUntil:process.env.BOOK_TEST_BASE?'domcontentloaded':'networkidle',timeout:30000})
+  if(process.env.BOOK_TEST_BASE)await page.waitForFunction(()=>Boolean(document.querySelector('#app')?.__vue_app__),null,{timeout:30000})
   const [newPage]=await Promise.all([
     context.waitForEvent('page',{timeout:1500}).catch(()=>null),
     page.getByRole('link',{name:'打开中文版阅读页 →',exact:true}).click()
@@ -50,7 +54,7 @@ try{
   await figure.evaluate(img=>img.decode())
   assert.ok(await figure.evaluate(img=>img.naturalWidth>0),'local Chinese SVG must load')
   assert.equal(await figure.locator('..').getAttribute('href'),'images/img001-zh.svg')
-  await direct.goto(base+'/books/agentic-llms-zh/ch03.html')
+  await direct.goto(base+'/books/agentic-llms-zh/ch03.html',{waitUntil:'domcontentloaded'})
   const recovered=direct.locator('img[data-localized-image="img012"]')
   await recovered.scrollIntoViewIfNeeded()
   await recovered.evaluate(img=>img.decode())

@@ -1,12 +1,11 @@
 ---
 id: ISSUE-0032
 title: "Localize textbook illustrations and fix static-book navigation"
-status: in-progress
+status: done
 priority: medium
 created: 2026-10-15
 updated: 2026-10-15
-closed:
-sources: ["https://knowledge.webfrank.top/books/agentic-llms-zh/"]
+closed: 2026-10-15
 related_adrs: []
 depends_on: []
 ---
@@ -23,10 +22,10 @@ Provide Chinese in-image labels while preserving technical data and make navigat
 
 ## Acceptance criteria
 
-- [ ] Translate human-language text inside every textbook illustration; preserve mathematical notation, measured values, code, model names and linguistic tokens where they are the scientific object, with Chinese explanations where needed.
-- [ ] Publish local Chinese figure assets with a complete image/region audit, retain source attribution, recover any broken original illustration where source evidence exists, and inspect translated figures for missing labels or changed geometry.
-- [ ] Clicking book links from a VitePress page loads the real standalone book instead of a missing SPA route; direct directory URL and chapter links work.
-- [ ] Production build, image/HTML integrity checks, actual navigation regression and desktop/mobile visual inspection pass; deployment and live URLs are verified.
+- [x] Translate human-language text inside every textbook illustration; preserve mathematical notation, measured values, code, model names and linguistic tokens where they are the scientific object, with Chinese explanations where needed.
+- [x] Publish local Chinese figure assets with a complete image/region audit, retain source attribution, recover any broken original illustration where source evidence exists, and inspect translated figures for missing labels or changed geometry.
+- [x] Clicking book links from a VitePress page loads the real standalone book instead of a missing SPA route; direct directory URL and chapter links work.
+- [x] Production build, image/HTML integrity checks, actual navigation regression and desktop/mobile visual inspection pass; deployment and live URLs are verified.
 
 ## Out of scope
 
@@ -46,7 +45,7 @@ Inventoried 90 unique image URLs across 91 image references. Downloaded 89 origi
 
 ## Verification
 
-The production build and actual-browser navigation regression pass. The regression covers the VitePress entry link, direct directory URL, chapter navigation, local SVG decoding and recovered Figure 3.1. All 23 chapters pass source comparison, including 681 MathML elements and executable code. Read-only review against baseline e0b51f566413eb798863f4e6d90c2e4f3f52acfd found no P0–P3 findings. It covered the tracked config/article diff, untracked static-book tests, current book/image builders, source/hash validation, escaped SVG text, output aspect ratios and polygon erasers. All 90 originals and their Chinese renderings were visually reviewed. Final verification passes: pnpm docs:build (README sync, DESIGN lint, homepage scene check, VitePress); 13 Node tests; native browser entry/directory/chapter/SVG decoding regression; 92 chapter/theme/desktop/mobile cases; six figure layout, natural aspect ratio and full-size zoom cases; source comparison for 2,780 translation units, 681 MathML elements and code; 90 embedded original hashes, 1,589 complete Chinese overlays, 91 image references and 117 build files byte-equal to their public sources. Final color sampling honors original ICC profiles and expresses overlay colors in sRGB; exact wedge colors and equation-adjacent boundaries were rechecked after correction. Deployment and live verification remain pending.
+The production build and actual-browser navigation regression pass. The regression covers the VitePress entry link, direct directory URL, chapter navigation, local SVG decoding and recovered Figure 3.1. All 23 chapters pass source comparison, including 681 MathML elements and executable code. Read-only review against baseline e0b51f566413eb798863f4e6d90c2e4f3f52acfd found no P0–P3 findings. It covered the tracked config/article diff, untracked static-book tests, current book/image builders, source/hash validation, escaped SVG text, output aspect ratios and polygon erasers. All 90 originals and their Chinese renderings were visually reviewed. Final verification passes: pnpm docs:build (README sync, DESIGN lint, homepage scene check, VitePress); 13 Node tests; native browser entry/directory/chapter/SVG decoding regression; 92 chapter/theme/desktop/mobile cases; six figure layout, natural aspect ratio and full-size zoom cases; source comparison for 2,780 translation units, 681 MathML elements and code; 90 embedded original hashes, 1,589 complete Chinese overlays, 91 image references and 117 build files byte-equal to their public sources. Final color sampling honors original ICC profiles and expresses overlay colors in sRGB; exact wedge colors and equation-adjacent boundaries were rechecked after correction. Publication commit 069856f9c992d79efff99970066f2cb2cefd9f80 deployed successfully in https://github.com/frank9306/my-knowledge/actions/runs/38673527121. All 117 reader files/assets return HTTP 200 and equal Git blobs after only the previously observed Cloudflare JS-detection suffix and DOI HTTPS rewrite. Homepage/article return 200. The live hydrated VitePress entry click opens the standalone book; direct directory access, chapter navigation, local Chinese SVG decoding and recovered Figure 3.1 pass. Initial direct headless-browser navigation timed out because Chrome did not honor the configured HTTP proxy; the harness now uses that existing proxy for live checks and waits for Vue hydration, and the rerun passes. Audited SVG files use scoped LF checkout attributes for reproducible hashes on Windows and Linux.
 
 ## Activity log
 
@@ -58,6 +57,8 @@ Issue created from the supplied project input.
 
 ### 2026-10-15 — Status changed from ready to in-progress.
 
+### 2026-10-15 — Status changed from in-progress to done.
+
 ## Completion summary
 
-Local implementation and review complete; publication verification pending.
+Published Chinese text versions of 90 local textbook illustrations with preserved scientific data, full-size zoom, source audit and recovered Figure 3.1; fixed VitePress static-book navigation. Production build, 13 tests, 92 responsive/theme cases, six figure/zoom cases, all 117 live files and actual live navigation pass. Publication commit 069856f9c992d79efff99970066f2cb2cefd9f80.
