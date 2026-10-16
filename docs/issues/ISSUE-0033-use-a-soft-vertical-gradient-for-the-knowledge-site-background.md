@@ -63,3 +63,8 @@ Applied a soft lighter-top/deeper-bottom gradient across the shared knowledge-si
 ### 2026-10-16 - Publication authorized
 
 The owner approved the gradient and explicitly requested commit and publication. Publish only the background changes and their documentation through the existing main-branch GitHub Pages workflow; preserve unrelated notes, ISSUE-0026/0027 and September changelog changes. Deployment confirmation will be recorded after the workflow and live site have been checked.
+
+
+### 2026-10-16 - Publication verified
+
+Implementation commit fe114ea353b9d2255eacb19e99c2d9dc6a10deb2 was pushed to main and deployed successfully by https://github.com/frank9306/my-knowledge/actions/runs/38886561373. The first push hit a transient TLS error; the retry succeeded. All 155 published HTML routes return HTTP 200 and reference the appropriate shared stylesheet. This is two fewer than the 157 local preview pages because unrelated untracked ISSUE-0026/0027 records were intentionally excluded from publication. The live site-canvas.css and reader.css match their committed Git blobs. Twelve real-browser live cases passed for dark/light home, article and standalone book pages at desktop and 375px sizes. No publication of unrelated notes or September changelog changes occurred. CI emitted existing bundle-size and upstream Actions runtime/runner migration warnings; build and deploy completed successfully.
