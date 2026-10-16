@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 
-const [landing, timeline, css, config] = await Promise.all([
+const [landing, timeline, css, config, canvas, reader] = await Promise.all([
   readFile(new URL('../docs/.vitepress/theme/HomeLanding.vue', import.meta.url), 'utf8'),
   readFile(new URL('../docs/.vitepress/theme/HomeTimeline.vue', import.meta.url), 'utf8'),
   readFile(new URL('../docs/.vitepress/theme/custom.css', import.meta.url), 'utf8'),
-  readFile(new URL('../docs/.vitepress/config.ts', import.meta.url), 'utf8')
+  readFile(new URL('../docs/.vitepress/config.ts', import.meta.url), 'utf8'),
+  readFile(new URL('../docs/public/site-canvas.css', import.meta.url), 'utf8'),
+  readFile(new URL('../docs/public/books/agentic-llms-zh/reader.css', import.meta.url), 'utf8')
 ])
 
 assert.match(landing, /<main class="knowledge-atlas"/, 'The homepage must expose the Knowledge Atlas surface.')
@@ -26,8 +28,14 @@ assert.match(timeline, /aria-live="polite"/, 'Filtered article counts must be an
 assert.match(timeline, /data-fidelity="headline"/, 'The hero headline must expose a stable visual baseline anchor.')
 assert.match(timeline, /data-fidelity="map"/, 'The topic map must expose a stable visual baseline anchor.')
 
-assert.match(css, /--atlas-canvas:\s*#0b1020/, 'The design system must define the ink-navy atlas canvas.')
-assert.match(css, /--atlas-accent:\s*#5d7cff/, 'The design system must define the approved cobalt accent.')
+assert.match(canvas, /--site-canvas-dark-mid:\s*#0b1020/, 'The shared design system must retain the ink-navy canvas.')
+assert.match(css, /\.dark\s*\{[^}]*--atlas-canvas:\s*var\(--site-canvas-dark-mid\)/s, 'The dark atlas must consume the shared ink-navy canvas.')
+assert.match(css, /--atlas-accent:\s*#708cff/, 'The design system must define the readable cobalt accent.')
+assert.match(config, /rel: 'stylesheet', href: `\$\{base\}site-canvas\.css`/, 'Every VitePress page must load the shared canvas stylesheet.')
+assert.match(reader, /^@import url\("\.\.\/\.\.\/site-canvas\.css"\);/, 'The standalone reader must load the same canvas stylesheet.')
+for (const [name, source] of [['atlas', css], ['reader', reader]]) {
+  assert.match(source, /background:\s*var\(--(?:atlas-canvas|bg)\) var\(--site-canvas-gradient\) fixed/, `The ${name} must render the shared gradient.`)
+}
 assert.match(css, /\.atlas-hero\s*\{[^}]*grid-template-columns:/s, 'The desktop hero must use a two-column grid.')
 assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*\.atlas-hero\s*\{[^}]*grid-template-columns:\s*1fr/s, 'The knowledge map must collapse to one column on mobile.')
 assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/, 'The theme must provide a reduced-motion path.')

@@ -1,0 +1,10 @@
+/* Shared by the VitePress theme and standalone readers. */
+:root {
+  --site-canvas-light-top: #fcfdff;
+  --site-canvas-light-mid: #f4f7ff;
+  --site-canvas-light-bottom: #d5e1f4;
+  --site-canvas-dark-top: #1a2943;
+  --site-canvas-dark-mid: #0b1020;
+  --site-canvas-dark-bottom: #050914;
+  --site-canvas-gradient: linear-gradient(180deg, var(--site-canvas-top) 0%, var(--site-canvas-mid) 58%, var(--site-canvas-bottom) 100%);
+}

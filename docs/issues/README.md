@@ -52,6 +52,8 @@ None.
 | [ISSUE-0030](ISSUE-0030-add-an-rss-copy-button-and-intent-analytics.md) | Add an RSS copy button and intent analytics |
 | [ISSUE-0031](ISSUE-0031-translate-agentic-large-language-models-into-chinese-and-publish-html.md) | Translate Agentic Large Language Models into Chinese and publish HTML |
 | [ISSUE-0032](ISSUE-0032-localize-textbook-illustrations-and-fix-static-book-navigation.md) | Localize textbook illustrations and fix static-book navigation |
+| [ISSUE-0033](ISSUE-0033-use-a-soft-vertical-gradient-for-the-knowledge-site-background.md) | Use a soft vertical gradient for the knowledge site background |
+| [ISSUE-0034](ISSUE-0034-strengthen-the-gradient-and-cover-every-site-page.md) | Strengthen the gradient and cover every site page |
 
 ## Cancelled
 

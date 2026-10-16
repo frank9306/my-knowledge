@@ -1,11 +1,16 @@
 :root {
-  --atlas-canvas: #f4f7ff;
+  --atlas-canvas: var(--site-canvas-light-mid);
+  --atlas-canvas-top: var(--site-canvas-light-top);
+  --atlas-canvas-bottom: var(--site-canvas-light-bottom);
+  --site-canvas-top: var(--atlas-canvas-top);
+  --site-canvas-mid: var(--atlas-canvas);
+  --site-canvas-bottom: var(--atlas-canvas-bottom);
   --atlas-surface: #ffffff;
   --atlas-surface-soft: #eaf0ff;
   --atlas-text: #10182a;
-  --atlas-text-muted: #586783;
-  --atlas-accent: #4e6ee8;
-  --atlas-accent-strong: #3859d5;
+  --atlas-text-muted: #53627e;
+  --atlas-accent: #3657ce;
+  --atlas-accent-strong: #3454cc;
   --atlas-line: #cfd8ee;
   --atlas-line-strong: #9eadd0;
   --atlas-focus: #294fcf;
@@ -14,6 +19,7 @@
   --vp-c-brand-1: var(--atlas-accent);
   --vp-c-brand-2: var(--atlas-accent-strong);
   --vp-c-brand-3: #7690f4;
+  --vp-nav-bg-color: var(--atlas-canvas-top);
   --vp-c-bg: var(--atlas-canvas);
   --vp-c-bg-alt: var(--atlas-surface-soft);
   --vp-c-bg-soft: var(--atlas-surface);
@@ -24,12 +30,14 @@
 }
 
 .dark {
-  --atlas-canvas: #0b1020;
+  --atlas-canvas: var(--site-canvas-dark-mid);
+  --atlas-canvas-top: var(--site-canvas-dark-top);
+  --atlas-canvas-bottom: var(--site-canvas-dark-bottom);
   --atlas-surface: #10182a;
   --atlas-surface-soft: #131d31;
   --atlas-text: #edf2ff;
   --atlas-text-muted: #9ca8c2;
-  --atlas-accent: #5d7cff;
+  --atlas-accent: #708cff;
   --atlas-accent-strong: #7d96ff;
   --atlas-line: #24304a;
   --atlas-line-strong: #405174;
@@ -41,7 +49,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: var(--atlas-canvas);
+  background: var(--atlas-canvas) var(--site-canvas-gradient) fixed;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -68,11 +76,12 @@ input { -webkit-tap-highlight-color: transparent; }
 }
 
 /* Navigation */
-.VPNav { background: var(--atlas-canvas); }
+.VPNav { background: var(--atlas-canvas-top); }
+.Layout .VPFooter { background: transparent; }
 
 .VPNavBar {
   border-bottom: 1px solid var(--atlas-line);
-  background: color-mix(in srgb, var(--atlas-canvas) 94%, transparent) !important;
+  background: color-mix(in srgb, var(--atlas-canvas-top) 94%, transparent) !important;
   backdrop-filter: blur(14px);
 }
 
@@ -122,7 +131,7 @@ input { -webkit-tap-highlight-color: transparent; }
 .VPHome:has(.knowledge-atlas) {
   margin-bottom: 0;
   padding-bottom: 0;
-  background: var(--atlas-canvas);
+  background: transparent;
 }
 
 .VPHome:has(.knowledge-atlas) .VPHomeHero,
@@ -130,7 +139,7 @@ input { -webkit-tap-highlight-color: transparent; }
 
 .knowledge-atlas {
   min-height: 100svh;
-  background: var(--atlas-canvas);
+  background: transparent;
   color: var(--atlas-text);
 }
 

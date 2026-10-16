@@ -131,6 +131,7 @@ export default defineConfig({
     }
   },
   head: [
+    ['link', { rel: 'stylesheet', href: `${base}site-canvas.css` }],
     ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'FRANK / KNOWLEDGE RSS', href: `${siteUrl}/rss.xml` }],
     ['link', { rel: 'icon', href: `${base}logo.svg` }],
     ['meta', { name: 'theme-color', content: '#0b1020' }],
