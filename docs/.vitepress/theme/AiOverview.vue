@@ -26,10 +26,9 @@ const surfaces = [
   <main class="ai-overview">
     <header class="ai-hero">
       <div>
-        <p>PERSONAL AI SYSTEM</p>
-        <h1>把协作规则、可复用能力与公开入口，放在同一张图里。</h1>
+        <h1>与 AI 一起工作。</h1>
       </div>
-      <p>这里公开的不是一份工具清单，而是墩儿如何理解任务、调用能力、验证结果并与主人协作的工作系统。</p>
+      <p>协作规则、Agent Skills 与公开知识入口。</p>
     </header>
 
     <section class="ai-system-map" aria-label="个人 AI 协作系统入口">

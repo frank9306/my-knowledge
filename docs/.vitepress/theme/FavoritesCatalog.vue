@@ -12,9 +12,8 @@ const filtered = computed(() => filterFavorites(favorites, { query: query.value,
 <template>
   <main class="favorites-page">
     <header class="favorites-hero">
-      <p>TOOLS / REFERENCES</p>
-      <h1>把值得反复使用的东西，留在手边。</h1>
-      <span>这里不是链接仓库，而是一份经过使用、阅读和筛选后留下的工作台。</span>
+      <h1>留在手边。</h1>
+      <span>用过的工具，值得重读的文章。</span>
     </header>
 
     <section class="favorites-controls" aria-label="筛选工具收藏">

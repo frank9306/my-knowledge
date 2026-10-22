@@ -14,7 +14,7 @@ None.
 
 | ID | Title |
 |---|---|
-| [ISSUE-0028](ISSUE-0028-redesign-the-knowledge-site-as-an-interactive-knowledge-atlas.md) | Redesign the knowledge site as an interactive knowledge atlas |
+| [ISSUE-0035](ISSUE-0035-implement-and-publish-the-quiet-study-redesign.md) | Implement and publish the quiet study redesign |
 
 ## Blocked
 
@@ -60,3 +60,4 @@ None.
 | ID | Title |
 |---|---|
 | [ISSUE-0018](ISSUE-0018-embed-an-interactive-harness-engineering-mind-map.md) | Embed an interactive Harness engineering mind map |
+| [ISSUE-0028](ISSUE-0028-redesign-the-knowledge-site-as-an-interactive-knowledge-atlas.md) | Redesign the knowledge site as an interactive knowledge atlas |

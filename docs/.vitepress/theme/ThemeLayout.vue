@@ -45,8 +45,8 @@ watch(
 <template>
   <DefaultTheme.Layout>
     <template #nav-bar-content-after>
-      <RecentUpdates />
-      <RssSubscribe />
+      <RecentUpdates v-if="frontmatter.layout !== 'home'" />
+      <RssSubscribe v-if="frontmatter.layout !== 'home'" />
     </template>
     <template #home-hero-before>
       <HomeLanding v-if="frontmatter.layout === 'home'" />

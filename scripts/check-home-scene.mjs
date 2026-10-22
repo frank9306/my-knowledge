@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { readFile } from 'node:fs/promises'
+import { readFile, stat } from 'node:fs/promises'
 
 const [landing, timeline, css, config, canvas, reader] = await Promise.all([
   readFile(new URL('../docs/.vitepress/theme/HomeLanding.vue', import.meta.url), 'utf8'),
@@ -10,38 +10,31 @@ const [landing, timeline, css, config, canvas, reader] = await Promise.all([
   readFile(new URL('../docs/public/books/agentic-llms-zh/reader.css', import.meta.url), 'utf8')
 ])
 
-assert.match(landing, /<main class="knowledge-atlas"/, 'The homepage must expose the Knowledge Atlas surface.')
-assert.match(landing, /data-fidelity="canvas"/, 'The homepage canvas must expose a stable visual baseline anchor.')
-assert.match(landing, /<HomeTimeline\s*\/>/, 'The homepage must render the article discovery experience.')
-assert.doesNotMatch(landing, /CrtHead|CRT-404|knowledge-home__figure/, 'The retired CRT archivist must not render.')
-
-assert.match(timeline, /把零散经验，(?:<br>)?组织成可复用的系统。/, 'The approved positioning headline must render verbatim.')
-assert.match(timeline, /这里记录 AI Agent、自动化与前端工程中，真正解决过问题的方法。/, 'The approved supporting copy must render verbatim.')
-assert.match(timeline, /class="atlas-map"/, 'The homepage must expose the topic map as its signature element.')
-assert.match(timeline, /aria-label="知识主题地图"/, 'The topic map must have an accessible name.')
-assert.match(timeline, /AI Agent/, 'The topic map must include AI Agent.')
-assert.match(timeline, /Python 自动化/, 'The topic map must include Python automation.')
-assert.match(timeline, /RPA \/ Playwright/, 'The topic map must include RPA and Playwright.')
-assert.match(timeline, /Web \/ React/, 'The topic map must include Web and React.')
-assert.match(timeline, /v-model="query"/, 'The homepage must retain inline article search.')
-assert.match(timeline, /aria-live="polite"/, 'Filtered article counts must be announced politely.')
-assert.match(timeline, /data-fidelity="headline"/, 'The hero headline must expose a stable visual baseline anchor.')
-assert.match(timeline, /data-fidelity="map"/, 'The topic map must expose a stable visual baseline anchor.')
-
-assert.match(canvas, /--site-canvas-dark-mid:\s*#0b1020/, 'The shared design system must retain the ink-navy canvas.')
-assert.match(css, /\.dark\s*\{[^}]*--atlas-canvas:\s*var\(--site-canvas-dark-mid\)/s, 'The dark atlas must consume the shared ink-navy canvas.')
-assert.match(css, /--atlas-accent:\s*#708cff/, 'The design system must define the readable cobalt accent.')
-assert.match(config, /rel: 'stylesheet', href: `\$\{base\}site-canvas\.css`/, 'Every VitePress page must load the shared canvas stylesheet.')
-assert.match(reader, /^@import url\("\.\.\/\.\.\/site-canvas\.css"\);/, 'The standalone reader must load the same canvas stylesheet.')
-for (const [name, source] of [['atlas', css], ['reader', reader]]) {
-  assert.match(source, /background:\s*var\(--(?:atlas-canvas|bg)\) var\(--site-canvas-gradient\) fixed/, `The ${name} must render the shared gradient.`)
+assert.match(landing, /<main class="knowledge-study"/, 'The homepage must expose the approved quiet-study surface.')
+assert.match(landing, /<HomeTimeline\s*\/>/, 'The homepage must retain article discovery.')
+assert.doesNotMatch(landing, /CrtHead|CRT-404/, 'The retired CRT archivist must not render.')
+assert.match(timeline, /边学，<br>边记。/, 'The owner-approved short headline must render verbatim.')
+assert.match(timeline, /AI、代码与自动化笔记。/, 'The approved concise description must render verbatim.')
+assert.doesNotMatch(timeline, /class="atlas-map"/, 'The former topic map must not replace the approved photo hero.')
+assert.match(timeline, /aria-label="按主题阅读"/, 'Topic discovery must remain accessible.')
+assert.match(timeline, /v-model="query"/, 'The article archive must retain search.')
+assert.match(timeline, /aria-live="polite"/, 'Filtered counts must be announced.')
+assert.match(timeline, /data-fidelity="headline"/, 'Keep the visual baseline anchor.')
+for (const label of ['AI Agent', 'Python 自动化', 'RPA / Playwright', 'Web / React']) {
+  assert.ok(timeline.includes(label), `Keep topic ${label}.`)
 }
-assert.match(css, /\.atlas-hero\s*\{[^}]*grid-template-columns:/s, 'The desktop hero must use a two-column grid.')
-assert.match(css, /@media \(max-width:\s*767px\)[\s\S]*\.atlas-hero\s*\{[^}]*grid-template-columns:\s*1fr/s, 'The knowledge map must collapse to one column on mobile.')
-assert.match(css, /@media \(prefers-reduced-motion:\s*reduce\)/, 'The theme must provide a reduced-motion path.')
-
-for (const label of ['知识地图', '工具收藏', 'AI 协作系统']) {
-  assert.match(config, new RegExp(`text: '${label}'`), `The primary navigation must include ${label}.`)
+for (const entry of ['/favorites', '/ai', '/llms.txt']) {
+  assert.ok((landing + config).includes(entry), `Keep discovery entry ${entry}.`)
 }
-
-console.log('Knowledge Atlas homepage check passed.')
+assert.match(config, /initialValue: 'light'/, 'New visits must use the approved light appearance.')
+assert.match(css, /--atlas-accent:\s*#445d46/, 'Keep the approved sage token.')
+assert.match(css, /--atlas-canvas:\s*#faf9f6/, 'Keep the approved ivory token.')
+assert.match(css, /prefers-reduced-motion/, 'Keep the reduced-motion path.')
+assert.match(css, /overflow-x: clip/, 'The root must use clip rather than hidden.')
+const image = await stat(new URL('../docs/public/images/quiet-study/desk.webp', import.meta.url))
+assert.ok(image.size > 0 && image.size < 250000, 'Serve the optimized local desk asset.')
+// The standalone textbook is a separate presentation owner; retain its shared canvas contract.
+assert.match(config, /site-canvas\.css/, 'Keep shared canvas loading for existing consumers.')
+assert.match(canvas, /--site-canvas-dark-mid:\s*#0b1020/)
+assert.ok(reader.startsWith('@import url("../../site-canvas.css");'))
+console.log('Quiet-study homepage contract check passed; runtime behavior is checked in quiet-study.browser.mjs.')

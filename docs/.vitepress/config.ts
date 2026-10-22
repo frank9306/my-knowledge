@@ -33,10 +33,10 @@ function tokenizeSearchText(text: string) {
 }
 
 export default defineConfig({
-  title: 'FRANK / KNOWLEDGE',
-  description: '把 AI Agent、自动化与前端工程中的真实经验，组织成可检索、可复用的知识系统。',
+  title: 'Frank 的书房',
+  description: 'AI、代码与自动化笔记。',
   lang: 'zh-CN',
-  appearance: 'dark',
+  appearance: { initialValue: 'light' },
   base,
   cleanUrls: true,
   lastUpdated: true,
@@ -56,14 +56,14 @@ export default defineConfig({
   },
   transformHead({ page, title, description }) {
     const canonicalUrl = pageUrl(page)
-    const socialTitle = title || 'FRANK / KNOWLEDGE'
-    const socialDescription = description || '把 AI Agent、自动化与前端工程中的真实经验，组织成可检索、可复用的知识系统。'
+    const socialTitle = title || 'Frank 的书房'
+    const socialDescription = description || 'AI、代码与自动化笔记。'
 
     return [
       ['link', { rel: 'canonical', href: canonicalUrl }],
       ['meta', { property: 'og:type', content: 'website' }],
       ['meta', { property: 'og:locale', content: 'zh_CN' }],
-      ['meta', { property: 'og:site_name', content: 'FRANK / KNOWLEDGE' }],
+      ['meta', { property: 'og:site_name', content: 'Frank 的书房' }],
       ['meta', { property: 'og:title', content: socialTitle }],
       ['meta', { property: 'og:description', content: socialDescription }],
       ['meta', { property: 'og:url', content: canonicalUrl }],
@@ -76,7 +76,7 @@ export default defineConfig({
         JSON.stringify({
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          name: 'FRANK / KNOWLEDGE',
+          name: 'Frank 的书房',
           url: siteUrl,
           inLanguage: 'zh-CN'
         })
@@ -104,15 +104,25 @@ export default defineConfig({
     rssUrl: `${siteUrl}/rss.xml`,
     logo: '/logo.svg',
     nav: [
-      { text: '知识地图', link: '/' },
-      { text: '工具收藏', link: '/favorites' },
-      { text: 'AI 协作系统', link: '/ai' }
+      { text: '阅读', link: '/' },
+      { text: '专题', link: '/#study-topics' },
+      { text: '收藏', link: '/favorites' },
+      { text: 'AI 协作', link: '/ai' }
     ],
     sidebar: {},
     socialLinks: [{ icon: 'github', link: 'https://github.com/frank9306' }],
     search: {
       provider: 'local',
       options: {
+        translations: {
+          button: { buttonText: '搜索', buttonAriaLabel: '搜索全站文章' },
+          modal: {
+            noResultsText: '没有找到相关内容',
+            resetButtonTitle: '清除搜索',
+            displayDetails: '显示详情',
+            footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' }
+          }
+        },
         miniSearch: {
           options: {
             tokenize: tokenizeSearchText,
@@ -126,15 +136,15 @@ export default defineConfig({
       }
     },
     footer: {
-      message: '把解决过的问题，沉淀成可以再次调用的方法。',
+      message: '边学，边记。',
       copyright: 'Copyright © 2025-present Frank'
     }
   },
   head: [
     ['link', { rel: 'stylesheet', href: `${base}site-canvas.css` }],
-    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'FRANK / KNOWLEDGE RSS', href: `${siteUrl}/rss.xml` }],
+    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'Frank 的书房 RSS', href: `${siteUrl}/rss.xml` }],
     ['link', { rel: 'icon', href: `${base}logo.svg` }],
-    ['meta', { name: 'theme-color', content: '#0b1020' }],
+    ['meta', { name: 'theme-color', content: '#faf9f6' }],
     [
       'script',
       {

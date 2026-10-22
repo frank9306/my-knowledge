@@ -1,11 +1,11 @@
 ---
 id: ISSUE-0028
 title: "Redesign the knowledge site as an interactive knowledge atlas"
-status: in-progress
+status: cancelled
 priority: high
 created: 2026-09-30
-updated: 2026-10-08
-closed:
+updated: 2026-10-22
+closed: 2026-10-22
 sources: ["User-approved Knowledge Atlas direction, 2026-09-30"]
 related_adrs: []
 depends_on: []
@@ -70,10 +70,10 @@ Issue created from the supplied project input.
 
 ### 2026-09-30 — Status changed from ready to in-progress.
 
+### 2026-10-22 — Status changed from in-progress to cancelled.
+
+Prior completion assessment: Implementation and automated checks were complete, while real-browser desktop/mobile acceptance remained pending because preview access was blocked. On 2026-10-08 the user authorized publication through the existing GitHub Pages pipeline; publication was verified separately from visual acceptance. The publication instruction was to stage only the redesign and its documentation, preserve unrelated notes and ISSUE-0026/0027 changes, and verify the Pages workflow and public homepage after pushing. This history is retained here when replacing the former direction.
+
 ## Completion summary
 
-Implementation and automated checks are complete. Issue remains in-progress because real-browser desktop/mobile and visual acceptance checks could not be completed in this environment. On 2026-10-08 the user explicitly requested publication through the existing GitHub Pages pipeline. Deployment outcome is verified separately from the pending visual acceptance criteria.
-
-### 2026-10-08 — Publication authorized
-
-User requested publication. Stage only the redesign and its documentation; preserve unrelated notes and ISSUE-0026/0027 changes. Verify the GitHub Pages workflow and public homepage after pushing.
+Superseded by the owner-approved C quiet-study redesign and direct-publication request tracked in ISSUE-0035. Keep the prior implementation and verification history as provenance.
