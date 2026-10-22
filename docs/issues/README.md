@@ -12,9 +12,7 @@ None.
 
 ## In progress
 
-| ID | Title |
-|---|---|
-| [ISSUE-0035](ISSUE-0035-implement-and-publish-the-quiet-study-redesign.md) | Implement and publish the quiet study redesign |
+None.
 
 ## Blocked
 
@@ -54,6 +52,7 @@ None.
 | [ISSUE-0032](ISSUE-0032-localize-textbook-illustrations-and-fix-static-book-navigation.md) | Localize textbook illustrations and fix static-book navigation |
 | [ISSUE-0033](ISSUE-0033-use-a-soft-vertical-gradient-for-the-knowledge-site-background.md) | Use a soft vertical gradient for the knowledge site background |
 | [ISSUE-0034](ISSUE-0034-strengthen-the-gradient-and-cover-every-site-page.md) | Strengthen the gradient and cover every site page |
+| [ISSUE-0035](ISSUE-0035-implement-and-publish-the-quiet-study-redesign.md) | Implement and publish the quiet study redesign |
 
 ## Cancelled
 

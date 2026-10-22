@@ -1,11 +1,11 @@
 ---
 id: ISSUE-0035
 title: "Implement and publish the quiet study redesign"
-status: in-progress
+status: done
 priority: high
 created: 2026-10-22
 updated: 2026-10-22
-closed:
+closed: 2026-10-22
 sources: ["Owner-approved C mockup: knowledge-style-c-learn-and-note.png; implementation and direct publication authorized 2026-10-22"]
 related_adrs: []
 depends_on: []
@@ -28,7 +28,7 @@ Implement the approved quiet-study UI, retain content and discovery behavior, ve
 - [x] Navigation, article and collection surfaces share the quiet-study visual system; a fresh visit defaults to light while the dark option remains readable.
 - [x] Desktop and 320/375/414/768px layouts are browser-verified, without horizontal overflow; focus, reduced motion and image loading are verified.
 - [x] The production build, existing relevant tests, scoped browser checks and read-only review pass.
-- [ ] Task-owned changes are committed and deployed through the existing GitHub Pages workflow; the production domain serves the new design and key discovery endpoints.
+- [x] Task-owned changes are committed and deployed through the existing GitHub Pages workflow; the production domain serves the new design and key discovery endpoints.
 
 ## Out of scope
 
@@ -66,7 +66,7 @@ Additional affected existing files: FavoritesCatalog.vue and AiOverview.vue (sho
 - `node tests/rss-subscription.browser.mjs <installed-playwright> <installed-chromium> <review-folder>`: passed real clipboard copy, intent hook, denied-copy recovery, keyboard/Escape/outside dismissal and desktop/375px layout. Analytics ingestion is simulated.
 - `node tests/static-book-navigation.browser.mjs <installed-playwright> <installed-chromium>`: passed entry, direct directory, local illustrations and chapter navigation.
 - Read-only review base: c72e9a7, `git diff c72e9a7 --` scoped to the listed implementation and tracking files, plus new browser check and image. The new visual contract intentionally replaces prior Knowledge Atlas checks; reader contracts and existing behavior helpers are preserved. Review found the retained page count on reopening the archive; reset on collapse before final verification. No remaining P0/P1 or actionable P2/P3 source findings. No project architecture checker or native-device coverage is claimed. Brain CLI is unavailable; no brain files were hand-edited.
-- Publication: pending push and verified Pages deployment; the Issue stays in progress until production evidence is recorded.
+- Publication: implementation commit `31f12f262be8a534ee62b2d65112a26743b11c93` is on origin/main. [GitHub Pages run 39746495534](https://github.com/frank9306/my-knowledge/actions/runs/39746495534) completed successfully (build and deploy). The public-page browser suite passed against https://knowledge.webfrank.top at all five widths, including live search, mobile navigation, persistent theme and filters. Twelve live route/asset checks passed for home, collections, AI and remote-source entry pages, textbook, RSS, llms.txt, sitemap, hero and compiled CSS; the live WebP bytes match the source. Live desktop/mobile screenshots are saved in the originating task outputs. Only task-owned files were staged; original notes, ISSUE-0026/0027, September Changelog and their index rows remain local.
 
 ## Activity log
 
@@ -78,6 +78,8 @@ Issue created from the supplied project input.
 
 ### 2026-10-22 — Status changed from ready to in-progress.
 
+### 2026-10-22 — Status changed from in-progress to done.
+
 ## Completion summary
 
-Not completed.
+Implemented and published the approved quiet-study redesign with concise copy, responsive reading/index surfaces and preserved discovery tools. Local and production browser checks, 13 tests, build and read-only review passed; GitHub Pages run 39746495534 and production endpoints are verified.
