@@ -12,7 +12,9 @@ None.
 
 ## In progress
 
-None.
+| ID | Title |
+|---|---|
+| [ISSUE-0036](ISSUE-0036-publish-the-paperclip-codex-weixin-deployment-retrospective.md) | Publish the Paperclip Codex Weixin deployment retrospective |
 
 ## Blocked
 

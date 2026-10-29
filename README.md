@@ -14,7 +14,7 @@
 
 ## 专题文章
 
-本站共收录 74 篇专题文章。
+本站共收录 75 篇专题文章。
 
 ### AI 编程工程
 
@@ -89,6 +89,7 @@
 
 ### 博客文章
 
+- [七个 Agent，一家公司：我的 Paperclip 自部署实战](https://knowledge.webfrank.top/blog/paperclip-codex-weixin-agent-company/)
 - [代理能连，浏览器却打不开：一次代理链路排障实录](https://knowledge.webfrank.top/blog/proxy-chain-environment-inheritance-debugging/)
 - [我做了一个 Frontend Design Skill：让 AI 不只会写页面，还会做设计决策](https://knowledge.webfrank.top/blog/frontend-design-skill-production-workflow/)
 - [Harness Engineering 实战系列：从项目诊断到可持续闭环](https://knowledge.webfrank.top/blog/harness-engineering-practical-series/)
