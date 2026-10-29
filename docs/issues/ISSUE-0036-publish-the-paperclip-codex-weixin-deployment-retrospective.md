@@ -1,12 +1,11 @@
 ---
 id: ISSUE-0036
 title: "Publish the Paperclip Codex Weixin deployment retrospective"
-status: in-progress
+status: done
 priority: medium
 created: 2026-10-29
 updated: 2026-10-29
-closed:
-sources: ["Owner request in the current deployment chat, 2026-10-29"]
+closed: 2026-10-29
 related_adrs: []
 depends_on: []
 ---
@@ -27,7 +26,7 @@ Publish a source-checked Chinese retrospective using the supplied original organ
 - [x] Separate verified results, team-reported business checks, implementation choices, and unfinished isolation/browser work; publish no credentials or private endpoints.
 - [x] Use the owner-supplied original screenshot as the cover with descriptive alt text, provenance, and social-image metadata.
 - [x] Refresh generated navigation and pass the production documentation build and article-output checks.
-- [ ] Publish through the existing main/GitHub Pages workflow and verify the live article, cover, homepage discovery, and RSS entry.
+- [x] Publish through the existing main/GitHub Pages workflow and verify the live article, cover, homepage discovery, and RSS entry.
 
 ## Out of scope
 
@@ -55,6 +54,9 @@ Publish a source-checked Chinese retrospective using the supplied original organ
 - check_draft.py reports three long-sentence prompts caused by YAML frontmatter and Markdown tables; manually reviewed as structured content, with no unresolved placeholders or canned-phrase findings.
 - Browser bridge doctor reports no connected extensions. Interactive browser/viewport acceptance is unavailable; build and live HTTP/HTML/image checks remain required and will not be described as browser acceptance.
 - pnpm docs:build passes README sync (75 articles), design lint (zero errors/warnings), homepage contract check, VitePress rendering, and sitemap/RSS generation. The existing large-chunk advisory remains informational.
+- Publication commit: 46881e7ecd40c9c3ef48bc7985e65a77181e2ed7. GitHub Pages build and deployment succeeded: https://github.com/frank9306/my-knowledge/actions/runs/40851566255 .
+- Live HTTPS checks pass for the article title, descriptive original cover, social cover metadata, first homepage article position, RSS, sitemap, valid Unicode, and private-material scan. Downloaded cover SHA-256 matches the supplied source exactly.
+- Public article: https://knowledge.webfrank.top/blog/paperclip-codex-weixin-agent-company .
 
 ## Activity log
 
@@ -66,6 +68,8 @@ Issue created from the supplied project input.
 
 ### 2026-10-29 — Status changed from ready to in-progress.
 
+### 2026-10-29 — Status changed from in-progress to done.
+
 ## Completion summary
 
-Not completed.
+Published the source-checked seven-agent Paperclip/Codex/Weixin deployment retrospective with the original supplied cover; production build, GitHub Pages deployment, and live article/image/discovery checks pass.
