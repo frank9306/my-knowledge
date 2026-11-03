@@ -54,6 +54,7 @@ None.
 | [ISSUE-0034](ISSUE-0034-strengthen-the-gradient-and-cover-every-site-page.md) | Strengthen the gradient and cover every site page |
 | [ISSUE-0035](ISSUE-0035-implement-and-publish-the-quiet-study-redesign.md) | Implement and publish the quiet study redesign |
 | [ISSUE-0036](ISSUE-0036-publish-the-paperclip-codex-weixin-deployment-retrospective.md) | Publish the Paperclip Codex Weixin deployment retrospective |
+| [ISSUE-0039](ISSUE-0039-rewrite-paperclip-article-around-windows-native-franks-team.md) | Rewrite Paperclip article around Windows-native Franks Team |
 
 ## Cancelled
 
