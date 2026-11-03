@@ -84,7 +84,7 @@ Issue created from the supplied project input.
 
 主人已于2026-11-03T09:53:08.751Z通过human_only确认卡96f2ce81-51d8-4a56-a967-2728958262a3真实接受固定文章交付；该卡绑定原验收报告revision 61361c9e-ed17-4f58-91f2-6145c3cb0b54。本地Issue当前done，全部验收项已勾选，索引与2026-11 Changelog已同步。接受与发布分离，未暂存、提交、分支、PR、推送或发布。
 
-最终独立QA：[review](/FRA/issues/FRA-6#document-review) revision 11b05315-2b4d-46b3-aaf8-de9a6209d6a8；[qa](/FRA/issues/FRA-6#document-qa) revision f722d945-1902-435d-a76b-7965e00e4012。P2-WM-01（水印颜色）与P2-TIME-01（叙述时序）均经独立复验首轮关闭，各1/2；没有未解决P0/P1/P2。负责人已完成[最终交付核查](/FRA/issues/FRA-4#document-delivery-check)，接受后补记版本为19fa6daf-8c34-4a5e-8935-76fe09032f10。文章SHA256保持536e96a7f815180c3b3de7886287dae86afc025c5905c401a16f866c007ced3c，六图未改。
+最终独立QA：review（Paperclip FRA-6#document-review） revision 11b05315-2b4d-46b3-aaf8-de9a6209d6a8；qa（Paperclip FRA-6#document-qa） revision f722d945-1902-435d-a76b-7965e00e4012。P2-WM-01（水印颜色）与P2-TIME-01（叙述时序）均经独立复验首轮关闭，各1/2；没有未解决P0/P1/P2。负责人已完成最终交付核查（Paperclip FRA-4#document-delivery-check），接受后补记版本为19fa6daf-8c34-4a5e-8935-76fe09032f10。文章SHA256保持536e96a7f815180c3b3de7886287dae86afc025c5905c401a16f866c007ced3c，六图未改。
 
 来源：上述确认卡及报告版本；主人/监督2026-11-03评论064dcbbb-642d-4505-a518-50eedecc357f；原接受记录c7b94d43-a5ff-4d89-b40a-fe34dde8c7b2。下列开发与修复记录均为历史阶段证据，其中“待QA/负责人/主人接受”“in-progress”“0/2”只描述当时状态，不代表当前状态。
 
