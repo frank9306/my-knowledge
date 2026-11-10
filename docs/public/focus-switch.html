@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>专注模式</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100dvh; display: grid; place-items: center; background: #e9e9e9; }
+  main {
+    --night: 0;
+    --ink: #10152b;
+    display: grid;
+    place-items: center;
+    width: min(100vw, 100dvh * 16 / 9);
+    aspect-ratio: 16 / 9;
+    background: #f5ecd9;
+    background: color-mix(in oklab, #f5ecd9, var(--ink) calc(var(--night) * 100%));
+  }
+  .component { position: relative; width: 60%; aspect-ratio: 1.6439; }
+  canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+  canvas[hidden] { display: none; }
+  button {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: 85.25%;
+    height: max(42px, 75.76%);
+    max-height: 100%;
+    border: 0;
+    border-radius: 999px;
+    padding: 0;
+    background: transparent;
+    touch-action: none;
+    cursor: grab;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:active { cursor: grabbing; }
+  button:focus-visible { outline: 2px solid #957133; outline-offset: 2px; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .embed { height: 100%; overflow: hidden; }
+  .embed body, .embed main { width: 100%; height: 100%; min-height: 0; aspect-ratio: auto; background: transparent; }
+  .embed .component { width: 100%; height: 100%; aspect-ratio: auto; }
+  .embed canvas { position: absolute; inset: 0; }
+  .embed button:focus-visible { outline-offset: 0; }
+</style>
+</head>
+<body>
+<main>
+  <div class="component">
+    <canvas id="composite" aria-hidden="true"></canvas>
+    <canvas id="fallback" aria-hidden="true" hidden></canvas>
+    <button type="button" role="switch" aria-label="专注模式" aria-checked="false" aria-describedby="phase"></button>
+    <span id="phase" class="sr" role="status">可以打扰</span>
+  </div>
+</main>
+<script type="module">
+const embed = new URLSearchParams(location.search).has('embed')
+document.documentElement.classList.toggle('embed', embed)
+const stage = document.querySelector('main')
+const component = document.querySelector('.component')
+const button = document.querySelector('button')
+const phase = document.querySelector('#phase')
+const composite = document.querySelector('#composite')
+const fallback = document.querySelector('#fallback')
+if (embed) button.setAttribute('aria-label', '主题切换')
+const motion = matchMedia('(prefers-reduced-motion: reduce)')
+
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x))
+const mix = (a, b, t) => a + (b - a) * t
+function smooth(a, b, x) {
+  const t = clamp((x - a) / (b - a))
+  return t * t * (3 - 2 * t)
+}
+const approach = (rate, dt) => 1 - Math.exp(-rate * dt)
+const [ROOM_W, ROOM_H, PAD] = [192, 112, 14]
+const W = ROOM_W + PAD * 2, H = ROOM_H + PAD * 2
+const GRID_W = 72, GRID_H = Math.round(H * GRID_W / W)
+const keys = [[0,3],[1.5,3],[2,3],[2.5,2],[3,1],[3.6,0],[10,0],[15,0],[17,1],[18,1],[19,2],[20.3,3],[24,3]]
+const bayer = [0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5]
+const bases = [
+  ['f5ecd9', [.76,.85,.93,.985]],
+  ['8c9a62', [.40,.52,.64,.76]],
+  ['1b2146', [.17,.25,.33,.44]],
+  ['7f97b3', [.50,.62,.74,.86]],
+  ['efa02c', [.50,.66,.80,.92]],
+]
+const linear = v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4
+const srgb = v => v <= .0031308 ? 12.92 * v : 1.055 * v ** (1 / 2.4) - .055
+function chroma(hex) {
+  const [r,g,b] = hex.match(/../g).map(v => linear(parseInt(v, 16) / 255))
+  const l = Math.cbrt(.4122214708*r + .5363325363*g + .0514459929*b)
+  const m = Math.cbrt(.2119034982*r + .6806995451*g + .1073969566*b)
+  const s = Math.cbrt(.0883024619*r + .2817188376*g + .6299787005*b)
+  return [1.9779984951*l - 2.428592205*m + .4505937099*s, .0259040371*l + .7827717662*m - .808675766*s]
+}
+function tone(L, a, b) {
+  for (let saturation = 1; ; saturation *= .9) {
+    const l = (L + saturation * (.3963377774*a + .2158037573*b)) ** 3
+    const m = (L - saturation * (.1055613458*a + .0638541728*b)) ** 3
+    const s = (L - saturation * (.0894841775*a + 1.291485548*b)) ** 3
+    const rgb = [4.0767416621*l-3.3077115913*m+.2309699292*s, -1.2684380046*l+2.6097574011*m-.3413193965*s, -.0041960863*l-.7034186147*m+1.707614701*s]
+    if (rgb.every(v => v >= 0 && v <= 1)) return rgb.map(v => Math.round(srgb(v) * 255))
+  }
+}
+const palette = bases.flatMap(([hex, levels]) => levels.map(L => tone(L, ...chroma(hex))))
+const hex = rgb => '#' + rgb.map(v => v.toString(16).padStart(2, '0')).join('')
+stage.style.setProperty('--ink', hex(palette[8]))
+const materials = [
+  Array.from({ length: 20 }, (_, i) => i),
+  [12,13,1,2, 4,5,5,6, 8,9,10,11, 11,12,13,14, 16,17,18,19],
+  [10,11,12,13, 9,4,5,5, 8,9,9,10, 10,11,12,13, 16,16,17,18],
+  [9,10,11,12, 8,9,10,11, 8,8,9,9, 9,10,11,12, 9,16,17,18],
+]
+const DAY = 32, SHADE = 64, AMBER = 128, SUN = 256
+const [SKY, LAMP, DISPLAY, PHONE] = [1, 2, 3, 4]
+const lightColors = [[0,0,0], [.15,.22,.31], [1.28,.56,.15], [.15,.34,.62], [.25,.46,.84]]
+const pixels = new Uint16Array(W * H)
+const lights = new Uint8Array(W * H)
+const room = document.createElement('canvas')
+room.width = W
+room.height = H
+const roomContext = room.getContext('2d')
+const image = roomContext.createImageData(W, H)
+const light = new Float32Array(GRID_W * GRID_H * 3)
+const blurA = new Float32Array(light.length)
+const blurB = new Float32Array(light.length)
+const wide = new Float32Array(light.length)
+const grid = new Uint8Array(light.length)
+const gridX = Int16Array.from({ length: W }, (_, x) => Math.floor(x * GRID_W / W))
+const gridY = Int16Array.from({ length: H }, (_, y) => Math.floor(y * GRID_H / H) * GRID_W)
+let lampPoint = [0, 0, 0]
+
+function rect(x, y, w, h, color, emission = 0) {
+  const x0 = Math.max(0, Math.round(x) + PAD), x1 = Math.min(W, Math.round(x + w) + PAD)
+  if (x1 <= x0) return
+  const y0 = Math.max(0, Math.round(y) + PAD), y1 = Math.min(H, Math.round(y + h) + PAD)
+  for (let j = y0; j < y1; j++) {
+    pixels.fill(color, j * W + x0, j * W + x1)
+    lights.fill(emission, j * W + x0, j * W + x1)
+  }
+}
+function line(x, y, x1, y1, color, width = 1) {
+  x = Math.round(x); y = Math.round(y); x1 = Math.round(x1); y1 = Math.round(y1)
+  const dx = Math.abs(x1 - x), dy = -Math.abs(y1 - y)
+  const sx = x < x1 ? 1 : -1, sy = y < y1 ? 1 : -1
+  let error = dx + dy
+  for (;;) {
+    rect(x, y, width, width, color)
+    if (x === x1 && y === y1) break
+    const e = 2 * error
+    if (e >= dy) { error += dy; x += sx }
+    if (e <= dx) { error += dx; y += sy }
+  }
+}
+function ellipse(x, y, rx, ry, color) {
+  for (let i = -Math.floor(ry); i <= ry; i++) {
+    const span = Math.floor(rx * Math.sqrt(Math.max(0, 1 - (i / ry) ** 2)))
+    rect(x - span, y + i, span * 2 + 1, 1, color)
+  }
+}
+function polygon(points, color) {
+  const ys = points.map(p => p[1])
+  for (let y = Math.floor(Math.min(...ys)); y < Math.ceil(Math.max(...ys)); y++) {
+    const row = y + .5
+    const hits = []
+    for (let i = 0; i < points.length; i++) {
+      const [ax, ay] = points[i]
+      const [bx, by] = points[(i + 1) % points.length]
+      if ((ay <= row && by > row) || (by <= row && ay > row)) hits.push(mix(ax, bx, (row - ay) / (by - ay)))
+    }
+    hits.sort((a, b) => a - b)
+    for (let i = 0; i + 1 < hits.length; i += 2) rect(hits[i], y, hits[i+1] - hits[i], 1, color)
+  }
+}
+
+function architecture(blind, daylight) {
+  rect(-PAD, -PAD, W, H, 2)
+  rect(-PAD, -PAD, W, PAD + 4, 1)
+  rect(-PAD, 4, W, 1, 3)
+  rect(-PAD, 5, W, 2, 0)
+  rect(-PAD, 7, W, 1, 1)
+  rect(-PAD, 73, W, 19, 3)
+  rect(-PAD, 73, W, 1, 0)
+  rect(-PAD, 74, W, 1, 2)
+  for (let x = -8; x < W; x += 8) rect(x, 76, 1, 15, 1)
+  rect(-PAD, 92, W, 4, 0)
+  rect(-PAD, 92, W, 1, 1)
+  rect(-PAD, 96, W, H - PAD - 96, 0)
+  const boards = [96, 100, 105, 111, 118, 126]
+  for (let row = 0; row < boards.length - 1; row++) {
+    const y = boards[row], next = boards[row + 1]
+    rect(-PAD, y, W, 1, 16)
+    for (let i = -4; i < 10; i++) {
+      const x = 96 + (i - (row % 2) * .42) * (19 + row * 4)
+      line(x, y, 96 + (x - 96) * 1.13, next - 1, 16)
+      rect(x + 5, y + 2, 5 + (i + 4) % 4, 1, 1)
+    }
+  }
+  if (daylight > .1) {
+    if (blind < .2) polygon([[26,96],[61,96],[88,111],[40,111]], 1 | SUN)
+    else if (daylight > .23) for (let i = 0; i < 4; i++) {
+      const x = 28 + i * 8
+      polygon([[x,97],[x+3,97],[x+25,111],[x+20,111]], 1 | SUN)
+    }
+  }
+  ellipse(106, 106, 43, 9, 16)
+  ellipse(106, 105, 42, 9, 5)
+  ellipse(106, 105, 39, 7, 6)
+  ellipse(106, 105, 36, 6, 5)
+  for (let i = 0; i < 9; i++) rect(77 + i * 7, 105 - i % 2, 3, 1, 6)
+  rect(75, 25, 19, 14, 1 | SHADE)
+  rect(76, 24, 17, 13, 16)
+  rect(77, 25, 15, 11, 3)
+  rect(79, 27, 11, 7, 15)
+  rect(85, 28, 2, 2, 19)
+  polygon([[79,33],[83,29],[87,33],[90,31],[90,34],[79,34]], 5)
+}
+
+function windowScene(t, open, blind, daylight, particles) {
+  rect(17, 16, 49, 52, 1 | SHADE)
+  rect(19, 17, 45, 49, 0)
+  rect(19, 17, 44, 48, 3)
+  rect(22, 20, 39, 43, 15 | DAY, SKY)
+  const cloud = ((t * .85) % 52) - 10
+  for (let i = 0; i < 2; i++) {
+    const x = 22 + (cloud + i * 24 + 52) % 52
+    for (const [offset, y, width] of [[0,24+i*4,8],[2,23+i*4,5],[4,22+i*4,3]]) {
+      rect(clamp(x + offset, 22, 61), y, Math.max(0, Math.min(width, 61 - x - offset)), 1, 3 | DAY, SKY)
+    }
+  }
+  polygon([[22,46],[22,38],[29,33],[35,38],[42,35],[51,30],[60,35],[61,46]], 14 | DAY)
+  polygon([[22,51],[22,44],[31,39],[38,44],[46,42],[55,36],[61,40],[61,51]], 13 | DAY)
+  polygon([[22,53],[34,45],[47,47],[56,43],[61,45],[61,63],[22,63]], 7 | DAY)
+  rect(22, 56, 39, 7, 6 | DAY)
+  rect(24, 59, 7, 1, 7 | DAY)
+  rect(45, 58, 9, 1, 7 | DAY)
+  rect(34, 50, 12, 8, 1 | DAY)
+  polygon([[32,50],[40,43],[48,50],[48,51],[32,51]], 16 | DAY)
+  line(33, 49, 40, 43, 17 | DAY)
+  rect(38, 52, 3, 3, 13 | DAY)
+  rect(43, 54, 2, 4, 0 | DAY)
+  for (const [x,y,r] of [[28,49,4],[54,48,5]]) {
+    rect(x, y, 1, 10, 16 | DAY)
+    ellipse(x, y, r, r + 1, 5 | DAY)
+    ellipse(x - 1, y - 1, r - 1, r - 2, 6 | DAY)
+  }
+  if (particles && t % 13 < 3) {
+    const x = 23 + Math.floor(t % 13 * 10), y = 30 + Math.round(Math.sin(t * 4))
+    line(x, y, x + 2, y + 1, 11 | DAY)
+    line(x + 2, y + 1, x + 4, y, 11 | DAY)
+  }
+  const sash = Math.round(21 * open)
+  rect(22, 20, 39, 1, 1)
+  rect(22, 40 - sash, 39, 2, 2)
+  rect(22, 61 - sash, 39, 2, 3)
+  rect(22, 42 - sash, 1, 19, 2)
+  rect(60, 42 - sash, 1, 19, 1)
+  rect(39, 60 - sash, 5, 1, 0)
+  for (let y = 21; y < 21 + Math.round(blind * 41); y += 3) {
+    rect(22, y, 39, 1, 1)
+    rect(22, y + 1, 39, 1, 0)
+    if (daylight > .2) rect(23, y + 2, 37, 1, 2 | SUN, SKY)
+  }
+  rect(20, 18, 43, 2, 2)
+  rect(17, 63, 50, 2, 3)
+  rect(18, 65, 48, 2, 0)
+  plant(54, 63, t, open, 1)
+  if (particles && daylight > .35) for (let i = 0; i < 6; i++) {
+    const x = 30 + i * 5 + Math.sin(t * .55 + i * 3) * 4
+    const y = 65 + (t * (1 + i * .08) + i * 7) % 29
+    if ((i + Math.floor(t * 1.5)) % 4) rect(x, y, 1, 1, 2 | SUN)
+  }
+}
+
+function plant(x, y, t, wind, scale) {
+  const sway = Math.sin(t * 3) * wind * 1.4
+  rect(x - 3 * scale, y - 5 * scale, 7 * scale, 2 * scale, 17)
+  rect(x - 2 * scale, y - 3 * scale, 5 * scale, 3 * scale, 16)
+  rect(x - scale, y - 3 * scale, 2 * scale, 3 * scale, 17)
+  line(x, y - 5 * scale, x + sway, y - 12 * scale, 5)
+  ellipse(x - 2 * scale + sway, y - 10 * scale, 2 * scale, scale, 6)
+  ellipse(x + 2 * scale + sway, y - 12 * scale, 2 * scale, scale, 7)
+  rect(x + sway, y - 15 * scale, scale, 2 * scale, 6)
+}
+function steam(x, y, t, amount) {
+  for (let i = 0; i < 13; i++) {
+    const height = (i + t * 5) % 13
+    const px = Math.round(x + Math.sin(height * .58 + t * 1.4) * 2 + i % 2)
+    const py = Math.floor(y - height)
+    if (bayer[((py & 3) << 2) + (px & 3)] < 16 * amount * (1 - height / 15)) rect(px, py, 1, 1, 3)
+  }
+}
+function mug(x, y, t, heat, particles) {
+  rect(x + 5, y - 5, 3, 4, 1)
+  rect(x + 6, y - 4, 1, 2, 10)
+  rect(x, y - 7, 6, 6, 2)
+  rect(x, y - 7, 6, 1, 3)
+  rect(x + 1, y - 7, 4, 1, 16)
+  rect(x + 1, y - 1, 4, 1, 0)
+  if (particles) steam(x + 2, y - 7, t, heat)
+}
+
+function shelf(t, water, cupHere, heat, particles) {
+  rect(160, 32, 31, 66, 1 | SHADE)
+  rect(162, 32, 28, 64, 16)
+  rect(164, 35, 24, 58, 11)
+  const books = [13, 7, 17, 2, 12, 6]
+  for (let i = 0; i < 6; i++) {
+    const h = [9, 12, 11, 8, 12, 10][i], x = 165 + i * 3
+    rect(x, 51 - h, 3, h, books[i])
+    rect(x, 53 - h, 2, 1, 3)
+    rect(x + 2, 51 - h, 1, h, books[i] | SHADE)
+  }
+  rect(164, 68, 24, 2, 0)
+  rect(164, 51, 24, 2, 0)
+  rect(164, 90, 24, 2, 0)
+  rect(162, 32, 28, 2, 1)
+  rect(163, 35, 1, 58, 0)
+  rect(188, 34, 1, 59, 1)
+  plant(179, 32, t, 0, 1)
+  line(180, 31, 187, 36, 5)
+  line(187, 36, 188, 46, 5)
+  for (let i = 0; i < 4; i++) ellipse(187 + i % 2, 37 + i * 3, 2, 1, i % 2 ? 6 : 7)
+  ellipse(169, 64, 4, 4, 13)
+  rect(166, 61, 6, 1, 15)
+  rect(168, 59, 3, 1, 2)
+  line(166, 64, 164, 62, 13)
+  rect(172, 62, 3, 4, 12)
+  rect(173, 63, 1, 2, 11)
+  if (particles && water) steam(168, 58, t, water)
+  rect(179, 61, 6, 7, 17)
+  rect(178, 60, 8, 2, 1)
+  rect(180, 63, 4, 3, 2)
+  rect(181, 64, 2, 1, 16)
+  if (cupHere) mug(173, 90, t, heat, particles)
+  rect(165, 79, 12, 1, 1)
+  rect(165, 80, 12, 8, 17)
+  for (let j = 0; j < 3; j++) for (let i = 0; i < 6; i++) rect(165 + i*2 + j%2, 81 + j*2, 1, 1, 16)
+  rect(167, 83, 7, 1, 18)
+  rect(181, 83, 5, 7, 6)
+  rect(180, 82, 7, 2, 7)
+  rect(182, 86, 3, 2, 2)
+}
+
+function desk(t, state) {
+  const { lamp, code, typed, alert, messages, headphones, pickup, heat, particles, cupHere, carrying, sip } = state
+  if (lamp > .1) {
+    polygon([[138,56],[146,56],[161,69],[124,69]], 1 | SUN)
+    polygon([[139,57],[145,57],[152,69],[131,69]], 2 | SUN)
+  }
+  rect(67, 70, 91, 5, 16)
+  rect(67, 70, 91, 1, 1)
+  rect(68, 71, 89, 1, 17)
+  rect(70, 75, 4, 22, 16)
+  rect(70, 76, 1, 20, 0)
+  rect(137, 75, 18, 20, 0)
+  rect(139, 75, 15, 20, 16)
+  for (let i = 0; i < 3; i++) {
+    rect(140, 75 + i * 7, 13, 5, 1)
+    rect(140, 80 + i * 7, 13, 1, 0)
+    rect(144, 77 + i * 7, 5, 1, 16)
+  }
+  rect(123, 62, 4, 6, 11)
+  rect(120, 68, 10, 2, 10)
+  rect(111, 45, 28, 18, 9)
+  rect(112, 45, 26, 1, 12)
+  rect(113, 47, 24, 15, (code ? 10 : 15) | DAY, DISPLAY)
+  rect(113, 47, 24, 2, (code ? 11 : 13) | DAY, DISPLAY)
+  for (let i = 0; i < 3; i++) rect(114 + i * 2, 47, 1, 1, (i ? 14 : 18) | DAY)
+  if (code) {
+    rect(115, 51, 1, 10, 11 | DAY)
+    const chars = Math.floor(typed)
+    for (let i = 0; i < 5; i++) {
+      const row = Math.max(0, Math.floor(chars / 12) - 4) + i
+      const count = clamp(chars - row * 12, 0, 12)
+      const start = 117 + row % 3
+      if (count > 0) {
+        rect(start, 51 + i * 2, Math.min(5, count), 1, (row % 3 === 0 ? 18 : 14) | DAY, DISPLAY)
+        if (count > 6) rect(start + 6, 51 + i * 2, count - 6, 1, 7 | DAY, DISPLAY)
+      }
+      if (row === Math.floor(chars / 12) && (!particles || Math.floor(t * 2.6) % 2 === 0)) rect(start + count, 51 + i * 2, 1, 1, 3 | DAY, DISPLAY)
+    }
+  } else {
+    for (let i = 0; i < Math.min(messages + 1, 4); i++) {
+      const x = (messages - i) % 2 === 0 ? 114 : 122
+      const y = 59 - i * 3 + (i === 0 && alert > .25 ? 1 : 0)
+      rect(x, y, 11, 2, (i % 2 ? 7 : 3) | DAY, DISPLAY)
+      rect(x + 1, y, 4 + (messages + i) % 4, 1, 13 | DAY)
+    }
+  }
+  if (lamp > .1) {
+    rect(126, 70, 28, 1, 1 | AMBER)
+    rect(132, 71, 16, 1, 2 | AMBER)
+  }
+  rect(144, 68, 10, 2, 11)
+  rect(149, 58, 2, 11, 10)
+  line(150, 58, 143, 51, 11, 2)
+  rect(139, 51, 7, 1, 12)
+  polygon([[139,52],[146,52],[148,55],[137,55]], 10)
+  rect(138, 55, 9, 1, lamp > .1 ? 19 | DAY : 12, lamp > .1 ? LAMP : 0)
+  rect(140, 56, 5, 1, lamp > .1 ? 18 | DAY : 11, lamp > .1 ? LAMP : 0)
+  const vibration = particles && alert > .1 ? Math.round(Math.sin(t * 45)) : 0
+  rect(72 + vibration, 66, 7, 4, 9)
+  rect(73 + vibration, 66, 5, 3, alert > 0 ? 15 | DAY : 11, alert > 0 ? PHONE : 0)
+  if (alert > 0) rect(77 + vibration, 65, 2, 2, 18 | DAY, PHONE)
+  if (!cupHere && !carrying && !sip) mug(81, 70, t, heat, particles)
+  if (!headphones && pickup === 0) {
+    rect(140, 67, 5, 1, 3)
+    rect(139, 68, 2, 2, 2)
+    rect(144, 68, 2, 2, 2)
+  }
+  rect(95, 67, 17, 2, 1)
+  for (let x = 96; x < 111; x += 2) rect(x, 67, 1, 1, 11)
+}
+
+function chair(x) {
+  rect(x - 1, 89, 3, 11, 10)
+  rect(x - 6, 98, 14, 2, 11)
+  rect(x - 7, 100, 3, 2, 9)
+  rect(x + 6, 100, 3, 2, 9)
+  rect(x - 8, 84, 17, 7, 11)
+  rect(x - 7, 84, 15, 2, 12)
+  rect(x - 5, 88, 12, 1, 10)
+}
+function headset(x, y, dark = 0) {
+  const base = dark > .55 ? 13 | DAY : 2
+  const edge = dark > .55 ? 14 | DAY : 3
+  rect(x - 3, y, 7, 1, edge)
+  rect(x - 5, y + 1, 2, 4, base)
+  rect(x + 4, y + 1, 2, 4, edge)
+  rect(x - 6, y + 4, 3, 4, base)
+  rect(x + 4, y + 4, 3, 4, edge)
+  rect(x - 5, y + 7, 2, 1, 1)
+  rect(x + 4, y + 7, 2, 1, 1)
+}
+function person(t, h, state) {
+  const { standing, walk, moving, carrying, heat, particles, deep, code, headphones, pickup, sip, alert, scare, dark, blink } = state
+  if (standing) {
+    const direction = h < 6.6 ? 1 : -1
+    const x = Math.round(walk), jump = scare ? Math.round(Math.sin(clamp(scare) * Math.PI) * 4) : 0
+    const step = moving ? Math.round(Math.sin(t * (17 + Math.min(8, Math.abs(velocity) * 3))) * 4) : 0
+    ellipse(x, 99, 7, 2, 0 | SHADE)
+    line(x - 2, 81 - jump, x + step - 3, 95 - jump, 10, 3)
+    line(x + 1, 82 - jump, x - step + 2, 95 - jump, 11, 3)
+    rect(x + step - 3, 97 - jump, 4, 2, 9)
+    rect(x - step + 2, 97 - jump, 4, 2, 9)
+    rect(x - 4, 67 - jump, 9, 16, 5)
+    rect(x + direction * 2, 68 - jump, 2, 12, 6)
+    rect(x - 4, 55 - jump, 8, 10, 9)
+    rect(x - 3, 55 - jump, 5, 1, 11)
+    rect(x + (direction > 0 ? 1 : -5), 59 - jump, 4, 7, 17)
+    rect(x + direction * 3, 60 - jump, 1, 1, blink ? 16 : 9)
+    rect(x - 1, 65 - jump, 3, 2, 17)
+    line(x, 69 - jump, x + (carrying ? 6 * direction : step), 78 - jump, 6, 2)
+    if (carrying) mug(x + 6 * direction - 3, 77 - jump, t, heat, particles)
+    return
+  }
+  const stretch = h < 1.3 ? Math.sin(Math.PI * clamp(h / 1.3)) : 0
+  const x = 96 - (alert > .16 && !code ? 1 : 0)
+  const y = 57 - (scare ? 2 : 0) - (deep ? 1 : 0) - Math.round(stretch * 2)
+  rect(x - 3, 83, 10, 5, 10)
+  rect(x + 5, 87, 5, 7, 11)
+  rect(x + 6, 94, 7, 2, 9)
+  polygon([[x-4,y+12],[x+5,y+12],[x+8,y+16],[x+7,84],[x-7,84],[x-8,y+17]], 5)
+  rect(x - 5, y + 14, 10, 2, 6)
+  rect(x - 4, y + 16, 7, 5, 6)
+  const typing = code && h >= 15.4 && particles ? Math.floor(t * (deep ? 14 : 8)) % 2 : 0
+  if (stretch > .12) {
+    for (const side of [-1,1]) {
+      const top = y + 13 - Math.round(stretch * 23)
+      line(x + side * 6, y + 17, x + side * 11, y + 12, 6, 2)
+      line(x + side * 11, y + 12, x + side * 10, top, 5, 2)
+      rect(x + side * 10, top - 2, 2, 3, 17)
+    }
+  } else {
+    line(x - 6, y + 16, x - 9, 74 + typing, 5, 3)
+    line(x - 9, 74 + typing, x - 4, 68 + typing, 6, 2)
+    rect(x - 4, 67 + typing, 3, 2, 17)
+    const handX = pickup ? mix(x + 7, 141, Math.sin(pickup * Math.PI)) : x + 10
+    const handY = pickup ? mix(65, 69, Math.sin(pickup * Math.PI)) : sip ? 64 : 68 - typing
+    line(x + 6, y + 16, x + 10, 74 - typing, dark > .55 ? 13 : 6, 2)
+    line(x + 10, 74 - typing, handX, handY, 6, 2)
+    rect(handX, handY, 3, 2, 17)
+    if (pickup > .43) headset(Math.round(handX), Math.round(handY) - 7)
+    if (sip) mug(x + 9, 68, t, heat, particles)
+  }
+  rect(x - 2, y + 9, 5, 4, 17)
+  rect(x - 5, y + 4, 2, 4, 17)
+  rect(x + 4, y + 4, 2, 4, 17)
+  rect(x - 4, y + 1, 9, 8, 9)
+  rect(x - 3, y, 7, 2, 9)
+  rect(x - 3, y + 1, 4, 1, 11)
+  rect(x - 2, y + 9, 6, 1, 8)
+  if (alert > .16 && !code) rect(x - 6, y + 5, 1, 1, blink ? 17 : 8)
+  if (dark > .55 && code) {
+    rect(x + 4, y + 2, 1, 6, 13)
+    rect(x + 5, y + 13, 2, 1, 13)
+    rect(x + 7, y + 14, 1, 4, 12)
+  }
+  if (headphones && !scare) headset(x, y - 1, dark)
+  if (headphones && scare) {
+    rect(x - 5, y + 9, 2, 4, 2)
+    rect(x + 4, y + 9, 2, 4, 3)
+    rect(x - 3, y + 12, 7, 1, 2)
+  }
+  if (scare) {
+    rect(x, y - 10, 2, 4, 18 | DAY)
+    rect(x, y - 5, 2, 1, 18 | DAY)
+  }
+}
+
+let bubbles = [], backlog = 0, messages = 1, alert = 0
+let nextBubble = 1.5, nextFlush = 0, wasFlushing = false
+let openPrevious = 1, typed = 0, hourPrevious = 12, lampStarted = -Infinity
+let nextBlink = 2, refilled = false
+function bubble(x, y, size, squish, opacity, hit) {
+  const w = Math.max(2, Math.round(11 * size * (1 + .18 * squish)))
+  const h = Math.max(2, Math.round(7 * size * (1 - .55 * squish)))
+  x = Math.round(x - w / 2); y = Math.round(y - h / 2)
+  for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+    if ((i === 0 || i === w - 1) && (j === 0 || j === h - 1)) continue
+    if (bayer[(((y+j)&3)<<2) + ((x+i)&3)] >= opacity * 16) continue
+    const border = i === 0 || i === w - 1 || j === 0 || j === h - 1
+    const stroke = j === 2 && i > 1 && i < w - 2 || j === 4 && i > 1 && i < w - 4
+    rect(x+i, y+j, 1, 1, (hit ? 19 : border || stroke ? 13 : 3) | DAY)
+  }
+  if (h > 3 && opacity > .45 && squish === 0) rect(x + Math.floor(w/2), y + h, 1, 1, 3 | DAY)
+}
+function updateMessages(t, dt, h, open) {
+  alert = Math.max(0, alert - dt)
+  const justOpened = hourPrevious < 7.7 && h >= 7.7 && h <= 12
+  if (justOpened) {
+    backlog = Math.max(4, backlog)
+    nextFlush = t
+    wasFlushing = true
+  }
+  if (open < .5 || !backlog) wasFlushing = false
+  if (open < .5 && openPrevious >= .5) backlog = Math.max(4, backlog)
+  openPrevious = open
+  if (h < 14 && h >= 12 || h >= 15.9 && h < 21.5) {
+    if (t >= nextBubble) {
+      bubbles.push({ t, delay: .82, offset: Math.random() * 9 })
+      nextBubble = t + 1.5 + Math.random() * 1.1
+    }
+  } else nextBubble = t + 1.5
+  if (wasFlushing && t >= nextFlush) {
+    bubbles.push({ t, delay: .48, offset: backlog % 5 * 2, delivered: false })
+    backlog--
+    nextFlush += .14
+  }
+  for (const entry of bubbles) {
+    const age = t - entry.t
+    if (age >= entry.delay && !entry.delivered && !entry.hit) {
+      if (open < .55) {
+        entry.hit = true
+        backlog++
+      } else {
+        entry.delivered = true
+        messages++
+        alert = .63
+      }
+    }
+  }
+  bubbles = bubbles.filter(entry => !entry.delivered && t - entry.t < entry.delay + (entry.hit ? 1.2 : .12))
+}
+function drawBubbles(t, open) {
+  for (const entry of bubbles) {
+    const age = t - entry.t, progress = clamp(age / entry.delay)
+    if (entry.hit) {
+      const impact = age - entry.delay
+      bubble(57, 38 + entry.offset + Math.max(0, impact - .1) * 12, 1, 1 - smooth(.08,.45,impact), 1 - smooth(.32,1.16,impact), impact < .08)
+    } else {
+      const closed = open < .55
+      const x = closed ? mix(27,57,progress) : progress < .69 ? mix(27,57,progress/.69) : mix(57,75,(progress-.69)/.31)
+      const y = mix(44 + entry.offset, closed ? 38 + entry.offset : 66, progress) - Math.sin(progress * Math.PI) * 18
+      bubble(x, y, mix(.3, 1, progress), 0, 1, false)
+    }
+  }
+}
+
+function box(source, target, radius, horizontal) {
+  const rows = horizontal ? GRID_H : GRID_W
+  const cols = horizontal ? GRID_W : GRID_H
+  const stride = horizontal ? 3 : GRID_W * 3
+  const rowStride = horizontal ? GRID_W * 3 : 3
+  const weight = 1 / (2 * radius + 1)
+  for (let row = 0; row < rows; row++) for (let channel = 0; channel < 3; channel++) {
+    const start = row * rowStride + channel
+    let sum = 0
+    for (let i = -radius; i <= radius; i++) sum += source[start + clamp(i, 0, cols-1) * stride]
+    for (let col = 0; col < cols; col++) {
+      target[start + col * stride] = sum * weight
+      sum += source[start + Math.min(cols-1, col+radius+1) * stride] -
+             source[start + Math.max(0, col-radius) * stride]
+    }
+  }
+}
+function scatter(h, darkness, daylight, lamp, alertLevel) {
+  let index = 1
+  while (index < keys.length - 1 && h > keys[index][0]) index++
+  const [a, from] = keys[index - 1], [b, to] = keys[index]
+  const threshold = 16 * clamp((h - a) / (b - a))
+  const weights = [0, daylight * .56, lamp * 2.4, .13 + darkness * .68, alertLevel * 1.8]
+  const invArea = GRID_W * GRID_H / (W * H)
+  const data = image.data
+  light.fill(0)
+  let lampX = 0, lampY = 0, lampPower = 0
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const i = y * W + x, cell = pixels[i], sample = bayer[(y & 3) * 4 + (x & 3)]
+    const col = cell & DAY ? 0 : sample < threshold ? to : from
+    let id = materials[col][cell & 31]
+    if (cell & SHADE && id % 4 > 0) id--
+    if (cell & SUN && id % 4 < 3) id++
+    if (cell & AMBER) id = 16 + id % 4
+    const rgb = palette[id]
+    data[i*4] = rgb[0]
+    data[i*4+1] = rgb[1]
+    data[i*4+2] = rgb[2]
+    data[i*4+3] = 255
+    const kind = lights[i]
+    if (kind && weights[kind]) {
+      const dst = (gridX[x] + gridY[y]) * 3, strength = weights[kind] * invArea
+      const color = lightColors[kind]
+      for (let c = 0; c < 3; c++) light[dst+c] += color[c] * strength
+      if (kind === LAMP) { lampX += x * strength; lampY += y * strength; lampPower += strength }
+    }
+  }
+  roomContext.putImageData(image, 0, 0)
+  box(light, blurA, 1, true)
+  box(blurA, blurB, 1, false)
+  box(blurB, blurA, 1, true)
+  box(blurA, blurB, 1, false)
+  box(light, blurA, 3, true)
+  box(blurA, wide, 3, false)
+  box(wide, blurA, 3, true)
+  box(blurA, wide, 3, false)
+  for (let i = 0; i < grid.length; i++) grid[i] = Math.round(clamp(blurB[i] + wide[i] * .55) * 255)
+  lampPoint = lampPower ? [lampX / lampPower - W/2, lampY / lampPower - H/2, clamp(lampPower/4)] : [0,0,0]
+}
+
+function drawWorld(t, dt, h, darkness, scare) {
+  const returnTrip = h < 12
+  const particles = !motion.matches
+  const open = returnTrip ? smooth(7, 7.7, h) : 1 - smooth(15.2,15.9,h)
+  const blind = returnTrip ? 1 - smooth(1.4,3.4,h) : smooth(16,19.2,h)
+  const daylight = (1 - darkness) * (1 - blind * .71)
+  if (hourPrevious >= 12 && hourPrevious < 18.4 && h >= 18.4 && h < 21.5) lampStarted = t
+  const lampAge = t - lampStarted
+  const flash = !particles || lampAge >= .36 || lampAge < .08 || lampAge >= .17 && lampAge < .25
+  const lamp = Number(returnTrip ? h < 1.7 : h >= 18.4 && flash)
+  const deep = h >= 21.5
+  const code = h >= 14.7 || h < 7.7
+  const standing = h >= 3.8 && h < 7.18
+  const carrying = standing && h >= 6.6
+  const cupHere = h >= 4.45 && h < 6.6
+  const moving = standing && (h < 4.5 || carrying)
+  const walk = carrying ? mix(169,96,smooth(6.6,7.18,h)) : mix(96,169,smooth(3.8,4.5,h))
+  if (hourPrevious >= 3.8 && hourPrevious < 7.18 && h >= 7.18 && h <= 12) refilled = true
+  const sip = particles && refilled && h >= 7.18 && h < 14 && t % 7 < .7
+  if (t > nextBlink + .12) nextBlink = t + 2 + Math.random() * 4
+  const blink = particles && t >= nextBlink
+  const heat = returnTrip ? smooth(4.6,6.6,h) : 1 - smooth(19.5,22.6,h)
+  const headphones = h >= 14.75 || h < .65
+  const pickup = h >= 14 && h < 14.75 ? (h-14)/.75 : 0
+  if (particles) updateMessages(t, dt, h, open)
+  else {
+    bubbles = []
+    alert = 0
+    messages = h >= 7.7 && h < 12 ? 4 : 1
+  }
+  hourPrevious = h
+  typed = code && (h >= 15.4 || returnTrip) ? typed + dt * (deep ? 14 : 8) : 0
+  const state = { lamp, code, typed: motion.matches || returnTrip ? 60 : typed, alert, messages, headphones, pickup, heat, particles, cupHere, carrying, sip, standing, walk, moving, deep, scare, blink, dark: darkness }
+  architecture(blind, daylight)
+  windowScene(t, open, blind, daylight, particles)
+  shelf(t, h >= 4.6 && h < 6.6 ? 1 : 0, cupHere, heat, particles)
+  desk(t, state)
+  chair(96)
+  person(t, h, state)
+  if (particles) drawBubbles(t, open)
+  scatter(h, darkness, daylight, lamp, alert)
+}
+
+const vertexShader = '#version 300 es\nvoid main(){ vec2 p=vec2((gl_VertexID<<1)&2, gl_VertexID&2); gl_Position=vec4(p*2.-1.,0.,1.); }'
+const fragmentShader = '#version 300 es\n' + [
+  'precision highp float;',
+  'uniform vec2 uSize, uCenter;',
+  'uniform vec3 uCapsule, uLens, uLamp, uShellDay, uShellNight;',
+  'uniform vec2 uState;',
+  'uniform float uScale;',
+  'uniform sampler2D uRoom, uLight;',
+  'out vec4 outColor;',
+  'const vec2 world = vec2(220.,140.);',
+  'const vec2 gridSize = vec2(72.,46.);',
+  'const vec3 amber = vec3(1.,.53,.17);',
+  'vec2 pillAxis(vec2 p,float span) { return vec2(p.x-clamp(p.x,-span,span),p.y); }',
+  'vec3 imageAt(vec2 p) { return texture(uRoom,(floor(p/uScale+world*.5)+.5)/world).rgb; }',
+  // Four bilinear lookups implement the separable cubic B-spline.
+  'vec3 lightAt(vec2 p) {',
+  '  vec2 g=(p/uScale/world+.5)*gridSize-.5, f=fract(g), base=floor(g);',
+  '  vec2 a=pow(1.-f,vec2(3.))/6., d=f*f*f/6.;',
+  '  vec2 b=(3.*f*f*f-6.*f*f+4.)/6., c=1.-a-b-d;',
+  '  vec2 w=a+b, z=c+d;',
+  '  vec2 l=(base-1.+b/w+.5)/gridSize, r=(base+1.+d/z+.5)/gridSize;',
+  '  return w.y*(w.x*texture(uLight,l).rgb+z.x*texture(uLight,vec2(r.x,l.y)).rgb)',
+  '       + z.y*(w.x*texture(uLight,vec2(l.x,r.y)).rgb+z.x*texture(uLight,r).rgb);',
+  '}',
+  'vec3 screenBlend(vec3 image,vec3 glow){ return 1.-(1.-image)*(1.-glow); }',
+  'float softbox(vec3 normal, vec3 aim,vec3 size){',
+  '  vec3 delta=(normal-aim)*size; return exp(-dot(delta,delta));',
+  '}',
+  'void main(){',
+  '  vec2 p=vec2(gl_FragCoord.x,uSize.y-gl_FragCoord.y)-uCenter;',
+  '  float outer=uCapsule.x, span=uCapsule.y, thickness=uCapsule.z, inner=outer-thickness;',
+  '  vec2 axis=pillAxis(p,span); float radius=length(axis), d=radius-outer, win=radius-inner;',
+  '  float broad=length(pillAxis(p-vec2(0.,outer*.16),span))-outer;',
+  '  float contact=length(pillAxis(p-vec2(0.,outer*.055),span))-outer;',
+  '  float shadow=.115*exp(-pow(max(0.,broad)/(outer*.34),2.))+.21*exp(-pow(max(0.,contact)/(outer*.13),2.));',
+  '  vec2 lamp=uLamp.xy*uScale; float power=uLamp.z;',
+  '  float spill=power*exp(-max(d,0.)/(outer*.23))*exp(-length(p-lamp)/(outer*.88));',
+  '  vec3 outside=mix(vec3(.058,.067,.10),amber,clamp(spill*4.,0.,.88));',
+  '  vec2 margin=1.-smoothstep(vec2(.87),vec2(1.),abs(p)/uCenter);',
+  '  float outsideAlpha=min(.85,shadow+spill*.36)*margin.x*margin.y;',
+  '  if(d>outer*1.45){ outColor=vec4(0.); return; }',
+  '  vec2 dir=axis/max(radius,.01);',
+  '  float profile=clamp((radius-inner)/thickness,0.,1.);',
+  '  float angle=(profile-.42)*2.66;',
+  '  vec3 normal=vec3(dir*sin(angle),cos(angle));',
+  '  float fresnel=.035+.75*pow(1.-max(normal.z,0.),3.);',
+  '  float key=softbox(normal,normalize(vec3(-.45,-.72,.60)),vec3(1.2,2.5,1.3));',
+  '  float fill=softbox(normal,normalize(vec3(.35,.68,.66)),vec3(1.1,2.7,1.1));',
+  '  vec3 shell=mix(uShellDay,uShellNight,uState.x);',
+  '  shell*=.54+.37*smoothstep(0.,.32,profile)+.07*key;',
+  '  shell=screenBlend(shell,vec3(1.,.96,.86)*key*(.16+fresnel)+vec3(.47,.55,.70)*fill*.13);',
+  '  shell=screenBlend(shell,amber*power*.62*exp(-length(p-lamp)/(outer*.78)));',
+  '  vec2 lpos=vec2(p.x-uLens.x,p.y)/uLens.yz;',
+  '  float r=length(lpos);',
+  '  vec2 lshadow=lpos-vec2(.015,.04+uState.y*.10);',
+  '  float ls=1.-smoothstep(.80+uState.y*.04,1.12+uState.y*.17,length(lshadow));',
+  '  vec3 pic=screenBlend(imageAt(p),lightAt(p)*.86)*(1.-ls*(.21+uState.y*.14));',
+  '  if(r<1.02){',
+  '    float bend=pow(smoothstep(.67,1.03,r),1.55);',
+  '    vec2 base=vec2(uLens.x,0.);',
+  '    vec2 warped=(p-base)*(1./1.24+.60*bend);',
+  '    float dispersion=.05*bend;',
+  '    vec3 glass=imageAt(base+warped);',
+  '    glass.r=mix(glass.r,imageAt(base+warped*(1.+dispersion)).r,.68);',
+  '    glass.b=mix(glass.b,imageAt(base+warped*(1.-dispersion)).b,.68);',
+  '    glass=screenBlend(glass,lightAt(base+warped));',
+  '    float rim=smoothstep(.79,1.,r);',
+  '    glass*=1.-rim*.38;',
+  '    float caustic=exp(-pow((r-.83)*18.,2.))*smoothstep(.12,.88,lpos.y);',
+  '    glass=screenBlend(glass,vec3(.82,.90,.99)*caustic*.36);',
+  '    vec2 oval=(lpos-vec2(-.21,-.62))*vec2(1.75,6.0);',
+  '    float reflection=.22*exp(-dot(oval,oval));',
+  '    glass=screenBlend(glass,vec3(.95,.98,1.)*reflection);',
+  '    pic=mix(pic,glass,1.-smoothstep(1.-1./uLens.y,1.+.35/uLens.y,r));',
+  '  }',
+  '  float graze=exp(-pow((p.y+p.x*.30+outer*.18)/(outer*.35),2.));',
+  '  pic=screenBlend(pic,vec3(.88,.93,1.)*graze*.047);',
+  '  float inset=exp(min(0.,win)/(thickness*.57));',
+  '  pic*=1.-inset*(.22+.29*max(0.,-dir.y));',
+  '  vec3 material=mix(pic,shell,smoothstep(-.65,.65,win));',
+  '  float coverage=1.-smoothstep(-.65,.65,d);',
+  '  float alpha=coverage+(1.-coverage)*outsideAlpha;',
+  '  vec3 rgb=mix(outside,material,coverage/max(.0001,alpha));',
+  '  float noise=fract(52.9829189*fract(dot(gl_FragCoord.xy,vec2(.06711056,.00583715))))-.5;',
+  '  outColor=vec4(rgb+noise*(1.5/255.),alpha);',
+  '}',
+].join('\n')
+
+function createWebGL() {
+  const gl = composite.getContext('webgl2', { alpha: true, antialias: false, premultipliedAlpha: false })
+  if (!gl) return null
+  const program = gl.createProgram()
+  for (const [type, source] of [[gl.VERTEX_SHADER, vertexShader], [gl.FRAGMENT_SHADER, fragmentShader]]) {
+    const shader = gl.createShader(type)
+    gl.shaderSource(shader, source)
+    gl.compileShader(shader)
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(shader))
+    gl.attachShader(program, shader)
+    gl.deleteShader(shader)
+  }
+  gl.linkProgram(program)
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program))
+  gl.useProgram(program)
+  const uniforms = Object.fromEntries(['Size','Center','Capsule','Lens','Lamp','ShellDay','ShellNight','State','Scale','Room','Light'].map(name => [name, gl.getUniformLocation(program, 'u' + name)]))
+  const maxSize = gl.getParameter(gl.MAX_TEXTURE_SIZE)
+  function setupTexture(unit, filter, width, height, format, storage) {
+    gl.activeTexture(gl.TEXTURE0 + unit)
+    gl.bindTexture(gl.TEXTURE_2D, gl.createTexture())
+    for (const param of [gl.TEXTURE_MAG_FILTER, gl.TEXTURE_MIN_FILTER]) gl.texParameteri(gl.TEXTURE_2D, param, filter)
+    for (const param of [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T]) gl.texParameteri(gl.TEXTURE_2D, param, gl.CLAMP_TO_EDGE)
+    gl.texImage2D(gl.TEXTURE_2D, 0, storage, width, height, 0, format, gl.UNSIGNED_BYTE, null)
+  }
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1)
+  setupTexture(0, gl.NEAREST, W, H, gl.RGBA, gl.RGBA8)
+  setupTexture(1, gl.LINEAR, GRID_W, GRID_H, gl.RGB, gl.RGB8)
+  gl.uniform1i(uniforms.Room, 0)
+  gl.uniform1i(uniforms.Light, 1)
+  gl.uniform3fv(uniforms.ShellDay, palette[3].map(v => v/255))
+  gl.uniform3fv(uniforms.ShellNight, palette[9].map(v => v/255))
+  return {
+    maxSize,
+    draw({ width, height, outer, span, thick, scale, rx, ry, lens, darkness, lift }, refresh) {
+      gl.viewport(0, 0, width, height)
+      if (refresh) {
+        gl.activeTexture(gl.TEXTURE0)
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, W, H, gl.RGBA, gl.UNSIGNED_BYTE, image.data)
+        gl.activeTexture(gl.TEXTURE1)
+        gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, GRID_W, GRID_H, gl.RGB, gl.UNSIGNED_BYTE, grid)
+      }
+      gl.uniform2f(uniforms.Size, width, height)
+      gl.uniform2f(uniforms.Center, width/2, height/2)
+      gl.uniform3f(uniforms.Capsule, outer, span, thick)
+      gl.uniform3f(uniforms.Lens, lens, rx, ry)
+      gl.uniform3fv(uniforms.Lamp, lampPoint)
+      gl.uniform2f(uniforms.State, darkness, lift)
+      gl.uniform1f(uniforms.Scale, scale)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
+    }
+  }
+}
+function create2D() {
+  const context = fallback.getContext('2d')
+  return {
+    maxSize: 4096,
+    draw({ width, height, outer, span, thick, scale, rx, ry, lens, darkness, lift }) {
+      context.clearRect(0, 0, width, height)
+      context.save()
+      context.translate(width/2, height/2)
+      const capsule = radius => {
+        context.beginPath()
+        context.arc(span, 0, radius, -Math.PI/2, Math.PI/2)
+        context.arc(-span, 0, radius, Math.PI/2, -Math.PI/2)
+        context.closePath()
+      }
+      capsule(outer)
+      context.shadowBlur = outer * .42
+      context.shadowOffsetY = outer * .13
+      context.shadowColor = 'rgba(22, 25, 42, .35)'
+      context.fillStyle = hex(palette[darkness > .5 ? 9 : 3])
+      context.fill()
+      context.shadowBlur = 0
+      context.shadowOffsetY = 0
+      capsule(outer - thick)
+      context.clip()
+      context.imageSmoothingEnabled = false
+      context.drawImage(room, -W*scale/2, -H*scale/2, W*scale, H*scale)
+      context.beginPath()
+      context.ellipse(lens, 0, rx, ry, 0, 0, Math.PI*2)
+      const glass = context.createLinearGradient(0, -ry, 0, ry)
+      glass.addColorStop(0, 'rgba(255,255,255,.47)')
+      glass.addColorStop(.48, 'rgba(237,242,255,.13)')
+      glass.addColorStop(1, 'rgba(16,21,43,.35)')
+      context.shadowBlur = ry * (.13 + lift*.1)
+      context.shadowColor = 'rgba(16,21,43,.49)'
+      context.shadowOffsetY = ry*.07
+      context.fillStyle = glass
+      context.fill()
+      context.restore()
+    }
+  }
+}
+
+let renderer
+try {
+  renderer = createWebGL()
+} catch (error) {
+  console.warn('WebGL2 初始化失败，使用 Canvas 2D。', error)
+}
+function useFallback() {
+  fallback.hidden = false
+  composite.hidden = true
+  renderer = create2D()
+}
+if (!renderer) useFallback()
+composite.addEventListener('webglcontextlost', event => {
+  event.preventDefault()
+  useFallback()
+  invalidate()
+})
+composite.addEventListener('webglcontextrestored', () => {
+  try {
+    const restored = createWebGL()
+    if (restored) {
+      renderer = restored
+      composite.hidden = false
+      fallback.hidden = true
+      invalidate()
+    }
+  } catch {
+    useFallback()
+    invalidate()
+  }
+})
+
+const namespace = 'pixel-study-switch'
+let checked = false, initialized = !embed
+let x = 0, target = 0, velocity = 0, drag = null
+let lift = 0, stretch = 0, stretchSpeed = 0, bounce = 0
+let leaving = null, rightClock = 21.5, rightTime = 0
+let t = 0, scareAt = -2, lastFrame = null, lastWorld = -Infinity
+let handle = 0, visible = true, needsPaint = true, suppressClick = false
+
+function notifyHost(type, value) {
+  if (embed && parent !== window) parent.postMessage({ namespace, type, checked: value }, location.origin)
+}
+function setChecked(value, emit) {
+  if (checked === value) return
+  checked = value
+  button.setAttribute('aria-checked', String(value))
+  if (emit) button.dispatchEvent(new Event('change', { bubbles: true }))
+}
+button.addEventListener('change', () => notifyHost('change', checked))
+
+function beginJourney() {
+  if (x >= .999) leaving = rightClock
+  if (x <= .001) {
+    leaving = null
+    rightClock = 21.5
+    rightTime = 0
+  }
+}
+function settle(end, speed = 0) {
+  if (end !== x && !drag) beginJourney()
+  target = end
+  velocity = speed
+  if (end === 0 || end === 1) setChecked(end === 1, true)
+  wake()
+}
+function syncHost(value, instant) {
+  if (!instant && checked === value) return
+  setChecked(value, false)
+  if (instant || !visible) {
+    x = target = Number(value)
+    leaving = null
+    rightClock = 21.5
+    rightTime = 0
+    velocity = 0
+  } else {
+    beginJourney()
+    target = Number(value)
+    velocity = 0
+  }
+  invalidate()
+}
+if (embed && parent !== window) {
+  window.addEventListener('message', event => {
+    const data = event.data
+    if (event.source !== parent || event.origin !== location.origin || data?.namespace !== namespace ||
+        data.type !== 'state' || typeof data.checked !== 'boolean') return
+    syncHost(data.checked, !initialized)
+    if (!initialized) {
+      initialized = true
+      notifyHost('ready')
+    }
+  })
+  notifyHost('request')
+}
+
+function geometry() {
+  const bounds = component.getBoundingClientRect()
+  const cssHeight = bounds.height / 1.32
+  const virtualDensity = Math.max(devicePixelRatio || 1, ROOM_H / Math.max(1, cssHeight * .908))
+  const density = Math.min(virtualDensity, renderer.maxSize / Math.max(1, bounds.width, bounds.height))
+  const width = Math.max(1, Math.round(bounds.width * density))
+  const height = Math.max(1, Math.round(bounds.height * density))
+  const outer = Math.min(cssHeight / 2, bounds.width / 3.7) * density
+  const span = outer * .85, thick = outer * .092
+  const innerHeight = 2 * (outer - thick)
+  let scale = Math.max(1, Math.floor(innerHeight / ROOM_H))
+  if (1 - innerHeight / ((scale + 1) * ROOM_H) <= .12) scale++
+  const radius = (outer - thick - outer * .064) * (1 + lift * .012)
+  const travel = outer + span - thick - radius - outer * .019
+  return {
+    width, height, outer, span, thick, scale, lift, travel, density,
+    lens: mix(-travel, travel, x) + bounce * outer * .025,
+    rx: radius * (1 + .2 * stretch),
+    ry: radius * (1 - .075 * stretch)
+  }
+}
+function wake() {
+  if (!handle && visible && !document.hidden) handle = requestAnimationFrame(frame)
+}
+function invalidate() {
+  needsPaint = true
+  wake()
+}
+function pause() {
+  cancelAnimationFrame(handle)
+  handle = 0
+  lastFrame = null
+}
+function frame(now) {
+  handle = 0
+  if (!visible || document.hidden) { lastFrame = null; return }
+  const dt = lastFrame === null ? 0 : Math.min(.05, (now-lastFrame)/1000)
+  const reduced = motion.matches
+  lastFrame = now
+  t += dt
+  const before = x
+  if (drag) {
+    x = mix(x, drag.position, approach(34, dt))
+    velocity = dt ? (x-before)/dt : velocity
+  } else if (x !== target || velocity) {
+    const omega = reduced ? 16 : 9.5
+    const error = x - target, c = velocity + omega*error
+    const e = Math.exp(-omega*dt)
+    x = clamp(target + (error+c*dt)*e)
+    velocity = (velocity-omega*c*dt)*e
+    if ((target === 0 || target === 1) && (x === target || Math.abs(x-target) < .002 && Math.abs(velocity) < .032)) {
+      if (!reduced) bounce = target ? -1 : 1
+      x = target
+      velocity = 0
+    } else if (Math.abs(x-target) < .00025 && Math.abs(velocity) < .004) {
+      x = target
+      velocity = 0
+    }
+  }
+  if (reduced) { stretch = 0; stretchSpeed = 0; bounce = 0 }
+  else {
+    const desired = Math.min(1.6, Math.abs(velocity)*.42)
+    for (let time = dt; time > 0;) {
+      const step = Math.min(time, 1/120)
+      stretchSpeed += (170*(desired-stretch)-11*stretchSpeed)*step
+      stretch += stretchSpeed*step
+      time -= step
+    }
+  }
+  const endpointBounce = bounce
+  bounce *= Math.exp(-21*dt)
+  lift = mix(lift, drag ? 1 : 0, approach(14,dt))
+  if (x === 1 && !drag) {
+    if (before !== 1) {
+      rightTime = leaving === null ? 0 : clamp((leaving-21.5)/1.9)*26
+      leaving = null
+    }
+    if (!reduced) rightTime = Math.min(26, rightTime + dt)
+    rightClock = mix(21.5,23.4,rightTime/26)
+  }
+  if (x === 0 && !drag) leaving = null
+  const rawHour = leaving === null ? (x === 1 ? rightClock : 12+9.5*x) : mix(36,leaving,x)
+  const h = rawHour % 24
+  const darkness = clamp(smooth(17.4,20.2,h) + 1 - smooth(1.5,3.6,h))
+  const status = h >= 21.5 && leaving === null ? '专注' : leaving !== null && h >= 12 && x > 0 ? '结束专注' :
+    h < 7.7 ? '休息' : h >= 14 ? '进入专注' : '可以打扰'
+  if (phase.textContent !== status) phase.textContent = status
+  const layout = geometry()
+  const canvas = fallback.hidden ? composite : fallback
+  if (canvas.width !== layout.width || canvas.height !== layout.height) {
+    canvas.width = layout.width
+    canvas.height = layout.height
+    needsPaint = true
+  }
+  const scare = reduced || t-scareAt >= .66 ? 0 : 1-clamp((t-scareAt)/.66)
+  const refresh = needsPaint || (reduced ? before !== x : t-lastWorld >= 1/30-.002)
+  if (refresh) {
+    drawWorld(t, Number.isFinite(lastWorld) ? Math.min(.12, t-lastWorld) : 0, h, darkness, scare)
+    lastWorld = t
+    stage.style.setProperty('--night', String(darkness))
+  }
+  if (refresh || before !== x || drag || lift > .003 || Math.abs(stretch) > .003 || Math.abs(endpointBounce) > .003) {
+    renderer.draw({ ...layout, darkness, rx: Math.max(1,layout.rx), ry: Math.max(1,layout.ry) }, refresh)
+  }
+  needsPaint = false
+  if (!reduced || drag || x !== target || lift > .003 || Math.abs(velocity) > .003) wake()
+  else lastFrame = null
+}
+
+button.addEventListener('pointerdown', event => {
+  if (drag || !event.isPrimary || event.button !== 0) return
+  beginJourney()
+  suppressClick = false
+  drag = { id: event.pointerId, startX: x, start: event.clientX, position: x, last: event.clientX, time: event.timeStamp, speed: 0, moved: false }
+  button.setPointerCapture(event.pointerId)
+  wake()
+})
+button.addEventListener('pointermove', event => {
+  if (!drag || drag.id !== event.pointerId) return
+  const delta = event.clientX-drag.start
+  if (Math.abs(delta) > 3) drag.moved = true
+  if (!drag.moved) return
+  const { travel, density } = geometry()
+  const distance = Math.max(1, 2*travel/density)
+  const dt = Math.max(.008, (event.timeStamp-drag.time)/1000)
+  const speed = (event.clientX-drag.last)/distance/dt
+  drag.speed = mix(drag.speed, speed, .63)
+  drag.position = clamp(drag.startX + delta/distance)
+  drag.time = event.timeStamp
+  drag.last = event.clientX
+  if (!motion.matches && Math.abs(speed) > 3.4 && t-scareAt > 1.5) scareAt = t
+  wake()
+})
+function endDrag(event, cancelled) {
+  if (!drag || drag.id !== event.pointerId) return
+  const gesture = drag
+  drag = null
+  suppressClick = gesture.moved || cancelled
+  if (cancelled) settle(Number(checked))
+  else if (gesture.moved) {
+    const speed = event.timeStamp-gesture.time > 100 ? 0 : clamp(gesture.speed, -3, 3)
+    settle(Number(x + speed*.09 >= .5), speed)
+  }
+  wake()
+}
+button.addEventListener('pointerup', event => endDrag(event, false))
+button.addEventListener('pointercancel', event => endDrag(event, true))
+button.addEventListener('lostpointercapture', event => endDrag(event, true))
+button.addEventListener('click', event => {
+  if (event.detail && suppressClick) { suppressClick = false; return }
+  settle(Number(!checked))
+})
+button.addEventListener('keydown', event => {
+  if (embed && parent !== window) {
+    const search = event.key.toLowerCase() === 'k' && (event.ctrlKey || event.metaKey)
+    if (search || event.key === '/') {
+      event.preventDefault()
+      notifyHost(search ? 'search' : 'slash')
+      return
+    }
+  }
+  const direction = ['ArrowRight','ArrowUp'].includes(event.key) ? 1 : ['ArrowLeft','ArrowDown'].includes(event.key) ? -1 : 0
+  if (!direction && event.key !== 'Home' && event.key !== 'End') return
+  event.preventDefault()
+  if (!direction) settle(Number(event.key === 'End'))
+  else settle(clamp(Math.round((target + direction*.04)*100)/100))
+})
+button.addEventListener('blur', () => {
+  if (!drag && target > 0 && target < 1) settle(Number(target >= .5))
+})
+new ResizeObserver(invalidate).observe(component)
+new IntersectionObserver(([entry]) => {
+  visible = entry.isIntersecting && entry.intersectionRatio > 0
+  if (visible) invalidate()
+  else pause()
+}).observe(component)
+document.addEventListener('visibilitychange', () => document.hidden ? pause() : invalidate())
+motion.addEventListener('change', invalidate)
+invalidate()
+</script>
+</body>
+</html>

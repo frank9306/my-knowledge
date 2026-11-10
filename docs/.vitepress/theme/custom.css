@@ -853,6 +853,38 @@ button, .study-read, .study-footer__links > a, .VPNavBarMenuLink { white-space: 
 .VPNavBarSocialLinks, .VPNavBarExtra { order: 3; }
 .VPNavBarHamburger { order: 4; }
 .VPNavScreen { background: var(--atlas-canvas); }
+.focus-theme-switch {
+  display: none;
+  flex: none;
+  width: 76px;
+  height: 46px;
+  border: 0;
+  color-scheme: light;
+}
+.focus-theme-switch--desktop[data-ready] {
+  order: 3;
+}
+.focus-theme-switch--mobile[data-ready] {
+  display: block;
+  margin: 8px auto 0;
+}
+.VPNavScreen:has(.focus-theme-switch--mobile[data-ready]) .VPNavScreenAppearance {
+  display: none;
+}
+@media (min-width: 768px) {
+  .focus-theme-switch--desktop[data-ready] { display: block; }
+  .VPNavBar:has(.focus-theme-switch--desktop[data-ready]) .VPNavBarAppearance,
+  .VPNavBar:has(.focus-theme-switch--desktop[data-ready]) .VPNavBarExtra .group:has(.appearance-action) {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 920px) {
+  .VPNavBar .DocSearch-Button-Placeholder,
+  .VPNavBar .rss-subscribe__trigger span { display: none; }
+  .VPNavBar .content-body > .VPNavBarSearch { padding: 0; margin: 0; }
+  .VPNavBar .DocSearch-Button,
+  .VPNavBar .rss-subscribe__trigger { width: 42px; min-height: 42px; padding: 0; justify-content: center; }
+}
 body:has(.knowledge-study) .VPNavBarSocialLinks,
 body:has(.knowledge-study) .VPFooter { display: none; }
 .VPHome:has(.knowledge-study) { margin: 0; padding: 16px 0 0; }

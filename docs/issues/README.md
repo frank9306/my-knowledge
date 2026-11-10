@@ -54,7 +54,10 @@ None.
 | [ISSUE-0034](ISSUE-0034-strengthen-the-gradient-and-cover-every-site-page.md) | Strengthen the gradient and cover every site page |
 | [ISSUE-0035](ISSUE-0035-implement-and-publish-the-quiet-study-redesign.md) | Implement and publish the quiet study redesign |
 | [ISSUE-0036](ISSUE-0036-publish-the-paperclip-codex-weixin-deployment-retrospective.md) | Publish the Paperclip Codex Weixin deployment retrospective |
+| [ISSUE-0037](ISSUE-0037-fix-scrollbars-clipping-the-embedded-focus-switch.md) | Fix scrollbars clipping the embedded focus switch |
+| [ISSUE-0038](ISSUE-0038-size-the-pixel-study-switch-to-fit-site-navigation.md) | Size the pixel study switch to fit site navigation |
 | [ISSUE-0039](ISSUE-0039-rewrite-paperclip-article-around-windows-native-franks-team.md) | Rewrite Paperclip article around Windows-native Franks Team |
+| [ISSUE-0040](ISSUE-0040-replace-theme-toggle-with-the-pixel-study-switch.md) | Replace theme toggle with the pixel study switch |
 
 ## Cancelled
 

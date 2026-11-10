@@ -8,7 +8,12 @@ const { chromium } = await import(pathToFileURL(path.resolve(process.argv[2])).h
 const base = process.argv[3] || 'http://127.0.0.1:5174'
 const output = process.argv[4]
 if (output) await mkdir(output, { recursive: true })
-const browser = await chromium.launch({ headless: true, executablePath: process.env.BROWSER_EXECUTABLE })
+const browser = await chromium.launch({
+  headless: true,
+  executablePath: process.env.BROWSER_EXECUTABLE,
+  ignoreDefaultArgs: ['--hide-scrollbars'],
+  args: ['--disable-features=OverlayScrollbar']
+})
 function luminance(rgb) {
   const channels = rgb.match(/[\d.]+/g).slice(0, 3).map(value => {
     const channel = Number(value) / 255
@@ -19,6 +24,31 @@ function luminance(rgb) {
 function contrast(a, b) {
   const values = [luminance(a), luminance(b)].sort((a, b) => b - a)
   return (values[0] + .05) / (values[1] + .05)
+}
+async function assertSwitchFits(frame) {
+  await frame.getByRole('switch').waitFor()
+  const bounds = await frame.locator('.component').evaluate(async el => {
+    await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    const root = document.documentElement
+    const rect = node => {
+      const { x, y, width, height } = node.getBoundingClientRect()
+      return [x, y, width, height]
+    }
+    return {
+      viewport: [innerWidth, innerHeight],
+      client: [root.clientWidth, root.clientHeight],
+      scroll: [root.scrollWidth, root.scrollHeight],
+      component: rect(el),
+      canvas: rect(el.querySelector('canvas:not([hidden])')),
+      hit: rect(el.querySelector('button')).slice(2)
+    }
+  })
+  assert.deepEqual(bounds.client, bounds.viewport, 'Embedded switch has native scrollbars')
+  assert.deepEqual(bounds.scroll, bounds.viewport, 'Embedded switch overflows its viewport')
+  assert.deepEqual(bounds.component, [0, 0, ...bounds.viewport], 'Embedded switch does not fill its viewport')
+  assert.deepEqual(bounds.canvas, bounds.component, 'Switch canvas does not match its component')
+  assert.deepEqual(bounds.viewport, [76, 46], 'Theme switch should use the compact navigation size')
+  assert.ok(bounds.hit.every(size => size >= 42), 'Theme switch hit target is too small')
 }
 try {
   const context = await browser.newContext({ viewport: { width: 1440, height: 1080 }, colorScheme: 'light' })
@@ -81,13 +111,20 @@ try {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   assert.equal(await page.locator('html').evaluate(el => getComputedStyle(el).scrollBehavior), 'auto')
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  const themeSwitch = page.locator('.VPNavBarAppearance .VPSwitchAppearance')
+  const desktopSwitchFrame = page.frameLocator('.VPNavBar iframe[title="主题切换"]')
+  await assertSwitchFits(desktopSwitchFrame)
+  const themeSwitch = desktopSwitchFrame.getByRole('switch')
   await themeSwitch.click()
+  await page.waitForFunction(() => document.documentElement.classList.contains('dark'))
   await page.reload({ waitUntil: 'networkidle' })
   assert.equal(await page.locator('html').evaluate(el => el.classList.contains('dark')), true)
+  assert.equal(await themeSwitch.getAttribute('aria-checked'), 'true')
   if (output) await page.screenshot({ path: path.join(output, 'home-dark.png'), fullPage: true })
   for (const theme of ['dark', 'light']) {
-    if (theme === 'light') await themeSwitch.click()
+    if (theme === 'light') {
+      await themeSwitch.press('Space')
+      await page.waitForFunction(() => !document.documentElement.classList.contains('dark'))
+    }
     const colors = await page.evaluate(() => ({
       background: getComputedStyle(document.body).backgroundColor,
       text: getComputedStyle(document.querySelector('h1')).color,
@@ -104,6 +141,13 @@ try {
   await page.keyboard.press('Escape')
   await page.setViewportSize({ width: 375, height: 900 })
   await page.locator('.VPNavBarHamburger').click()
+  const mobileSwitchFrame = page.frameLocator('.VPNavScreen iframe[title="主题切换"]')
+  await assertSwitchFits(mobileSwitchFrame)
+  const mobileSwitch = mobileSwitchFrame.getByRole('switch')
+  await mobileSwitch.click()
+  await page.waitForFunction(() => document.documentElement.classList.contains('dark'))
+  await mobileSwitch.click()
+  await page.waitForFunction(() => !document.documentElement.classList.contains('dark'))
   await page.locator('.VPNavScreen').getByRole('link', { name: '收藏', exact: true }).click()
   await page.getByRole('searchbox', { name: '搜索工具收藏' }).waitFor()
   // Verify representative real routes and mobile layout after client navigation.
@@ -119,7 +163,7 @@ try {
       await page.getByRole('button', { name: '参考文章', exact: true }).click()
       assert.equal(await page.getByRole('button', { name: '参考文章', exact: true }).getAttribute('aria-pressed'), 'true')
     }
-    for (const width of [1440, 768, 414, 375, 320]) {
+    for (const width of [1440, 1024, 960, 768, 414, 375, 320]) {
       await page.setViewportSize({ width, height: 900 })
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${route} overflow at ${width}px`)
       const navBounds = await page.locator('.VPNavBar .content-body').boundingBox()
@@ -128,7 +172,7 @@ try {
     }
   }
   assert.deepEqual(errors, [])
-  console.log('PASS: approved homepage, local image, all 5 widths, topics, archive/search/reset/load-more, slash and focus, reduced motion, light/dark, article/favorites/AI routes; no runtime errors.')
+  console.log('PASS: approved homepage, local image, responsive layouts, topics, archive/search/reset/load-more, slash and focus, reduced motion, desktop/mobile light/dark, article/favorites/AI routes; no runtime errors.')
 } finally {
   await browser.close()
 }
